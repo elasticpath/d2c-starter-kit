@@ -11,7 +11,8 @@ export default function Product({products}) {
 }
 
 export async function getStaticProps( { params } ) {
-    const products = await getProductById(params.slug)
+
+const products = await getProductById(params.slug)
     return {
         props: {
             products: products,

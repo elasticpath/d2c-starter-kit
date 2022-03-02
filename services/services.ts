@@ -3,34 +3,6 @@ import {config} from './config';
 
 const MoltinGateway = moltin.gateway;
 
-export async function loadCustomerAuthenticationSettings(): Promise<any> {
-  const moltin = MoltinGateway({
-    client_id: config.clientId,
-    host: config.endpointURL,
-  });
-  return moltin.AuthenticationSettings.Get()
-}
-
-export async function loadOidcProfiles(realmId: string): Promise<moltin.ResourcePage<moltin.Profile>> {
-  const moltin = MoltinGateway({
-    client_id: config.clientId,
-    host: config.endpointURL,
-  });
-  return moltin.OidcProfile.All(realmId);
-}
-
-export function getOidcProfile(realmId: string, profileId: string) {
-  const moltin = MoltinGateway({
-    client_id: config.clientId,
-    host: config.endpointURL,
-  });
-  return moltin.OidcProfile.Get({
-      realmId,
-      profileId
-    }
-  )
-}
-
 export async function loadEnabledCurrencies(): Promise<moltin.Currency[]> {
   const moltin = MoltinGateway({ host: config.endpointURL, client_id: config.clientId });
   const response = await moltin.Currencies.All();
@@ -115,57 +87,15 @@ export async function register(name: string, email: string, password: string): P
   return data;
 }
 
-export async function oidcLogin(code: string, redirectUri: string, codeVerifier: string): Promise<moltin.CustomerToken> {
-  const moltin = MoltinGateway({ host: config.endpointURL, client_id: config.clientId });
-  const { data } = await moltin.Customers.TokenViaOIDC( code, redirectUri, codeVerifier).then();
-  return data;
-}
-
-export async function login(email: string, password: string): Promise<moltin.CustomerToken> {
-  const moltin = MoltinGateway({ host: config.endpointURL, client_id: config.clientId });
-  const { data } = await moltin.Customers.TokenViaPassword(email, password);
-
-  return data;
-}
-
-export async function getCustomer(id: string, token: string): Promise<moltin.CustomerBase> {
-  const moltin = MoltinGateway({ host: config.endpointURL, client_id: config.clientId });
-  const { data } = await moltin.Customers.Get(id, token);
-
-  return data;
-}
-
-export async function updateCustomer(id: string, name: string, email: string, token: string): Promise<{ data: moltin.Customer }> {
-  const moltin = MoltinGateway({ host: config.endpointURL, client_id: config.clientId });
-  // @ts-ignore
-  const result = await moltin.Customers.Update(id, {type: 'customer', name, email}, token);
-
-  return result;
-}
-
-export async function getAllOrders(token: string, pageNum:number,dates: number, sort?:any ): Promise<{ data: moltin.Order[] }> {
-  const moltin = MoltinGateway({ host: config.endpointURL, client_id: config.clientId });
-  const result = await moltin.Orders.Offset((pageNum - 1) * 20)
-    .Limit(20)
-    .With('items')
-    .Filter({
-      ge: {
-        created_at: dates
-      },
-    }).Sort(sort)
-    .All(token);
-  return result;
-}
-
 export async function getProductById(productId: string): Promise<moltin.PcmProduct> {
-  const moltin = MoltinGateway({ host: config.endpointURL, client_id: config.clientId });
+  const moltin = MoltinGateway({ host: config.endpointURL, client_id: config.clientId, client_secret: config.clientSecret });
   const result = await moltin.PCM.Get(productId);
   const product = result.data;
   return product
 }
 
 export async function getAllPCMProducts(): Promise<moltin.PcmProduct[]> {
-    const moltin = MoltinGateway({ host: config.endpointURL, client_id: config.clientId });
+    const moltin = MoltinGateway({ host: config.endpointURL, client_id: config.clientId, client_secret: config.clientSecret });
     const result = await moltin.PCM.All();
     const product = result.data;
     return product
