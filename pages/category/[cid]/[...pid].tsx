@@ -1,16 +1,38 @@
-import { getAllPCMProducts } from "../services/services";
+import React, { useEffect, useState } from "react";
+import { getNode, getNodesProducts } from "../../../services/services";
+import { useRouter } from "next/router";
 import { Heading, Grid, GridItem, Box, Divider, Badge } from "@chakra-ui/react";
 
-export default function Product({ products }) {
+export default function Product() {
+  const router = useRouter();
+  const { cid, pid } = router.query;
+  const [products, setProducts] = useState([]);
+  const [category, setCategory] = useState([]);
+
+  useEffect(() => {
+    async function fetchShippingMethods() {
+      const productsList = await getNodesProducts(cid, pid);
+      const node = await getNode(cid, pid);
+      setCategory(node);
+
+      // @ts-ignore
+      setProducts(productsList.data);
+    }
+    try {
+      fetchShippingMethods();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [pid, cid]);
+
   return (
     <div>
-      <Heading p="6">All Products</Heading>
+      <Heading p="6">Category</Heading>
       <Grid templateColumns="repeat(5, 1fr)" gap={6} p="6">
         {products.map((product) => {
           return (
             <GridItem>
               <Box
-                key={product.id}
                 maxW="sm"
                 borderWidth="1px"
                 borderRadius="lg"
@@ -42,13 +64,4 @@ export default function Product({ products }) {
       </Grid>
     </div>
   );
-}
-
-export async function getStaticProps() {
-  const products = await getAllPCMProducts();
-  return {
-    props: {
-      products,
-    },
-  };
 }
