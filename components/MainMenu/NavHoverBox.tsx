@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getNodes } from "../../services/services";
+import { getNodes } from "../../services/navigation";
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import Link from "next/link";
 
@@ -8,13 +8,13 @@ export default function NavHoverBox({ id }) {
   const [subMenu, setSubMenu] = useState([]);
 
   useEffect(() => {
-    async function fetchShippingMethods() {
+    async function fetchNodes() {
       const hierarchy = await getNodes(id);
       // @ts-ignore
       setSubMenu(hierarchy);
     }
     try {
-      fetchShippingMethods();
+      fetchNodes();
     } catch (error) {
       console.log(error);
     }
@@ -31,9 +31,7 @@ export default function NavHoverBox({ id }) {
               color: useColorModeValue("gray.500", "gray.800"),
             }}
           >
-            <Link href={`/category/${id}/${node.id}`}>
-              {node.attributes.name}
-            </Link>
+            <Link href={`/category/${node.id}`}>{node.attributes.name}</Link>
           </Box>
         );
       })}

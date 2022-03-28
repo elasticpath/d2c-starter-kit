@@ -10,7 +10,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import NavHoverBox from "./NavHoverBox";
-import navStyles from "./mainMenu.module.css";
 
 // @ts-ignore
 export default function NavItem({ title, id }) {

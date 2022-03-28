@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getHierarchies, getNodes } from "../../services/services";
+import { getHierarchies } from "../../services/navigation";
 import { Input } from "@chakra-ui/react";
 import { Box, Flex, HStack, useColorModeValue } from "@chakra-ui/react";
 import Link from "next/link";
@@ -12,13 +12,13 @@ export default function MainMenu() {
   const [menu, setMenu] = useState([]);
 
   useEffect(() => {
-    async function fetchShippingMethods() {
+    async function fetchHierarchies() {
       const hierarchy = await getHierarchies();
       // @ts-ignore
       setMenu(hierarchy);
     }
     try {
-      fetchShippingMethods();
+      fetchHierarchies();
     } catch (error) {
       console.log(error);
     }

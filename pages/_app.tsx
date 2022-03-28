@@ -1,7 +1,6 @@
 import "../styles/globals.css";
 import MainLayout from "../layouts/MainLayout/MainLayout";
 import type { AppProps } from "next/app";
-import { getHierarchies } from "../services/services";
 import { ChakraProvider } from "@chakra-ui/react";
 
 function MyApp({ Component, pageProps }: AppProps) {
