@@ -1,4 +1,4 @@
-import { getAllPCMProducts } from "../services/services";
+import { getAllPCMProducts } from "../services/products";
 import { Heading, Grid, GridItem, Box, Divider, Badge } from "@chakra-ui/react";
 
 export default function Product({ products }) {

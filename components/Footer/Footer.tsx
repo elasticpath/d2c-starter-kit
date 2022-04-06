@@ -11,7 +11,12 @@ const Footer = () => {
       >
         Powered by{" "}
         <span className={styles.logo}>
-          <Image src="/ep-logo.svg" alt="Vercel Logo" width={72} height={16} />
+          <Image
+            src="/icons/ep-logo.svg"
+            alt="ep Logo"
+            width={72}
+            height={16}
+          />
         </span>
       </a>
     </div>
