@@ -3,6 +3,12 @@ import { config } from "./config";
 
 const MoltinGateway = moltin.gateway;
 
+export const moltinParam = {
+  host: config.endpointURL,
+  client_id: config.clientId,
+  client_secret: config.clientSecret,
+};
+
 export async function loadEnabledCurrencies(): Promise<moltin.Currency[]> {
   const moltin = MoltinGateway({
     host: config.endpointURL,
@@ -140,4 +146,3 @@ export async function getProductsByIds(ids: string[]): Promise<any> {
   const products = await Promise.all(productsRequests);
   return products.map((product) => product.data);
 }
-
