@@ -1,7 +1,6 @@
-import React from "react";
-import { useCartData } from "../../context/state";
+import { useRef } from "react";
 import { useFormik } from "formik";
-import { addPromotion } from "../../services/cart";
+import { useCheckoutForm } from "../../context/state";
 import {
   FormControl,
   FormLabel,
@@ -14,65 +13,59 @@ import {
 } from "@chakra-ui/react";
 
 interface FormValues {
-  promoCode: string;
+  email: string;
 }
 
-export const Promotion = () => {
-  const { updateCartItems, promotionItems, mcart } = useCartData();
+export default function PersonalInfo({ formStep, nextFormStep }) {
+  const { setFormValues } = useCheckoutForm();
+  const handleForm = () => {
+    setFormValues({ email: "yasi.logh@hdn.com" });
+    nextFormStep();
+  };
 
   const initialValues: FormValues = {
-    promoCode: "",
+    email: "",
   };
 
   const { handleSubmit, handleChange, values, errors, setErrors } = useFormik({
     initialValues,
     onSubmit: (values) => {
-      console.log(values);
-      addPromotion(mcart, values.promoCode)
-        .then(() => {
-          updateCartItems();
-          setErrors({ promoCode: "" });
-          values.promoCode = "";
-        })
-        .catch((error) => {
-          console.error(error);
-          setErrors(error.errors[0].detail);
-        });
+      setFormValues({ email: values.email });
+      nextFormStep();
     },
   });
 
   return (
-    <Box>
+    <Box p={4}>
       <form onSubmit={handleSubmit}>
         <Box display="flex">
-          <FormControl isInvalid={errors.length > 0 ? true : false}>
-            <FormLabel htmlFor="name">Gift card or discount code</FormLabel>
+          <FormControl isRequired>
+            <FormLabel htmlFor="email">Email (checkout as a guest)</FormLabel>
             <Flex gap="16px">
               <Input
-                id="promoCode"
+                width="50%"
+                id="email"
                 onChange={handleChange}
-                value={values.promoCode}
-                disabled={promotionItems && promotionItems.length > 0}
+                value={values.email}
               />
               <Button
                 width="120px"
                 bg={useColorModeValue("blue.900", "blue.50")}
                 type="submit"
-                disabled={!values.promoCode}
+                disabled={!values.email}
                 color={useColorModeValue("white", "gray.900")}
                 _hover={{
                   backgroundColor: "blue.700",
                   boxShadow: "m",
                 }}
               >
-                Apply
+                Continue
               </Button>
             </Flex>
-
             <FormErrorMessage>{errors}</FormErrorMessage>
           </FormControl>
         </Box>
       </form>
     </Box>
   );
-};
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { getHierarchies } from "../../services/navigation";
+import { getHierarchies } from "../../services/hierarchy";
 import {
   Button,
   Input,
@@ -34,7 +34,6 @@ export default function MainMenu() {
   useEffect(() => {
     async function fetchHierarchies() {
       const hierarchy = await getHierarchies();
-      console.log(hierarchy);
       // @ts-ignore
       setMenu(hierarchy);
     }

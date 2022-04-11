@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getNodes } from "../../services/navigation";
+import { getNodes } from "../../services/hierarchy";
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import Link from "next/link";
 

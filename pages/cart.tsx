@@ -16,24 +16,18 @@ import {
   useColorModeValue,
   Divider,
   Text,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import { useCartData } from "../context/state";
 import { Promotion } from "../components/promotion/Promotion";
 import Image from "next/image";
 import { removeCartItem } from "../services/cart";
 
-
 export default function Cart() {
-  const { cartData, updateCartItems, totalPrice, promotionItems } =
+  const { cartData, updateCartItems, totalPrice, promotionItems, mcart } =
     useCartData();
-  const [mcart, setMcart] = useState("");
-  const [subTotal, SetSubTotal] = useState(0.0);
 
-  useEffect(() => {
-    const cart = localStorage.getItem("mcart") || "";
-    setMcart(cart);
-  });
+  const [subTotal, SetSubTotal] = useState(0.0);
 
   useEffect(() => {
     const subtotal = cartData.reduce((pre, item) => {

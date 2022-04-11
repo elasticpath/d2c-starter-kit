@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import constate from "constate";
-import * as moltin from "@moltin/sdk";
+import * as EPCC from "@moltin/sdk";
 import { getCartItems } from "../services/cart";
 
 function useCartItemsState() {
-  const [cartData, setCartData] = useState<moltin.CartItem[]>([]);
-  const [promotionItems, setPromotionItems] = useState<moltin.CartItem[]>([]);
+  const [cartData, setCartData] = useState<EPCC.CartItem[]>([]);
+  const [promotionItems, setPromotionItems] = useState<EPCC.CartItem[]>([]);
   const [count, setCount] = useState(0);
   const [cartQuantity, setCartQuantity] = useState(0);
   const [showCartPopup, setShowCartPopup] = useState(false);
   const [totalPrice, setTotalPrice] = useState("");
-  const [cartRes, setCartRes] = useState<moltin.CartItemsResponse>();
+  const [cartRes, setCartRes] = useState<EPCC.CartItemsResponse>();
   const [mcart, setMcart] = useState("");
 
   const [addedtItem, setAddedItem] = useState("");
@@ -88,14 +88,34 @@ function useCartItemsState() {
   };
 }
 
-function useGlobalState() {
-  const cartData = useCartItemsState();
+function useCheckoutFormState() {
+  const [data, setData] = useState({});
+
+  const setFormValues = (values) => {
+    setData((prevValues) => ({
+      ...prevValues,
+      ...values,
+    }));
+  };
+
   return {
-    cartData,
+    data,
+    setData,
+    setFormValues,
   };
 }
 
-export const [AppStateProvider, useCartData] = constate(
+function useGlobalState() {
+  const cartData = useCartItemsState();
+  const checkoutForm = useCheckoutFormState();
+  return {
+    cartData,
+    checkoutForm,
+  };
+}
+
+export const [AppStateProvider, useCartData, useCheckoutForm] = constate(
   useGlobalState,
-  (value) => value.cartData
+  (value) => value.cartData,
+  (value) => value.checkoutForm
 );

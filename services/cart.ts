@@ -1,14 +1,10 @@
-import * as moltin from "@moltin/sdk";
-import { config } from "./config";
-import { moltinParam } from "./services";
-const MoltinGateway = moltin.gateway;
+import * as EPCC from "@moltin/sdk";
+import { EPCCAPI } from "./helper";
 
 export async function getCartItems(
   reference: string
-): Promise<moltin.CartItemsResponse> {
-  const moltin = MoltinGateway(moltinParam);
-  const CartItems = await moltin.Cart(reference).Items();
-
+): Promise<EPCC.CartItemsResponse> {
+  const CartItems = await EPCCAPI.Cart(reference).Items();
   return CartItems;
 }
 
@@ -16,13 +12,11 @@ export async function removeCartItem(
   reference: string,
   itemId: string
 ): Promise<void> {
-  const moltin = MoltinGateway(moltinParam);
-  await moltin.Cart(reference).RemoveItem(itemId);
+  await EPCCAPI.Cart(reference).RemoveItem(itemId);
 }
 
 export async function removeAllCartItems(reference: string): Promise<void> {
-  const moltin = MoltinGateway(moltinParam);
-  await moltin.Cart(reference).RemoveAllItems();
+  await EPCCAPI.Cart(reference).RemoveAllItems();
 }
 
 export async function updateCartItem(
@@ -30,16 +24,14 @@ export async function updateCartItem(
   productId: string,
   quantity: number
 ): Promise<void> {
-  const moltin = MoltinGateway(moltinParam);
-  await moltin.Cart(reference).UpdateItem(productId, quantity);
+  await EPCCAPI.Cart(reference).UpdateItem(productId, quantity);
 }
 
 export async function addPromotion(
   reference: string,
   promoCode: string
 ): Promise<void> {
-  const moltin = MoltinGateway(moltinParam);
-  await moltin.Cart(reference).AddPromotion(promoCode);
+  await EPCCAPI.Cart(reference).AddPromotion(promoCode);
 }
 
 const createCartIdentifier = () => {
@@ -64,8 +56,7 @@ export const getCartId = (): string => {
 };
 
 export async function getMultiCarts(token: string) {
-  const moltin = MoltinGateway(moltinParam);
-  const cartsList = await moltin.Cart().GetCartsList(token);
+  const cartsList = await EPCCAPI.Cart().GetCartsList(token);
   return cartsList;
 }
 
@@ -74,8 +65,8 @@ export async function addToCart(
   quantity: number
 ): Promise<any> {
   const cartId: string = getCartId();
-  const moltin = MoltinGateway(moltinParam);
-  const response = await moltin.Cart(cartId).AddProduct(productId, quantity);
+
+  const response = await EPCCAPI.Cart(cartId).AddProduct(productId, quantity);
 
   return response;
 }

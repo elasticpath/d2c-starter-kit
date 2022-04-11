@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { getHierarchies } from "../../services/navigation";
+import React from "react";
 import QuantityHandler from "../quantityHandler/QuantityHandler";
 import {
   Text,

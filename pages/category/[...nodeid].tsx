@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getNodesProducts } from "../../services/navigation";
+import { getNodesProducts } from "../../services/hierarchy";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Heading, Grid, GridItem, Box, Divider, Badge } from "@chakra-ui/react";
 
-export default function Product() {
+export default function Category() {
   const router = useRouter();
   const { nodeid } = router.query;
   const [products, setProducts] = useState([]);
