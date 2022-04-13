@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { useFormik } from "formik";
 import { useCheckoutForm } from "../../context/state";
 import {
@@ -6,11 +5,8 @@ import {
   FormLabel,
   Button,
   Box,
-  FormErrorMessage,
   Input,
   Flex,
-  useColorModeValue,
-  Grid,
 } from "@chakra-ui/react";
 
 interface FormValues {
@@ -26,20 +22,30 @@ interface FormValues {
   instructions: string;
 }
 
-export default function ShippingForm({ formStep, nextFormStep }) {
-  const { setFormValues } = useCheckoutForm();
+export default function ShippingForm({ nextFormStep, type }) {
+  const {
+    setShippingFormValues,
+    billingAddress,
+    shippingAddress,
+    setEditShippingForm,
+    setBillingFormValues,
+    isSameAddress,
+    setEditBillingForm,
+  } = useCheckoutForm();
+
+  const address = type === "shipping" ? shippingAddress : billingAddress;
 
   let initialValues: FormValues = {
-    first_name: "",
-    last_name: "",
-    line_1: "",
-    line_2: "",
-    city: "",
-    county: "",
-    country: "",
-    postcode: "",
-    phone_number: "",
-    instructions: "",
+    first_name: address.first_name || "",
+    last_name: address.last_name || "",
+    line_1: address.line_1 || "",
+    line_2: address.line_2 || "",
+    city: address.city || "",
+    county: address.county || "",
+    country: address.country || "",
+    postcode: address.postcode || "",
+    phone_number: address.phone_number || "",
+    instructions: address.instructions || "",
   };
 
   const {
@@ -53,8 +59,16 @@ export default function ShippingForm({ formStep, nextFormStep }) {
   } = useFormik({
     initialValues,
     onSubmit: (values) => {
-      setFormValues(values);
-      nextFormStep();
+      if (type === "shipping") {
+        setShippingFormValues(values);
+        setEditShippingForm(false);
+        if (isSameAddress) nextFormStep();
+      }
+      if (type === "billing") {
+        setBillingFormValues(values);
+        setEditBillingForm(false);
+        nextFormStep();
+      }
     },
   });
 
@@ -160,9 +174,13 @@ export default function ShippingForm({ formStep, nextFormStep }) {
             value={values.instructions}
           />
         </Box>
-        <Button type="submit" disabled={!isValid}>
-          Continue to payment
-        </Button>
+        <Box>
+          <Button type="submit" disabled={!isValid}>
+            {type === "shipping" && !isSameAddress
+              ? "Save & Update"
+              : "Continue to payment"}
+          </Button>
+        </Box>
       </form>
     </Box>
   );

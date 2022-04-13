@@ -89,19 +89,39 @@ function useCartItemsState() {
 }
 
 function useCheckoutFormState() {
-  const [data, setData] = useState({});
+  const [shippingAddress, setShippingAddress] = useState({});
+  const [billingAddress, setBillingAddress] = useState({});
+  const [isSameAddress, setSameAddress] = useState(true);
+  const [isEditShippingForm, setEditShippingForm] = useState(true);
+  const [isEditBillingForm, setEditBillingForm] = useState(true);
 
-  const setFormValues = (values) => {
-    setData((prevValues) => ({
+  const setShippingFormValues = (values) => {
+    setShippingAddress((prevValues) => ({
+      ...prevValues,
+      ...values,
+    }));
+  };
+
+  const setBillingFormValues = (values) => {
+    setBillingAddress((prevValues) => ({
       ...prevValues,
       ...values,
     }));
   };
 
   return {
-    data,
-    setData,
-    setFormValues,
+    shippingAddress,
+    setShippingAddress,
+    setShippingFormValues,
+    billingAddress,
+    setBillingAddress,
+    setBillingFormValues,
+    isSameAddress,
+    setSameAddress,
+    isEditShippingForm,
+    setEditShippingForm,
+    setEditBillingForm,
+    isEditBillingForm,
   };
 }
 

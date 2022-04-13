@@ -36,13 +36,23 @@ export default function Cart() {
     SetSubTotal(subtotal);
   }, [cartData, totalPrice, promotionItems]);
 
-  const handleRemove = () => {
+  const handleRemovePromotion = () => {
     removeCartItem(mcart, promotionItems[0].id)
       .then(() => {
         updateCartItems();
       })
       .catch((error) => {
         console.error(error);
+      });
+  };
+
+  const handleRemoveItem = (id: string, index: number) => {
+    removeCartItem(mcart, id)
+      .then(() => {
+        updateCartItems();
+      })
+      .catch((error) => {
+        console.error(error.errors);
       });
   };
 
@@ -92,7 +102,13 @@ export default function Cart() {
                       {item.meta.display_price.without_tax.value.formatted}
                     </Td>
                     <Td>
-                      <Button>Remove</Button>
+                      <Button
+                        onClick={() => {
+                          handleRemoveItem(item.id, index);
+                        }}
+                      >
+                        Remove
+                      </Button>
                     </Td>
                   </Tr>
                 ))}
@@ -127,7 +143,7 @@ export default function Cart() {
                         <Button
                           mt={["0rem !important"]}
                           p="0"
-                          onClick={handleRemove}
+                          onClick={handleRemovePromotion}
                           _hover={{
                             bgColor: "none",
                             color: "red.600",

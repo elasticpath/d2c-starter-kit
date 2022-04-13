@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   CardElement,
   useStripe,
@@ -6,24 +6,8 @@ import {
   PaymentElement,
 } from "@stripe/react-stripe-js";
 import { useCartData } from "../../context/state";
-import { StripeCardElementOptions } from "@stripe/stripe-js";
-import { config } from "../../services/config";
-import { Formik, Form, FormikValues } from "formik";
-import {
-  Box,
-  Input,
-  InputGroup,
-  Stack,
-  InputLeftElement,
-  Button,
-  useToast,
-  useToken,
-  Alert,
-  AlertIcon,
-  ScaleFade,
-  Center,
-  Spinner,
-} from "@chakra-ui/react";
+
+import { Button } from "@chakra-ui/react";
 interface CheckoutParams {
   onPayOrder: (...args: any) => any;
 }
@@ -32,46 +16,23 @@ export const PaymentForm: React.FC<CheckoutParams> = (props) => {
   const { onPayOrder } = props;
   const { totalPrice } = useCartData();
 
-  const [isComplete, setIsComplete] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
-  const [cardError, setCardError] = useState("");
-  const [clientSecret, setClientSecret] = useState("");
-
   const stripe = useStripe();
   const elements = useElements();
-  const card = elements?.getElement(CardElement);
-  const createPaymentIntent = async () => {
-    const res = await fetch("/api/secret", {
-      method: "POST",
-      body: JSON.stringify({
-        amount: 725.22 * 100,
-      }),
-    });
-    const { clientSecret: clientSecretRes } = await res.json();
-    setClientSecret(clientSecretRes);
-  };
 
-  useEffect(() => {
-    createPaymentIntent();
-  }, []);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (values: FormikValues) => {
-    if (!stripe || !elements || cardError || !clientSecret || card) {
-      return;
-    }
+  const onPayment = async () => {
+    let payment;
+    setIsLoading(true);
     try {
-      const { error: stripeError, paymentIntent } =
-        await stripe?.confirmCardPayment(clientSecret, {
-          payment_method: {
-            card,
-            billing_details: {
-              name: values.name,
-            },
+      if (stripe && elements)
+        payment = await stripe.confirmPayment({
+          elements,
+          confirmParams: {
+            return_url: "",
           },
         });
-      console.log(paymentIntent);
-      await onPayOrder(paymentIntent);
+      await onPayOrder(payment);
       setIsLoading(false);
     } catch (paymentError) {
       console.error({ paymentError });
@@ -79,78 +40,21 @@ export const PaymentForm: React.FC<CheckoutParams> = (props) => {
     }
   };
 
-  const onStripeChange = (e: any) => {
-    e.complete ? setIsComplete(true) : setIsComplete(false);
-    e.error ? setErrorMsg(e.error.message) : setErrorMsg("");
-  };
-
   return (
-    <Box p={4} width="50%">
-      <Formik
-        onSubmit={handleSubmit}
-        initialValues={{
-          name: "",
-        }}
-      >
-        {({ isSubmitting, values, setFieldValue }) => (
-          <Form>
-            <Stack pb="3" spacing={3}>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none" />
-                <Input
-                  value={values.name}
-                  onChange={({ target: { value } }) => {
-                    setFieldValue("name", value);
-                  }}
-                  id="name"
-                  placeholder="Name on card"
-                  name="name"
-                  required
-                />
-              </InputGroup>
+    <div className="checkout">
+      <p className="card-title">payment-card</p>
+      <form onSubmit={onPayment}>
+        <CardElement />
 
-              <Box
-                rounded="md"
-                border="1px solid"
-                borderColor="inherit"
-                _hover={{ borderColor: "whiteAlpha.400" }}
-                display="flex"
-                h="10"
-              >
-                {console.log(stripe)}
-                {console.log(elements)}
-                {/* {!!stripe && !!elements ? (
-                  <CardElement
-                    options={CARD_ELEMENT_OPTIONS}
-                    onChange={(e) => {
-                      setCardError(e.error?.message ?? "");
-                    }}
-                  />
-                ) : (
-                  <Center w="100%">
-                    <Spinner />
-                  </Center>
-                )} */}
-              </Box>
-              <ScaleFade in={!!cardError} unmountOnExit>
-                <Alert status="error">
-                  <AlertIcon />
-                  {cardError}
-                </Alert>
-              </ScaleFade>
-              <Button
-                type="submit"
-                colorScheme="purple"
-                size="md"
-                isLoading={isSubmitting}
-              >
-                Pay {totalPrice}
-              </Button>
-            </Stack>
-          </Form>
-        )}
-      </Formik>
-    </Box>
+        <Button type="submit">
+          {!isLoading ? (
+            "pay" + " " + totalPrice
+          ) : (
+            <span className="circularLoader" aria-label={"loading"} />
+          )}
+        </Button>
+      </form>
+    </div>
   );
 };
 

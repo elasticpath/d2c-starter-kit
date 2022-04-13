@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { useFormik } from "formik";
 import { useCheckoutForm } from "../../context/state";
 import {
@@ -16,12 +15,8 @@ interface FormValues {
   email: string;
 }
 
-export default function PersonalInfo({ formStep, nextFormStep }) {
-  const { setFormValues } = useCheckoutForm();
-  const handleForm = () => {
-    setFormValues({ email: "yasi.logh@hdn.com" });
-    nextFormStep();
-  };
+export default function PersonalInfo({ nextFormStep }) {
+  const { setShippingFormValues } = useCheckoutForm();
 
   const initialValues: FormValues = {
     email: "",
@@ -30,7 +25,7 @@ export default function PersonalInfo({ formStep, nextFormStep }) {
   const { handleSubmit, handleChange, values, errors, setErrors } = useFormik({
     initialValues,
     onSubmit: (values) => {
-      setFormValues({ email: values.email });
+      setShippingFormValues({ email: values.email });
       nextFormStep();
     },
   });

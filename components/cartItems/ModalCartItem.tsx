@@ -12,10 +12,21 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useCartData } from "../../context/state";
+import { removeCartItem } from "../../services/cart";
 import Image from "next/image";
 
 export default function ModalCartItems() {
-  const { cartData } = useCartData();
+  const { cartData, mcart, updateCartItems } = useCartData();
+
+  const handleRemove = (id: string, index: number) => {
+    removeCartItem(mcart, id)
+      .then(() => {
+        updateCartItems();
+      })
+      .catch((error) => {
+        console.error(error.errors);
+      });
+  };
 
   return (
     <>
@@ -42,7 +53,17 @@ export default function ModalCartItems() {
                   <Text mb="4px">
                     {item.meta.display_price.without_tax.value.formatted}
                   </Text>
-                  <QuantityHandler item={item} size="xs" />
+                  <Flex gap={8}>
+                    <QuantityHandler item={item} size="xs" />
+                    <Button
+                      size="xs"
+                      onClick={() => {
+                        handleRemove(item.id, index);
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </Flex>
                 </GridItem>
               </Grid>
               <Divider />
