@@ -12,7 +12,6 @@ export default function Category() {
   useEffect(() => {
     async function fetchNodesProducts() {
       const productsList = await getNodesProducts(nodeid);
-      // @ts-ignore
       setProducts(productsList.data);
     }
     try {

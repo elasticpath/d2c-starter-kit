@@ -34,7 +34,6 @@ export default function MainMenu() {
   useEffect(() => {
     async function fetchHierarchies() {
       const hierarchy = await getHierarchies();
-      // @ts-ignore
       setMenu(hierarchy);
     }
     try {

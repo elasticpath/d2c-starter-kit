@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import NavHoverBox from "./NavHoverBox";
 
-// @ts-ignore
 export default function NavItem({ title, id }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 

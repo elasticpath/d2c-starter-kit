@@ -3,14 +3,12 @@ import { getNodes } from "../../services/hierarchy";
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import Link from "next/link";
 
-// @ts-ignore
 export default function NavHoverBox({ id }) {
   const [subMenu, setSubMenu] = useState([]);
 
   useEffect(() => {
     async function fetchNodes() {
       const hierarchy = await getNodes(id);
-      // @ts-ignore
       setSubMenu(hierarchy);
     }
     try {
