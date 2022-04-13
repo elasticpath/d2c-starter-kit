@@ -44,8 +44,7 @@ export default function MainMenu() {
     }
   }, []);
   return (
-    <div className={navStyles.mobileNav}>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} p={2}>
+      <Box bg={useColorModeValue("gray.100", "gray.900")} p={2} position='sticky' top='0' zIndex='1000'>
         <Flex alignItems={"center"} justifyContent={"space-between"}></Flex>
         <HStack spacing={8} alignItems={"center"}>
           <Box cursor="pointer">
@@ -156,6 +155,5 @@ export default function MainMenu() {
           </HStack>
         </HStack>
       </Box>
-    </div>
   );
 }
