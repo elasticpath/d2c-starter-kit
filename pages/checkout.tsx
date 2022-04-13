@@ -67,7 +67,6 @@ export default function Checkout() {
       const name = `${billingAddress.first_name} ${billingAddress.last_name}`;
       const customerData = { name: name, email: billingAddress.email };
       const orderRes = await checkout(mcart, customerData, billing, shipping);
-      console.log("orderRes", orderRes);
       const paymentParams = {
         gateway: "stripe_connect",
         method: "purchase",
@@ -84,7 +83,6 @@ export default function Checkout() {
   return (
     <Box px={24} py={8}>
       <Heading>Checkout</Heading>
-      {isSameAddress ? "yes" : "no"}
       <Grid templateColumns="1.7fr 1fr" columnGap="60px" mt="16px">
         <Box border={"1px solid white"}>
           <Box
