@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import constate from "constate";
 import * as EPCC from "@moltin/sdk";
 import { getCartItems } from "../services/cart";
+import { Address } from "./types";
 
 function useCartItemsState() {
   const [cartData, setCartData] = useState<EPCC.CartItem[]>([]);
@@ -89,20 +90,20 @@ function useCartItemsState() {
 }
 
 function useCheckoutFormState() {
-  const [shippingAddress, setShippingAddress] = useState({});
-  const [billingAddress, setBillingAddress] = useState({});
+  const [shippingAddress, setShippingAddress] = useState<Address>({});
+  const [billingAddress, setBillingAddress] = useState<Address>({});
   const [isSameAddress, setSameAddress] = useState(true);
   const [isEditShippingForm, setEditShippingForm] = useState(true);
   const [isEditBillingForm, setEditBillingForm] = useState(true);
 
-  const setShippingFormValues = (values) => {
+  const setShippingFormValues = (values: Address) => {
     setShippingAddress((prevValues) => ({
       ...prevValues,
       ...values,
     }));
   };
 
-  const setBillingFormValues = (values) => {
+  const setBillingFormValues = (values: Address) => {
     setBillingAddress((prevValues) => ({
       ...prevValues,
       ...values,
