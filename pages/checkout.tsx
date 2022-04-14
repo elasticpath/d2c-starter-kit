@@ -198,8 +198,8 @@ export default function Checkout() {
               <Link href="/cart">Edit Cart</Link>
             </Box>
           </Grid>
-          {cartData.map((item, index) => (
-            <Box>
+          {cartData.map((item) => (
+            <Box key={item.id}>
               <Grid my="4" templateColumns="1fr 3fr" gap={1}>
                 <GridItem alignSelf="center">
                   {item.image && item.image.href && (
