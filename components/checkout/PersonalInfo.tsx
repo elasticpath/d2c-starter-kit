@@ -15,14 +15,19 @@ interface FormValues {
   email: string;
 }
 
-export default function PersonalInfo({ nextFormStep }) {
+interface IPersonalInfo {
+  formStep: number;
+  nextFormStep: () => void; 
+}
+
+export default function PersonalInfo({ nextFormStep }: IPersonalInfo) {
   const { setShippingFormValues } = useCheckoutForm();
 
   const initialValues: FormValues = {
     email: "",
   };
 
-  const { handleSubmit, handleChange, values, errors, setErrors } = useFormik({
+  const { handleSubmit, handleChange, values, errors } = useFormik({
     initialValues,
     onSubmit: (values) => {
       setShippingFormValues({ email: values.email });
