@@ -1,4 +1,5 @@
 export interface Address {
+  email?: string;
   first_name?: string;
   last_name?: string;
   line_1?: string;
