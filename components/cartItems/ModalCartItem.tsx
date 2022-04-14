@@ -18,7 +18,7 @@ import Image from "next/image";
 export default function ModalCartItems() {
   const { cartData, mcart, updateCartItems } = useCartData();
 
-  const handleRemove = (id: string, index: number) => {
+  const handleRemove = (id: string) => {
     removeCartItem(mcart, id)
       .then(() => {
         updateCartItems();
@@ -60,7 +60,7 @@ export default function ModalCartItems() {
                     <Button
                       size="xs"
                       onClick={() => {
-                        handleRemove(item.id, index);
+                        handleRemove(item.id);
                       }}
                     >
                       Remove
