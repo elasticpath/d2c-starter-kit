@@ -22,7 +22,12 @@ interface FormValues {
   instructions: string;
 }
 
-export default function ShippingForm({ nextFormStep, type }) {
+interface IShippingForm {
+  nextFormStep: () => void;
+  type: "shipping" | "billing";
+}
+
+export default function ShippingForm({ nextFormStep, type }: IShippingForm) {
   const {
     setShippingFormValues,
     billingAddress,
@@ -48,15 +53,7 @@ export default function ShippingForm({ nextFormStep, type }) {
     instructions: address.instructions || "",
   };
 
-  const {
-    handleSubmit,
-    handleChange,
-    resetForm,
-    values,
-    errors,
-    isValid,
-    setValues,
-  } = useFormik({
+  const { handleSubmit, handleChange, values, isValid } = useFormik({
     initialValues,
     onSubmit: (values) => {
       if (type === "shipping") {
