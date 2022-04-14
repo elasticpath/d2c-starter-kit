@@ -16,7 +16,7 @@ interface FormValues {
 }
 
 interface IPersonalInfo {
-  formStep: number;
+  formStep?: number;
   nextFormStep: () => void; 
 }
 
