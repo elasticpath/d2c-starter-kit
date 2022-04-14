@@ -9,7 +9,7 @@ interface IQuantityHandler {
   size: string; // TODO should probably be constrained further e.g. union type of "sm" | "md" | "lg"
 }
 
-const QuantityHandler = ({ item, size }: IQuantityHandler) => {
+const QuantityHandler = ({ item, size }: IQuantityHandler): JSX.Element => {
   const { updateCartItems } = useCartData();
   const [mcart, setMcart] = useState("");
 
