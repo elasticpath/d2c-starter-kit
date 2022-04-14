@@ -1,14 +1,19 @@
 import { getAllPCMProducts } from "../services/products";
 import { Heading, Grid, GridItem, Box, Divider, Badge } from "@chakra-ui/react";
+import type { PcmProduct } from "@moltin/sdk";
 
-export default function Product({ products }) {
+interface IProduct {
+  products: PcmProduct[];
+}
+
+export default function Product({ products }: IProduct) {
   return (
     <div>
       <Heading p="6">All Products</Heading>
       <Grid templateColumns="repeat(5, 1fr)" gap={6} p="6">
         {products.map((product) => {
           return (
-            <GridItem>
+            <GridItem key={product.id}>
               <Box
                 key={product.id}
                 maxW="sm"
