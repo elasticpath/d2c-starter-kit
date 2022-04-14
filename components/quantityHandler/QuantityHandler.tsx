@@ -2,7 +2,14 @@ import React, { useState, useEffect } from "react";
 import { updateCartItem } from "../../services/cart";
 import { useCartData } from "../../context/state";
 import { Box, Button, NumberInput, NumberInputField } from "@chakra-ui/react";
-const QuantityHandler = ({ item, size }) => {
+import type { CartItem } from "@moltin/sdk";
+
+interface IQuantityHandler {
+  item: CartItem;
+  size: string; // TODO should probably be constrained further e.g. union type of "sm" | "md" | "lg"
+}
+
+const QuantityHandler = ({ item, size }: IQuantityHandler) => {
   const { updateCartItems } = useCartData();
   const [mcart, setMcart] = useState("");
 
@@ -10,6 +17,7 @@ const QuantityHandler = ({ item, size }) => {
     const cart = localStorage.getItem("mcart") || "";
     setMcart(cart);
   });
+
   const handleUpdateQuantity = (id: string, quantity: number) => {
     updateCartItem(mcart, id, quantity)
       .then(() => {
@@ -39,7 +47,7 @@ const QuantityHandler = ({ item, size }) => {
         size={size}
         width={size === "xs" ? "60px" : "80px"}
         value={item.quantity}
-        onChange={(valueAsString: string, valueAsNumber: number) =>
+        onChange={(_valueAsString: string, valueAsNumber: number) =>
           handleUpdateQuantity(item.id, valueAsNumber)
         }
         min={1}
