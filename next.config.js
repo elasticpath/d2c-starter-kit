@@ -1,10 +1,11 @@
-module.exports = {
+// @ts-check
+
+/**
+ * @type {import('next').NextConfig}
+ **/
+ const nextConfig = {
   images: {
     domains: ["s3-eu-west-1.amazonaws.com"],
-  },
-  future: {
-    webpack5: true, // by default, if you customize webpack config, they switch back to version 4.
-    // Looks like backward compatibility approach.
   },
   webpack(config) {
     config.resolve.fallback = {
@@ -15,4 +16,6 @@ module.exports = {
 
     return config;
   },
-};
+}
+
+module.exports = nextConfig
