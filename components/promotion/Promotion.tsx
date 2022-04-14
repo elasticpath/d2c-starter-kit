@@ -45,7 +45,9 @@ export const Promotion = () => {
     <Box>
       <form onSubmit={handleSubmit}>
         <Box display="flex">
-          <FormControl isInvalid={errors.length > 0 ? true : false}>
+          <FormControl
+            isInvalid={Object.keys(errors).length > 0 ? true : false}
+          >
             <FormLabel htmlFor="name">Gift card or discount code</FormLabel>
             <Flex gap="16px">
               <Input
