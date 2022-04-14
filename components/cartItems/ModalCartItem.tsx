@@ -28,11 +28,13 @@ export default function ModalCartItems() {
       });
   };
 
+  const color = useColorModeValue("blue.900", "blue.50");
+
   return (
     <>
       {cartData && cartData.length > 0 ? (
         <>
-          {cartData.map((item, index) => (
+          {cartData.map((item) => (
             <>
               <Grid my="4" templateColumns="1fr 3fr" gap={1}>
                 <GridItem alignSelf="center">
@@ -78,14 +80,14 @@ export default function ModalCartItems() {
           height="100%"
         >
           <Text textAlign="center">You have no items in your cart!</Text>
-          <Link href={"/"}>
+          <Link href={"/"} passHref>
             <Button
               _hover={{
                 color: "blue.700",
                 boxShadow: "lg",
               }}
               width="100%"
-              colorScheme={useColorModeValue("blue.900", "blue.50")}
+              colorScheme={color}
               variant="outline"
             >
               Start Shopping
