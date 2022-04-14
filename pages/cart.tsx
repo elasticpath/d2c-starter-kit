@@ -46,7 +46,7 @@ export default function Cart() {
       });
   };
 
-  const handleRemoveItem = (id: string, index: number) => {
+  const handleRemoveItem = (id: string) => {
     removeCartItem(mcart, id)
       .then(() => {
         updateCartItems();
@@ -106,7 +106,7 @@ export default function Cart() {
                     <Td>
                       <Button
                         onClick={() => {
-                          handleRemoveItem(item.id, index);
+                          handleRemoveItem(item.id);
                         }}
                       >
                         Remove
