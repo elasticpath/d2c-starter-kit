@@ -96,7 +96,7 @@ function useCheckoutFormState() {
   const [isEditShippingForm, setEditShippingForm] = useState(true);
   const [isEditBillingForm, setEditBillingForm] = useState(true);
 
-  const setShippingFormValues = (values: Address) => {
+  const setShippingFormValues = (values: Address & { email: string }) => {
     setShippingAddress((prevValues) => ({
       ...prevValues,
       ...values,
