@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import QuantityHandler from "../components/quantityHandler/QuantityHandler";
 import Link from "next/link";
 import {
@@ -55,6 +55,8 @@ export default function Cart() {
         console.error(error.errors);
       });
   };
+  const colorBlue = useColorModeValue("blue.900", "blue.50");
+  const colorWhite = useColorModeValue("white", "gray.900");
 
   return (
     <div>
@@ -78,8 +80,8 @@ export default function Cart() {
                 </Tr>
               </Thead>
               <Tbody>
-                {cartData.map((item, index) => (
-                  <Tr>
+                {cartData.map((item) => (
+                  <Tr key={item.id}>
                     <Td>
                       {item.image && item.image.href && (
                         <Image
@@ -165,25 +167,25 @@ export default function Cart() {
             </Table>
 
             <Divider my="2" />
-            <Promotion updateCartsItems={updateCartItems} />
+            <Promotion />
             <Divider my="2" />
             <Grid templateColumns="repeat(2, 1fr)" gap={2}>
-              <Link href={"/"}>
+              <Link href={"/"} passHref>
                 <Button
                   _hover={{
                     color: "blue.700",
                     boxShadow: "lg",
                   }}
-                  colorScheme={useColorModeValue("blue.900", "blue.50")}
+                  colorScheme={colorBlue}
                   variant="outline"
                 >
                   Continue Shopping
                 </Button>
               </Link>
-              <Link href={"/checkout"}>
+              <Link href={"/checkout"} passHref>
                 <Button
-                  bg={useColorModeValue("blue.900", "blue.50")}
-                  color={useColorModeValue("white", "gray.900")}
+                  bg={colorBlue}
+                  color={colorWhite}
                   _hover={{
                     backgroundColor: "blue.700",
                     boxShadow: "m",
@@ -198,7 +200,7 @@ export default function Cart() {
         </Grid>
       ) : (
         <Box p="16">
-          <Image src="/icons/empty.svg" width="488px" height="461px" />
+          <Image alt="" src="/icons/empty.svg" width="488px" height="461px" />
         </Box>
       )}
     </div>
