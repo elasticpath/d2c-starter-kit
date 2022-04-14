@@ -3,7 +3,6 @@ import {
   CardElement,
   useStripe,
   useElements,
-  PaymentElement,
 } from "@stripe/react-stripe-js";
 import { useCartData } from "../../context/state";
 
