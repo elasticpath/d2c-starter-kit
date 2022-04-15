@@ -1,4 +1,4 @@
-import { getProductById, getAllPCMProducts } from "../../services/products";
+import { getProductById, getAllProducts } from "../../services/products";
 import { addToCart } from "../../services/cart";
 import {
   Box,
@@ -15,14 +15,21 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { useCartData } from "../../context/state";
-import { PcmProduct } from "@moltin/sdk";
+import type { File, ProductResponse } from "@moltin/sdk";
+import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import { ParsedUrlQuery } from "querystring";
 
-export default function Product({ products, main_image }) {
+interface IProduct {
+  product: ProductResponse;
+  main_image: File | null;
+}
+
+export const Product: NextPage<IProduct> = ({ product, main_image }) => {
   const { updateCartItems, setCartQuantity } = useCartData();
 
   const handleAddToCart = () => {
-    const mcart = localStorage.getItem("mcart") || "";
-    return addToCart(products.id, 1)
+    // TODO const mcart = localStorage.getItem("mcart") || "";
+    return addToCart(product.id, 1)
       .then(() => {
         updateCartItems();
 
@@ -59,17 +66,17 @@ export default function Product({ products, main_image }) {
               fontWeight={600}
               fontSize={{ base: "xl", sm: "3xl", lg: "4xl" }}
             >
-              {products.attributes.name}
+              {product.attributes.name}
             </Heading>
-            <Tag marginTop={4}> {products.attributes.sku}</Tag>
+            <Tag marginTop={4}> {product.attributes.sku}</Tag>
             <Text
               color={useColorModeValue("gray.900", "gray.400")}
               fontWeight={300}
               marginTop={"15px"}
               fontSize={"xl"}
             >
-              {products.meta.display_price.without_tax.formatted}{" "}
-              {products.meta.display_price.without_tax.currency}
+              {product.meta.display_price.without_tax.formatted}{" "}
+              {product.meta.display_price.without_tax.currency}
             </Text>
           </Box>
           <Stack
@@ -91,7 +98,7 @@ export default function Product({ products, main_image }) {
               >
                 Product Details
               </Text>
-              <Text>{products.attributes.description}</Text>
+              <Text>{product.attributes.description}</Text>
             </Box>
           </Stack>
           <Flex gap={10}>
@@ -116,28 +123,46 @@ export default function Product({ products, main_image }) {
       </SimpleGrid>
     </Container>
   );
+};
+
+interface ProductRouteParams extends ParsedUrlQuery {
+  productId: string;
 }
 
-export async function getStaticProps({ params }) {
-  const products = await getProductById(params.productId);
+export const getStaticProps: GetStaticProps<
+  IProduct,
+  ProductRouteParams
+> = async ({ params }) => {
+  if (!params) {
+    return {
+      notFound: true,
+    };
+  }
+  // alternative use params!.productId; instead of if check
+  // non-null assertion operator https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#non-null-assertion-operator
+  const product = await getProductById(params.productId);
+  // TODO need to handle when product is not found
+  //  should getProductById return undefined or a more understandable error response
   return {
     props: {
-      products: products.data,
-      main_image: products?.included?.main_images[0] || null,
+      product: product.data,
+      main_image: product?.included?.main_image?.[0] || null,
     },
   };
-}
+};
 
-export async function getStaticPaths() {
-  const products = await getAllPCMProducts();
+export const getStaticPaths: GetStaticPaths<ProductRouteParams> = async () => {
+  const products = await getAllProducts();
   return {
-    paths: products.map((product: PcmProduct) => {
+    paths: products.data.map((product: ProductResponse) => {
       return {
         params: {
-          productId: [product.id],
+          productId: product.id,
         },
       };
     }),
     fallback: false,
   };
-}
+};
+
+export default Product;
