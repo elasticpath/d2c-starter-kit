@@ -1,12 +1,11 @@
 import { useCheckoutForm } from "../../context/state";
 import { Text, Heading, Button, Box, Flex } from "@chakra-ui/react";
-import type { NextPage } from "next";
 
 interface IShippingInfo {
   type: "billing" | "shipping";
 }
 
-export const ShippingInfo: NextPage<IShippingInfo> = ({ type }) => {
+export const ShippingInfo = ({ type }: IShippingInfo): JSX.Element => {
   const {
     shippingAddress,
     billingAddress,

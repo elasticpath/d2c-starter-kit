@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styles from "../../styles/Home.module.css";
 
-const Footer = () => {
+const Footer = (): JSX.Element => {
   return (
     <div className={styles.footer}>
       <a

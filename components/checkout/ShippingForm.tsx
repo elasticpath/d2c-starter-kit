@@ -27,7 +27,10 @@ interface IShippingForm {
   type: "shipping" | "billing";
 }
 
-export default function ShippingForm({ nextFormStep, type }: IShippingForm) {
+export default function ShippingForm({
+  nextFormStep,
+  type,
+}: IShippingForm): JSX.Element {
   const {
     setShippingFormValues,
     billingAddress,

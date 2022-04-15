@@ -17,10 +17,12 @@ interface FormValues {
 
 interface IPersonalInfo {
   formStep?: number;
-  nextFormStep: () => void; 
+  nextFormStep: () => void;
 }
 
-export default function PersonalInfo({ nextFormStep }: IPersonalInfo) {
+export default function PersonalInfo({
+  nextFormStep,
+}: IPersonalInfo): JSX.Element {
   const { setShippingFormValues } = useCheckoutForm();
 
   const initialValues: FormValues = {

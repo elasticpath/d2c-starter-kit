@@ -1,4 +1,3 @@
-import React from "react";
 import { useCartData } from "../../context/state";
 import { useFormik } from "formik";
 import { addPromotion } from "../../services/cart";
@@ -17,7 +16,7 @@ interface FormValues {
   promoCode: string;
 }
 
-export const Promotion = () => {
+export const Promotion = (): JSX.Element => {
   const { updateCartItems, promotionItems, mcart } = useCartData();
 
   const initialValues: FormValues = {

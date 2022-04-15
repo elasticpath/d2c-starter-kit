@@ -1,9 +1,5 @@
-import React, { useState } from "react";
-import {
-  CardElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
+import { useState } from "react";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useCartData } from "../../context/state";
 
 import { Button } from "@chakra-ui/react";
@@ -11,7 +7,7 @@ interface CheckoutParams {
   onPayOrder: (...args: any) => any;
 }
 
-export const PaymentForm: React.FC<CheckoutParams> = (props) => {
+export const PaymentForm = (props: CheckoutParams): JSX.Element => {
   const { onPayOrder } = props;
   const { totalPrice } = useCartData();
 

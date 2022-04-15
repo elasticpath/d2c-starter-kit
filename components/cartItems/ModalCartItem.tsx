@@ -1,4 +1,3 @@
-import React from "react";
 import QuantityHandler from "../quantityHandler/QuantityHandler";
 import {
   Text,
@@ -15,7 +14,7 @@ import { useCartData } from "../../context/state";
 import { removeCartItem } from "../../services/cart";
 import Image from "next/image";
 
-export default function ModalCartItems() {
+export default function ModalCartItems(): JSX.Element {
   const { cartData, mcart, updateCartItems } = useCartData();
 
   const handleRemove = (id: string) => {

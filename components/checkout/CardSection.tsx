@@ -24,7 +24,7 @@ const CARD_ELEMENT_OPTIONS = {
   },
 };
 
-function CardSection() {
+function CardSection(): JSX.Element {
   return <CardElement options={CARD_ELEMENT_OPTIONS} />;
 }
 
