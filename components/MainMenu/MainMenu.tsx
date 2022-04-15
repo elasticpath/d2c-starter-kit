@@ -54,12 +54,14 @@ export default function MainMenu() {
       <HStack spacing={8} alignItems={"center"}>
         <Box cursor="pointer">
           <Link href="/" passHref>
-            <Image
-              src="/icons/ep-logo.svg"
-              alt="ep Logo"
-              width={120}
-              height={32}
-            />
+            <a>
+              <Image
+                src="/icons/ep-logo.svg"
+                alt="ep Logo"
+                width={120}
+                height={32}
+              />
+            </a>
           </Link>
         </Box>
         <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
