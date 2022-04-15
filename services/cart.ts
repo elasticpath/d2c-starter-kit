@@ -1,9 +1,9 @@
-import * as EPCC from "@moltin/sdk";
+import type { CartItemsResponse } from "@moltin/sdk";
 import { EPCCAPI } from "./helper";
 
 export async function getCartItems(
   reference: string
-): Promise<EPCC.CartItemsResponse> {
+): Promise<CartItemsResponse> {
   const CartItems = await EPCCAPI.Cart(reference).Items();
   return CartItems;
 }

@@ -1,4 +1,4 @@
-import * as EPCC from "@moltin/sdk";
+import type { Order, ConfirmPaymentBody } from "@moltin/sdk";
 import { EPCCAPI } from "./helper";
 
 export async function checkout(
@@ -6,7 +6,7 @@ export async function checkout(
   customer: any,
   billing: any,
   shipping: any
-): Promise<{ data: EPCC.Order }> {
+): Promise<{ data: Order }> {
   const checkoutRes = await EPCCAPI.Cart(reference).Checkout(
     customer,
     billing,
@@ -16,10 +16,7 @@ export async function checkout(
   return checkoutRes;
 }
 
-export async function payment(
-  payment: EPCC.ConfirmPaymentBody,
-  orderId: string
-) {
+export async function payment(payment: ConfirmPaymentBody, orderId: string) {
   await EPCCAPI.Orders.Payment(orderId, payment);
 }
 

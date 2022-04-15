@@ -1,7 +1,5 @@
-import * as EPCC from "@moltin/sdk";
+import { gateway as EPCCGateway } from "@moltin/sdk";
 import { config } from "./config";
-
-const EPCCGateway = EPCC.gateway;
 
 export const EPCCParam = {
   host: config.endpointURL,
