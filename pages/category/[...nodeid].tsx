@@ -3,15 +3,22 @@ import { getNodesProducts } from "../../services/hierarchy";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Heading, Grid, GridItem, Box, Divider, Badge } from "@chakra-ui/react";
+import type { NextPage } from "next";
+import type { PcmProduct } from "@moltin/sdk";
+import type { ParsedUrlQuery } from "querystring";
 
-export default function Category() {
+interface CatagoryRouterQuery extends ParsedUrlQuery {
+  nodeId: string;
+}
+
+export const Category: NextPage<{}> = () => {
   const router = useRouter();
-  const { nodeid } = router.query;
-  const [products, setProducts] = useState([]);
+  const { nodeId } = router.query as CatagoryRouterQuery; // TODO need proper 404 and error handling handling
+  const [products, setProducts] = useState<PcmProduct[]>([]);
 
   useEffect(() => {
     async function fetchNodesProducts() {
-      const productsList = await getNodesProducts(nodeid);
+      const productsList = await getNodesProducts(nodeId);
       setProducts(productsList.data);
     }
     try {
@@ -19,7 +26,7 @@ export default function Category() {
     } catch (error) {
       console.log(error);
     }
-  }, [nodeid]);
+  }, [nodeId]);
 
   return (
     <div>
@@ -27,7 +34,7 @@ export default function Category() {
       <Grid templateColumns="repeat(5, 1fr)" gap={6} p="6">
         {products.map((product) => {
           return (
-            <Link href={`/products/${product.id}`} key={product.id}>
+            <Link href={`/products/${product.id}`} key={product.id} passHref>
               <GridItem>
                 <Box
                   maxW="sm"
@@ -62,4 +69,6 @@ export default function Category() {
       </Grid>
     </div>
   );
-}
+};
+
+export default Category;
