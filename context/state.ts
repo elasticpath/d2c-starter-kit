@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import constate from "constate";
-import * as EPCC from "@moltin/sdk";
+import type { CartItem, CartItemsResponse } from "@moltin/sdk";
 import { getCartItems } from "../services/cart";
 import { Address } from "./types";
 
 function useCartItemsState() {
-  const [cartData, setCartData] = useState<EPCC.CartItem[]>([]);
-  const [promotionItems, setPromotionItems] = useState<EPCC.CartItem[]>([]);
+  const [cartData, setCartData] = useState<CartItem[]>([]);
+  const [promotionItems, setPromotionItems] = useState<CartItem[]>([]);
   const [count, setCount] = useState(0);
   const [cartQuantity, setCartQuantity] = useState(0);
   const [showCartPopup, setShowCartPopup] = useState(false);
   const [totalPrice, setTotalPrice] = useState("");
-  const [cartRes, setCartRes] = useState<EPCC.CartItemsResponse>();
+  const [cartRes, setCartRes] = useState<CartItemsResponse>();
   const [mcart, setMcart] = useState("");
 
   const [addedtItem, setAddedItem] = useState("");
