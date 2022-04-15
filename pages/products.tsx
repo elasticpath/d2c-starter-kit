@@ -1,17 +1,18 @@
-import { getAllPCMProducts } from "../services/products";
+import { getAllProducts } from "../services/products";
 import { Heading, Grid, GridItem, Box, Divider, Badge } from "@chakra-ui/react";
-import type { PcmProduct } from "@moltin/sdk";
+import type { ResourceList, ProductResponse } from "@moltin/sdk";
+import { GetStaticProps, NextPage } from "next";
 
-interface IProduct {
-  products: PcmProduct[];
+interface IProducts {
+  products: ResourceList<ProductResponse>;
 }
 
-export default function Product({ products }: IProduct) {
+export const Products: NextPage<IProducts> = ({ products }) => {
   return (
     <div>
       <Heading p="6">All Products</Heading>
       <Grid templateColumns="repeat(5, 1fr)" gap={6} p="6">
-        {products.map((product) => {
+        {products.data.map((product) => {
           return (
             <GridItem key={product.id}>
               <Box
@@ -47,13 +48,15 @@ export default function Product({ products }: IProduct) {
       </Grid>
     </div>
   );
-}
+};
 
-export async function getStaticProps() {
-  const products = await getAllPCMProducts();
+export const getStaticProps: GetStaticProps<IProducts> = async () => {
+  const products = await getAllProducts();
   return {
     props: {
       products,
     },
   };
-}
+};
+
+export default Products;
