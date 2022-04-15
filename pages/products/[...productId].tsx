@@ -16,8 +16,8 @@ import {
 } from "@chakra-ui/react";
 import { useCartData } from "../../context/state";
 import type { File, ProductResponse } from "@moltin/sdk";
-import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { ParsedUrlQuery } from "querystring";
+import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import type { ParsedUrlQuery } from "querystring";
 
 interface IProduct {
   product: ProductResponse;
