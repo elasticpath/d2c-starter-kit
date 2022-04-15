@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getNodes } from "../../services/hierarchy";
-import type {Node} from '@moltin/sdk';
+import type { Node } from "@moltin/sdk";
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import Link from "next/link";
 
@@ -28,7 +28,8 @@ export default function NavHoverBox({ id }: INavHoverBox) {
     <>
       {subMenu.map((node) => {
         return (
-          <Box key={node.id}
+          <Box
+            key={node.id}
             p="5px"
             _hover={{
               textDecoration: "none",
