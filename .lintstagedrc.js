@@ -12,6 +12,6 @@ const buildEslintCommand = (filenames) =>
 
 module.exports = {
   "*.{js,jsx,ts,tsx}": ["npm run format:fix"],
-  "*.{ts,tsx}": ["npm run type:check"],
+  "*.{ts,tsx}": [() => "npm run type:check"],
   "*.{js,jsx,ts,tsx}": [buildEslintCommand, "npm run format:check"],
 };
