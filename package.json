@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "npm run type:check && next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "test": "jest --watch",
-    "format": "prettier --check .",
+    "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
     "type:check": "tsc",
     "validate": "npm run lint && npm run type:check && npm run format",
@@ -60,7 +60,9 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "npm run format:fix",
-      "npm run validate"
+      "npm run lint",
+      "npm run type:check",
+      "npm run format:check"
     ]
   }
 }
