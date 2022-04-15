@@ -26,10 +26,11 @@ import PersonalInfo from "../components/checkout/PersonalInfo";
 import ShippingForm from "../components/checkout/ShippingForm";
 import PaymentForm from "../components/checkout/PaymentForm";
 import ShippingInfo from "../components/checkout/ShippingInfo";
+import type { NextPage } from "next";
 
 const stripePromise = loadStripe(config.stripeKey);
 
-export default function Checkout() {
+export const Checkout: NextPage<{}> = () => {
   const {
     shippingAddress,
     billingAddress,
@@ -228,4 +229,5 @@ export default function Checkout() {
       </Grid>
     </Box>
   );
-}
+};
+export default Checkout;

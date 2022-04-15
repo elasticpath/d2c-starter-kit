@@ -22,8 +22,9 @@ import { useCartData } from "../context/state";
 import { Promotion } from "../components/promotion/Promotion";
 import Image from "next/image";
 import { removeCartItem } from "../services/cart";
+import type { NextPage } from "next";
 
-export default function Cart() {
+export const Cart: NextPage<{}> = () => {
   const { cartData, updateCartItems, totalPrice, promotionItems, mcart } =
     useCartData();
 
@@ -205,4 +206,5 @@ export default function Cart() {
       )}
     </div>
   );
-}
+};
+export default Cart;

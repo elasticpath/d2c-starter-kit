@@ -1,7 +1,7 @@
 import { getAllProducts } from "../services/products";
 import { Heading, Grid, GridItem, Box, Divider, Badge } from "@chakra-ui/react";
 import type { ResourceList, ProductResponse } from "@moltin/sdk";
-import { GetStaticProps, NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
 
 interface IProducts {
