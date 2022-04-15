@@ -1,7 +1,12 @@
 import { useCheckoutForm } from "../../context/state";
 import { Text, Heading, Button, Box, Flex } from "@chakra-ui/react";
+import type { NextPage } from "next";
 
-export default function ShippingInfo({ type }) {
+interface IShippingInfo {
+  type: "billing" | "shipping";
+}
+
+export const ShippingInfo: NextPage<IShippingInfo> = ({ type }) => {
   const {
     shippingAddress,
     billingAddress,
@@ -40,4 +45,6 @@ export default function ShippingInfo({ type }) {
       <Button onClick={() => EditForm()}>Edit</Button>
     </Flex>
   );
-}
+};
+
+export default ShippingInfo;
