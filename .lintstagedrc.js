@@ -18,7 +18,15 @@ const buildEslintCommand = (filenames) =>
  * https://github.com/microsoft/TypeScript/issues/27379
  */
 module.exports = {
-  "*.{js,jsx,ts,tsx}": ["npm run format:fix"],
-  "*.{ts,tsx}": [() => "npm run type:check"],
-  "*.{js,jsx,ts,tsx}": [buildEslintCommand, "npm run format:check"],
+  "*.{js,jsx}": [
+    "npm run format:fix",
+    buildEslintCommand,
+    "npm run format:check",
+  ],
+  "*.{ts,tsx}": [
+    "npm run format:fix",
+    () => "npm run type:check",
+    buildEslintCommand,
+    "npm run format:check",
+  ],
 };
