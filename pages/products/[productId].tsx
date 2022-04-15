@@ -146,7 +146,7 @@ export const getStaticProps: GetStaticProps<
   return {
     props: {
       product: product.data,
-      main_image: product?.included?.main_image?.[0] || null,
+      main_image: product?.included?.main_images?.[0] || null,
     },
   };
 };

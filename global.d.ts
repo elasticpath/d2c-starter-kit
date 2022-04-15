@@ -6,7 +6,7 @@ import {
 declare module "@moltin/sdk" {
   interface Resource extends _Resource {
     included?: {
-      main_image?: File[];
+      main_images?: File[];
     };
   }
   interface ProductResponse extends _ProductResponse {
