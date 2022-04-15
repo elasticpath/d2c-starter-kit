@@ -6,7 +6,7 @@
     "dev": "tsc && next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint && npm run format:fix",
     "test": "jest --watch",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
