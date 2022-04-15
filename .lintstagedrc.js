@@ -10,6 +10,13 @@ const buildEslintCommand = (filenames) =>
     .map((f) => path.relative(process.cwd(), f))
     .join(" --file ")}`;
 
+/**
+ * () => "npm run type:check"
+ * needs to be a function because arguments are getting passed from lint-staged
+ * when those arguments get through to the "tsc" command that "npm run type:check"
+ * is calling the args cause "tsc" to ignore the tsconfig.json in our root directory.
+ * https://github.com/microsoft/TypeScript/issues/27379
+ */
 module.exports = {
   "*.{js,jsx,ts,tsx}": ["npm run format:fix"],
   "*.{ts,tsx}": [() => "npm run type:check"],
