@@ -3,7 +3,7 @@
 /**
  * @type {import('next').NextConfig}
  **/
- const nextConfig = {
+const nextConfig = {
   images: {
     domains: ["s3-eu-west-1.amazonaws.com"],
   },
@@ -16,8 +16,5 @@
 
     return config;
   },
-}
-
-    return config;
-  },
 };
+module.exports = nextConfig;
