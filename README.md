@@ -18,6 +18,24 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
+## Git Commits
+
+### Depends on
+
+- [lint-staged](https://github.com/okonet/lint-staged)
+- [husky](https://github.com/typicode/husky)
+
+### Pre-commit hooks details
+
+The project has a pre-commit hook that will run four stages independently for .ts, .tsx, .js and .jsx files
+
+- runs `prettier` formating fix
+- typecheck by running `tsc`
+- validate code using `eslint` with the `next lint` command
+- runs a final `prettier` format check to make sure nothing slipped through.
+
+This is configured in the .lintstagedrc.js file in the root project directory.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
