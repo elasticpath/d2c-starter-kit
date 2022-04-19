@@ -1,14 +1,19 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-
-import { ChakraProvider } from '@chakra-ui/react'
-
+import "../styles/globals.css";
+import MainLayout from "../layouts/MainLayout/MainLayout";
+import type { AppProps } from "next/app";
+import { AppStateProvider } from "../context/state";
+import { ChakraProvider } from "@chakra-ui/react";
+import "../components/checkout/CardSectionStyles.css";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider>
-      <Component {...pageProps} />
+      <AppStateProvider>
+        <MainLayout>
+          <Component {...pageProps} />
+        </MainLayout>
+      </AppStateProvider>
     </ChakraProvider>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;
