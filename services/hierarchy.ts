@@ -1,9 +1,8 @@
 import type {
   ResourceList,
-  PcmProduct,
   Node,
   Hierarchy,
-  ResourcePage,
+  ProductResponse,
 } from "@moltin/sdk";
 
 import { EPCCAPI } from "./helper";
@@ -24,8 +23,6 @@ export async function getNodes(hierarchyId: string): Promise<Node[]> {
 
 export async function getNodesProducts(
   nodeId: string
-): Promise<ResourcePage<PcmProduct>> {
-  // @ts-ignore TODO remove this and handle issue
-  const productsList = await EPCCAPI.Catalog.Nodes.GetNodeProducts({ nodeId });
-  return productsList;
+): Promise<ResourceList<ProductResponse>> {
+  return await EPCCAPI.Catalog.Nodes.GetNodeProducts({ nodeId });
 }
