@@ -22,8 +22,22 @@ export async function getProductBySlug(
     });
 }
 
+export async function getProductBySku(
+  productSku: string
+): Promise<Resource<ProductResponse> | undefined> {
+  // We treat product sku's as if they are unique so this filter on product slug
+  // should only ever return one item arrays
+  // TODO should be able to get product by sku server side
+  return await EPCCAPI.Catalog.Products.Filter({ eq: { sku: productSku } })
+    .All()
+    .then((resp) => {
+      return resp.data.length > 0 ? getProductById(resp.data[0].id) : undefined;
+    });
+}
+
 export async function getAllProducts(): Promise<ResourceList<ProductResponse>> {
-  return await EPCCAPI.Catalog.Products.All();
+  // TODO handle pagination at the moment increased default limit just to get all product results
+  return await EPCCAPI.Catalog.Products.Limit(50).All();
 }
 
 export async function getAllBaseProducts(): Promise<
@@ -31,7 +45,8 @@ export async function getAllBaseProducts(): Promise<
 > {
   // TODO server side filtering on base product does not seem to work maybe not supported
   //  eq(base_product,true)
-  const allProducts = await EPCCAPI.Catalog.Products.All();
+  // TODO handle pagination at the moment increased default limit just to get all product results
+  const allProducts = await EPCCAPI.Catalog.Products.Limit(50).All();
   console.log(
     "returned from all products request: ",
     allProducts.data.map((x) => x.id)
@@ -42,15 +57,4 @@ export async function getAllBaseProducts(): Promise<
   };
   console.log("returned filtered: ", filtered);
   return filtered;
-}
-
-export async function getAllProductsWithVariations(): Promise<
-  ResourceList<ProductResponse & {}>
-> {
-  // @ts-ignore
-  // TODO add to js-sdk
-  return await EPCCAPI.Catalog.Products.With([
-    "main_image",
-    "variations",
-  ]).All();
 }

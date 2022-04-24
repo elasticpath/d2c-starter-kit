@@ -34,8 +34,8 @@ export default function ModalCartItems(): JSX.Element {
       {cartData && cartData.length > 0 ? (
         <>
           {cartData.map((item) => (
-            <>
-              <Grid my="4" templateColumns="1fr 3fr" gap={1}>
+            <div key={item.id}>
+              <Grid key={item.id} my="4" templateColumns="1fr 3fr" gap={1}>
                 <GridItem alignSelf="center">
                   {item.image && item.image.href && (
                     <Image
@@ -68,7 +68,7 @@ export default function ModalCartItems(): JSX.Element {
                 </GridItem>
               </Grid>
               <Divider />
-            </>
+            </div>
           ))}
         </>
       ) : (
