@@ -4,7 +4,7 @@ import { EPCCAPI } from "./helper";
 export async function getProductById(
   productId: string
 ): Promise<Resource<ProductResponse>> {
-  return await EPCCAPI.Catalog.Products.With("main_image").Get({
+  return await EPCCAPI.Catalog.Products.With(["main_image", "files"]).Get({
     productId,
   });
 }
@@ -14,10 +14,11 @@ export async function getProductBySlug(
 ): Promise<Resource<ProductResponse> | undefined> {
   // We treat product slugs as if they are unique so this filter on product slug
   // should only ever return one item arrays
-  // TODO should be able to get single product by slug server side
+  // TODO should be able to get single product by slug server side?
   return await EPCCAPI.Catalog.Products.Filter({ eq: { slug: productSlug } })
     .All()
     .then((resp) => {
+      // Need to perform the getProductById becuase can't include main_image and files on Products queries
       return resp.data.length > 0 ? getProductById(resp.data[0].id) : undefined;
     });
 }

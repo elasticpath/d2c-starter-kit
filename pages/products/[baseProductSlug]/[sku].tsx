@@ -23,6 +23,7 @@ import {
   getProductBySlug,
 } from "../../../services/products";
 import SimpleProductDetail from "../../../components/product/SimpleProduct";
+import { getProductMainImage } from "../../../lib/product-util";
 
 interface IBaseSku {
   product: ProductResponse;
@@ -150,7 +151,7 @@ const retrieveSimpleProps = (
     props: {
       kind: "simple-product",
       product: productResource.data,
-      main_image: getProductImageUrl(productResource),
+      main_image: getProductMainImage(productResource),
     },
   };
 };
@@ -159,33 +160,6 @@ const sortProductVariationsAlphabetically = (
   a: { name: string },
   b: { name: string }
 ): number => a.name.localeCompare(b.name);
-
-/**
- * Sort the product variations if they exist in alphabetically order.
- * @param propsResults
- */
-const sortPropsProductVariations = (
-  propsResults: GetStaticPropsResult<ISku>
-): GetStaticPropsResult<ISku> => {
-  if ("props" in propsResults) {
-    return {
-      ...propsResults,
-      ...((propsResults.props.kind === "base-product" ||
-        propsResults.props.kind === "child-product") &&
-      propsResults.props.variations
-        ? {
-            props: {
-              ...propsResults.props,
-              variations: propsResults.props.variations.sort(
-                sortProductVariationsAlphabetically
-              ),
-            },
-          }
-        : {}),
-    };
-  }
-  return propsResults;
-};
 
 async function retrieveChildProps(
   baseProductSlug: string,
@@ -218,7 +192,7 @@ async function retrieveChildProps(
       kind: "child-product",
       product: mergedProduct,
       baseProduct: baseProduct.data,
-      main_image: getProductImageUrl(childProductResource),
+      main_image: getProductMainImage(childProductResource),
       skuLookUp: getSkuVariationLookup(variation_matrix, variations),
       variations: variations.sort(sortProductVariationsAlphabetically),
     },
@@ -245,7 +219,7 @@ async function retrieveBaseProps(
     props: {
       kind: "base-product",
       product: baseProductResource.data,
-      main_image: getProductImageUrl(baseProductResource),
+      main_image: getProductMainImage(baseProductResource),
       skuLookUp: getSkuVariationLookup(variation_matrix, variations),
       variations: variations.sort(sortProductVariationsAlphabetically),
     },
@@ -267,12 +241,6 @@ function mergeMeta(a: ProductResponse, b: ProductResponse): ProductResponse {
       ...a,
     },
   };
-}
-
-function getProductImageUrl(
-  productResp: Resource<ProductResponse>
-): File | null {
-  return productResp?.included?.main_images?.[0] || null;
 }
 
 export const getStaticPaths: GetStaticPaths<SkuRouteParams> = async () => {
