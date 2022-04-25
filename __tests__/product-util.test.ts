@@ -1,5 +1,6 @@
 import type { File, ProductResponse, Resource } from "@moltin/sdk";
 import {
+  getProductMainImage,
   getProductOtherImageUrls,
   processImageFiles,
 } from "../lib/product-util";
@@ -160,5 +161,33 @@ describe("product util", () => {
     expect(
       getProductOtherImageUrls(productResp as Resource<ProductResponse>)
     ).toEqual(expected);
+  });
+
+  it("getProductMainImage should return a products main image file", () => {
+    const mainImageFile: Partial<File> = {
+      type: "file",
+      id: "123",
+      mime_type: "image/jpeg",
+    };
+
+    const productResp: Partial<Resource<ProductResponse>> = {
+      included: {
+        main_images: [mainImageFile] as File[],
+      },
+    };
+
+    expect(
+      getProductMainImage(productResp as Resource<ProductResponse>)
+    ).toEqual(mainImageFile);
+  });
+
+  it("getProductMainImage should return null when product does not have main image included", () => {
+    const productResp: Partial<Resource<ProductResponse>> = {
+      included: {},
+    };
+
+    expect(
+      getProductMainImage(productResp as Resource<ProductResponse>)
+    ).toEqual(null);
   });
 });

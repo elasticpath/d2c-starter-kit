@@ -24,3 +24,9 @@ export function getProductOtherImageUrls(
     ? processImageFiles(files, productResp?.included?.main_images?.[0].id)
     : [];
 }
+
+export function getProductMainImage(
+  productResp: Resource<ProductResponse>
+): File | null {
+  return productResp?.included?.main_images?.[0] || null;
+}
