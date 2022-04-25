@@ -2,8 +2,8 @@ import { Stack, SimpleGrid } from "@chakra-ui/react";
 import type { File, ProductResponse, Variation } from "@moltin/sdk";
 import { VariationSkuLookup } from "../../services/helper";
 import CartActions from "./CartActions";
+import ProductCarousel from "./ProductCarousel";
 import ProductDetails from "./ProductDetails";
-import ProductImages from "./ProductImages";
 import ProductSummary from "./ProductSummary";
 import ProductVariations from "./ProductVariations";
 
@@ -31,7 +31,7 @@ const BaseProductDetail = ({
       py={{ base: 18, md: 24 }}
     >
       {main_image && (
-        <ProductImages main_image={main_image} otherImages={otherImages} />
+        <ProductCarousel mainImage={main_image} images={otherImages} />
       )}
       <Stack spacing={{ base: 6, md: 10 }}>
         <ProductSummary product={product} />
