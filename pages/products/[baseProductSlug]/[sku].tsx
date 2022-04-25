@@ -23,11 +23,15 @@ import {
   getProductBySlug,
 } from "../../../services/products";
 import SimpleProductDetail from "../../../components/product/SimpleProduct";
-import { getProductMainImage } from "../../../lib/product-util";
+import {
+  getProductMainImage,
+  getProductOtherImageUrls,
+} from "../../../lib/product-util";
 
 interface IBaseSku {
   product: ProductResponse;
   main_image: File | null;
+  otherImages: File[];
 }
 
 interface IBaseProductSku extends IBaseSku {
@@ -76,13 +80,14 @@ function resolveProductDetailComponent(
   props: ISku,
   handleAddToCart: () => void
 ): JSX.Element {
-  const { product, main_image } = props;
+  const { product, main_image, otherImages } = props;
   switch (props.kind) {
     case "base-product":
       return (
         <BaseProductDetail
           product={product}
           main_image={main_image}
+          otherImages={otherImages}
           handleAddToCart={handleAddToCart}
           skuLookup={props.skuLookUp}
           variations={props.variations}
@@ -94,6 +99,7 @@ function resolveProductDetailComponent(
           product={product}
           baseProduct={props.baseProduct}
           main_image={main_image}
+          otherImages={otherImages}
           handleAddToCart={handleAddToCart}
           optionLookupObj={props.skuLookUp[props.product.id]}
           skuLookup={props.skuLookUp}
@@ -105,6 +111,7 @@ function resolveProductDetailComponent(
         <SimpleProductDetail
           product={product}
           main_image={main_image}
+          otherImages={otherImages}
           handleAddToCart={handleAddToCart}
         />
       );
@@ -152,6 +159,7 @@ const retrieveSimpleProps = (
       kind: "simple-product",
       product: productResource.data,
       main_image: getProductMainImage(productResource),
+      otherImages: getProductOtherImageUrls(productResource),
     },
   };
 };
@@ -193,6 +201,7 @@ async function retrieveChildProps(
       product: mergedProduct,
       baseProduct: baseProduct.data,
       main_image: getProductMainImage(childProductResource),
+      otherImages: getProductOtherImageUrls(childProductResource),
       skuLookUp: getSkuVariationLookup(variation_matrix, variations),
       variations: variations.sort(sortProductVariationsAlphabetically),
     },
@@ -220,6 +229,7 @@ async function retrieveBaseProps(
       kind: "base-product",
       product: baseProductResource.data,
       main_image: getProductMainImage(baseProductResource),
+      otherImages: getProductOtherImageUrls(baseProductResource),
       skuLookUp: getSkuVariationLookup(variation_matrix, variations),
       variations: variations.sort(sortProductVariationsAlphabetically),
     },

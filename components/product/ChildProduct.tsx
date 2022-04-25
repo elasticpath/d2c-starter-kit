@@ -22,6 +22,7 @@ interface IChildProductDetail {
   product: ProductResponse;
   baseProduct: ProductResponse;
   main_image: File | null;
+  otherImages: File[];
   optionLookupObj: { [key: string]: string };
   skuLookup: VariationSkuLookup;
   handleAddToCart: () => void;
@@ -31,6 +32,7 @@ interface IChildProductDetail {
 const ChildProductDetail = ({
   product,
   main_image,
+  otherImages,
   handleAddToCart,
   optionLookupObj,
   baseProduct,
@@ -43,7 +45,9 @@ const ChildProductDetail = ({
       spacing={{ base: 8, md: 10 }}
       py={{ base: 18, md: 24 }}
     >
-      {main_image && <ProductImages main_image={main_image} />}
+      {main_image && (
+        <ProductImages main_image={main_image} otherImages={otherImages} />
+      )}
       <Stack spacing={{ base: 6, md: 10 }}>
         <ProductSummary product={product} />
         <ProductDetails product={product} />
