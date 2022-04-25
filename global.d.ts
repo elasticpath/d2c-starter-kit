@@ -7,6 +7,7 @@ declare module "@moltin/sdk" {
   interface Resource extends _Resource {
     included?: {
       main_images?: File[];
+      files?: File[];
     };
   }
   interface ProductResponse extends Omit<_ProductResponse, "attributes"> {
