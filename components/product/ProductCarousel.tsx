@@ -51,6 +51,11 @@ const ProductCarousel = ({
 
   const desiredVisibleSlides = 4;
 
+  const selectedBorderStyle = {
+    borderRadius: "0.375rem",
+    border: "1px solid #858585",
+  };
+
   return (
     <Grid templateColumns="100px 1fr" gap={6}>
       <GridItem>
@@ -89,15 +94,13 @@ const ProductCarousel = ({
                 <GridItem
                   key={imageFile.id}
                   p="0.2rem"
-                  border={
-                    imageFile.id === selectedProductImage.id
-                      ? "1px solid #858585"
-                      : ""
-                  }
+                  {...(imageFile.id === selectedProductImage.id
+                    ? selectedBorderStyle
+                    : "")}
                 >
                   <Slide index={index}>
                     <Image
-                      style={{ objectFit: "cover" }}
+                      style={{ objectFit: "cover", borderRadius: "0.375rem" }}
                       onClick={() => setSelectedProductImage(imageFile)}
                       hasMasterSpinner={false}
                       alt={imageFile.file_name}
@@ -136,7 +139,12 @@ const ProductCarousel = ({
           <Slider>
             <Slide key={selectedProductImage.id} index={0}>
               <ImageWithZoom
-                bgImageProps={{ style: { backgroundPosition: "center" } }}
+                bgImageProps={{
+                  style: {
+                    backgroundPosition: "center",
+                    borderRadius: "0.375rem",
+                  },
+                }}
                 alt={selectedProductImage.file_name}
                 src={selectedProductImage.link.href}
               />
