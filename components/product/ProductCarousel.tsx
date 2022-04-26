@@ -21,6 +21,8 @@ const ProductCarousel = ({
   images,
   mainImage,
 }: IProductCarousel): JSX.Element => {
+  console.log("rendering product carousel: ", images, mainImage);
+  // TODO remove this
   const someRandomExtraImages: File[] = [0, 1, 2].map(
     (v) =>
       ({
@@ -41,6 +43,7 @@ const ProductCarousel = ({
   const [selectedProductImage, setSelectedProductImage] = useState(
     completeImages[0]
   );
+  console.log("selected image: ", selectedProductImage);
 
   useEffect(() => {
     console.log("selected product image: ", selectedProductImage);
@@ -95,6 +98,7 @@ const ProductCarousel = ({
                 >
                   <Slide index={index}>
                     <Image
+                      style={{ objectFit: "cover" }}
                       onClick={() => setSelectedProductImage(imageFile)}
                       hasMasterSpinner={true}
                       alt={imageFile.file_name}
@@ -133,6 +137,7 @@ const ProductCarousel = ({
           <Slider>
             <Slide key={selectedProductImage.id} index={0}>
               <ImageWithZoom
+                bgImageProps={{ style: { backgroundPosition: "center" } }}
                 alt={selectedProductImage.file_name}
                 src={selectedProductImage.link.href}
               />

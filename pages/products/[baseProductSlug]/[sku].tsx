@@ -88,7 +88,7 @@ export const Sku: NextPage<ISku> = (props: ISku) => {
   }, [isChangingSku]);
 
   return (
-    <Container maxW={"7xl"}>
+    <Container maxW={"7xl"} key={"page_" + props.product.id}>
       <productContext.Provider
         value={{
           isChangingSku,
