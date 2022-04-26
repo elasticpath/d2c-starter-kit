@@ -65,7 +65,6 @@ const ProductCarousel = ({
           orientation="vertical"
           naturalSlideWidth={100}
           naturalSlideHeight={100}
-          hasMasterSpinner
           infinite={completeImages.length > 4}
           dragEnabled={false}
         >
@@ -100,7 +99,7 @@ const ProductCarousel = ({
                     <Image
                       style={{ objectFit: "cover" }}
                       onClick={() => setSelectedProductImage(imageFile)}
-                      hasMasterSpinner={true}
+                      hasMasterSpinner={false}
                       alt={imageFile.file_name}
                       src={imageFile.link.href}
                     />
@@ -150,16 +149,3 @@ const ProductCarousel = ({
 };
 
 export default ProductCarousel;
-/*
-
-<Image
-        rounded={"md"}
-        alt={images[0].file_name}
-        src={images[0].link.href}
-        fit={"cover"}
-        align={"center"}
-        w={"100%"}
-        h={{ base: "100%", sm: "400px", lg: "500px" }}
-      />
-
-      */
