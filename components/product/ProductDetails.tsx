@@ -15,10 +15,6 @@ interface IProductDetails {
 }
 
 const ProductDetails = ({ product }: IProductDetails): JSX.Element => {
-  const {
-    attributes,
-    meta: { display_price },
-  } = product;
   const context = useContext(productContext);
 
   return (
