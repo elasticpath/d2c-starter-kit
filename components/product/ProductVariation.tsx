@@ -32,7 +32,10 @@ const ProductVariation = ({
         {variation.options.map((o) => (
           <Button
             key={o.id}
-            bgColor={o.id === selectedOptionId ? "pink.500" : ""}
+            boxShadow={o.id === selectedOptionId ? "1px 2px #8f8f8f" : ""}
+            bgColor="white"
+            border={"1px solid"}
+            borderColor="gray.200"
             onClick={() => updateOptionHandler(variation.id)(o.id)}
           >
             {o.name}
