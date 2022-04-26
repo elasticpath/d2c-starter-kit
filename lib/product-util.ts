@@ -1,3 +1,4 @@
+import { HTMLChakraProps } from "@chakra-ui/react";
 import type { File, ProductResponse, Resource } from "@moltin/sdk";
 
 export function processImageFiles(files: File[], mainImageId?: string) {
@@ -30,3 +31,8 @@ export function getProductMainImage(
 ): File | null {
   return productResp?.included?.main_images?.[0] || null;
 }
+
+export const changingSkuStyle: HTMLChakraProps<"div"> = {
+  opacity: "20%",
+  cursor: "default",
+};

@@ -1,5 +1,8 @@
 import { Box, Heading, Tag } from "@chakra-ui/react";
 import type { ProductResponse } from "@moltin/sdk";
+import { useContext } from "react";
+import { changingSkuStyle } from "../../lib/product-util";
+import { productContext } from "../../pages/products/[baseProductSlug]/[sku]";
 import Price from "./Price";
 
 interface IProductSummary {
@@ -11,8 +14,10 @@ const ProductSummary = ({ product }: IProductSummary): JSX.Element => {
     attributes,
     meta: { display_price },
   } = product;
+  const context = useContext(productContext);
+
   return (
-    <Box as={"header"}>
+    <Box as={"header"} {...(context?.isChangingSku ? changingSkuStyle : {})}>
       <Heading
         lineHeight={1.1}
         fontWeight={600}

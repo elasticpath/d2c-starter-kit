@@ -57,6 +57,7 @@ const ChildProductDetail = ({
             optionLookupDict={optionLookupObj}
             skuLookup={skuLookup}
             baseProductSlug={baseProduct.attributes.slug}
+            currentSkuId={product.id}
           />
         )}
         <CartActions handleAddToCart={handleAddToCart} />

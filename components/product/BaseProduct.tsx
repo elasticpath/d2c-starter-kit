@@ -24,6 +24,8 @@ const BaseProductDetail = ({
   variations,
   skuLookup,
 }: IBaseProductDetail): JSX.Element => {
+  product;
+
   return (
     <SimpleGrid
       columns={{ base: 1, lg: 2 }}
@@ -41,6 +43,7 @@ const BaseProductDetail = ({
             variations={variations}
             skuLookup={skuLookup}
             baseProductSlug={product.attributes.slug}
+            currentSkuId={product.id}
           />
         )}
         <CartActions handleAddToCart={handleAddToCart} />

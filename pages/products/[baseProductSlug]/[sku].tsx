@@ -27,6 +27,13 @@ import {
   getProductMainImage,
   getProductOtherImageUrls,
 } from "../../../lib/product-util";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 
 interface IBaseSku {
   product: ProductResponse;
@@ -53,12 +60,20 @@ interface ISimpleSku extends IBaseSku {
 
 type ISku = IBaseProductSku | IChildSku | ISimpleSku;
 
+interface ProductContext {
+  isChangingSku: boolean;
+  setIsChangingSku: Dispatch<SetStateAction<boolean>>;
+}
+
+export const productContext = createContext<ProductContext | null>(null);
+
 export const Sku: NextPage<ISku> = (props: ISku) => {
   const { updateCartItems, setCartQuantity } = useCartData();
+  const [isChangingSku, setIsChangingSku] = useState(false);
 
   const handleAddToCart = () => {
     // TODO const mcart = localStorage.getItem("mcart") || "";
-    return addToCart(product.id, 1)
+    return addToCart(props.product.id, 1)
       .then(() => {
         updateCartItems();
 
@@ -68,10 +83,20 @@ export const Sku: NextPage<ISku> = (props: ISku) => {
       .finally(() => {});
   };
 
-  const { product, main_image, kind } = props;
+  useEffect(() => {
+    console.log("isChangingSku: ", isChangingSku);
+  }, [isChangingSku]);
+
   return (
     <Container maxW={"7xl"}>
-      {resolveProductDetailComponent(props, handleAddToCart)}
+      <productContext.Provider
+        value={{
+          isChangingSku,
+          setIsChangingSku,
+        }}
+      >
+        {resolveProductDetailComponent(props, handleAddToCart)}
+      </productContext.Provider>
     </Container>
   );
 };

@@ -1,7 +1,9 @@
 import { Stack } from "@chakra-ui/react";
 import type { Variation } from "@moltin/sdk";
 import { useRouter } from "next/router";
+import { useContext } from "react";
 import { useEffect, useState } from "react";
+import { productContext } from "../../pages/products/[baseProductSlug]/[sku]";
 import { getSkuFromOptions, VariationSkuLookup } from "../../services/helper";
 import { getProductById } from "../../services/products";
 import ProductVariation, { UpdateOptionHandler } from "./ProductVariation";
@@ -10,6 +12,7 @@ interface IProductVariations {
   variations: Variation[];
   skuLookup: VariationSkuLookup;
   baseProductSlug: string;
+  currentSkuId: string;
   optionLookupDict?: { [key: string]: string };
 }
 
@@ -25,10 +28,13 @@ const ProductVariations = ({
   optionLookupDict,
   skuLookup,
   baseProductSlug,
+  currentSkuId,
 }: IProductVariations): JSX.Element => {
   const [selectedOptions, setSelectedOptions] = useState<{
     [key: string]: string;
   }>(optionLookupDict ? optionLookupDict : getDefaultEmptyOptions());
+  const [routing, setRouting] = useState(false);
+  const context = useContext(productContext);
 
   // TODO broken, need to decide how to handle when the product has no options set.
   function getDefaultEmptyOptions(): { [key: string]: string } {
@@ -43,9 +49,7 @@ const ProductVariations = ({
   function allVariationsHaveSelectedOption(optionsDict: {
     [key: string]: string;
   }): boolean {
-    const temp = !Object.entries(optionsDict).some(([_key, val]) => !val);
-    console.log("all vari: ", temp);
-    return temp;
+    return !Object.entries(optionsDict).some(([_key, val]) => !val);
   }
 
   const router = useRouter();
@@ -53,11 +57,23 @@ const ProductVariations = ({
   useEffect(() => {
     const selectedSkuId = getSkuFromOptions(skuLookup, selectedOptions);
     console.log("test: ", selectedOptions);
-    if (selectedSkuId && allVariationsHaveSelectedOption(selectedOptions)) {
+    if (
+      selectedSkuId &&
+      selectedSkuId !== currentSkuId &&
+      allVariationsHaveSelectedOption(selectedOptions)
+    ) {
       getProductById(selectedSkuId).then((productResp) => {
-        router.push(
-          `/products/${baseProductSlug}/${productResp.data.attributes.sku}`
-        );
+        console.log("this will trigger a route");
+        context?.setIsChangingSku(true);
+        router
+          .push(
+            `/products/${baseProductSlug}/${productResp.data.attributes.sku}`
+          )
+          .then(() => {
+            setRouting(false);
+            context?.setIsChangingSku(false);
+            console.log("done routing");
+          });
       });
     }
   }, [selectedOptions]);
@@ -77,7 +93,7 @@ const ProductVariations = ({
       }
     };
   return (
-    <Stack>
+    <Stack opacity={routing ? "50" : "100"}>
       {variations.map((v) => (
         <ProductVariation
           key={v.id}
