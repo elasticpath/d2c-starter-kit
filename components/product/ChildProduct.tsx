@@ -1,15 +1,4 @@
-import {
-  Box,
-  Tag,
-  Stack,
-  Text,
-  Image,
-  Flex,
-  Button,
-  SimpleGrid,
-  StackDivider,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Stack, SimpleGrid } from "@chakra-ui/react";
 import type { File, ProductResponse, Variation } from "@moltin/sdk";
 import { VariationSkuLookup } from "../../services/helper";
 import CartActions from "./CartActions";
