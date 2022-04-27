@@ -21,7 +21,6 @@ const ProductCarousel = ({
   images,
   mainImage,
 }: IProductCarousel): JSX.Element => {
-  console.log("rendering product carousel: ", images, mainImage);
   // TODO remove this
   const someRandomExtraImages: File[] = [0, 1, 2].map(
     (v) =>
