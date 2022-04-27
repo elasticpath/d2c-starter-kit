@@ -2,6 +2,7 @@ import type { File, ProductResponse, Resource } from "@moltin/sdk";
 import {
   getProductMainImage,
   getProductOtherImageUrls,
+  mergeMeta,
   processImageFiles,
 } from "../lib/product-util";
 
@@ -190,6 +191,76 @@ describe("product util", () => {
       expect(
         getProductMainImage(productResp as Resource<ProductResponse>)
       ).toEqual(null);
+    });
+
+    it("mergeMeta should merge the meta data of two ProductResources keeping all of a and adding extra values of b", () => {
+      const productA: Partial<ProductResponse> = {
+        meta: {
+          catalog_id: "e4c2d061-3712-408d-bc2c-cfebd0bd104f",
+          catalog_source: "pim",
+          pricebook_id: "8be0a3d5-b656-4f45-970d-7714d55a3d6c",
+          display_price: {
+            without_tax: {
+              amount: 1600,
+              currency: "USD",
+              formatted: "$16.00",
+            },
+          },
+        },
+      };
+
+      const productB: Partial<ProductResponse> = {
+        meta: {
+          catalog_id: "e4c2d061-3712-408d-bc2c-cfebd0bd104f",
+          catalog_source: "pim",
+          pricebook_id: "8be0a3d5-b656-4f45-970d-7714d55a3d6c",
+          display_price: {
+            without_tax: {
+              amount: 1500,
+              currency: "USD",
+              formatted: "$15.00",
+            },
+          },
+          variation_matrix: {
+            "4252d475-2d0e-4cd2-99d3-19fba34ef211": {
+              "217883ce-55f1-4c34-8e00-e86c743f4dff": {
+                "45e2612f-6bbf-4bc9-8803-80c5cf78ed89":
+                  "709e6cc6-a40c-4833-9469-b4abd0e7f67f",
+                "8b6dfc96-11e6-455d-b042-e4137df3f13a":
+                  "c05839f5-3eac-48f2-9d36-1bc2a481a213",
+              },
+            },
+          },
+          variations: [],
+        },
+      };
+      expect(
+        mergeMeta(productA as ProductResponse, productB as ProductResponse)
+      ).toEqual({
+        meta: {
+          catalog_id: "e4c2d061-3712-408d-bc2c-cfebd0bd104f",
+          catalog_source: "pim",
+          pricebook_id: "8be0a3d5-b656-4f45-970d-7714d55a3d6c",
+          display_price: {
+            without_tax: {
+              amount: 1600,
+              currency: "USD",
+              formatted: "$16.00",
+            },
+          },
+          variation_matrix: {
+            "4252d475-2d0e-4cd2-99d3-19fba34ef211": {
+              "217883ce-55f1-4c34-8e00-e86c743f4dff": {
+                "45e2612f-6bbf-4bc9-8803-80c5cf78ed89":
+                  "709e6cc6-a40c-4833-9469-b4abd0e7f67f",
+                "8b6dfc96-11e6-455d-b042-e4137df3f13a":
+                  "c05839f5-3eac-48f2-9d36-1bc2a481a213",
+              },
+            },
+          },
+          variations: [],
+        },
+      });
     });
   });
 });
