@@ -229,3 +229,13 @@ export const isChildProductResource = (product: ProductResponse) =>
 
 export const isSimpleProductResource = (product: ProductResponse) =>
   !product.attributes.base_product && !product.attributes.base_product_id;
+
+/**
+ * promise will resolve after 300ms.
+ */
+export const wait300 = new Promise<void>((resolve) => {
+  const wait = setTimeout(() => {
+    clearTimeout(wait);
+    resolve();
+  }, 300);
+});
