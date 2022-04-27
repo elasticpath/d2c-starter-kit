@@ -155,7 +155,6 @@ interface SkuRouteParams extends ParsedUrlQuery {
 export const getStaticProps: GetStaticProps<ISku, SkuRouteParams> = async ({
   params,
 }) => {
-  console.log("params: ", params);
   if (!params) {
     return {
       notFound: true,
@@ -172,11 +171,18 @@ export const getStaticProps: GetStaticProps<ISku, SkuRouteParams> = async ({
   }
   const { data: productData } = product;
 
-  return isSimpleProductResource(productData)
+  const retrievedResults = isSimpleProductResource(productData)
     ? retrieveSimpleProps(product)
     : isChildProductResource(productData)
-    ? retrieveChildProps(params.baseProductSlug, product)
-    : retrieveBaseProps(product);
+    ? await retrieveChildProps(params.baseProductSlug, product)
+    : await retrieveBaseProps(product);
+
+  // TODO determine the best timeframe to rebuild a requested static page.
+  //  set to 5 miuntes (300 seconds) arbitrarily
+  return {
+    ...retrievedResults,
+    revalidate: 300,
+  };
 };
 
 const retrieveSimpleProps = (
@@ -285,7 +291,7 @@ export const getStaticPaths: GetStaticPaths<SkuRouteParams> = async () => {
   console.log("paths: ", paths);
   return {
     paths,
-    fallback: false,
+    fallback: "blocking",
   };
 };
 
