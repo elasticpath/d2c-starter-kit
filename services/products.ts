@@ -1,5 +1,5 @@
-import type { ProductResponse, Resource, ResourceList } from "@moltin/sdk";
-import { EPCCAPI } from "./helper";
+import type { ProductResponse, Resource, ResourcePage } from "@moltin/sdk";
+import { EPCCAPI, wait300 } from "./helper";
 
 export async function getProductById(
   productId: string
@@ -36,26 +36,75 @@ export async function getProductBySku(
     });
 }
 
-export async function getAllProducts(): Promise<ResourceList<ProductResponse>> {
-  // TODO handle pagination at the moment increased default limit just to get all product results
-  return await EPCCAPI.Catalog.Products.Limit(50).All();
+export function getAllProducts(): Promise<ProductResponse[]> {
+  return _getAllProductPages();
 }
 
-export async function getAllBaseProducts(): Promise<
-  ResourceList<ProductResponse>
-> {
-  // TODO server side filtering on base product does not seem to work maybe not supported
-  //  eq(base_product,true)
-  // TODO handle pagination at the moment increased default limit just to get all product results
-  const allProducts = await EPCCAPI.Catalog.Products.Limit(50).All();
-  console.log(
-    "returned from all products request: ",
-    allProducts.data.map((x) => x.id)
-  );
-  const filtered = {
-    ...allProducts,
-    data: allProducts.data.filter((prod) => prod.attributes.base_product),
+const _getAllPages =
+  <T>(
+    nextPageRequestFn: (
+      limit: number,
+      offset: number
+    ) => Promise<ResourcePage<T>>
+  ) =>
+  async (
+    offset: number = 0,
+    limit: number = 25,
+    accdata: T[] = []
+  ): Promise<T[]> => {
+    const requestResp = await nextPageRequestFn(limit, offset);
+    const {
+      meta: {
+        page: newPage,
+        results: { total },
+      },
+      data: newData,
+    } = requestResp;
+    if (offset < total) {
+      return wait300.then(() =>
+        _getAllPages(nextPageRequestFn)(offset + newPage.total, limit, [
+          ...accdata,
+          ...newData,
+        ])
+      );
+    }
+    return Promise.resolve(accdata);
   };
-  console.log("returned filtered: ", filtered);
-  return filtered;
+
+const _getNextPage =
+  <T>(
+    nextPageRequestFn: (
+      limit: number,
+      offset: number
+    ) => Promise<ResourcePage<T>>
+  ) =>
+  async (
+    totalRecords: number,
+    offset: number = 0,
+    limit: number = 25
+  ): Promise<ResourcePage<T>> => {
+    const updatedOffset =
+      offset + limit > totalRecords
+        ? offset + (totalRecords - limit)
+        : offset + limit;
+    return nextPageRequestFn(limit, updatedOffset);
+  };
+
+const _getAllProductPages = _getAllPages(
+  (limit = 25, offset = 0) =>
+    EPCCAPI.Catalog.Products.Limit(limit).Offset(offset).All() as Promise<
+      ResourcePage<ProductResponse>
+    >
+);
+
+export async function getAllBaseProducts(): Promise<ProductResponse[]> {
+  // Using base_product_id to filter because only child products seem to have this property.
+  // None child products such as a simple product without variations also have base_product=false
+  // so this property can't be used to filter.
+  const allProducts = await _getAllProductPages();
+  console.log(
+    "all products being returned from _getAllProductPages: ",
+    allProducts.map((x) => x.id)
+  );
+  return allProducts.filter((prod) => !prod.attributes.base_product_id);
 }

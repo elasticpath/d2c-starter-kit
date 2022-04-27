@@ -24,8 +24,11 @@ import {
 } from "../../../services/products";
 import SimpleProductDetail from "../../../components/product/SimpleProduct";
 import {
+  filterBaseProducts,
+  findBaseProductSlug,
   getProductMainImage,
   getProductOtherImageUrls,
+  mergeMeta,
 } from "../../../lib/product-util";
 import {
   createContext,
@@ -34,6 +37,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { sortAlphabetically } from "../../../lib/shared-util";
 
 interface IBaseSku {
   product: ProductResponse;
@@ -160,8 +164,7 @@ export const getStaticProps: GetStaticProps<ISku, SkuRouteParams> = async ({
   // alternative use params!.productId; instead of if check
   // non-null assertion operator https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#non-null-assertion-operator
   const product = await getProductBySku(params.sku);
-  // TODO need to handle when product is not found
-  //  should getProductBySku return undefined or a more understandable error response
+  // TODO should getProductBySku return undefined or a more understandable error response
   if (!product) {
     return {
       notFound: true,
@@ -188,11 +191,6 @@ const retrieveSimpleProps = (
     },
   };
 };
-
-const sortProductVariationsAlphabetically = (
-  a: { name: string },
-  b: { name: string }
-): number => a.name.localeCompare(b.name);
 
 async function retrieveChildProps(
   baseProductSlug: string,
@@ -228,7 +226,7 @@ async function retrieveChildProps(
       main_image: getProductMainImage(childProductResource),
       otherImages: getProductOtherImageUrls(childProductResource),
       skuLookUp: getSkuVariationLookup(variation_matrix, variations),
-      variations: variations.sort(sortProductVariationsAlphabetically),
+      variations: variations.sort(sortAlphabetically),
     },
   };
 }
@@ -256,24 +254,7 @@ async function retrieveBaseProps(
       main_image: getProductMainImage(baseProductResource),
       otherImages: getProductOtherImageUrls(baseProductResource),
       skuLookUp: getSkuVariationLookup(variation_matrix, variations),
-      variations: variations.sort(sortProductVariationsAlphabetically),
-    },
-  };
-}
-
-/**
- * All value of a differing values of b
- * e.g. a = { value1: '123', value2: '456, value3: '789'} and b = { value1: '367', value2: '423, value4: '891'}
- * output = { value1: '123', value2: '456, value3: '789', value4: '891'}
- * @param a
- * @param b
- */
-function mergeMeta(a: ProductResponse, b: ProductResponse): ProductResponse {
-  return {
-    ...a,
-    meta: {
-      ...b.meta,
-      ...a,
+      variations: variations.sort(sortAlphabetically),
     },
   };
 }
@@ -285,14 +266,11 @@ export const getStaticPaths: GetStaticPaths<SkuRouteParams> = async () => {
   //  - should only the most popular.
   //  - option for static generation delayed until first time it's hit
   const products = await getAllProducts();
-  const paths = products.data.map((x): { params: SkuRouteParams } => {
+  const paths = products.map((x): { params: SkuRouteParams } => {
     if (isChildProductResource(x)) {
       return {
         params: {
-          baseProductSlug: findBaseProductSlug(
-            x,
-            filterBaseProducts(products.data)
-          ),
+          baseProductSlug: findBaseProductSlug(x, filterBaseProducts(products)),
           sku: x.attributes.sku,
         },
       };
@@ -310,39 +288,5 @@ export const getStaticPaths: GetStaticPaths<SkuRouteParams> = async () => {
     fallback: false,
   };
 };
-
-type IdentifiableBaseProduct = ProductResponse & {
-  id: string;
-  attributes: { slug: string; sku: string; base_product: true };
-};
-
-type IdentifiableChildProduct = ProductResponse & {
-  id: string;
-  attributes: { base_product: false; base_product_id: string };
-};
-
-type Sku = string;
-type Slug = string;
-
-const filterBaseProducts = (
-  products: ProductResponse[]
-): IdentifiableBaseProduct[] =>
-  products.filter(
-    (product): product is IdentifiableBaseProduct =>
-      product.attributes.base_product
-  );
-
-function findBaseProductSlug(
-  product: ProductResponse,
-  baseProducts: IdentifiableBaseProduct[]
-): Slug {
-  const result = baseProducts.find(
-    (baseProduct) => baseProduct.id === product.attributes.base_product_id
-  );
-  if (!result) {
-    throw new Error("Failed to find base product slug.");
-  }
-  return result.attributes.slug;
-}
 
 export default Sku;
