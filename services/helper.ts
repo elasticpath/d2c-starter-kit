@@ -68,17 +68,16 @@ export const getOptionsFromSkuId = (
   return acc;
 };
 
-// TODO clean up
+// TODO refactor
 export const mapOptionsToVariation = (
   options: string[],
   variations: Variation[]
 ): OptionDict => {
   return variations.reduce((acc: OptionDict, variation: Variation) => {
-    const temp = variation.options.find((varOption) =>
+    const x = variation.options.find((varOption) =>
       options.some((selectedOption) => varOption.id === selectedOption)
     )?.id;
-    const tem2 = { ...acc, [variation.id]: temp ? temp : "" };
-    return tem2;
+    return { ...acc, [variation.id]: x ? x : "" };
   }, {});
 };
 
