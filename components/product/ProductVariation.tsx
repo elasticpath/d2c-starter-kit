@@ -1,4 +1,10 @@
-import { Button, Flex, Grid } from "@chakra-ui/react";
+import {
+  Button,
+  ButtonProps,
+  Flex,
+  Grid,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 interface ProductVariationOption {
   id: string;
@@ -25,6 +31,16 @@ const ProductVariation = ({
   selectedOptionId,
   updateOptionHandler,
 }: IProductVariation): JSX.Element => {
+  const buttonHighlightStyle: ButtonProps = {
+    bgColor: useColorModeValue("blue.900", "blue.50"),
+    color: useColorModeValue("white", "gray.900"),
+  };
+
+  const buttonStandardStyle: ButtonProps = {
+    bgColor: useColorModeValue("white", "blue.900"),
+    color: useColorModeValue("gray.900", "white"),
+  };
+
   return (
     <Grid>
       <h2>{variation.name}</h2>
@@ -32,8 +48,9 @@ const ProductVariation = ({
         {variation.options.map((o) => (
           <Button
             key={o.id}
-            boxShadow={o.id === selectedOptionId ? "1px 2px #8f8f8f" : ""}
-            bgColor="white"
+            {...(o.id === selectedOptionId
+              ? buttonHighlightStyle
+              : buttonStandardStyle)}
             border={"1px solid"}
             borderColor="gray.200"
             onClick={() => updateOptionHandler(variation.id)(o.id)}
