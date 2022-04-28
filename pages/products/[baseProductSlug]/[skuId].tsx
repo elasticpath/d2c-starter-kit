@@ -28,7 +28,7 @@ import {
   getProductOtherImageUrls,
   productContext,
 } from "../../../lib/product-util";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { sortAlphabetically } from "../../../lib/shared-util";
 import type {
   IBaseProductSku,
@@ -127,7 +127,7 @@ export const getStaticProps: GetStaticProps<ISku, SkuRouteParams> = async ({
   //  set to 5 miuntes (300 seconds) arbitrarily
   return {
     ...retrievedResults,
-    revalidate: 300,
+    // revalidate: 300,
   };
 };
 
