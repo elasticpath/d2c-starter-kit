@@ -236,7 +236,7 @@ export const getStaticPaths: GetStaticPaths<SkuRouteParams> = async () => {
 
   return {
     paths,
-    fallback: "blocking",
+    fallback: false,
   };
 };
 
