@@ -1,6 +1,5 @@
 import { Stack, SimpleGrid } from "@chakra-ui/react";
-import type { File, ProductResponse, Variation } from "@moltin/sdk";
-import { VariationSkuLookup } from "../../services/helper";
+import type { IChildSku } from "../../lib/product-types";
 import CartActions from "./CartActions";
 import ProductCarousel from "./ProductCarousel";
 import ProductDetails from "./ProductDetails";
@@ -8,25 +7,20 @@ import ProductSummary from "./ProductSummary";
 import ProductVariations from "./ProductVariations";
 
 interface IChildProductDetail {
-  product: ProductResponse;
-  baseProduct: ProductResponse;
-  main_image: File | null;
-  otherImages: File[];
-  optionLookupObj: { [key: string]: string };
-  skuLookup: VariationSkuLookup;
+  childSku: IChildSku;
   handleAddToCart: () => void;
-  variations: Variation[];
 }
 
 const ChildProductDetail = ({
-  product,
-  main_image,
-  otherImages,
+  childSku: {
+    product,
+    main_image,
+    otherImages,
+    baseProduct,
+    variations,
+    variationsMatrix,
+  },
   handleAddToCart,
-  optionLookupObj,
-  baseProduct,
-  skuLookup,
-  variations,
 }: IChildProductDetail): JSX.Element => {
   return (
     <SimpleGrid
@@ -43,8 +37,7 @@ const ChildProductDetail = ({
         {variations && (
           <ProductVariations
             variations={variations}
-            optionLookupDict={optionLookupObj}
-            skuLookup={skuLookup}
+            variationsMatrix={variationsMatrix}
             baseProductSlug={baseProduct.attributes.slug}
             currentSkuId={product.id}
           />

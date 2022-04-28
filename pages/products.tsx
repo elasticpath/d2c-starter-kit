@@ -17,7 +17,7 @@ export const Products: NextPage<IProducts> = ({ products }) => {
           return (
             <Link
               key={product.id}
-              href={`/products/${product.attributes.slug}/${product.attributes.sku}`}
+              href={`/products/${product.attributes.slug}/${product.id}`}
               passHref
             >
               <GridItem cursor="pointer">

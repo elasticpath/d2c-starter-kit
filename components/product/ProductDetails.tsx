@@ -7,8 +7,7 @@ import {
 } from "@chakra-ui/react";
 import type { ProductResponse } from "@moltin/sdk";
 import { useContext } from "react";
-import { changingSkuStyle } from "../../lib/product-util";
-import { productContext } from "../../pages/products/[baseProductSlug]/[sku]";
+import { changingSkuStyle, productContext } from "../../lib/product-util";
 
 interface IProductDetails {
   product: ProductResponse;

@@ -1,21 +1,17 @@
 import { Stack, SimpleGrid } from "@chakra-ui/react";
-import type { File, ProductResponse } from "@moltin/sdk";
+import { ISimpleSku } from "../../lib/product-types";
 import CartActions from "./CartActions";
 import ProductCarousel from "./ProductCarousel";
 import ProductDetails from "./ProductDetails";
 import ProductSummary from "./ProductSummary";
 
 interface ISimpleProductDetail {
-  product: ProductResponse;
-  main_image: File | null;
-  otherImages: File[];
+  simpleSku: ISimpleSku;
   handleAddToCart: () => void;
 }
 
 const SimpleProductDetail = ({
-  product,
-  main_image,
-  otherImages,
+  simpleSku: { product, main_image, otherImages },
   handleAddToCart,
 }: ISimpleProductDetail): JSX.Element => {
   return (

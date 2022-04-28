@@ -1,5 +1,5 @@
 import { Container } from "@chakra-ui/react";
-import type { ProductResponse, File, Resource, Variation } from "@moltin/sdk";
+import type { ProductResponse, Resource } from "@moltin/sdk";
 import type {
   GetStaticPaths,
   GetStaticProps,
@@ -12,14 +12,12 @@ import BaseProductDetail from "../../../components/product/BaseProduct";
 import { useCartData } from "../../../context/state";
 import { addToCart } from "../../../services/cart";
 import {
-  VariationSkuLookup,
-  getSkuVariationLookup,
   isChildProductResource,
   isSimpleProductResource,
 } from "../../../services/helper";
 import {
   getAllProducts,
-  getProductBySku,
+  getProductById,
   getProductBySlug,
 } from "../../../services/products";
 import SimpleProductDetail from "../../../components/product/SimpleProduct";
@@ -29,47 +27,16 @@ import {
   getProductMainImage,
   getProductOtherImageUrls,
   mergeMeta,
+  productContext,
 } from "../../../lib/product-util";
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { useEffect, useState } from "react";
 import { sortAlphabetically } from "../../../lib/shared-util";
-
-interface IBaseSku {
-  product: ProductResponse;
-  main_image: File | null;
-  otherImages: File[];
-}
-
-interface IBaseProductSku extends IBaseSku {
-  kind: "base-product";
-  variations: Variation[];
-  skuLookUp: VariationSkuLookup;
-}
-
-interface IChildSku extends IBaseSku {
-  kind: "child-product";
-  baseProduct: ProductResponse;
-  skuLookUp: VariationSkuLookup;
-  variations: Variation[];
-}
-
-interface ISimpleSku extends IBaseSku {
-  kind: "simple-product";
-}
-
-type ISku = IBaseProductSku | IChildSku | ISimpleSku;
-
-interface ProductContext {
-  isChangingSku: boolean;
-  setIsChangingSku: Dispatch<SetStateAction<boolean>>;
-}
-
-export const productContext = createContext<ProductContext | null>(null);
+import type {
+  IBaseProductSku,
+  IChildSku,
+  ISimpleSku,
+  ISku,
+} from "../../../lib/product-types";
 
 export const Sku: NextPage<ISku> = (props: ISku) => {
   const { updateCartItems, setCartQuantity } = useCartData();
@@ -86,10 +53,6 @@ export const Sku: NextPage<ISku> = (props: ISku) => {
       })
       .finally(() => {});
   };
-
-  useEffect(() => {
-    console.log("isChangingSku: ", isChangingSku);
-  }, [isChangingSku]);
 
   return (
     <Container maxW={"7xl"} key={"page_" + props.product.id}>
@@ -109,38 +72,22 @@ function resolveProductDetailComponent(
   props: ISku,
   handleAddToCart: () => void
 ): JSX.Element {
-  const { product, main_image, otherImages } = props;
   switch (props.kind) {
     case "base-product":
       return (
-        <BaseProductDetail
-          product={product}
-          main_image={main_image}
-          otherImages={otherImages}
-          handleAddToCart={handleAddToCart}
-          skuLookup={props.skuLookUp}
-          variations={props.variations}
-        />
+        <BaseProductDetail baseSku={props} handleAddToCart={handleAddToCart} />
       );
     case "child-product":
       return (
         <ChildProductDetail
-          product={product}
-          baseProduct={props.baseProduct}
-          main_image={main_image}
-          otherImages={otherImages}
+          childSku={props}
           handleAddToCart={handleAddToCart}
-          optionLookupObj={props.skuLookUp[props.product.id]}
-          skuLookup={props.skuLookUp}
-          variations={props.variations}
         />
       );
     case "simple-product":
       return (
         <SimpleProductDetail
-          product={product}
-          main_image={main_image}
-          otherImages={otherImages}
+          simpleSku={props}
           handleAddToCart={handleAddToCart}
         />
       );
@@ -149,7 +96,7 @@ function resolveProductDetailComponent(
 
 interface SkuRouteParams extends ParsedUrlQuery {
   baseProductSlug: string;
-  sku: string;
+  skuId: string;
 }
 
 export const getStaticProps: GetStaticProps<ISku, SkuRouteParams> = async ({
@@ -162,7 +109,7 @@ export const getStaticProps: GetStaticProps<ISku, SkuRouteParams> = async ({
   }
   // alternative use params!.productId; instead of if check
   // non-null assertion operator https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#non-null-assertion-operator
-  const product = await getProductBySku(params.sku);
+  const product = await getProductById(params.skuId);
   // TODO should getProductBySku return undefined or a more understandable error response
   if (!product) {
     return {
@@ -192,6 +139,7 @@ const retrieveSimpleProps = (
     props: {
       kind: "simple-product",
       product: productResource.data,
+
       main_image: getProductMainImage(productResource),
       otherImages: getProductOtherImageUrls(productResource),
     },
@@ -202,10 +150,11 @@ async function retrieveChildProps(
   baseProductSlug: string,
   childProductResource: Resource<ProductResponse>
 ): Promise<GetStaticPropsResult<IChildSku>> {
-  const baseProduct = await getProductBySlug(baseProductSlug);
-  if (!baseProduct) {
+  const baseProductId = childProductResource.data.attributes.base_product_id;
+  const baseProduct = await getProductById(baseProductId);
+  if (!baseProduct || baseProduct.data.attributes.slug !== baseProductSlug) {
     throw Error(
-      `Unable to retrieve child props, failed to get the base product for ${baseProductSlug}`
+      `Unable to retrieve child props, failed to get the base product for ${baseProductId} or the slug does not match`
     );
   }
   const {
@@ -222,6 +171,7 @@ async function retrieveChildProps(
 
   // Merging the child products meta data onto the base product
   // overriding everything that matters but still keeping variations and variation_matrix
+  // TODO don't think I need this any longer!
   const mergedProduct = mergeMeta(childProductResource.data, baseProduct.data);
 
   return {
@@ -231,7 +181,7 @@ async function retrieveChildProps(
       baseProduct: baseProduct.data,
       main_image: getProductMainImage(childProductResource),
       otherImages: getProductOtherImageUrls(childProductResource),
-      skuLookUp: getSkuVariationLookup(variation_matrix, variations),
+      variationsMatrix: variation_matrix,
       variations: variations.sort(sortAlphabetically),
     },
   };
@@ -259,36 +209,37 @@ async function retrieveBaseProps(
       product: baseProductResource.data,
       main_image: getProductMainImage(baseProductResource),
       otherImages: getProductOtherImageUrls(baseProductResource),
-      skuLookUp: getSkuVariationLookup(variation_matrix, variations),
+      variationsMatrix: variation_matrix,
       variations: variations.sort(sortAlphabetically),
     },
   };
 }
 
 export const getStaticPaths: GetStaticPaths<SkuRouteParams> = async () => {
-  // TODO this is only handling the first page of data response
-  //  need to think of the best way to handle thousands of products
+  //  TODO need to think of the best way to handle thousands of products
   //  - should they all be generated at once
   //  - should only the most popular.
-  //  - option for static generation delayed until first time it's hit
-  const products = await getAllProducts();
-  const paths = products.map((x): { params: SkuRouteParams } => {
-    if (isChildProductResource(x)) {
+  const productResponses = await getAllProducts();
+  const paths = productResponses.map((resp): { params: SkuRouteParams } => {
+    if (isChildProductResource(resp)) {
       return {
         params: {
-          baseProductSlug: findBaseProductSlug(x, filterBaseProducts(products)),
-          sku: x.attributes.sku,
+          baseProductSlug: findBaseProductSlug(
+            resp,
+            filterBaseProducts(productResponses)
+          ),
+          skuId: resp.id,
         },
       };
     }
     return {
       params: {
-        baseProductSlug: x.attributes.slug,
-        sku: x.attributes.sku,
+        baseProductSlug: resp.attributes.slug,
+        skuId: resp.id,
       },
     };
   });
-  console.log("paths: ", paths);
+
   return {
     paths,
     fallback: "blocking",

@@ -1,6 +1,11 @@
 import { HTMLChakraProps } from "@chakra-ui/react";
-import type { File, ProductResponse, Resource } from "@moltin/sdk";
-import type { IdentifiableBaseProduct } from "./types";
+import type { File, ProductResponse, Resource, Variation } from "@moltin/sdk";
+import { createContext } from "react";
+import type {
+  IdentifiableBaseProduct,
+  OptionDict,
+  ProductContext,
+} from "./product-types";
 
 export function processImageFiles(files: File[], mainImageId?: string) {
   // filters out main image and keeps server order
@@ -73,8 +78,18 @@ export function findBaseProductSlug(
   const result = baseProducts.find(
     (baseProduct) => baseProduct.id === product.attributes.base_product_id
   );
+  console.log(
+    "findBaseProductSlug: ",
+    product.attributes.base_product_id,
+    result?.id
+  );
   if (!result) {
     throw new Error("Failed to find base product slug.");
   }
   return result.attributes.slug;
 }
+
+export const createEmptyOptionDict = (variations: Variation[]): OptionDict =>
+  variations.reduce((acc, c) => ({ ...acc, [c.id]: undefined }), {});
+
+export const productContext = createContext<ProductContext | null>(null);

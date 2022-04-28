@@ -3,77 +3,62 @@ import type { Variation } from "@moltin/sdk";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { useEffect, useState } from "react";
-import { productContext } from "../../pages/products/[baseProductSlug]/[sku]";
-import { getSkuFromOptions, VariationSkuLookup } from "../../services/helper";
-import { getProductById } from "../../services/products";
+import { OptionDict } from "../../lib/product-types";
+import { createEmptyOptionDict, productContext } from "../../lib/product-util";
+import {
+  allVariationsHaveSelectedOption,
+  getOptionsFromSkuId,
+  getSkuIdFromOptions,
+  mapOptionsToVariation,
+  MatrixObjectEntry,
+} from "../../services/helper";
 import ProductVariation, { UpdateOptionHandler } from "./ProductVariation";
 
 interface IProductVariations {
   variations: Variation[];
-  skuLookup: VariationSkuLookup;
+  variationsMatrix: MatrixObjectEntry;
   baseProductSlug: string;
   currentSkuId: string;
-  optionLookupDict?: { [key: string]: string };
+  skuOptions?: string[];
 }
 
 const getSelectedOption = (
   variationId: string,
-  optionLookupObj: { [key: string]: string }
+  optionLookupObj: OptionDict
 ): string => {
   return optionLookupObj[variationId];
 };
 
 const ProductVariations = ({
   variations,
-  optionLookupDict,
-  skuLookup,
   baseProductSlug,
   currentSkuId,
+  variationsMatrix,
 }: IProductVariations): JSX.Element => {
-  const [selectedOptions, setSelectedOptions] = useState<{
-    [key: string]: string;
-  }>(optionLookupDict ? optionLookupDict : getDefaultEmptyOptions());
-  const [routing, setRouting] = useState(false);
+  const currentSkuOptions = getOptionsFromSkuId(currentSkuId, variationsMatrix);
+  const initialOptions = currentSkuOptions
+    ? mapOptionsToVariation(currentSkuOptions, variations)
+    : createEmptyOptionDict(variations);
+
   const context = useContext(productContext);
-
-  // TODO broken, need to decide how to handle when the product has no options set.
-  function getDefaultEmptyOptions(): { [key: string]: string } {
-    return variations.reduce((acc, variation) => {
-      return {
-        ...acc,
-        [variation.id]: undefined,
-      };
-    }, {});
-  }
-
-  function allVariationsHaveSelectedOption(optionsDict: {
-    [key: string]: string;
-  }): boolean {
-    return !Object.entries(optionsDict).some(([_key, val]) => !val);
-  }
-
+  const [selectedOptions, setSelectedOptions] =
+    useState<OptionDict>(initialOptions);
   const router = useRouter();
 
   useEffect(() => {
-    const selectedSkuId = getSkuFromOptions(skuLookup, selectedOptions);
-    console.log("test: ", selectedOptions);
+    const selectedSkuId = getSkuIdFromOptions(
+      Object.values(selectedOptions),
+      variationsMatrix
+    );
+
     if (
       selectedSkuId &&
       selectedSkuId !== currentSkuId &&
-      allVariationsHaveSelectedOption(selectedOptions)
+      allVariationsHaveSelectedOption(selectedOptions, variations)
     ) {
-      getProductById(selectedSkuId).then((productResp) => {
-        console.log("this will trigger a route");
-        context?.setIsChangingSku(true);
-        router
-          .push(
-            `/products/${baseProductSlug}/${productResp.data.attributes.sku}`
-          )
-          .then(() => {
-            setRouting(false);
-            context?.setIsChangingSku(false);
-            console.log("done routing");
-          });
+      context?.setIsChangingSku(true);
+      router.push(`/products/${baseProductSlug}/${selectedSkuId}`).then(() => {
+        context?.setIsChangingSku(false);
       });
     }
   }, [selectedOptions]);
@@ -81,8 +66,7 @@ const ProductVariations = ({
   const updateOptionHandler: UpdateOptionHandler =
     (variationId) =>
     (optionId): void => {
-      for (const selectedOptionKey of Object.keys(selectedOptions)) {
-        console.log("testing: ", variationId, optionId, selectedOptionKey);
+      for (const selectedOptionKey in selectedOptions) {
         if (selectedOptionKey === variationId) {
           setSelectedOptions({
             ...selectedOptions,
@@ -92,8 +76,9 @@ const ProductVariations = ({
         }
       }
     };
+
   return (
-    <Stack opacity={routing ? "50" : "100"}>
+    <Stack opacity={context?.setIsChangingSku ? "50" : "100"}>
       {variations.map((v) => (
         <ProductVariation
           key={v.id}

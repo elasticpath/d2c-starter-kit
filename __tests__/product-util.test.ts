@@ -1,5 +1,6 @@
-import type { File, ProductResponse, Resource } from "@moltin/sdk";
+import type { File, ProductResponse, Resource, Variation } from "@moltin/sdk";
 import {
+  createEmptyOptionDict,
   getProductMainImage,
   getProductOtherImageUrls,
   mergeMeta,
@@ -261,6 +262,56 @@ describe("product util", () => {
           variations: [],
         },
       });
+    });
+
+    it("createEmptyOptionDict should return an OptionDict with all with variation keys assigned undefined values", () => {
+      const variations: Partial<Variation>[] = [
+        {
+          id: "variation-1",
+          name: "Generic Sizes",
+          options: [
+            {
+              id: "option-1",
+              description: "Small size",
+              name: "SM",
+              modifiers: [],
+            },
+            {
+              id: "option-2",
+              description: "Medium size",
+              name: "MD",
+              modifiers: [],
+            },
+          ],
+        },
+        {
+          id: "variation-2",
+          name: "Simple T-Shirt Sleeve Length",
+          options: [
+            {
+              id: "option-3",
+              description: "Simple T-Shirt with short sleeves",
+              name: "Short",
+              modifiers: [],
+            },
+            {
+              id: "option-4",
+              description: "Simple T-Shirt with long sleeves",
+              name: "Long",
+              modifiers: [],
+            },
+          ],
+        },
+      ];
+
+      const optionDict = {
+        "variation-1": undefined,
+        "variation-2": undefined,
+      };
+
+      expect(createEmptyOptionDict(variations as Variation[])).toEqual(
+        optionDict
+      );
     });
   });
 });
