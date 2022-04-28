@@ -42,7 +42,6 @@ const ProductCarousel = ({
   const [selectedProductImage, setSelectedProductImage] = useState(
     completeImages[0]
   );
-  console.log("selected image: ", selectedProductImage);
 
   useEffect(() => {
     console.log("selected product image: ", selectedProductImage);
