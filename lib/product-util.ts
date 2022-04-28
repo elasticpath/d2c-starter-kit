@@ -43,26 +43,6 @@ export const changingSkuStyle: HTMLChakraProps<"div"> = {
   cursor: "default",
 };
 
-/**
- * All value of a differing values of b
- * e.g. a = { value1: '123', value2: '456, value3: '789'} and b = { value1: '367', value2: '423, value4: '891'}
- * output = { value1: '123', value2: '456, value3: '789', value4: '891'}
- * @param a
- * @param b
- */
-export function mergeMeta(
-  a: ProductResponse,
-  b: ProductResponse
-): ProductResponse {
-  return {
-    ...a,
-    meta: {
-      ...b.meta,
-      ...a.meta,
-    },
-  };
-}
-
 export const filterBaseProducts = (
   products: ProductResponse[]
 ): IdentifiableBaseProduct[] =>

@@ -26,7 +26,6 @@ import {
   findBaseProductSlug,
   getProductMainImage,
   getProductOtherImageUrls,
-  mergeMeta,
   productContext,
 } from "../../../lib/product-util";
 import { useEffect, useState } from "react";
@@ -169,15 +168,10 @@ async function retrieveChildProps(
     );
   }
 
-  // Merging the child products meta data onto the base product
-  // overriding everything that matters but still keeping variations and variation_matrix
-  // TODO don't think I need this any longer!
-  const mergedProduct = mergeMeta(childProductResource.data, baseProduct.data);
-
   return {
     props: {
       kind: "child-product",
-      product: mergedProduct,
+      product: childProductResource.data,
       baseProduct: baseProduct.data,
       main_image: getProductMainImage(childProductResource),
       otherImages: getProductOtherImageUrls(childProductResource),
