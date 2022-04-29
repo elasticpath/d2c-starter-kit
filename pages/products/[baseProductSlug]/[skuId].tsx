@@ -15,11 +15,7 @@ import {
   isChildProductResource,
   isSimpleProductResource,
 } from "../../../services/helper";
-import {
-  getAllProducts,
-  getProductById,
-  getProductBySlug,
-} from "../../../services/products";
+import { getAllProducts, getProductById } from "../../../services/products";
 import SimpleProductDetail from "../../../components/product/SimpleProduct";
 import {
   filterBaseProducts,
