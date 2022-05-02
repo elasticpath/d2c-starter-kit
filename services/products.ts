@@ -1,4 +1,5 @@
 import type { ProductResponse, Resource, ResourcePage } from "@moltin/sdk";
+import { excludeChildProducts } from "../lib/product-util";
 import { EPCCAPI, wait300 } from "./helper";
 
 export async function getProductById(
@@ -60,15 +61,15 @@ const _getAllPages =
       },
       data: newData,
     } = requestResp;
-    if (offset < total) {
+
+    const updatedOffset = offset + newPage.total;
+    const combinedData = [...accdata, ...newData];
+    if (updatedOffset < total) {
       return wait300.then(() =>
-        _getAllPages(nextPageRequestFn)(offset + newPage.total, limit, [
-          ...accdata,
-          ...newData,
-        ])
+        _getAllPages(nextPageRequestFn)(updatedOffset, limit, combinedData)
       );
     }
-    return Promise.resolve(accdata);
+    return Promise.resolve(combinedData);
   };
 
 const _getNextPage =
@@ -98,13 +99,9 @@ const _getAllProductPages = _getAllPages(
 );
 
 export async function getAllBaseProducts(): Promise<ProductResponse[]> {
-  // Using base_product_id to filter because only child products seem to have this property.
-  // None child products such as a simple product without variations also have base_product=false
-  // so this property can't be used to filter.
-  const allProducts = await _getAllProductPages();
-  console.log(
-    "all products being returned from _getAllProductPages: ",
-    allProducts.map((x) => x.id)
-  );
-  return allProducts.filter((prod) => !prod.attributes.base_product_id);
+  // TODO issue: https://gitlab.elasticpath.com/commerce-cloud/ncl-projects/catalog-view.svc/-/issues/193
+  //  Set a 100 limit to avoid the above pagination issue. If products in d2c store
+  //  instance exced 100 the bug will surface.
+  const allProducts = await _getAllProductPages(0, 100);
+  return excludeChildProducts(allProducts);
 }
