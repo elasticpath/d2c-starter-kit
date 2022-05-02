@@ -1,4 +1,4 @@
-import { getAllBaseProducts } from "../services/products";
+import { getAllBaseProducts } from "../../services/products";
 import { Heading, Grid, GridItem, Box, Divider, Badge } from "@chakra-ui/react";
 import type { ProductResponse } from "@moltin/sdk";
 import type { GetStaticProps, NextPage } from "next";
@@ -59,10 +59,6 @@ export const Products: NextPage<IProducts> = ({ products }) => {
 
 export const getStaticProps: GetStaticProps<IProducts> = async () => {
   const products = await getAllBaseProducts();
-  console.log(
-    "base products being returned from getAllBaseProducts inside getStaticProps: ",
-    products.map((x) => x.id)
-  );
   return {
     props: {
       products,
