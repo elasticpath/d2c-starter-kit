@@ -123,7 +123,7 @@ export const getStaticProps: GetStaticProps<ISku, SkuRouteParams> = async ({
   //  set to 5 miuntes (300 seconds) arbitrarily
   return {
     ...retrievedResults,
-    revalidate: 300,
+    // revalidate: 300,
   };
 };
 
@@ -232,7 +232,7 @@ export const getStaticPaths: GetStaticPaths<SkuRouteParams> = async () => {
 
   return {
     paths,
-    fallback: "blocking",
+    fallback: false,
   };
 };
 
