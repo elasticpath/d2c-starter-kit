@@ -1,6 +1,8 @@
 import type { File, ProductResponse, Resource, Variation } from "@moltin/sdk";
 import {
   createEmptyOptionDict,
+  excludeChildProducts,
+  filterBaseProducts,
   getProductMainImage,
   getProductOtherImageUrls,
   processImageFiles,
@@ -240,6 +242,110 @@ describe("product util", () => {
 
       expect(createEmptyOptionDict(variations as Variation[])).toEqual(
         optionDict
+      );
+    });
+
+    it("filterBaseProducts should return only the base products from a list of ProductResponse", () => {
+      const products: any = [
+        {
+          id: "123",
+          attributes: {
+            base_product: false,
+            base_product_id: "789",
+          },
+          relationships: {
+            parent: {
+              data: {
+                id: "parent-id",
+                type: "product",
+              },
+            },
+          },
+        },
+        {
+          id: "456",
+          attributes: {
+            base_product: false,
+          },
+          relationships: {},
+        },
+        {
+          id: "789",
+          attributes: {
+            base_product: true,
+          },
+          relationships: {},
+        },
+      ];
+
+      const expected = [
+        {
+          id: "789",
+          attributes: {
+            base_product: true,
+          },
+          relationships: {},
+        },
+      ];
+      const actual = filterBaseProducts(products as ProductResponse[]);
+      console.log("actual : ", actual);
+      console.log("expected : ", expected);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it("excludeChildProducts should return only the products that are not child products", () => {
+      const products: any = [
+        {
+          id: "123",
+          attributes: {
+            base_product: false,
+            base_product_id: "789",
+          },
+          relationships: {
+            parent: {
+              data: {
+                id: "parent-id",
+                type: "product",
+              },
+            },
+          },
+        },
+        {
+          id: "456",
+          attributes: {
+            base_product: false,
+          },
+          relationships: {},
+        },
+        {
+          id: "789",
+          attributes: {
+            base_product: true,
+          },
+          relationships: {},
+        },
+      ];
+
+      const expected = [
+        {
+          id: "456",
+          attributes: {
+            base_product: false,
+          },
+          relationships: {},
+        },
+        {
+          id: "789",
+          attributes: {
+            base_product: true,
+          },
+          relationships: {},
+        },
+      ];
+
+      expect(excludeChildProducts(products as ProductResponse[])).toEqual(
+        expected
       );
     });
   });

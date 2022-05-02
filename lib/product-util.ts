@@ -43,12 +43,23 @@ export const changingSkuStyle: HTMLChakraProps<"div"> = {
   cursor: "default",
 };
 
+// Using existance of parent relationship property to filter because only child products seem to have this property.
 export const filterBaseProducts = (
   products: ProductResponse[]
 ): IdentifiableBaseProduct[] =>
   products.filter(
-    (product): product is IdentifiableBaseProduct =>
+    (product: ProductResponse): product is IdentifiableBaseProduct =>
       product.attributes.base_product
+  );
+
+// Using existance of parent relationship property to filter because only child products seem to have this property.
+export const excludeChildProducts = (
+  products: ProductResponse[]
+): IdentifiableBaseProduct[] =>
+  products.filter(
+    (product: ProductResponse): product is IdentifiableBaseProduct =>
+      // @ts-ignore TODO need to add parent to the js-sdk
+      !product.relationships.parent
   );
 
 export function findBaseProductSlug(
@@ -57,11 +68,6 @@ export function findBaseProductSlug(
 ): string {
   const result = baseProducts.find(
     (baseProduct) => baseProduct.id === product.attributes.base_product_id
-  );
-  console.log(
-    "findBaseProductSlug: ",
-    product.attributes.base_product_id,
-    result?.id
   );
   if (!result) {
     throw new Error("Failed to find base product slug.");
