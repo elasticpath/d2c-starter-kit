@@ -24,8 +24,7 @@ const VerticalCarousel = ({
   const selectedStyle = styles["product-carousel-selected"];
   const baseStyle = styles["vertical-product-carousel-inner"];
 
-  const getControlsDisplay = () =>
-    images.length > visibleSlides ? "flex" : "none";
+  const controlsDisplay = images.length > visibleSlides ? "flex" : "none";
 
   return (
     <CarouselProvider
@@ -40,7 +39,7 @@ const VerticalCarousel = ({
     >
       <StyledButtonBack
         paddingBottom={"1rem"}
-        display={getControlsDisplay()}
+        display={controlsDisplay}
         justifyContent="center"
         py=".5rem"
         w="full"
@@ -87,7 +86,7 @@ const VerticalCarousel = ({
         ))}
       </Slider>
       <StyledButtonNext
-        display={getControlsDisplay()}
+        display={controlsDisplay}
         justifyContent="center"
         py=".5rem"
         w="full"
