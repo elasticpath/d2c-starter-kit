@@ -1,7 +1,7 @@
 import { Stack, SimpleGrid } from "@chakra-ui/react";
 import { IBaseProductSku } from "../../lib/product-types";
 import CartActions from "./CartActions";
-import ProductCarousel from "./ProductCarousel";
+import ProductCarousel from "./carousel/ProductCarousel";
 import ProductDetails from "./ProductDetails";
 import ProductSummary from "./ProductSummary";
 import ProductVariations from "./ProductVariations";
