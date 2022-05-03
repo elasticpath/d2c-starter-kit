@@ -6,7 +6,7 @@ import {
   getProductMainImage,
   getProductOtherImageUrls,
   processImageFiles,
-} from "../lib/product-util";
+} from "../src/lib/product-util";
 
 describe("product util", () => {
   describe("unit tests", () => {
@@ -288,9 +288,6 @@ describe("product util", () => {
         },
       ];
       const actual = filterBaseProducts(products as ProductResponse[]);
-      console.log("actual : ", actual);
-      console.log("expected : ", expected);
-
       expect(actual).toEqual(expected);
     });
 
