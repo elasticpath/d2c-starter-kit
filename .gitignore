@@ -37,3 +37,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# TODO ignoring for now but unsure of what's generating it.
+localStorage
