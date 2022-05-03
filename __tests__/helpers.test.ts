@@ -6,7 +6,7 @@ import {
   isChildProductResource,
   isSimpleProductResource,
   mapOptionsToVariation,
-} from "../services/helper";
+} from "../src/services/helper";
 
 describe("helpers", () => {
   describe("unit tests", () => {
