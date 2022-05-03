@@ -39,4 +39,4 @@ yarn-error.log*
 *.tsbuildinfo
 
 # TODO ignoring for now but unsure of what's generating it.
-localStorage
+/localStorage/
