@@ -6,6 +6,8 @@ import {
   StyledButtonBack,
   StyledButtonNext,
 } from "../../shared/carousel-wrapped";
+import LeftArrowIcon from "./icons/LeftArrowIcon";
+import RightArrowIcon from "./icons/RightArrowIcon";
 import styles from "./ProductCarousel.module.css";
 
 interface IHorizontalCarousel {
@@ -47,25 +49,7 @@ const HorizontalCarousel = ({
           display={controlsDisplaySettings}
           justifyContent={"center"}
         >
-          <svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 512 512"
-            aria-hidden="true"
-            focusable="false"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="48"
-              d="M328 112L184 256l144 144"
-            ></path>
-          </svg>
+          <LeftArrowIcon />
         </StyledButtonBack>
         <Slider>
           {images.map((imageFile, index) => (
@@ -93,25 +77,7 @@ const HorizontalCarousel = ({
           justifyContent="center"
           w="full"
         >
-          <svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 512 512"
-            aria-hidden="true"
-            focusable="false"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="48"
-              d="M184 112l144 144-144 144"
-            ></path>
-          </svg>
+          <RightArrowIcon />
         </StyledButtonNext>
       </Grid>
     </CarouselProvider>
