@@ -105,7 +105,7 @@ export const getStaticProps: GetStaticProps<ISku, SkuRouteParams> = async ({
   // alternative use params!.productId; instead of if check
   // non-null assertion operator https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#non-null-assertion-operator
   const product = await getProductById(params.skuId);
-  // TODO should getProductBySku return undefined or a more understandable error response
+  // TODO should getProductById return undefined or a more understandable error response
   if (!product) {
     return {
       notFound: true,
