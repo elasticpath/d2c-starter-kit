@@ -14,3 +14,8 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.carousel__slide-focus-ring {
+  display: none !important;
+  outline-width: 0 !important;
+}

@@ -1,11 +1,11 @@
-import { getAllProducts } from "../services/products";
+import { getAllBaseProducts } from "../../services/products";
 import { Heading, Grid, GridItem, Box, Divider, Badge } from "@chakra-ui/react";
-import type { ResourceList, ProductResponse } from "@moltin/sdk";
+import type { ProductResponse } from "@moltin/sdk";
 import type { GetStaticProps, NextPage } from "next";
 import Link from "next/link";
 
 interface IProducts {
-  products: ResourceList<ProductResponse>;
+  products: ProductResponse[];
 }
 
 export const Products: NextPage<IProducts> = ({ products }) => {
@@ -13,9 +13,13 @@ export const Products: NextPage<IProducts> = ({ products }) => {
     <div>
       <Heading p="6">All Products</Heading>
       <Grid templateColumns="repeat(5, 1fr)" gap={6} p="6">
-        {products.data.map((product) => {
+        {products.map((product) => {
           return (
-            <Link key={product.id} href={`/products/${product.id}`} passHref>
+            <Link
+              key={product.id}
+              href={`/products/${product.attributes.slug}/${product.id}`}
+              passHref
+            >
               <GridItem cursor="pointer">
                 <Box
                   key={product.id}
@@ -54,7 +58,7 @@ export const Products: NextPage<IProducts> = ({ products }) => {
 };
 
 export const getStaticProps: GetStaticProps<IProducts> = async () => {
-  const products = await getAllProducts();
+  const products = await getAllBaseProducts();
   return {
     props: {
       products,
