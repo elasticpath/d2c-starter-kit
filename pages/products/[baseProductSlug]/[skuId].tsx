@@ -38,12 +38,9 @@ export const Sku: NextPage<ISku> = (props: ISku) => {
   const [isChangingSku, setIsChangingSku] = useState(false);
 
   const handleAddToCart = () => {
-    // TODO const mcart = localStorage.getItem("mcart") || "";
     return addToCart(props.product.id, 1)
       .then(() => {
         updateCartItems();
-
-        // updateCartData();
         setCartQuantity(1);
       })
       .finally(() => {});
