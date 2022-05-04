@@ -1,5 +1,10 @@
 import { HTMLChakraProps } from "@chakra-ui/react";
-import type { File, ProductResponse, Resource, Variation } from "@moltin/sdk";
+import type {
+  File,
+  ProductResponse,
+  CatalogResource,
+  CatalogsProductVariation,
+} from "@moltin/sdk";
 import { createContext } from "react";
 import type {
   IdentifiableBaseProduct,
@@ -24,7 +29,7 @@ export function processImageFiles(files: File[], mainImageId?: string) {
 }
 
 export function getProductOtherImageUrls(
-  productResp: Resource<ProductResponse>
+  productResp: CatalogResource<ProductResponse>
 ): File[] {
   const files = productResp?.included?.files;
   return files
@@ -33,7 +38,7 @@ export function getProductOtherImageUrls(
 }
 
 export function getProductMainImage(
-  productResp: Resource<ProductResponse>
+  productResp: CatalogResource<ProductResponse>
 ): File | null {
   return productResp?.included?.main_images?.[0] || null;
 }
@@ -58,7 +63,6 @@ export const excludeChildProducts = (
 ): IdentifiableBaseProduct[] =>
   products.filter(
     (product: ProductResponse): product is IdentifiableBaseProduct =>
-      // @ts-ignore TODO need to add parent to the js-sdk
       !product.relationships.parent
   );
 
@@ -75,7 +79,9 @@ export function findBaseProductSlug(
   return result.attributes.slug;
 }
 
-export const createEmptyOptionDict = (variations: Variation[]): OptionDict =>
+export const createEmptyOptionDict = (
+  variations: CatalogsProductVariation[]
+): OptionDict =>
   variations.reduce((acc, c) => ({ ...acc, [c.id]: undefined }), {});
 
 export const productContext = createContext<ProductContext | null>(null);

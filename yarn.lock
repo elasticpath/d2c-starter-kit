@@ -2235,10 +2235,10 @@
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.22.tgz#219dfd89ae5b97a8801f015323ffa4b62f45718b"
   integrity sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==
 
-"@moltin/sdk@^11.13.4":
-  version "11.13.4"
-  resolved "https://registry.yarnpkg.com/@moltin/sdk/-/sdk-11.13.4.tgz#9733bec90159019f22880547284eb764a94d85a2"
-  integrity sha512-7+0V5C5089nroDCqPIM0R6c0Cxogc7oeAz2GuelrRdjl13BQju+4dwNaTFQ6YDg2/zV5HZ1TSsJABayBkVFT+w==
+"@moltin/sdk@^11.15.0":
+  version "11.15.0"
+  resolved "https://registry.yarnpkg.com/@moltin/sdk/-/sdk-11.15.0.tgz#d77f303254d8e055151877418c3640a1ff73787c"
+  integrity sha512-D59FSM6GKoMpvrExM7/0oZqFmuJVAtgLxbUiVnNtcXyYSnfjPW/u1hWSCk4an+ECfaH3HFFHOX6e7gHpXugoXg==
   dependencies:
     es6-promise "^4.0.5"
     form-data "^4.0.0"

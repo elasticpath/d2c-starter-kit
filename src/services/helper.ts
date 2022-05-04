@@ -1,7 +1,7 @@
 import {
   gateway as EPCCGateway,
   ProductResponse,
-  Variation,
+  CatalogsProductVariation,
 } from "@moltin/sdk";
 import { OptionDict } from "../lib/product-types";
 import { config } from "./config";
@@ -71,19 +71,22 @@ export const getOptionsFromSkuId = (
 // TODO refactor
 export const mapOptionsToVariation = (
   options: string[],
-  variations: Variation[]
+  variations: CatalogsProductVariation[]
 ): OptionDict => {
-  return variations.reduce((acc: OptionDict, variation: Variation) => {
-    const x = variation.options.find((varOption) =>
-      options.some((selectedOption) => varOption.id === selectedOption)
-    )?.id;
-    return { ...acc, [variation.id]: x ? x : "" };
-  }, {});
+  return variations.reduce(
+    (acc: OptionDict, variation: CatalogsProductVariation) => {
+      const x = variation.options.find((varOption) =>
+        options.some((selectedOption) => varOption.id === selectedOption)
+      )?.id;
+      return { ...acc, [variation.id]: x ? x : "" };
+    },
+    {}
+  );
 };
 
 export function allVariationsHaveSelectedOption(
   optionsDict: OptionDict,
-  variations: Variation[]
+  variations: CatalogsProductVariation[]
 ): boolean {
   return !variations.some((variation) => !optionsDict[variation.id]);
 }

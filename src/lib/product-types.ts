@@ -1,4 +1,8 @@
-import type { ProductResponse, Variation, File } from "@moltin/sdk";
+import type {
+  ProductResponse,
+  CatalogsProductVariation,
+  File,
+} from "@moltin/sdk";
 import type { Dispatch, SetStateAction } from "react";
 import type { MatrixObjectEntry } from "../services/helper";
 
@@ -20,14 +24,14 @@ export interface IBaseSku {
 
 export interface IBaseProductSku extends IBaseSku {
   kind: "base-product";
-  variations: Variation[];
+  variations: CatalogsProductVariation[];
   variationsMatrix: MatrixObjectEntry;
 }
 
 export interface IChildSku extends IBaseSku {
   kind: "child-product";
   baseProduct: ProductResponse;
-  variations: Variation[];
+  variations: CatalogsProductVariation[];
   variationsMatrix: MatrixObjectEntry;
 }
 
