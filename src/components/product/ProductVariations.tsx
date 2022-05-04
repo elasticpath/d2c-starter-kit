@@ -1,5 +1,5 @@
 import { Stack } from "@chakra-ui/react";
-import type { Variation } from "@moltin/sdk";
+import type { CatalogsProductVariation } from "@moltin/sdk";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { useEffect, useState } from "react";
@@ -15,7 +15,7 @@ import {
 import ProductVariation, { UpdateOptionHandler } from "./ProductVariation";
 
 interface IProductVariations {
-  variations: Variation[];
+  variations: CatalogsProductVariation[];
   variationsMatrix: MatrixObjectEntry;
   baseProductSlug: string;
   currentSkuId: string;
