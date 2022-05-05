@@ -46,10 +46,19 @@ const ProductCarousel = ({
       </GridItem>
       <GridItem display={{ base: "block", md: "none" }}>
         <HorizontalCarousel
-          images={completeImages}
+          images={completeImages.map((item) => ({
+            src: item.link.href,
+            name: item.file_name,
+          }))}
           visibleSlides={5}
-          selectedProductImage={selectedProductImage}
-          setSelectedProductImage={setSelectedProductImage}
+          selectedImage={{
+            src: selectedProductImage.link.href,
+            name: selectedProductImage.file_name,
+          }}
+          setSelectedImage={({ src }) => {
+            const found = images.find((item) => item.link.href === src);
+            setSelectedProductImage(found!);
+          }}
         />
       </GridItem>
     </Grid>
