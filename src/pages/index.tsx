@@ -11,7 +11,7 @@ export interface IHome {
 
 const Home: NextPage<IHome> = ({ products }) => {
   return (
-    <chakra.main py="4rem">
+    <chakra.main py="16">
       <ProductShowcaseCarousel products={products} />
     </chakra.main>
   );
