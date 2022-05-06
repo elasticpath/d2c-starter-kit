@@ -8,6 +8,8 @@ import {
   StyledImage,
   StyledImageWithZoom,
 } from "../../shared/carousel-wrapped";
+import LeftArrowIcon from "./icons/LeftArrowIcon";
+import RightArrowIcon from "./icons/RightArrowIcon";
 
 interface IProductHighlightCarousel {
   images: File[];
@@ -61,25 +63,7 @@ const ProductHighlightCarousel = ({
           h={"2rem"}
           onClick={() => selectPrevImage(selectedImageIndex)}
         >
-          <svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 512 512"
-            aria-hidden="true"
-            focusable="false"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="48"
-              d="M328 112L184 256l144 144"
-            ></path>
-          </svg>
+          <LeftArrowIcon />
         </StyledButtonBack>
         <StyledButtonNext
           display={selectedImageIndex + 1 === images.length ? "none" : "flex"}
@@ -92,25 +76,7 @@ const ProductHighlightCarousel = ({
           marginLeft={"auto"}
           onClick={() => selectNextImage(selectedImageIndex)}
         >
-          <svg
-            stroke="currentColor"
-            fill="currentColor"
-            strokeWidth="0"
-            viewBox="0 0 512 512"
-            aria-hidden="true"
-            focusable="false"
-            height="1em"
-            width="1em"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="48"
-              d="M184 112l144 144-144 144"
-            ></path>
-          </svg>
+          <RightArrowIcon />
         </StyledButtonNext>
       </Box>
       <Slider>
