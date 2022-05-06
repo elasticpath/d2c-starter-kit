@@ -1,4 +1,3 @@
-import React from "react";
 import type { GetStaticProps, NextPage } from "next";
 import { CarouselProvider, Slide, Slider, Image } from "pure-react-carousel";
 import {
