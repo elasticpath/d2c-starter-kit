@@ -98,10 +98,10 @@ const ProductShowcaseCarousel = ({
                 justifyContent="center"
               >
                 <GridItem flex="1 1 0" display={{ base: "none", lg: "block" }}>
-                  <Text fontSize="18px" fontWeight="500">
+                  <Text fontSize="lg" fontWeight="medium">
                     {title}
                   </Text>
-                  <Text fontSize="16px" mt="20px">
+                  <Text fontSize="md" mt="5">
                     {subTitle}
                   </Text>
                   <Button
@@ -112,7 +112,7 @@ const ProductShowcaseCarousel = ({
                       boxShadow: "m",
                     }}
                     variant="solid"
-                    mt="20px"
+                    mt="5"
                   >
                     Show Now
                   </Button>
@@ -120,7 +120,7 @@ const ProductShowcaseCarousel = ({
                 <StyledImage
                   objectFit="cover"
                   borderRadius="0.375rem"
-                  maxHeight={{ base: "", lg: "500px" }}
+                  maxHeight={{ base: "", lg: "31rem" }}
                   hasMasterSpinner={false}
                   alt={imageSrc}
                   src={imageSrc}
