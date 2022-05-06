@@ -1,25 +1,27 @@
+import { Flex, chakra } from "@chakra-ui/react";
 import Image from "next/image";
-import styles from "../../styles/Home.module.css";
 
 const Footer = (): JSX.Element => {
   return (
-    <div className={styles.footer}>
-      <a
+    <Flex
+      py={4}
+      borderTop="1px solid #eaeaea"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <chakra.a
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        gap={2}
         href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
         target="_blank"
         rel="noopener noreferrer"
       >
         Powered by{" "}
-        <span className={styles.logo}>
-          <Image
-            src="/icons/ep-logo.svg"
-            alt="ep Logo"
-            width={72}
-            height={16}
-          />
-        </span>
-      </a>
-    </div>
+        <Image src="/icons/ep-logo.svg" alt="ep Logo" width={72} height={16} />
+      </chakra.a>
+    </Flex>
   );
 };
 
