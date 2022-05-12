@@ -24,7 +24,6 @@
     "@stripe/react-stripe-js": "^1.7.1",
     "@stripe/stripe-js": "^1.27.0",
     "@types/react-stripe-elements": "^6.0.6",
-    "constate": "^3.3.0",
     "formik": "^2.2.9",
     "framer-motion": "^6.2.6",
     "next": "12.1.0",

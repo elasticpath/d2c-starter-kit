@@ -1,10 +1,27 @@
-import { useState, useEffect } from "react";
-import constate from "constate";
-import type { CartItem, CartItemsResponse } from "@moltin/sdk";
+import { useEffect, useState, useContext, createContext } from "react";
+import { CartItem, CartItemsResponse } from "@moltin/sdk";
 import { getCartItems } from "../services/cart";
-import { Address } from "./types";
+import { ProviderProps } from "./types";
 
-function useCartItemsState() {
+interface CartState {
+  cartData: CartItem[];
+  cartRes: CartItemsResponse | undefined;
+  promotionItems: CartItem[];
+  count: number;
+  cartQuantity: number;
+  setCartQuantity: (qt: number) => void;
+  showCartPopup: boolean;
+  handleShowCartPopup: () => void;
+  totalPrice: string;
+  updateCartItems: () => void;
+  addedItem: string;
+  setAddedItem: (added: string) => void;
+  mcart: string;
+}
+
+const CartItemsContext = createContext<CartState | undefined>(undefined);
+
+function CartReducer(): CartState {
   const [cartData, setCartData] = useState<CartItem[]>([]);
   const [promotionItems, setPromotionItems] = useState<CartItem[]>([]);
   const [count, setCount] = useState(0);
@@ -14,7 +31,7 @@ function useCartItemsState() {
   const [cartRes, setCartRes] = useState<CartItemsResponse>();
   const [mcart, setMcart] = useState("");
 
-  const [addedtItem, setAddedItem] = useState("");
+  const [addedItem, setAddedItem] = useState("");
 
   useEffect(() => {
     const cart = localStorage.getItem("mcart") || "";
@@ -83,60 +100,27 @@ function useCartItemsState() {
     handleShowCartPopup,
     totalPrice,
     updateCartItems,
-    addedtItem,
+    addedItem,
     setAddedItem,
     mcart,
   };
 }
 
-function useCheckoutFormState() {
-  const [shippingAddress, setShippingAddress] = useState<Address>({});
-  const [billingAddress, setBillingAddress] = useState<Address>({});
-  const [isSameAddress, setSameAddress] = useState(true);
-  const [isEditShippingForm, setEditShippingForm] = useState(true);
-  const [isEditBillingForm, setEditBillingForm] = useState(true);
-
-  const setShippingFormValues = (values: Address) => {
-    setShippingAddress((prevValues) => ({
-      ...prevValues,
-      ...values,
-    }));
-  };
-
-  const setBillingFormValues = (values: Address) => {
-    setBillingAddress((prevValues) => ({
-      ...prevValues,
-      ...values,
-    }));
-  };
-
-  return {
-    shippingAddress,
-    setShippingAddress,
-    setShippingFormValues,
-    billingAddress,
-    setBillingAddress,
-    setBillingFormValues,
-    isSameAddress,
-    setSameAddress,
-    isEditShippingForm,
-    setEditShippingForm,
-    setEditBillingForm,
-    isEditBillingForm,
-  };
+function CartProvider({ children }: ProviderProps) {
+  const value = CartReducer();
+  return (
+    <CartItemsContext.Provider value={value}>
+      {children}
+    </CartItemsContext.Provider>
+  );
 }
 
-function useGlobalState() {
-  const cartData = useCartItemsState();
-  const checkoutForm = useCheckoutFormState();
-  return {
-    cartData,
-    checkoutForm,
-  };
+function useCartItems() {
+  const context = useContext(CartItemsContext);
+  if (context === undefined) {
+    throw new Error("useCartItems must be used within a CartProvider");
+  }
+  return context;
 }
 
-export const [AppStateProvider, useCartData, useCheckoutForm] = constate(
-  useGlobalState,
-  (value) => value.cartData,
-  (value) => value.checkoutForm
-);
+export { CartProvider, useCartItems };
