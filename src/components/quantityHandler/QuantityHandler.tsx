@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { updateCartItem } from "../../services/cart";
-import { useCartData } from "../../context/state";
+import { useCartItems } from "../../context/cart";
 import { Box, Button, NumberInput, NumberInputField } from "@chakra-ui/react";
 import type { CartItem } from "@moltin/sdk";
 
@@ -10,7 +10,7 @@ interface IQuantityHandler {
 }
 
 const QuantityHandler = ({ item, size }: IQuantityHandler): JSX.Element => {
-  const { updateCartItems } = useCartData();
+  const { updateCartItems } = useCartItems();
   const [mcart, setMcart] = useState("");
 
   useEffect(() => {

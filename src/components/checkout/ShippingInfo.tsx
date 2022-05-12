@@ -1,4 +1,4 @@
-import { useCheckoutForm } from "../../context/state";
+import { useCheckoutForm } from "../../context/checkout";
 import { Text, Heading, Button, Box, Flex } from "@chakra-ui/react";
 
 interface IShippingInfo {

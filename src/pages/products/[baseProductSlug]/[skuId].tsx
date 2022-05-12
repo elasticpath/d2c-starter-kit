@@ -9,7 +9,7 @@ import type {
 import { ParsedUrlQuery } from "querystring";
 import ChildProductDetail from "../../../components/product/ChildProduct";
 import BaseProductDetail from "../../../components/product/BaseProduct";
-import { useCartData } from "../../../context/state";
+import { useCartItems } from "../../../context/cart";
 import { addToCart } from "../../../services/cart";
 import {
   isChildProductResource,
@@ -34,7 +34,7 @@ import type {
 } from "../../../lib/product-types";
 
 export const Sku: NextPage<ISku> = (props: ISku) => {
-  const { updateCartItems, setCartQuantity } = useCartData();
+  const { updateCartItems, setCartQuantity } = useCartItems();
   const [isChangingSku, setIsChangingSku] = useState(false);
 
   const handleAddToCart = () => {

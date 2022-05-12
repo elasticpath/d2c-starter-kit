@@ -10,12 +10,12 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { useCartData } from "../../context/state";
+import { useCartItems } from "../../context/cart";
 import { removeCartItem } from "../../services/cart";
 import Image from "next/image";
 
 export default function ModalCartItems(): JSX.Element {
-  const { cartData, mcart, updateCartItems } = useCartData();
+  const { cartData, mcart, updateCartItems } = useCartItems();
 
   const handleRemove = (id: string) => {
     removeCartItem(mcart, id)

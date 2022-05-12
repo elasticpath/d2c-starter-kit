@@ -1,17 +1,18 @@
-import "../styles/globals.css";
 import MainLayout from "../layouts/MainLayout/MainLayout";
+import Store from "../context/store";
 import type { AppProps } from "next/app";
-import { AppStateProvider } from "../context/state";
 import { ChakraProvider } from "@chakra-ui/react";
 import "../components/checkout/CardSectionStyles.css";
+import "../styles/globals.css";
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider>
-      <AppStateProvider>
+      <Store>
         <MainLayout>
           <Component {...pageProps} />
         </MainLayout>
-      </AppStateProvider>
+      </Store>
     </ChakraProvider>
   );
 }
