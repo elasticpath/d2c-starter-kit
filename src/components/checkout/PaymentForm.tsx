@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { useCartData } from "../../context/state";
+import { useCartItems } from "../../context/cart";
 
 import { Button } from "@chakra-ui/react";
 interface CheckoutParams {
@@ -9,7 +9,7 @@ interface CheckoutParams {
 
 export const PaymentForm = (props: CheckoutParams): JSX.Element => {
   const { onPayOrder } = props;
-  const { totalPrice } = useCartData();
+  const { totalPrice } = useCartItems();
 
   const stripe = useStripe();
   const elements = useElements();

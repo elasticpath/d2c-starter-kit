@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface Address {
   email?: string;
   first_name?: string;
@@ -11,3 +13,5 @@ export interface Address {
   phone_number?: string;
   instructions?: string;
 }
+
+export type ProviderProps = { children: ReactNode };

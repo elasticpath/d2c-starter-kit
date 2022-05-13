@@ -18,7 +18,8 @@ import {
   Checkbox,
   VStack,
 } from "@chakra-ui/react";
-import { useCheckoutForm, useCartData } from "../context/state";
+import { useCartItems } from "../context/cart";
+import { useCheckoutForm } from "../context/checkout";
 import { config } from "../services/config";
 import Image from "next/image";
 import { checkout, payment, removeAllCartItems } from "../services/checkout";
@@ -40,7 +41,7 @@ export const Checkout: NextPage<{}> = () => {
     isEditBillingForm,
   } = useCheckoutForm();
   const { promotionItems, updateCartItems, totalPrice, cartData } =
-    useCartData();
+    useCartItems();
 
   //   const stripeOptions = {
   //     clientSecret: config.stripeClientSecret,

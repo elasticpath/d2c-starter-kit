@@ -19,17 +19,16 @@ import {
 } from "@chakra-ui/react";
 import { Box, Flex, HStack, useColorModeValue } from "@chakra-ui/react";
 import Link from "next/link";
-import { useCartData } from "../../context/state";
 import Image from "next/image";
 import ModalCartItems from "../cartItems/ModalCartItem";
-
 import NavItem from "./NavItem";
 import type { Hierarchy } from "@moltin/sdk";
+import { useCartItems } from "../../context/cart";
 
 export default function MainMenu() {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const [menu, setMenu] = useState<Hierarchy[]>([]);
-  const { cartData } = useCartData();
+  const { cartData } = useCartItems();
 
   useEffect(() => {
     async function fetchHierarchies() {
@@ -50,7 +49,7 @@ export default function MainMenu() {
       top="0"
       zIndex="1000"
     >
-      <Flex alignItems={"center"} justifyContent={"space-between"}></Flex>
+      <Flex alignItems={"center"} justifyContent={"space-between"} />
       <HStack spacing={8} alignItems={"center"}>
         <Box cursor="pointer">
           <Link href="/" passHref>

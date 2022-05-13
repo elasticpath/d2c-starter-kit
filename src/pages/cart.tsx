@@ -18,7 +18,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useCartData } from "../context/state";
+import { useCartItems } from "../context/cart";
 import { Promotion } from "../components/promotion/Promotion";
 import Image from "next/image";
 import { removeCartItem } from "../services/cart";
@@ -26,7 +26,7 @@ import type { NextPage } from "next";
 
 export const Cart: NextPage<{}> = () => {
   const { cartData, updateCartItems, totalPrice, promotionItems, mcart } =
-    useCartData();
+    useCartItems();
 
   const [subTotal, SetSubTotal] = useState(0.0);
 

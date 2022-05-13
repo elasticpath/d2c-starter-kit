@@ -1,4 +1,4 @@
-import { useCartData } from "../../context/state";
+import { useCartItems } from "../../context/cart";
 import { useFormik } from "formik";
 import { addPromotion } from "../../services/cart";
 import {
@@ -17,7 +17,7 @@ interface FormValues {
 }
 
 export const Promotion = (): JSX.Element => {
-  const { updateCartItems, promotionItems, mcart } = useCartData();
+  const { updateCartItems, promotionItems, mcart } = useCartItems();
 
   const initialValues: FormValues = {
     promoCode: "",
@@ -44,9 +44,7 @@ export const Promotion = (): JSX.Element => {
     <Box>
       <form onSubmit={handleSubmit}>
         <Box display="flex">
-          <FormControl
-            isInvalid={Object.keys(errors).length > 0 ? true : false}
-          >
+          <FormControl isInvalid={Object.keys(errors).length > 0}>
             <FormLabel htmlFor="name">Gift card or discount code</FormLabel>
             <Flex gap="16px">
               <Input
