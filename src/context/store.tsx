@@ -3,7 +3,7 @@ import { CartProvider } from "./cart";
 import { CheckoutProvider } from "./checkout";
 import { ProviderProps } from "./types";
 
-const Store = ({ children }: ProviderProps) => {
+const StoreProvider = ({ children }: ProviderProps) => {
   return (
     <CartProvider>
       <CheckoutProvider>{children}</CheckoutProvider>
@@ -11,4 +11,4 @@ const Store = ({ children }: ProviderProps) => {
   );
 };
 
-export default Store;
+export default StoreProvider;
