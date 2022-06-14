@@ -40,7 +40,7 @@ const ProductHighlightCarousel = ({
       naturalSlideWidth={400}
       naturalSlideHeight={400}
       hasMasterSpinner={true}
-      dragEnabled={false}
+      dragEnabled={true}
     >
       <Box
         display={{ base: "flex", md: "none" }}

@@ -37,7 +37,7 @@ const VerticalCarousel = ({
       naturalSlideWidth={80}
       naturalSlideHeight={100}
       infinite={images.length >= visibleSlides}
-      dragEnabled={false}
+      dragEnabled={true}
     >
       <StyledButtonBack
         paddingBottom={"1rem"}

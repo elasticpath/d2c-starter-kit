@@ -31,7 +31,7 @@ const ProductShowcaseCarousel = ({
       naturalSlideWidth={60}
       naturalSlideHeight={40}
       infinite={products.length >= visibleSlides}
-      dragEnabled={false}
+      dragEnabled={true}
     >
       <Grid
         gridTemplateColumns={{ base: "1fr", lg: "auto 1fr auto" }}

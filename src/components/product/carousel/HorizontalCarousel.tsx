@@ -42,7 +42,7 @@ const HorizontalCarousel = ({
       naturalSlideWidth={45}
       naturalSlideHeight={40}
       infinite={images.length >= visibleSlides}
-      dragEnabled={false}
+      dragEnabled={true}
     >
       <Grid
         gridTemplateColumns={shouldDisplayControls ? "auto 1fr auto" : "1fr"}
