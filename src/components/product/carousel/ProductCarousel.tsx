@@ -56,7 +56,7 @@ const ProductCarousel = ({
             name: selectedProductImage.file_name,
           }}
           setSelectedImage={({ src }) => {
-            const found = images.find((item) => item.link.href === src);
+            const found = completeImages.find((item) => item.link.href === src);
             setSelectedProductImage(found!);
           }}
         />
