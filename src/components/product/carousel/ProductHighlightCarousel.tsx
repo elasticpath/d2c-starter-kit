@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { isMobile } from "react-device-detect";
 import { Box } from "@chakra-ui/react";
 import type { File } from "@moltin/sdk";
 import { CarouselProvider, Slider, Slide } from "pure-react-carousel";
@@ -47,7 +48,7 @@ const ProductHighlightCarousel = ({
       naturalSlideWidth={400}
       naturalSlideHeight={400}
       hasMasterSpinner={true}
-      dragEnabled={true}
+      dragEnabled={isMobile}
     >
       <CarouselListener setCurrentSlide={selectImageWithListener} />
 
