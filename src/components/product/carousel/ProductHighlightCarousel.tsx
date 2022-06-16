@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { Box } from "@chakra-ui/react";
 import type { File } from "@moltin/sdk";
 import { CarouselProvider, Slider, Slide } from "pure-react-carousel";
@@ -10,6 +11,7 @@ import {
 } from "../../shared/carousel-wrapped";
 import LeftArrowIcon from "./icons/LeftArrowIcon";
 import RightArrowIcon from "./icons/RightArrowIcon";
+import { CarouselListener } from "./CarouselListener";
 
 interface IProductHighlightCarousel {
   images: File[];
@@ -32,6 +34,11 @@ const ProductHighlightCarousel = ({
   const selectNextImage = (currentIndex: number) =>
     setSelectedProductImage(images[currentIndex + 1]);
 
+  const selectImageWithListener = useCallback(
+    (currentIndex: number) => setSelectedProductImage(images[currentIndex]),
+    [images, setSelectedProductImage]
+  );
+
   return (
     <CarouselProvider
       visibleSlides={1}
@@ -42,16 +49,18 @@ const ProductHighlightCarousel = ({
       hasMasterSpinner={true}
       dragEnabled={true}
     >
+      <CarouselListener setCurrentSlide={selectImageWithListener} />
+
       <Box
         display={{ base: "flex", md: "none" }}
-        opacity={0}
         position={"absolute"}
         zIndex={1}
         alignItems="center"
-        h={"full"}
+        h={0}
+        top={"50%"}
+        transform={"translateY(-50%)"}
         w={"full"}
         px={4}
-        _hover={{ opacity: 100 }}
       >
         <StyledButtonBack
           display={selectedImageIndex < 1 ? "none" : "flex"}
