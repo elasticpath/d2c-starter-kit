@@ -6,10 +6,9 @@ import {
   StyledButtonNext,
   StyledImage,
 } from "../../shared/carousel-wrapped";
-import DownArrowIcon from "./icons/DownArrowIcon";
-import UpArrowIcon from "./icons/UpArrowIcon";
 import styles from "./ProductCarousel.module.css";
 import { isMobile } from "react-device-detect";
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 
 interface IVerticalCarousel {
   images: File[];
@@ -47,7 +46,7 @@ const VerticalCarousel = ({
         py=".5rem"
         w="full"
       >
-        <UpArrowIcon />
+        <ChevronUpIcon boxSize={5} />
       </StyledButtonBack>
       <Slider>
         {images.map((imageFile, index) => (
@@ -76,7 +75,7 @@ const VerticalCarousel = ({
         py=".5rem"
         w="full"
       >
-        <DownArrowIcon />
+        <ChevronDownIcon boxSize={5} />
       </StyledButtonNext>
     </CarouselProvider>
   );

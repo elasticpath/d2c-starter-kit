@@ -5,10 +5,9 @@ import {
   StyledButtonBack,
   StyledButtonNext,
 } from "../../shared/carousel-wrapped";
-import LeftArrowIcon from "./icons/LeftArrowIcon";
-import RightArrowIcon from "./icons/RightArrowIcon";
 import styles from "./ProductCarousel.module.css";
 import { isMobile } from "react-device-detect";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 interface ICarouselImage {
   src: string;
@@ -54,7 +53,7 @@ const HorizontalCarousel = ({
           display={controlsDisplaySettings}
           justifyContent={"center"}
         >
-          <LeftArrowIcon />
+          <ChevronLeftIcon boxSize={5} />
         </StyledButtonBack>
         <Slider>
           {images.map((image, index) => (
@@ -82,7 +81,7 @@ const HorizontalCarousel = ({
           justifyContent="center"
           w="full"
         >
-          <RightArrowIcon />
+          <ChevronRightIcon boxSize={5} />
         </StyledButtonNext>
       </Grid>
     </CarouselProvider>

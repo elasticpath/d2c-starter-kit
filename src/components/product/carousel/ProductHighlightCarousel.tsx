@@ -10,9 +10,8 @@ import {
   StyledImage,
   StyledImageWithZoom,
 } from "../../shared/carousel-wrapped";
-import LeftArrowIcon from "./icons/LeftArrowIcon";
-import RightArrowIcon from "./icons/RightArrowIcon";
 import { CarouselListener } from "./CarouselListener";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 interface IProductHighlightCarousel {
   images: File[];
@@ -73,7 +72,7 @@ const ProductHighlightCarousel = ({
           h={"2rem"}
           onClick={() => selectPrevImage(selectedImageIndex)}
         >
-          <LeftArrowIcon />
+          <ChevronLeftIcon boxSize={5} />
         </StyledButtonBack>
         <StyledButtonNext
           display={selectedImageIndex + 1 === images.length ? "none" : "flex"}
@@ -86,7 +85,7 @@ const ProductHighlightCarousel = ({
           marginLeft={"auto"}
           onClick={() => selectNextImage(selectedImageIndex)}
         >
-          <RightArrowIcon />
+          <ChevronRightIcon boxSize={5} />
         </StyledButtonNext>
       </Box>
       <Slider>

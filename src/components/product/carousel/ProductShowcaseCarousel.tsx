@@ -10,10 +10,9 @@ import {
   StyledImage,
   StyledSlide,
 } from "../../shared/carousel-wrapped";
-import LeftArrowIcon from "./icons/LeftArrowIcon";
-import RightArrowIcon from "./icons/RightArrowIcon";
 import styles from "./ProductCarousel.module.css";
 import "pure-react-carousel/dist/react-carousel.es.css";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 interface IProductShowcaseCarousel {
   products: StaticProduct[];
@@ -47,7 +46,7 @@ const ProductShowcaseCarousel = ({
             display={{ base: "none", lg: "flex" }}
             justifyContent={"center"}
           >
-            <LeftArrowIcon />
+            <ChevronLeftIcon boxSize={5} />
           </StyledButtonBack>
           <Box
             display={{ base: "flex", lg: "none" }}
@@ -67,7 +66,7 @@ const ProductShowcaseCarousel = ({
               w={"2rem"}
               h={"2rem"}
             >
-              <LeftArrowIcon />
+              <ChevronLeftIcon boxSize={5} />
             </StyledButtonBack>
             <StyledButtonNext
               display={"flex"}
@@ -79,7 +78,7 @@ const ProductShowcaseCarousel = ({
               h={"2rem"}
               marginLeft={"auto"}
             >
-              <RightArrowIcon />
+              <ChevronRightIcon boxSize={5} />
             </StyledButtonNext>
           </Box>
           <Slider>
@@ -136,7 +135,7 @@ const ProductShowcaseCarousel = ({
             justifyContent="center"
             w="full"
           >
-            <RightArrowIcon />
+            <ChevronRightIcon boxSize={5} />
           </StyledButtonNext>
         </Grid>
         <StyledDotGroup
