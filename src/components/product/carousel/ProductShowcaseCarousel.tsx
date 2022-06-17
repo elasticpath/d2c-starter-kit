@@ -1,3 +1,4 @@
+import { isMobile } from "react-device-detect";
 import { Box, Button, Flex, Grid, GridItem, Text } from "@chakra-ui/react";
 import { CarouselProvider, Slider } from "pure-react-carousel";
 import { StaticProduct } from "../../../lib/product-data";
@@ -32,7 +33,7 @@ const ProductShowcaseCarousel = ({
         naturalSlideWidth={60}
         naturalSlideHeight={40}
         infinite={products.length >= visibleSlides}
-        dragEnabled={true}
+        dragEnabled={isMobile}
       >
         <Grid
           gridTemplateColumns={{ base: "1fr", lg: "auto 1fr auto" }}

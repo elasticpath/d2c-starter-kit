@@ -9,6 +9,7 @@ import {
 import DownArrowIcon from "./icons/DownArrowIcon";
 import UpArrowIcon from "./icons/UpArrowIcon";
 import styles from "./ProductCarousel.module.css";
+import { isMobile } from "react-device-detect";
 
 interface IVerticalCarousel {
   images: File[];
@@ -37,7 +38,7 @@ const VerticalCarousel = ({
       naturalSlideWidth={80}
       naturalSlideHeight={100}
       infinite={images.length >= visibleSlides}
-      dragEnabled={true}
+      dragEnabled={isMobile}
     >
       <StyledButtonBack
         paddingBottom={"1rem"}

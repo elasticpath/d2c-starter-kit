@@ -8,6 +8,7 @@ import {
 import LeftArrowIcon from "./icons/LeftArrowIcon";
 import RightArrowIcon from "./icons/RightArrowIcon";
 import styles from "./ProductCarousel.module.css";
+import { isMobile } from "react-device-detect";
 
 interface ICarouselImage {
   src: string;
@@ -42,7 +43,7 @@ const HorizontalCarousel = ({
       naturalSlideWidth={45}
       naturalSlideHeight={40}
       infinite={images.length >= visibleSlides}
-      dragEnabled={true}
+      dragEnabled={isMobile}
     >
       <Grid
         gridTemplateColumns={shouldDisplayControls ? "auto 1fr auto" : "1fr"}
