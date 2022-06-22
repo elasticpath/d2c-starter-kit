@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+import { isMobile } from "react-device-detect";
 import { Box } from "@chakra-ui/react";
 import type { File } from "@moltin/sdk";
 import { CarouselProvider, Slider, Slide } from "pure-react-carousel";
@@ -8,8 +10,8 @@ import {
   StyledImage,
   StyledImageWithZoom,
 } from "../../shared/carousel-wrapped";
-import LeftArrowIcon from "./icons/LeftArrowIcon";
-import RightArrowIcon from "./icons/RightArrowIcon";
+import { CarouselListener } from "./CarouselListener";
+import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 interface IProductHighlightCarousel {
   images: File[];
@@ -32,6 +34,11 @@ const ProductHighlightCarousel = ({
   const selectNextImage = (currentIndex: number) =>
     setSelectedProductImage(images[currentIndex + 1]);
 
+  const selectImageWithListener = useCallback(
+    (currentIndex: number) => setSelectedProductImage(images[currentIndex]),
+    [images, setSelectedProductImage]
+  );
+
   return (
     <CarouselProvider
       visibleSlides={1}
@@ -40,18 +47,20 @@ const ProductHighlightCarousel = ({
       naturalSlideWidth={400}
       naturalSlideHeight={400}
       hasMasterSpinner={true}
-      dragEnabled={false}
+      dragEnabled={isMobile}
     >
+      <CarouselListener setCurrentSlide={selectImageWithListener} />
+
       <Box
         display={{ base: "flex", md: "none" }}
-        opacity={0}
         position={"absolute"}
         zIndex={1}
         alignItems="center"
-        h={"full"}
+        h={0}
+        top={"50%"}
+        transform={"translateY(-50%)"}
         w={"full"}
         px={4}
-        _hover={{ opacity: 100 }}
       >
         <StyledButtonBack
           display={selectedImageIndex < 1 ? "none" : "flex"}
@@ -63,7 +72,7 @@ const ProductHighlightCarousel = ({
           h={"2rem"}
           onClick={() => selectPrevImage(selectedImageIndex)}
         >
-          <LeftArrowIcon />
+          <ChevronLeftIcon boxSize={5} />
         </StyledButtonBack>
         <StyledButtonNext
           display={selectedImageIndex + 1 === images.length ? "none" : "flex"}
@@ -76,7 +85,7 @@ const ProductHighlightCarousel = ({
           marginLeft={"auto"}
           onClick={() => selectNextImage(selectedImageIndex)}
         >
-          <RightArrowIcon />
+          <ChevronRightIcon boxSize={5} />
         </StyledButtonNext>
       </Box>
       <Slider>
