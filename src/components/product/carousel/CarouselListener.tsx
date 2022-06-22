@@ -16,7 +16,7 @@ export const CarouselListener: (
     }
     carouselContext.subscribe(onChange);
     return () => carouselContext.unsubscribe(onChange);
-  }, [carouselContext, setCurrentSlide]);
+  }, [carouselContext]);
 
   return <></>;
 };
