@@ -4,7 +4,6 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import type { NextPage } from "next";
 import {
   InstantSearch,
   useHits,
@@ -40,6 +39,8 @@ import { config } from "../../services/config";
 import NoResults from "./NoResults";
 import NoImage from "./NoImage";
 import { SearchHit } from "./SearchHit";
+import { jsx } from "@emotion/react";
+import JSX = jsx.JSX;
 
 const searchClient = algoliasearch(config.algoliaAppId, config.algoliaAPIKey);
 
@@ -177,7 +178,7 @@ const Hits = () => {
   return <NoResults />;
 };
 
-export const SearchModal: NextPage<{}> = () => {
+export const SearchModal = (): JSX.Element => {
   const [searchValue, setSearchValue] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();

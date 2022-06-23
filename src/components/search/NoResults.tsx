@@ -1,11 +1,12 @@
 import React from "react";
-import type { NextPage } from "next";
 import { Box, Square, Stack, Text } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 
-export const NoResults: NextPage<{ displayIcon?: boolean }> = ({
+export const NoResults = ({
   displayIcon = true,
-}) => {
+}: {
+  displayIcon?: boolean;
+}): JSX.Element => {
   return (
     <Box p="8">
       <Stack align="center">
