@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { getHierarchies } from "../../services/hierarchy";
 import {
   Button,
-  Input,
   Tag,
   TagLabel,
   Popover,
@@ -24,6 +23,7 @@ import ModalCartItems from "../cartItems/ModalCartItem";
 import NavItem from "./NavItem";
 import type { Hierarchy } from "@moltin/sdk";
 import { useCartItems } from "../../context/cart";
+import SearchModal from "../search/SearchModal";
 
 export default function MainMenu() {
   const { onOpen, onClose, isOpen } = useDisclosure();
@@ -76,7 +76,7 @@ export default function MainMenu() {
           })}
         </HStack>
         <HStack pos="absolute" right="8px">
-          <Input placeholder="Search" w="250px" />
+          <SearchModal />
           <Box>
             <Popover onClose={onClose} isOpen={isOpen} onOpen={onOpen}>
               <PopoverTrigger>

@@ -63,7 +63,7 @@ export const excludeChildProducts = (
 ): IdentifiableBaseProduct[] =>
   products.filter(
     (product: ProductResponse): product is IdentifiableBaseProduct =>
-      !product.relationships.parent
+      !product?.relationships?.parent
   );
 
 export function findBaseProductSlug(
