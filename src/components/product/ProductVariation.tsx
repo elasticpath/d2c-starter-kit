@@ -44,7 +44,7 @@ const ProductVariation = ({
   return (
     <Grid>
       <h2>{variation.name}</h2>
-      <Flex gap={2}>
+      <Flex gap={2} wrap={"wrap"}>
         {variation.options.map((o) => (
           <Button
             key={o.id}
