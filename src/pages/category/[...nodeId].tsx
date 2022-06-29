@@ -1,38 +1,30 @@
-import React, { useEffect, useState } from "react";
-import { getNodesProducts } from "../../services/hierarchy";
-import { useRouter } from "next/router";
+import React from "react";
 import Link from "next/link";
-import { Heading, Grid, GridItem, Box, Divider, Badge } from "@chakra-ui/react";
+import { Badge, Box, Divider, Grid, GridItem, Heading } from "@chakra-ui/react";
 import type { NextPage } from "next";
-import type { ProductResponse } from "@moltin/sdk";
+import { GetStaticPaths, GetStaticProps } from "next";
+import type { ProductResponse, ResourceList } from "@moltin/sdk";
 import type { ParsedUrlQuery } from "querystring";
+import {
+  getHierarchies,
+  getNodes,
+  getNodesProducts,
+} from "../../services/hierarchy";
 
 interface CatagoryRouterQuery extends ParsedUrlQuery {
   nodeId: string;
 }
 
-export const Category: NextPage<{}> = () => {
-  const router = useRouter();
-  const { nodeId } = router.query as CatagoryRouterQuery; // TODO need proper 404 and error handling handling
-  const [products, setProducts] = useState<ProductResponse[]>([]);
+interface ICatagory {
+  products: ResourceList<ProductResponse>;
+}
 
-  useEffect(() => {
-    async function fetchNodesProducts() {
-      const productsList = await getNodesProducts(nodeId);
-      setProducts(productsList.data);
-    }
-    try {
-      fetchNodesProducts();
-    } catch (error) {
-      console.log(error);
-    }
-  }, [nodeId]);
-
+export const Category: NextPage<ICatagory> = ({ products }) => {
   return (
     <div>
       <Heading p="6">Category</Heading>
       <Grid templateColumns="repeat(5, 1fr)" gap={6} p="6">
-        {products.map((product) => {
+        {products.data.map((product) => {
           return (
             <Link href={`/products/${product.id}`} key={product.id} passHref>
               <GridItem>
@@ -69,6 +61,36 @@ export const Category: NextPage<{}> = () => {
       </Grid>
     </div>
   );
+};
+
+export const getStaticPaths: GetStaticPaths<CatagoryRouterQuery> = async () => {
+  const hierarchies = await getHierarchies();
+  const nodesRequest = hierarchies.map(({ id }) => getNodes(id));
+  const nodes = await Promise.all(nodesRequest);
+  const paths = nodes.flat().map((node) => {
+    return `/category/${node.id}`;
+  });
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps<
+  ICatagory,
+  CatagoryRouterQuery
+> = async ({ params }) => {
+  if (!params) {
+    return {
+      notFound: true,
+    };
+  }
+  const products = await getNodesProducts(params.nodeId);
+  return {
+    props: {
+      products,
+    },
+  };
 };
 
 export default Category;
