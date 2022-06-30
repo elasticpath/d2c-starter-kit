@@ -99,9 +99,6 @@ const _getAllProductPages = _getAllPages(
 );
 
 export async function getAllBaseProducts(): Promise<ProductResponse[]> {
-  // TODO issue: https://gitlab.elasticpath.com/commerce-cloud/ncl-projects/catalog-view.svc/-/issues/193
-  //  Set a 100 limit to avoid the above pagination issue. If products in d2c store
-  //  instance exced 100 the bug will surface.
   const allProducts = await _getAllProductPages(0, 100);
   return excludeChildProducts(allProducts);
 }
