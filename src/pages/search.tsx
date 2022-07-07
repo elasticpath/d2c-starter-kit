@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import {
   Box,
-  Button,
   Center,
   Divider,
   Grid,
@@ -26,7 +25,6 @@ import {
   useConnector,
   useHits,
   useHitsPerPage,
-  usePagination,
   useSearchBox,
 } from "react-instantsearch-hooks-web";
 import { MinusIcon, ViewOffIcon } from "@chakra-ui/icons";
@@ -39,6 +37,7 @@ import type {
 import connectRange from "instantsearch.js/es/connectors/range/connectRange";
 import { SearchHit } from "../components/search/SearchHit";
 import NoResults from "../components/search/NoResults";
+import Pagination from "../components/search/Pagination";
 
 type UseRangeSliderProps = RangeConnectorParams;
 
@@ -131,34 +130,6 @@ export const Search: NextPage<{}> = () => {
           </option>
         ))}
       </Select>
-    );
-  };
-
-  const Pagination = () => {
-    const { pages, currentRefinement, canRefine, refine } = usePagination();
-
-    return (
-      <Box display={canRefine ? "block" : "none"}>
-        <HStack justify="center">
-          {pages.map((page) => (
-            <Button
-              key={page}
-              bg={currentRefinement === page ? "blue.900" : "gray.100"}
-              onClick={() => refine(page)}
-              disabled={!canRefine}
-              color={currentRefinement === page ? "white" : "black"}
-              _hover={{
-                backgroundColor: "blue.700",
-                boxShadow: "m",
-                color: "white",
-              }}
-              variant="solid"
-            >
-              {page + 1}
-            </Button>
-          ))}
-        </HStack>
-      </Box>
     );
   };
 

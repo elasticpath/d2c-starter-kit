@@ -7,6 +7,7 @@ import { getHierarchies, getNode, getNodes } from "../../services/hierarchy";
 import { Configure, useHits } from "react-instantsearch-hooks-web";
 import { Node } from "@moltin/sdk/src/types/nodes";
 import { SearchHit } from "../../components/search/SearchHit";
+import Pagination from "../../components/search/Pagination";
 
 interface CatagoryRouterQuery extends ParsedUrlQuery {
   nodeId: string;
@@ -26,7 +27,6 @@ export const Category: NextPage<ICatagory> = ({ category }) => {
         <>
           <Configure
             filters={`ep_category_page_id:\"${category?.attributes.name}\"`}
-            hitsPerPage={100}
           />
           <Grid templateColumns="repeat(5, 1fr)" gap={6} p="6">
             {hits.map(({ objectID, ep_name, ep_sku, ep_slug }) => {
@@ -68,6 +68,9 @@ export const Category: NextPage<ICatagory> = ({ category }) => {
               );
             })}
           </Grid>
+          <Box mb={6}>
+            <Pagination />
+          </Box>
         </>
       ) : null}
     </div>

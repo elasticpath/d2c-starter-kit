@@ -1,39 +1,40 @@
-import { getAllBaseProducts } from "../../services/products";
-import { Heading, Grid, GridItem, Box, Divider, Badge } from "@chakra-ui/react";
-import type { ProductResponse } from "@moltin/sdk";
-import type { GetStaticProps, NextPage } from "next";
+import { Badge, Box, Divider, Grid, GridItem, Heading } from "@chakra-ui/react";
+import type { NextPage } from "next";
 import Link from "next/link";
+import { Configure, useHits } from "react-instantsearch-hooks-web";
+import { SearchHit } from "../../components/search/SearchHit";
+import React from "react";
+import Pagination from "../../components/search/Pagination";
 
-interface IProducts {
-  products: ProductResponse[];
-}
+export const Products: NextPage<{}> = () => {
+  const { hits } = useHits<SearchHit>();
 
-export const Products: NextPage<IProducts> = ({ products }) => {
   return (
     <div>
       <Heading p="6">All Products</Heading>
+      <Configure filters={`is_child:0`} />
       <Grid templateColumns="repeat(5, 1fr)" gap={6} p="6">
-        {products.map((product) => {
+        {hits.map(({ objectID, ep_name, ep_sku, ep_slug }) => {
           return (
             <Link
-              key={product.id}
-              href={`/products/${product.attributes.slug}/${product.id}`}
+              key={objectID}
+              href={`/products/${ep_slug}/${objectID}`}
               passHref
             >
               <GridItem cursor="pointer">
                 <Box
-                  key={product.id}
+                  key={objectID}
                   maxW="sm"
                   borderWidth="1px"
                   borderRadius="lg"
                   overflow="hidden"
                 >
-                  <Box p="6">{product.attributes.name}</Box>
+                  <Box p="6">{ep_name}</Box>
                   <Divider />
                   <Box p="6">
                     <Box display="flex" alignItems="baseline">
                       <Badge borderRadius="full" px="2" colorScheme="teal">
-                        {product.attributes.status}
+                        live
                       </Badge>
                       <Box
                         color="gray.500"
@@ -43,7 +44,7 @@ export const Products: NextPage<IProducts> = ({ products }) => {
                         textTransform="uppercase"
                         ml="2"
                       >
-                        {product.attributes.sku}
+                        {ep_sku}
                       </Box>
                     </Box>
                   </Box>
@@ -53,17 +54,11 @@ export const Products: NextPage<IProducts> = ({ products }) => {
           );
         })}
       </Grid>
+      <Box mb={6}>
+        <Pagination />
+      </Box>
     </div>
   );
-};
-
-export const getStaticProps: GetStaticProps<IProducts> = async () => {
-  const products = await getAllBaseProducts();
-  return {
-    props: {
-      products,
-    },
-  };
 };
 
 export default Products;
