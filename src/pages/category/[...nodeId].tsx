@@ -1,64 +1,75 @@
 import React from "react";
 import Link from "next/link";
 import { Badge, Box, Divider, Grid, GridItem, Heading } from "@chakra-ui/react";
-import type { NextPage } from "next";
-import { GetStaticPaths, GetStaticProps } from "next";
-import type { ProductResponse, ResourceList } from "@moltin/sdk";
+import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import type { ParsedUrlQuery } from "querystring";
-import {
-  getHierarchies,
-  getNodes,
-  getNodesProducts,
-} from "../../services/hierarchy";
+import { getHierarchies, getNode, getNodes } from "../../services/hierarchy";
+import { Configure, useHits } from "react-instantsearch-hooks-web";
+import { Node } from "@moltin/sdk/src/types/nodes";
+import { SearchHit } from "../../components/search/SearchHit";
 
 interface CatagoryRouterQuery extends ParsedUrlQuery {
   nodeId: string;
 }
 
 interface ICatagory {
-  products: ResourceList<ProductResponse>;
+  category: Node;
 }
 
-export const Category: NextPage<ICatagory> = ({ products }) => {
+export const Category: NextPage<ICatagory> = ({ category }) => {
+  const { hits } = useHits<SearchHit>();
+
   return (
     <div>
       <Heading p="6">Category</Heading>
-      <Grid templateColumns="repeat(5, 1fr)" gap={6} p="6">
-        {products.data.map((product) => {
-          return (
-            <Link href={`/products/${product.id}`} key={product.id} passHref>
-              <GridItem>
-                <Box
-                  maxW="sm"
-                  borderWidth="1px"
-                  borderRadius="lg"
-                  overflow="hidden"
+      {category ? (
+        <>
+          <Configure
+            filters={`ep_category_page_id:\"${category?.attributes.name}\"`}
+            hitsPerPage={100}
+          />
+          <Grid templateColumns="repeat(5, 1fr)" gap={6} p="6">
+            {hits.map(({ objectID, ep_name, ep_sku, ep_slug }) => {
+              return (
+                <Link
+                  href={`/products/${ep_slug}/${objectID}`}
+                  key={objectID}
+                  passHref
                 >
-                  <Box p="6">{product.attributes.name}</Box>
-                  <Divider />
-                  <Box p="6">
-                    <Box display="flex" alignItems="baseline">
-                      <Badge borderRadius="full" px="2" colorScheme="teal">
-                        {product.attributes.status}
-                      </Badge>
-                      <Box
-                        color="gray.500"
-                        fontWeight="semibold"
-                        letterSpacing="wide"
-                        fontSize="xs"
-                        textTransform="uppercase"
-                        ml="2"
-                      >
-                        {product.attributes.sku}
+                  <GridItem>
+                    <Box
+                      maxW="sm"
+                      borderWidth="1px"
+                      borderRadius="lg"
+                      overflow="hidden"
+                    >
+                      <Box p="6">{ep_name}</Box>
+                      <Divider />
+                      <Box p="6">
+                        <Box display="flex" alignItems="baseline">
+                          <Badge borderRadius="full" px="2" colorScheme="teal">
+                            live
+                          </Badge>
+                          <Box
+                            color="gray.500"
+                            fontWeight="semibold"
+                            letterSpacing="wide"
+                            fontSize="xs"
+                            textTransform="uppercase"
+                            ml="2"
+                          >
+                            {ep_sku}
+                          </Box>
+                        </Box>
                       </Box>
                     </Box>
-                  </Box>
-                </Box>
-              </GridItem>
-            </Link>
-          );
-        })}
-      </Grid>
+                  </GridItem>
+                </Link>
+              );
+            })}
+          </Grid>
+        </>
+      ) : null}
     </div>
   );
 };
@@ -85,10 +96,11 @@ export const getStaticProps: GetStaticProps<
       notFound: true,
     };
   }
-  const products = await getNodesProducts(params.nodeId);
+
+  const categoryRes = await getNode(params.nodeId);
   return {
     props: {
-      products,
+      category: categoryRes.data,
     },
   };
 };

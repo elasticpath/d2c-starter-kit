@@ -4,6 +4,7 @@ import type {
   Hierarchy,
   ProductResponse,
 } from "@moltin/sdk";
+import { CatalogResource } from "@moltin/sdk/src/types/catalog";
 
 import { EPCCAPI } from "./helper";
 
@@ -25,4 +26,8 @@ export async function getNodesProducts(
   nodeId: string
 ): Promise<ResourceList<ProductResponse>> {
   return await EPCCAPI.Catalog.Nodes.GetNodeProducts({ nodeId });
+}
+
+export async function getNode(nodeId: string): Promise<CatalogResource<Node>> {
+  return await EPCCAPI.Catalog.Nodes.Get({ nodeId });
 }
