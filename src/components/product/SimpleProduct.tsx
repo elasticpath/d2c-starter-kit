@@ -27,12 +27,12 @@ const SimpleProductDetail = ({
       <Stack spacing={{ base: 6, md: 10 }}>
         <ProductSummary product={product} />
         <ProductDetails product={product} />
-        {component_products ? (
+        {component_products && (
           <ProductComponents
             product={product}
             components={component_products}
           />
-        ) : null}
+        )}
         <CartActions handleAddToCart={handleAddToCart} />
       </Stack>
     </SimpleGrid>
