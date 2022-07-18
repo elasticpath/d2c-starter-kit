@@ -16,7 +16,7 @@ const Home: NextPage<IHome> = ({ products }) => {
       <PromotionBanner
         promotionId="885709b4-0053-48ee-91a2-bc9f7eb41d27"
         buttonText="Shop Now"
-        buttonLink="http://localhost:3000/cart"
+        buttonLink="/cart"
       />
       <ProductShowcaseCarousel products={products} />
     </chakra.main>
