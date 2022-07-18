@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Box, Button, Heading, Text } from "@chakra-ui/react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { Box, Button, Heading, Skeleton, Text } from "@chakra-ui/react";
 import { getPromotionById } from "../../services/promotions";
-import { Promotion, Resource } from "@moltin/sdk";
+import { Promotion } from "@moltin/sdk";
 import { useRouter } from "next/router";
 
+export type PromotionBannerSpec = string | Promotion;
+
 interface IPromotionBanner {
-  promotionId: string;
+  promotionSpec: PromotionBannerSpec;
   buttonText?: string;
   buttonLink?: string;
 }
@@ -30,33 +32,64 @@ const textBoxStyles = {
 
 const PromotionBanner = ({
   buttonText,
-  promotionId,
+  promotionSpec,
   buttonLink,
 }: IPromotionBanner): JSX.Element => {
   const router = useRouter();
-  const [promotionData, setPromotionData] = useState<Promotion>();
+
+  const [promotionData, setPromotionData] = useState<Promotion | undefined>(
+    typeof promotionSpec === "string" ? undefined : promotionSpec
+  );
+
+  const promotionId = useMemo(
+    () =>
+      typeof promotionSpec === "string" ? promotionSpec : promotionSpec.id,
+    [promotionSpec]
+  );
+
+  const fetchPromotion = useCallback(async () => {
+    const { data } = await getPromotionById(promotionId);
+    setPromotionData(data);
+  }, [setPromotionData, promotionId]);
 
   useEffect(() => {
-    async function fetchPromotion() {
-      const { data }: Resource<Promotion> = await getPromotionById(promotionId);
-      setPromotionData(data);
-    }
     try {
       fetchPromotion();
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      throw error;
     }
-  }, [promotionId]);
+  }, [fetchPromotion]);
+
+  const { name, description } = promotionData || {};
 
   return (
     <>
-      {promotionData ? (
+      {
         <Box sx={basicBoxStyles}>
           <Box sx={textBoxStyles}>
-            <Heading as="h1" size="4xl">
-              {promotionData?.name}
-            </Heading>
-            <Text> {promotionData?.description}</Text>
+            {name ? (
+              <Heading as="h1" size="4xl">
+                {name}
+              </Heading>
+            ) : (
+              <Skeleton
+                width="50"
+                marginBottom="2"
+                startColor="blue.500"
+                endColor="blue.400"
+                height="72px"
+              />
+            )}
+            {description ? (
+              <Text>{description}</Text>
+            ) : (
+              <Skeleton
+                startColor="blue.500"
+                endColor="blue.400"
+                height="24px"
+              />
+            )}
             {buttonText && (
               <Button
                 width="140px"
@@ -77,9 +110,7 @@ const PromotionBanner = ({
             )}
           </Box>
         </Box>
-      ) : (
-        ""
-      )}
+      }
     </>
   );
 };
