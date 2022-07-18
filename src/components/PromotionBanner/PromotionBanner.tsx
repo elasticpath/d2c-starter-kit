@@ -74,7 +74,6 @@ const PromotionBanner = ({
               </Heading>
             ) : (
               <Skeleton
-                width="50"
                 marginBottom="2"
                 startColor="blue.500"
                 endColor="blue.400"
