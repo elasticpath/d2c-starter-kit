@@ -6,7 +6,7 @@ import { StaticProduct, staticProducts } from "../lib/product-data";
 import ProductShowcaseCarousel from "../components/product/carousel/ProductShowcaseCarousel";
 import PromotionBanner, {
   PromotionBannerSpec,
-} from "../components/promotionBanner/PromotionBanner";
+} from "../components/PromotionBanner/PromotionBanner";
 import { getPromotionById } from "../services/promotions";
 
 export interface IHome {
