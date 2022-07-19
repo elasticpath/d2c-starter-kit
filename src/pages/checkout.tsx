@@ -20,7 +20,6 @@ import {
 } from "@chakra-ui/react";
 import { useCartItems } from "../context/cart";
 import { useCheckoutForm } from "../context/checkout";
-import { config } from "../services/config";
 import Image from "next/image";
 import { checkout, payment, removeAllCartItems } from "../services/checkout";
 import PersonalInfo from "../components/checkout/PersonalInfo";
@@ -29,7 +28,10 @@ import PaymentForm from "../components/checkout/PaymentForm";
 import ShippingInfo from "../components/checkout/ShippingInfo";
 import type { NextPage } from "next";
 
-const stripePromise = loadStripe(config.stripeKey);
+const stripePromise = loadStripe(
+  process.env.REACT_APP_STRIPE_KEY ||
+    "pk_test_51IF76bEYBLZCay1QYy6zYdlG152TyC7cWY2V9101fi3ECcd8qoTPVBjW0EOb2VmgKPCuwWBBogvjQAjNHotH3Gjk00BYsM1fux"
+);
 
 export const Checkout: NextPage<{}> = () => {
   const {

@@ -4,12 +4,11 @@ import {
   CatalogsProductVariation,
 } from "@moltin/sdk";
 import { OptionDict } from "../lib/product-types";
-import { config } from "./config";
 
 export const EPCCParam = {
-  host: config.endpointURL,
-  client_id: config.clientId,
-  client_secret: config.clientSecret,
+  host: process.env.REACT_APP_ENDPOINT_URL,
+  client_id: process.env.REACT_APP_CLIENT_ID,
+  client_secret: process.env.REACT_APP_CLIENT_SECRET,
 };
 
 export const EPCCAPI = EPCCGateway(EPCCParam);

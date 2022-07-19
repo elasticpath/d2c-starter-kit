@@ -6,11 +6,10 @@ import type {
 } from "@moltin/sdk";
 
 import { EPCCAPI } from "./helper";
-import { config } from "./config";
 
 export const EPCCParam = {
-  EpContextTag: config.contextTag,
-  EpChannel: config.channel,
+  EpContextTag: process.env.REACT_APP_CONTEXT_TAG,
+  EpChannel: process.env.REACT_APP_CHANNEL,
 };
 export async function getHierarchies(): Promise<Hierarchy[]> {
   const result = await EPCCAPI.ShopperCatalog.Hierarchies.All({
