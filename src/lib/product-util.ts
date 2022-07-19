@@ -3,7 +3,6 @@ import type {
   File,
   ProductResponse,
   CatalogsProductVariation,
-  ShopperCatalogResourceList,
   ShopperCatalogResource,
 } from "@moltin/sdk";
 import { createContext } from "react";

@@ -20,6 +20,7 @@ export interface IBaseSku {
   product: ProductResponse;
   main_image: File | null;
   otherImages: File[];
+  component_products?: ProductResponse[];
 }
 
 export interface IBaseProductSku extends IBaseSku {

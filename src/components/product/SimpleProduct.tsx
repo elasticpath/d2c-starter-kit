@@ -4,6 +4,7 @@ import CartActions from "./CartActions";
 import ProductCarousel from "./carousel/ProductCarousel";
 import ProductDetails from "./ProductDetails";
 import ProductSummary from "./ProductSummary";
+import ProductComponents from "./ProductComponents";
 
 interface ISimpleProductDetail {
   simpleSku: ISimpleSku;
@@ -11,12 +12,12 @@ interface ISimpleProductDetail {
 }
 
 const SimpleProductDetail = ({
-  simpleSku: { product, main_image, otherImages },
+  simpleSku: { product, main_image, otherImages, component_products },
   handleAddToCart,
 }: ISimpleProductDetail): JSX.Element => {
   return (
     <SimpleGrid
-      columns={{ base: 1, lg: 2 }}
+      columns={{ base: 1, lg: main_image ? 2 : 1 }}
       spacing={{ base: 8, md: 10 }}
       py={{ base: 18, md: 24 }}
     >
@@ -26,6 +27,12 @@ const SimpleProductDetail = ({
       <Stack spacing={{ base: 6, md: 10 }}>
         <ProductSummary product={product} />
         <ProductDetails product={product} />
+        {component_products && (
+          <ProductComponents
+            product={product}
+            components={component_products}
+          />
+        )}
         <CartActions handleAddToCart={handleAddToCart} />
       </Stack>
     </SimpleGrid>

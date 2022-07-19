@@ -3,7 +3,6 @@ import type {
   ProductResponse,
   Resource,
   ShopperCatalogResource,
-  ShopperCatalogResourceList,
 } from "@moltin/sdk";
 import type {
   GetStaticPaths,
@@ -113,7 +112,7 @@ export const getStaticProps: GetStaticProps<ISku, SkuRouteParams> = async ({
       notFound: true,
     };
   }
-  const { data: productData } = product;
+  const productData = product.data;
 
   const retrievedResults = isSimpleProductResource(productData)
     ? retrieveSimpleProps(product)
@@ -132,13 +131,14 @@ export const getStaticProps: GetStaticProps<ISku, SkuRouteParams> = async ({
 const retrieveSimpleProps = (
   productResource: ShopperCatalogResource<ProductResponse>
 ): GetStaticPropsResult<ISimpleSku> => {
+  const component_products = productResource.included?.component_products;
   return {
     props: {
       kind: "simple-product",
       product: productResource.data,
-
       main_image: getProductMainImage(productResource),
       otherImages: getProductOtherImageUrls(productResource),
+      ...(component_products && { component_products }),
     },
   };
 };
