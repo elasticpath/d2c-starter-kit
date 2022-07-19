@@ -54,11 +54,11 @@ export function getAllProducts(): Promise<ProductResponse[]> {
 }
 
 const _getAllPages =
-  <T>(
+  <T, I>(
     nextPageRequestFn: (
       limit: number,
       offset: number
-    ) => Promise<ResourcePage<T>>
+    ) => Promise<ResourcePage<T, I>>
   ) =>
   async (
     offset: number = 0,
@@ -103,11 +103,8 @@ const _getNextPage =
     return nextPageRequestFn(limit, updatedOffset);
   };
 
-const _getAllProductPages = _getAllPages(
-  (limit = 25, offset = 0) =>
-    EPCCAPI.ShopperCatalog.Products.Limit(limit)
-      .Offset(offset)
-      .All() as Promise<ResourcePage<ProductResponse>>
+const _getAllProductPages = _getAllPages((limit = 25, offset = 0) =>
+  EPCCAPI.ShopperCatalog.Products.Limit(limit).Offset(offset).All()
 );
 
 export async function getAllBaseProducts(): Promise<ProductResponse[]> {
