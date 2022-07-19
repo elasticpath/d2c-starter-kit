@@ -29,7 +29,7 @@ import ShippingInfo from "../components/checkout/ShippingInfo";
 import type { NextPage } from "next";
 
 const stripePromise = loadStripe(
-  process.env.REACT_APP_STRIPE_KEY ||
+  process.env.NEXT_PUBLIC_REACT_APP_STRIPE_KEY ||
     "pk_test_51IF76bEYBLZCay1QYy6zYdlG152TyC7cWY2V9101fi3ECcd8qoTPVBjW0EOb2VmgKPCuwWBBogvjQAjNHotH3Gjk00BYsM1fux"
 );
 

@@ -8,8 +8,8 @@ import type {
 import { EPCCAPI } from "./helper";
 
 export const EPCCParam = {
-  EpContextTag: process.env.REACT_APP_CONTEXT_TAG,
-  EpChannel: process.env.REACT_APP_CHANNEL,
+  EpContextTag: process.env.NEXT_PUBLIC_REACT_APP_CONTEXT_TAG,
+  EpChannel: process.env.NEXT_PUBLIC_REACT_APP_CHANNEL,
 };
 export async function getHierarchies(): Promise<Hierarchy[]> {
   const result = await EPCCAPI.ShopperCatalog.Hierarchies.All({

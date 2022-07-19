@@ -42,8 +42,9 @@ import { jsx } from "@emotion/react";
 import JSX = jsx.JSX;
 
 const searchClient = algoliasearch(
-  process.env.REACT_APP_ALGOLIA_APP_ID || "SYIQ63DPU5",
-  process.env.REACT_APP_ALGOLIA_API_KEY || "f37b8d33799600835efec12ceb576b03"
+  process.env.NEXT_PUBLIC_REACT_APP_ALGOLIA_APP_ID || "SYIQ63DPU5",
+  process.env.NEXT_PUBLIC_REACT_APP_ALGOLIA_API_KEY ||
+    "f37b8d33799600835efec12ceb576b03"
 );
 
 export const useDebouncedEffect = (
@@ -188,7 +189,9 @@ export const SearchModal = (): JSX.Element => {
   return (
     <InstantSearch
       searchClient={searchClient}
-      indexName={process.env.REACT_APP_ALGOLIA_INDEX_NAM || "d2c-reference"}
+      indexName={
+        process.env.NEXT_PUBLIC_REACT_APP_ALGOLIA_INDEX_NAM || "d2c-reference"
+      }
     >
       <Button
         onClick={onOpen}

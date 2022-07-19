@@ -6,8 +6,8 @@ import {
 import { OptionDict } from "../lib/product-types";
 
 export const EPCCParam = {
-  host: process.env.REACT_APP_ENDPOINT_URL,
-  client_id: process.env.REACT_APP_CLIENT_ID,
+  host: process.env.NEXT_PUBLIC_REACT_APP_ENDPOINT_URL,
+  client_id: process.env.NEXT_PUBLIC_REACT_APP_CLIENT_ID,
   client_secret: process.env.REACT_APP_CLIENT_SECRET,
 };
 
