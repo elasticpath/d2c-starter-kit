@@ -9,8 +9,8 @@ import { EPCCAPI } from "./helper";
 import { config } from "./config";
 
 export const EPCCParam = {
-  EpContextTag: config.EpContextTag,
-  EpChannel: config.EpChannel,
+  EpContextTag: config.contextTag,
+  EpChannel: config.channel,
 };
 export async function getHierarchies(): Promise<Hierarchy[]> {
   const result = await EPCCAPI.ShopperCatalog.Hierarchies.All({

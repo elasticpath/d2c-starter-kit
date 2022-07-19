@@ -16,6 +16,6 @@ export const config = {
   algoliaAPIKey:
     process.env.REACT_APP_ALGOLIA_API_KEY || "f37b8d33799600835efec12ceb576b03",
   algoliaIndexName: process.env.REACT_APP_ALGOLIA_INDEX_NAME || "d2c-reference",
-  EpContextTag: "",
-  EpChannel: "",
+  contextTag: process.env.REACT_APP_CONTEXT_TAG || "",
+  channel: process.env.REACT_APP_CHANNEL || "",
 };
