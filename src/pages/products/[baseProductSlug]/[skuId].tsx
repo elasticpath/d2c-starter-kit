@@ -132,7 +132,6 @@ export const getStaticProps: GetStaticProps<ISku, SkuRouteParams> = async ({
 const retrieveSimpleProps = (
   productResource: ShopperCatalogResource<ProductResponse>
 ): GetStaticPropsResult<ISimpleSku> => {
-  console.log("productResource", productResource);
   return {
     props: {
       kind: "simple-product",
