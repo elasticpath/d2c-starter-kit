@@ -1,11 +1,20 @@
-import type { ProductResponse, Resource, ResourcePage } from "@moltin/sdk";
+import type {
+  ProductResponse,
+  Resource,
+  ResourcePage,
+  ShopperCatalogResource,
+  ShopperCatalogResourceList,
+} from "@moltin/sdk";
 import { excludeChildProducts } from "../lib/product-util";
 import { EPCCAPI, wait300 } from "./helper";
 
 export async function getProductById(
   productId: string
-): Promise<Resource<ProductResponse>> {
-  return await EPCCAPI.Catalog.Products.With(["main_image", "files"]).Get({
+): Promise<ShopperCatalogResource<ProductResponse>> {
+  return await EPCCAPI.ShopperCatalog.Products.With([
+    "main_image",
+    "files",
+  ]).Get({
     productId,
   });
 }
@@ -16,9 +25,11 @@ export async function getProductBySlug(
   // We treat product slugs as if they are unique so this filter on product slug
   // should only ever return one item arrays
   // TODO should be able to get single product by slug server side?
-  return await EPCCAPI.Catalog.Products.Filter({ eq: { slug: productSlug } })
+  return await EPCCAPI.ShopperCatalog.Products.Filter({
+    eq: { slug: productSlug },
+  })
     .All()
-    .then((resp) => {
+    .then((resp: ShopperCatalogResourceList<ProductResponse>) => {
       // Need to perform the getProductById becuase can't include main_image and files on Products queries
       return resp.data.length > 0 ? getProductById(resp.data[0].id) : undefined;
     });
@@ -30,7 +41,7 @@ export async function getProductBySku(
   // We treat product sku's as if they are unique so this filter on product slug
   // should only ever return one item arrays
   // TODO should be able to get product by sku server side
-  return await EPCCAPI.Catalog.Products.Filter({ eq: { sku: productSku } })
+  return await EPCCAPI.Products.Filter({ eq: { sku: productSku } })
     .All()
     .then((resp) => {
       return resp.data.length > 0 ? getProductById(resp.data[0].id) : undefined;
@@ -93,9 +104,9 @@ const _getNextPage =
 
 const _getAllProductPages = _getAllPages(
   (limit = 25, offset = 0) =>
-    EPCCAPI.Catalog.Products.Limit(limit).Offset(offset).All() as Promise<
-      ResourcePage<ProductResponse>
-    >
+    EPCCAPI.ShopperCatalog.Products.Limit(limit)
+      .Offset(offset)
+      .All() as Promise<ResourcePage<ProductResponse>>
 );
 
 export async function getAllBaseProducts(): Promise<ProductResponse[]> {

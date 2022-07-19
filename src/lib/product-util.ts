@@ -2,8 +2,9 @@ import { HTMLChakraProps } from "@chakra-ui/react";
 import type {
   File,
   ProductResponse,
-  CatalogResource,
   CatalogsProductVariation,
+  ShopperCatalogResourceList,
+  ShopperCatalogResource,
 } from "@moltin/sdk";
 import { createContext } from "react";
 import type {
@@ -29,7 +30,7 @@ export function processImageFiles(files: File[], mainImageId?: string) {
 }
 
 export function getProductOtherImageUrls(
-  productResp: CatalogResource<ProductResponse>
+  productResp: ShopperCatalogResource<ProductResponse>
 ): File[] {
   const files = productResp?.included?.files;
   return files
@@ -38,7 +39,7 @@ export function getProductOtherImageUrls(
 }
 
 export function getProductMainImage(
-  productResp: CatalogResource<ProductResponse>
+  productResp: ShopperCatalogResource<ProductResponse>
 ): File | null {
   return productResp?.included?.main_images?.[0] || null;
 }

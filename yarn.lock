@@ -2351,11 +2351,12 @@
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.22.tgz#219dfd89ae5b97a8801f015323ffa4b62f45718b"
   integrity sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==
 
-"@moltin/sdk@^11.15.0":
-  version "11.15.0"
-  resolved "https://registry.yarnpkg.com/@moltin/sdk/-/sdk-11.15.0.tgz#d77f303254d8e055151877418c3640a1ff73787c"
-  integrity sha512-D59FSM6GKoMpvrExM7/0oZqFmuJVAtgLxbUiVnNtcXyYSnfjPW/u1hWSCk4an+ECfaH3HFFHOX6e7gHpXugoXg==
+"@moltin/sdk@^12.3.1":
+  version "12.3.1"
+  resolved "https://registry.yarnpkg.com/@moltin/sdk/-/sdk-12.3.1.tgz#60717c5ba6d8fe3cdead3639dd141c7185376a5e"
+  integrity sha512-htJLCfAQrQUeo07UDkKeu+4Xpk9tfzcx/1tbaW3PBU/cm6maR4snNlX0eVVE81aJkUmSSCUu9uTGc9BcCLG4FQ==
   dependencies:
+    cross-fetch "^3.1.5"
     es6-promise "^4.0.5"
     form-data "^4.0.0"
     inflected "^2.0.1"
@@ -5823,6 +5824,13 @@ create-hmac@^1.1.0, create-hmac@^1.1.4, create-hmac@^1.1.7:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+cross-fetch@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.5.tgz#e1389f44d9e7ba767907f7af8454787952ab534f"
+  integrity sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw==
+  dependencies:
+    node-fetch "2.6.7"
 
 cross-spawn@^6.0.0, cross-spawn@^6.0.5:
   version "6.0.5"
@@ -10106,7 +10114,7 @@ node-dir@^0.1.10:
   dependencies:
     minimatch "^3.0.2"
 
-node-fetch@^2.6.1:
+node-fetch@2.6.7, node-fetch@^2.6.1:
   version "2.6.7"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==

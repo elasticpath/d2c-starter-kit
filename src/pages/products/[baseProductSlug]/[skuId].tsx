@@ -1,5 +1,10 @@
 import { Container } from "@chakra-ui/react";
-import type { ProductResponse, Resource } from "@moltin/sdk";
+import type {
+  ProductResponse,
+  Resource,
+  ShopperCatalogResource,
+  ShopperCatalogResourceList,
+} from "@moltin/sdk";
 import type {
   GetStaticPaths,
   GetStaticProps,
@@ -125,8 +130,9 @@ export const getStaticProps: GetStaticProps<ISku, SkuRouteParams> = async ({
 };
 
 const retrieveSimpleProps = (
-  productResource: Resource<ProductResponse>
+  productResource: ShopperCatalogResource<ProductResponse>
 ): GetStaticPropsResult<ISimpleSku> => {
+  console.log("productResource", productResource);
   return {
     props: {
       kind: "simple-product",
