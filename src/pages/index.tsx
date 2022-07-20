@@ -15,7 +15,7 @@ import NodeDisplay from "../components/node/NodeDisplay";
 export interface IHome {
   products: StaticProduct[];
   hierarchies?: Hierarchy[];
-  parentNode: Node | undefined;
+  parentNode?: Node | null;
   nodes?: Node[];
   promotion?: PromotionBannerSpec;
 }
@@ -28,16 +28,15 @@ const Home: NextPage<IHome> = ({ products, promotion, parentNode }) => {
         buttonText="Shop Now"
         buttonLink="/cart"
       />
-      {parentNode && (
-        <NodeDisplay
-          nodeSpec={{
-            type: "node",
-            data: parentNode.id,
-          }}
-          buttonProps={{ text: "Browse all categories", link: "/categories" }}
-          title="Shop by Category"
-        ></NodeDisplay>
-      )}
+      <NodeDisplay
+        nodeSpec={{
+          type: "node",
+          data: parentNode?.id ?? "b85de12e-1fe4-4446-96f9-40a7ad641497", // fallback ID belongs to a hierarchy
+        }}
+        buttonProps={{ text: "Browse all categories", link: "/categories" }}
+        title="Shop by Category"
+      ></NodeDisplay>
+      )
       <ProductShowcaseCarousel products={products} />
     </chakra.main>
   );
@@ -62,7 +61,7 @@ export const getStaticProps: GetStaticProps<IHome> = async () => {
       products: staticProducts,
       promotion,
       hierarchies,
-      parentNode,
+      parentNode: parentNode ?? null,
     },
   };
 };
