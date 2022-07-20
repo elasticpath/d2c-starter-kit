@@ -10,12 +10,12 @@ import { epccEnv } from "../lib/resolve-epcc-env";
 
 const headers = resolveEpccCustomRuleHeaders();
 
-export const EPCCParam: ConfigOptions = {
+export const epccParam: ConfigOptions = {
   ...epccEnv,
   ...(headers ? { headers } : {}),
 };
 
-export const EPCCAPI = EPCCGateway(EPCCParam);
+export const EPCCAPI = EPCCGateway(epccParam);
 
 export async function register(
   name: string,
