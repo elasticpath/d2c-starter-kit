@@ -6,9 +6,9 @@ function resolveEpccEnv(): {
   client_secret?: string;
 } {
   const { host, client_id, client_secret } = {
-    host: process.env.NEXT_PUBLIC_ENDPOINT_URL,
+    host: process.env.NEXT_PUBLIC_EPCC_ENDPOINT_URL,
     client_id: process.env.NEXT_PUBLIC_EPCC_CLIENT_ID,
-    client_secret: process.env.CLIENT_SECRET,
+    client_secret: process.env.EPCC_CLIENT_SECRET,
   };
 
   if (!client_id) {
