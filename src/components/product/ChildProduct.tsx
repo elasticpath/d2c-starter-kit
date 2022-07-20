@@ -5,6 +5,7 @@ import ProductCarousel from "./carousel/ProductCarousel";
 import ProductDetails from "./ProductDetails";
 import ProductSummary from "./ProductSummary";
 import ProductVariations from "./ProductVariations";
+import ProductExtensions from "./ProductExtensions";
 
 interface IChildProductDetail {
   childSku: IChildSku;
@@ -19,6 +20,7 @@ const ChildProductDetail = ({
     baseProduct,
     variations,
     variationsMatrix,
+    extensions,
   },
   handleAddToCart,
 }: IChildProductDetail): JSX.Element => {
@@ -34,6 +36,7 @@ const ChildProductDetail = ({
       <Stack spacing={{ base: 6, md: 10 }}>
         <ProductSummary product={product} />
         <ProductDetails product={product} />
+        <ProductExtensions extensions={extensions} />
         {variations && (
           <ProductVariations
             variations={variations}
