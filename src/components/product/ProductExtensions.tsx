@@ -1,9 +1,20 @@
-import { Box, Stack, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, chakra, Stack, Text, useColorModeValue } from "@chakra-ui/react";
+import { Fragment } from "react";
 import { IExtensions } from "../../lib/product-types";
 
 interface IProductExtensions {
   extensions: IExtensions;
 }
+
+const DescriptionList = chakra("dl");
+const DescriptionTerm = chakra("dt", {
+  baseStyle: { fontWeight: "600", textTransform: "capitalize" },
+});
+const DescriptionDetails = chakra("dd", {
+  baseStyle: {
+    mb: "2",
+  },
+});
 
 const ProductExtensions = ({ extensions }: IProductExtensions): JSX.Element => {
   const extensionsValues = Object.values(extensions ?? {}).flat();
@@ -21,23 +32,23 @@ const ProductExtensions = ({ extensions }: IProductExtensions): JSX.Element => {
           >
             More Info
           </Text>
-          {extensionsValues.map((extension) => {
-            const extensionKeys = Object.keys(extension);
-            return extensionKeys.map((key) => {
-              let value = extension[key];
-              if (typeof value === "boolean") {
-                value = value ? "Yes" : "No";
-              }
-              return (
-                <Box key={`${key}-${value}`}>
-                  <Text fontWeight={"600"} textTransform={"capitalize"}>
-                    {key}
-                  </Text>
-                  <Text mb={2}>{value}</Text>
-                </Box>
-              );
-            });
-          })}
+          <DescriptionList>
+            {extensionsValues.map((extension) => {
+              const extensionKeys = Object.keys(extension);
+              return extensionKeys.map((key) => {
+                let value = extension[key];
+                if (typeof value === "boolean") {
+                  value = value ? "Yes" : "No";
+                }
+                return (
+                  <Fragment key={`${key}-${value}`}>
+                    <DescriptionTerm>{key}</DescriptionTerm>
+                    <DescriptionDetails>{value}</DescriptionDetails>
+                  </Fragment>
+                );
+              });
+            })}
+          </DescriptionList>
         </Box>
       </Stack>
     );
