@@ -13,10 +13,7 @@ import {
   SkeletonProps,
 } from "@chakra-ui/react";
 import { Node } from "@moltin/sdk";
-import {
-  getNodes,
-  getNodeChildren,
-} from "../../services/hierarchy";
+import { getNodes, getNodeChildren } from "../../services/hierarchy";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 
@@ -123,7 +120,7 @@ export default function NodeDisplay({
       console.log("Not enough nodes to display - setting to empty");
     }
 
-    setNodes([topNodes[0]]);
+    setNodes([...topNodes]);
   }, [nodeSpec, idSpec, getChildren]);
 
   useEffect(() => {
@@ -213,6 +210,7 @@ export default function NodeDisplay({
                   // placeholder url for categories page
                   onClick={() => router.push(`/categories/${node.id}`)}
                 />
+                {/* TODO: When images are available, use this component instead of the above Box*/}
                 {/* <Image
                   objectPosition={"center"}
                   objectFit={"cover"}
