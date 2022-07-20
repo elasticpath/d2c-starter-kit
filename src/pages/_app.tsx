@@ -5,13 +5,8 @@ import { ChakraProvider } from "@chakra-ui/react";
 import "../components/checkout/CardSectionStyles.css";
 import "../styles/globals.css";
 import { InstantSearch } from "react-instantsearch-hooks-web";
-import algoliasearch from "algoliasearch/lite";
-
-const searchClient = algoliasearch(
-  process.env.NEXT_PUBLIC_REACT_APP_ALGOLIA_APP_ID || "SYIQ63DPU5",
-  process.env.NEXT_PUBLIC_REACT_APP_ALGOLIA_API_KEY ||
-    "f37b8d33799600835efec12ceb576b03"
-);
+import { searchClient } from "../lib/search-client";
+import { algoliaEnvData } from "../lib/resolve-algolia-env";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -20,10 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <MainLayout>
           <InstantSearch
             searchClient={searchClient}
-            indexName={
-              process.env.NEXT_PUBLIC_REACT_APP_ALGOLIA_INDEX_NAME ||
-              "d2c-reference"
-            }
+            indexName={algoliaEnvData.indexName}
           >
             <Component {...pageProps} />
           </InstantSearch>

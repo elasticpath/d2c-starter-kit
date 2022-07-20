@@ -34,29 +34,13 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
-import algoliasearch from "algoliasearch/lite";
 import NoResults from "./NoResults";
 import NoImage from "./NoImage";
 import { SearchHit } from "./SearchHit";
 import { jsx } from "@emotion/react";
 import JSX = jsx.JSX;
-
-const algoliaEnvResponse = algoliaEnv();
-const searchClient = algoliasearch(
-  algoliaEnvResponse.appId,
-  algoliaEnvResponse.apiKey
-);
-
-function algoliaEnv(): { appId: string; apiKey: string } {
-  const appId = process.env.NEXT_PUBLIC_REACT_APP_ALGOLIA_APP_ID;
-  const apiKey = process.env.NEXT_PUBLIC_REACT_APP_ALGOLIA_API_KEY;
-  if (!appId || !apiKey) {
-    throw Error(
-      `Failed to get algolia search environment variables app id: ${appId} api key: ${apiKey} make sure they exist in your environment`
-    );
-  }
-  return { appId, apiKey };
-}
+import { searchClient } from "../../lib/search-client";
+import { algoliaEnvData } from "../../lib/resolve-algolia-env";
 
 export const useDebouncedEffect = (
   effect: EffectCallback,
@@ -200,9 +184,7 @@ export const SearchModal = (): JSX.Element => {
   return (
     <InstantSearch
       searchClient={searchClient}
-      indexName={
-        process.env.NEXT_PUBLIC_REACT_APP_ALGOLIA_INDEX_NAM || "d2c-reference"
-      }
+      indexName={algoliaEnvData.indexName}
     >
       <Button
         onClick={onOpen}
