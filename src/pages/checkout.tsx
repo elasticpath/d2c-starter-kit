@@ -27,11 +27,9 @@ import ShippingForm from "../components/checkout/ShippingForm";
 import PaymentForm from "../components/checkout/PaymentForm";
 import ShippingInfo from "../components/checkout/ShippingInfo";
 import type { NextPage } from "next";
+import { stripeEnv } from "../lib/resolve-stripe-env";
 
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_REACT_APP_STRIPE_KEY ||
-    "pk_test_51IF76bEYBLZCay1QYy6zYdlG152TyC7cWY2V9101fi3ECcd8qoTPVBjW0EOb2VmgKPCuwWBBogvjQAjNHotH3Gjk00BYsM1fux"
-);
+const stripePromise = loadStripe(stripeEnv);
 
 export const Checkout: NextPage<{}> = () => {
   const {
@@ -44,10 +42,6 @@ export const Checkout: NextPage<{}> = () => {
   } = useCheckoutForm();
   const { promotionItems, updateCartItems, totalPrice, cartData } =
     useCartItems();
-
-  //   const stripeOptions = {
-  //     clientSecret: config.stripeClientSecret,
-  //   };
 
   const [formStep, setFormStep] = useState(0);
 
