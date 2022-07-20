@@ -1,8 +1,9 @@
 import type { GetStaticProps, NextPage } from "next";
+import type { Hierarchy, Node } from "@moltin/sdk";
 import "pure-react-carousel/dist/react-carousel.es.css";
 
 import { chakra } from "@chakra-ui/react";
-import { getNodes, getHierarchies } from "../services/hierarchy";
+import { getHierarchies, getNodes } from "../services/hierarchy";
 import { StaticProduct, staticProducts } from "../lib/product-data";
 import ProductShowcaseCarousel from "../components/product/carousel/ProductShowcaseCarousel";
 import PromotionBanner, {
@@ -10,16 +11,16 @@ import PromotionBanner, {
 } from "../components/PromotionBanner/PromotionBanner";
 import { getPromotionById } from "../services/promotions";
 import NodeDisplay from "../components/node/NodeDisplay";
-import type { Hierarchy, Node } from "@moltin/sdk";
 
 export interface IHome {
   products: StaticProduct[];
-  hierarchies: Hierarchy[];
+  hierarchies?: Hierarchy[];
+  parentNode: Node | undefined;
   nodes?: Node[];
   promotion?: PromotionBannerSpec;
 }
 
-const Home: NextPage<IHome> = ({ products, promotion, hierarchies }) => {
+const Home: NextPage<IHome> = ({ products, promotion, parentNode }) => {
   return (
     <chakra.main>
       <PromotionBanner
@@ -27,13 +28,16 @@ const Home: NextPage<IHome> = ({ products, promotion, hierarchies }) => {
         buttonText="Shop Now"
         buttonLink="/cart"
       />
-      <NodeDisplay
-        nodeSpec={hierarchies[0].id}
-        buttonProps={{ text: "Browse all categories" }}
-        title="Shop by Category"
-        // nodesArr={nodes}
-        // hierarchyId={hierarchies[0].id}
-      ></NodeDisplay>
+      {parentNode && (
+        <NodeDisplay
+          nodeSpec={{
+            type: "node",
+            data: parentNode.id,
+          }}
+          buttonProps={{ text: "Browse all categories", link: "/categories" }}
+          title="Shop by Category"
+        ></NodeDisplay>
+      )}
       <ProductShowcaseCarousel products={products} />
     </chakra.main>
   );
@@ -45,16 +49,20 @@ export const getStaticProps: GetStaticProps<IHome> = async () => {
   );
 
   const hierarchies = await getHierarchies();
+  const hierarchyChildren =
+    hierarchies.length > 0 ? await getNodes(hierarchies[0].id) : [];
+  // As an example, use first hierarchy's child, if there is one
+  const parentNode =
+    hierarchyChildren.length > 0 ? hierarchyChildren[0] : undefined;
 
   console.clear();
-  console.log("hierarchies ALL", hierarchies);
-  // const nodes = await getNodes(hierarchies[0].id);
-  // console.log("returned nodes", nodes);
+  console.log("getStaticProps - hierarchies ALL", hierarchies);
   return {
     props: {
       products: staticProducts,
       promotion,
       hierarchies,
+      parentNode,
     },
   };
 };
