@@ -6,22 +6,24 @@ import { ProductResponse } from "@moltin/sdk";
 import type { File } from "@moltin/sdk";
 
 interface IFeaturedProductsProps {
-  nodeId?: string;
-  nodeProducts?: ProductResponse[];
   title: string;
   link: string;
+  nodeId?: string;
+  nodeProducts?: ProductResponse[];
+  nodeProductsImages?: File[];
 }
 
 const FeaturedProducts = ({
-  nodeId,
-  nodeProducts = [],
   title,
   link,
+  nodeId,
+  nodeProducts = [],
+  nodeProductsImages = [],
 }: IFeaturedProductsProps): JSX.Element => {
   const router = useRouter();
 
   const [products, setProducts] = useState<ProductResponse[]>(nodeProducts);
-  const [mainImages, setMainImages] = useState<File[]>([]);
+  const [mainImages, setMainImages] = useState<File[]>(nodeProductsImages);
 
   const fetchNodeProducts = useCallback(async () => {
     const { data, included } = await getProductsByNode(nodeId!);
@@ -56,32 +58,27 @@ const FeaturedProducts = ({
         </Button>
       </Flex>
       <Flex justifyContent="space-around" alignItems="center" mt={6} mb={8}>
-        {products.map((product) => {
-          const productMainImageId = product.relationships.main_image?.data?.id;
-          const productMainImage = mainImages.find(
-            (image) => image.id === productMainImageId
-          );
-          return (
-            <Box key={product.id} textAlign="center">
-              <Image
-                width={290}
-                height={290}
-                alt={productMainImage?.file_name || "Empty"}
-                src={productMainImage?.link.href}
-                fallbackSrc="/images/image_placeholder.svg"
-                borderRadius={5}
-              />
+        {products.map((product, index) => (
+          <Box key={product.id} textAlign="center">
+            <Image
+              width={290}
+              height={290}
+              alt={mainImages[index]?.file_name || "Empty"}
+              src={mainImages[index]?.link.href}
+              fallbackSrc="/images/image_placeholder.svg"
+              borderRadius={5}
+              objectFit="cover"
+            />
 
-              <Box fontSize={14} mt={8} color="gray.500">
-                {product.attributes.sku}
-              </Box>
-              <Box p="2" fontWeight="semibold">
-                {product.attributes.name}
-              </Box>
-              <Box>{product.meta.display_price?.without_tax.formatted}</Box>
+            <Box fontSize={14} mt={8} color="gray.500">
+              {product.attributes.sku}
             </Box>
-          );
-        })}
+            <Box p="2" fontWeight="semibold">
+              {product.attributes.name}
+            </Box>
+            <Box>{product.meta.display_price?.without_tax.formatted}</Box>
+          </Box>
+        ))}
       </Flex>
     </Box>
   );

@@ -1,6 +1,6 @@
 import type { GetStaticProps, NextPage } from "next";
 import "pure-react-carousel/dist/react-carousel.es.css";
-
+import type { File } from "@moltin/sdk";
 import { chakra } from "@chakra-ui/react";
 import { StaticProduct, staticProducts } from "../lib/product-data";
 import ProductShowcaseCarousel from "../components/product/carousel/ProductShowcaseCarousel";
@@ -13,12 +13,18 @@ import { getProductsByNode } from "../services/hierarchy";
 import { ProductResponse } from "@moltin/sdk";
 
 export interface IHome {
-  products: StaticProduct[];
+  staticProducts: StaticProduct[];
   promotion?: PromotionBannerSpec;
   nodeProducts?: ProductResponse[];
+  nodeProductsImages?: File[];
 }
 
-const Home: NextPage<IHome> = ({ products, promotion, nodeProducts }) => {
+const Home: NextPage<IHome> = ({
+  staticProducts,
+  promotion,
+  nodeProducts,
+  nodeProductsImages,
+}) => {
   const nodeId = "4cb5301a-9da3-41a4-9402-c104ed1c2569";
   return (
     <chakra.main>
@@ -28,12 +34,13 @@ const Home: NextPage<IHome> = ({ products, promotion, nodeProducts }) => {
         buttonLink="/cart"
       />
       <FeaturedProducts
-        nodeId={nodeId}
-        nodeProducts={nodeProducts}
         title="Trending Products"
         link={`/category/${nodeId}`}
+        nodeId={nodeId}
+        nodeProducts={nodeProducts}
+        nodeProductsImages={nodeProductsImages}
       />
-      <ProductShowcaseCarousel products={products} />
+      <ProductShowcaseCarousel products={staticProducts} />
     </chakra.main>
   );
 };
@@ -42,14 +49,14 @@ export const getStaticProps: GetStaticProps<IHome> = async () => {
   const { data: promotion } = await getPromotionById(
     "885709b4-0053-48ee-91a2-bc9f7eb41d27"
   );
-  const { data: nodeProducts } = await getProductsByNode(
-    "4cb5301a-9da3-41a4-9402-c104ed1c2569"
-  );
+  const { data: nodeProducts, included: nodeProductsIncluded } =
+    await getProductsByNode("4cb5301a-9da3-41a4-9402-c104ed1c2569");
   return {
     props: {
-      products: staticProducts,
+      staticProducts,
       promotion,
       nodeProducts: nodeProducts.slice(0, 4),
+      nodeProductsImages: nodeProductsIncluded?.main_images,
     },
   };
 };
