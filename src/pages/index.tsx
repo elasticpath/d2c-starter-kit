@@ -1,8 +1,9 @@
 import type { GetStaticProps, NextPage } from "next";
+import type { Hierarchy, Node } from "@moltin/sdk";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import type { File , Hierarchy, Node} from "@moltin/sdk";
 import { chakra } from "@chakra-ui/react";
-import { getNodes, getHierarchies } from "../services/hierarchy";
+import { getHierarchies, getNodes } from "../services/hierarchy";
 import { StaticProduct, staticProducts } from "../lib/product-data";
 import ProductShowcaseCarousel from "../components/product/carousel/ProductShowcaseCarousel";
 import PromotionBanner, {
@@ -16,7 +17,8 @@ import NodeDisplay from "../components/node/NodeDisplay";
 
 export interface IHome {
   staticProducts: StaticProduct[];
-  hierarchies: Hierarchy[];
+  hierarchies?: Hierarchy[];
+  parentNode: Node | undefined;
   nodes?: Node[];
   promotion?: PromotionBannerSpec;
   nodeProducts?: ProductResponse[];
@@ -28,7 +30,7 @@ const Home: NextPage<IHome> = ({
   promotion,
   nodeProducts,
   nodeProductsImages,
-  hierarchies
+  parentNode
 }) => {
   const nodeId = "4cb5301a-9da3-41a4-9402-c104ed1c2569";
   return (
@@ -46,11 +48,16 @@ const Home: NextPage<IHome> = ({
         nodeProductsImages={nodeProductsImages}
       />
       <ProductShowcaseCarousel products={staticProducts} />
-      <NodeDisplay
-        nodeSpec={hierarchies[0].id}
-        buttonProps={{ text: "Browse all categories" }}
-        title="Shop by Category"
-      ></NodeDisplay>
+      {parentNode && (
+        <NodeDisplay
+          nodeSpec={{
+            type: "node",
+            data: parentNode.id,
+          }}
+          buttonProps={{ text: "Browse all categories", link: "/categories" }}
+          title="Shop by Category"
+        ></NodeDisplay>
+      )}
     </chakra.main>
   );
 };
@@ -63,6 +70,11 @@ export const getStaticProps: GetStaticProps<IHome> = async () => {
     await getProductsByNode("4cb5301a-9da3-41a4-9402-c104ed1c2569");
 
   const hierarchies = await getHierarchies();
+  const hierarchyChildren =
+    hierarchies.length > 0 ? await getNodes(hierarchies[0].id) : [];
+  // As an example, use first hierarchy's child, if there is one
+  const parentNode =
+    hierarchyChildren.length > 0 ? hierarchyChildren[0] : undefined;
 
   return {
     props: {
@@ -71,6 +83,7 @@ export const getStaticProps: GetStaticProps<IHome> = async () => {
       nodeProducts: nodeProducts.slice(0, 4),
       nodeProductsImages: nodeProductsIncluded?.main_images,
       hierarchies,
+      parentNode,
     },
   };
 };
