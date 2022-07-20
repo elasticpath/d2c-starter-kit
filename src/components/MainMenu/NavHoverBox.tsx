@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getNodes } from "../../services/hierarchy";
+import { getHierarchyChildren } from "../../services/hierarchy";
 import type { Node } from "@moltin/sdk";
 import { Box, useColorModeValue } from "@chakra-ui/react";
 import Link from "next/link";
@@ -13,7 +13,7 @@ export default function NavHoverBox({ id }: INavHoverBox) {
 
   useEffect(() => {
     async function fetchNodes() {
-      const hierarchy = await getNodes(id);
+      const hierarchy = await getHierarchyChildren(id);
       setSubMenu(hierarchy);
     }
     try {

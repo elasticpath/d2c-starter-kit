@@ -2,28 +2,32 @@ import type { GetStaticProps, NextPage } from "next";
 import "pure-react-carousel/dist/react-carousel.es.css";
 
 import { chakra } from "@chakra-ui/react";
-import { getNodes, getHierarchies } from "../services/hierarchy";
+import { getHierarchies, getHierarchyChildren } from "../services/hierarchy";
 import { StaticProduct, staticProducts } from "../lib/product-data";
 import ProductShowcaseCarousel from "../components/product/carousel/ProductShowcaseCarousel";
 import NodeDisplay from "../components/node/NodeDisplay";
 import type { Hierarchy, Node } from "@moltin/sdk";
+import { useEffect, useState } from "react";
 
 export interface IHome {
   products: StaticProduct[];
   hierarchies: Hierarchy[];
-  nodes?: Node[];
+  parentNode: Node | undefined;
 }
 
-const Home: NextPage<IHome> = ({ products, hierarchies }) => {
+const Home: NextPage<IHome> = ({ products, parentNode }) => {
   return (
     <chakra.main py="16">
-      <NodeDisplay
-        nodeSpec={hierarchies[0].id}
-        buttonProps={{ text: "Browse all categories" }}
-        title="Shop by Category"
-        // nodesArr={nodes}
-        // hierarchyId={hierarchies[0].id}
-      ></NodeDisplay>
+      {parentNode && (
+        <NodeDisplay
+          nodeSpec={{
+            type: "node",
+            data: parentNode.id,
+          }}
+          buttonProps={{ text: "Browse all categories", link: "/categories" }}
+          title="Shop by Category"
+        ></NodeDisplay>
+      )}
       <ProductShowcaseCarousel products={products} />
     </chakra.main>
   );
@@ -31,15 +35,19 @@ const Home: NextPage<IHome> = ({ products, hierarchies }) => {
 
 export const getStaticProps: GetStaticProps<IHome> = async () => {
   const hierarchies = await getHierarchies();
+  const hierarchyChildren =
+    hierarchies.length > 0 ? await getHierarchyChildren(hierarchies[0].id) : [];
+  // As an example, use first hierarchy's child, if there is one
+  const parentNode =
+    hierarchyChildren.length > 0 ? hierarchyChildren[0] : undefined;
 
   console.clear();
-  console.log("hierarchies ALL", hierarchies);
-  // const nodes = await getNodes(hierarchies[0].id);
-  // console.log("returned nodes", nodes);
+  console.log("getStaticProps - hierarchies ALL", hierarchies);
   return {
     props: {
       products: staticProducts,
       hierarchies,
+      parentNode,
     },
   };
 };
