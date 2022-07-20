@@ -13,7 +13,13 @@ interface ISimpleProductDetail {
 }
 
 const SimpleProductDetail = ({
-  simpleSku: { product, main_image, otherImages, component_products, extensions },
+  simpleSku: {
+    product,
+    main_image,
+    otherImages,
+    component_products,
+    extensions,
+  },
   handleAddToCart,
 }: ISimpleProductDetail): JSX.Element => {
   return (
