@@ -5,6 +5,7 @@ import type {
 } from "@moltin/sdk";
 import type { Dispatch, SetStateAction } from "react";
 import type { MatrixObjectEntry } from "../services/helper";
+import { PcmProductResponse } from "@moltin/sdk/src/types/pcm";
 
 export type IdentifiableBaseProduct = ProductResponse & {
   id: string;
@@ -20,6 +21,7 @@ export interface IBaseSku {
   product: ProductResponse;
   main_image: File | null;
   otherImages: File[];
+  extensions: IExtensions;
   component_products?: ProductResponse[];
 }
 
@@ -50,3 +52,7 @@ export interface ProductContext {
 export interface OptionDict {
   [key: string]: string;
 }
+
+export type IExtensions =
+  | PcmProductResponse["data"]["attributes"]["extensions"]
+  | null;
