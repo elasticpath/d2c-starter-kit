@@ -41,11 +41,22 @@ import { SearchHit } from "./SearchHit";
 import { jsx } from "@emotion/react";
 import JSX = jsx.JSX;
 
+const algoliaEnvResponse = algoliaEnv();
 const searchClient = algoliasearch(
-  process.env.NEXT_PUBLIC_REACT_APP_ALGOLIA_APP_ID || "SYIQ63DPU5",
-  process.env.NEXT_PUBLIC_REACT_APP_ALGOLIA_API_KEY ||
-    "f37b8d33799600835efec12ceb576b03"
+  algoliaEnvResponse.appId,
+  algoliaEnvResponse.apiKey
 );
+
+function algoliaEnv(): { appId: string; apiKey: string } {
+  const appId = process.env.NEXT_PUBLIC_REACT_APP_ALGOLIA_APP_ID;
+  const apiKey = process.env.NEXT_PUBLIC_REACT_APP_ALGOLIA_API_KEY;
+  if (!appId || !apiKey) {
+    throw Error(
+      `Failed to get algolia search environment variables app id: ${appId} api key: ${apiKey} make sure they exist in your environment`
+    );
+  }
+  return { appId, apiKey };
+}
 
 export const useDebouncedEffect = (
   effect: EffectCallback,
