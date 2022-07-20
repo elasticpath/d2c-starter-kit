@@ -6,6 +6,7 @@ import type {
 } from "@moltin/sdk";
 
 import { EPCCAPI } from "./helper";
+import { ShopperCatalogResourcePage } from "@moltin/sdk";
 
 export async function getHierarchies(): Promise<Hierarchy[]> {
   const result = await EPCCAPI.ShopperCatalog.Hierarchies.All();
@@ -27,4 +28,13 @@ export async function getNodesProducts(
   nodeId: string
 ): Promise<ResourceList<ProductResponse>> {
   return await EPCCAPI.ShopperCatalog.Nodes.GetNodeProducts({ nodeId });
+}
+
+export async function getProductsByNode(
+  nodeId: string
+): Promise<ShopperCatalogResourcePage<ProductResponse>> {
+  return await EPCCAPI.ShopperCatalog.Products.With([
+    "main_image",
+    "files",
+  ]).GetProductsByNode({ nodeId });
 }

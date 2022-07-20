@@ -9,7 +9,7 @@ import PromotionBanner, {
 } from "../components/PromotionBanner/PromotionBanner";
 import { getPromotionById } from "../services/promotions";
 import FeaturedProducts from "../components/FeaturedProducts/FeaturedProducts";
-import { getNodesProducts } from "../services/hierarchy";
+import { getProductsByNode } from "../services/hierarchy";
 import { ProductResponse } from "@moltin/sdk";
 
 export interface IHome {
@@ -19,7 +19,7 @@ export interface IHome {
 }
 
 const Home: NextPage<IHome> = ({ products, promotion, nodeProducts }) => {
-  const nodeId = "b9c5177b-7793-4854-9fef-916534c047af";
+  const nodeId = "4cb5301a-9da3-41a4-9402-c104ed1c2569";
   return (
     <chakra.main>
       <PromotionBanner
@@ -42,8 +42,8 @@ export const getStaticProps: GetStaticProps<IHome> = async () => {
   const { data: promotion } = await getPromotionById(
     "885709b4-0053-48ee-91a2-bc9f7eb41d27"
   );
-  const { data: nodeProducts } = await getNodesProducts(
-    "b9c5177b-7793-4854-9fef-916534c047af"
+  const { data: nodeProducts } = await getProductsByNode(
+    "4cb5301a-9da3-41a4-9402-c104ed1c2569"
   );
   return {
     props: {
