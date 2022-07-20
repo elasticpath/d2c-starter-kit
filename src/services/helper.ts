@@ -2,13 +2,17 @@ import {
   gateway as EPCCGateway,
   ProductResponse,
   CatalogsProductVariation,
+  ConfigOptions,
 } from "@moltin/sdk";
+import { resolveEpccCustomRuleHeaders } from "../lib/custom-rule-headers";
 import { OptionDict } from "../lib/product-types";
+import { epccEnv } from "../lib/resolve-epcc-env";
 
-export const EPCCParam = {
-  host: process.env.NEXT_PUBLIC_REACT_APP_ENDPOINT_URL,
-  client_id: process.env.NEXT_PUBLIC_REACT_APP_CLIENT_ID,
-  client_secret: process.env.REACT_APP_CLIENT_SECRET,
+const headers = resolveEpccCustomRuleHeaders();
+
+export const EPCCParam: ConfigOptions = {
+  ...epccEnv,
+  ...(headers ? { headers } : {}),
 };
 
 export const EPCCAPI = EPCCGateway(EPCCParam);
