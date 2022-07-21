@@ -3,6 +3,8 @@ import {
   ProductResponse,
   CatalogsProductVariation,
   ConfigOptions,
+  MemoryStorageFactory,
+  LocalStorageFactory,
 } from "@moltin/sdk";
 import { resolveEpccCustomRuleHeaders } from "../lib/custom-rule-headers";
 import { OptionDict } from "../lib/product-types";
@@ -12,6 +14,10 @@ const headers = resolveEpccCustomRuleHeaders();
 
 export const epccParam: ConfigOptions = {
   ...epccEnv,
+  storage:
+    typeof window === "undefined"
+      ? new MemoryStorageFactory()
+      : new LocalStorageFactory(),
   ...(headers ? { headers } : {}),
 };
 
