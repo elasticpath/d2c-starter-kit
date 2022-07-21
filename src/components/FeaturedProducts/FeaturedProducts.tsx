@@ -57,7 +57,13 @@ const FeaturedProducts = ({
           See everything →
         </Button>
       </Flex>
-      <Flex justifyContent="space-around" alignItems="center" mt={6} mb={8}>
+      <Flex
+        justifyContent="space-around"
+        alignItems="center"
+        mt={6}
+        mb={8}
+        flexWrap="wrap"
+      >
         {products.map((product, index) => (
           <Box key={product.id} textAlign="center">
             <Image
