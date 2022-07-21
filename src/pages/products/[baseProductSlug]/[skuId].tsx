@@ -1,5 +1,9 @@
 import { Container } from "@chakra-ui/react";
-import type { ProductResponse, Resource } from "@moltin/sdk";
+import type {
+  ProductResponse,
+  Resource,
+  ShopperCatalogResource,
+} from "@moltin/sdk";
 import type {
   GetStaticPaths,
   GetStaticProps,
@@ -15,7 +19,11 @@ import {
   isChildProductResource,
   isSimpleProductResource,
 } from "../../../services/helper";
-import { getAllProducts, getProductById } from "../../../services/products";
+import {
+  getAllProducts,
+  getProductById,
+  getPCMProductById,
+} from "../../../services/products";
 import SimpleProductDetail from "../../../components/product/SimpleProduct";
 import {
   filterBaseProducts,
@@ -31,8 +39,8 @@ import type {
   IChildSku,
   ISimpleSku,
   ISku,
+  IExtensions,
 } from "../../../lib/product-types";
-import { ShopperCatalogResource } from "@moltin/sdk";
 
 export const Sku: NextPage<ISku> = (props: ISku) => {
   const { updateCartItems, setCartQuantity } = useCartItems();
@@ -103,6 +111,7 @@ export const getStaticProps: GetStaticProps<ISku, SkuRouteParams> = async ({
   // alternative use params!.productId; instead of if check
   // non-null assertion operator https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#non-null-assertion-operator
   const product = await getProductById(params.skuId);
+  const pcmProduct = await getPCMProductById(params.skuId);
   // TODO should getProductById return undefined or a more understandable error response
   if (!product) {
     return {
@@ -110,12 +119,13 @@ export const getStaticProps: GetStaticProps<ISku, SkuRouteParams> = async ({
     };
   }
   const productData = product.data;
+  const extensions = pcmProduct.data.attributes.extensions || null;
 
   const retrievedResults = isSimpleProductResource(productData)
-    ? retrieveSimpleProps(product)
+    ? retrieveSimpleProps(product, extensions)
     : isChildProductResource(productData)
-    ? await retrieveChildProps(params.baseProductSlug, product)
-    : await retrieveBaseProps(product);
+    ? await retrieveChildProps(params.baseProductSlug, product, extensions)
+    : await retrieveBaseProps(product, extensions);
 
   // TODO determine the best timeframe to rebuild a requested static page.
   //  set to 5 miuntes (300 seconds) arbitrarily
@@ -126,7 +136,8 @@ export const getStaticProps: GetStaticProps<ISku, SkuRouteParams> = async ({
 };
 
 const retrieveSimpleProps = (
-  productResource: ShopperCatalogResource<ProductResponse>
+  productResource: ShopperCatalogResource<ProductResponse>,
+  extensions: IExtensions
 ): GetStaticPropsResult<ISimpleSku> => {
   const component_products = productResource.included?.component_products;
   return {
@@ -135,6 +146,7 @@ const retrieveSimpleProps = (
       product: productResource.data,
       main_image: getProductMainImage(productResource),
       otherImages: getProductOtherImageUrls(productResource),
+      extensions,
       ...(component_products && { component_products }),
     },
   };
@@ -142,7 +154,8 @@ const retrieveSimpleProps = (
 
 async function retrieveChildProps(
   baseProductSlug: string,
-  childProductResource: Resource<ProductResponse>
+  childProductResource: Resource<ProductResponse>,
+  extensions: IExtensions
 ): Promise<GetStaticPropsResult<IChildSku>> {
   const baseProductId = childProductResource.data.attributes.base_product_id;
   const baseProduct = await getProductById(baseProductId);
@@ -172,12 +185,14 @@ async function retrieveChildProps(
       otherImages: getProductOtherImageUrls(childProductResource),
       variationsMatrix: variation_matrix,
       variations: variations.sort(sortAlphabetically),
+      extensions,
     },
   };
 }
 
 async function retrieveBaseProps(
-  baseProductResource: Resource<ProductResponse>
+  baseProductResource: Resource<ProductResponse>,
+  extensions: IExtensions
 ): Promise<GetStaticPropsResult<IBaseProductSku>> {
   const {
     data: {
@@ -200,6 +215,7 @@ async function retrieveBaseProps(
       otherImages: getProductOtherImageUrls(baseProductResource),
       variationsMatrix: variation_matrix,
       variations: variations.sort(sortAlphabetically),
+      extensions,
     },
   };
 }

@@ -2,7 +2,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+### Setup Local Environment
+
+First, make a copy of the `.env.example` and rename it to `.env.local.` Set at least the values marked `<required>`
+
+### Dev Server
+
+then, run the development server:
 
 ```bash
 npm run dev

@@ -2,8 +2,8 @@ import { HTMLChakraProps } from "@chakra-ui/react";
 import type {
   File,
   ProductResponse,
-  ShopperCatalogResource,
   CatalogsProductVariation,
+  ShopperCatalogResource,
 } from "@moltin/sdk";
 import { createContext } from "react";
 import type {
