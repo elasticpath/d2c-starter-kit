@@ -2,17 +2,26 @@ import {
   gateway as EPCCGateway,
   ProductResponse,
   CatalogsProductVariation,
+  ConfigOptions,
+  MemoryStorageFactory,
+  LocalStorageFactory,
 } from "@moltin/sdk";
+import { resolveEpccCustomRuleHeaders } from "../lib/custom-rule-headers";
 import { OptionDict } from "../lib/product-types";
-import { config } from "./config";
+import { epccEnv } from "../lib/resolve-epcc-env";
 
-export const EPCCParam = {
-  host: config.endpointURL,
-  client_id: config.clientId,
-  client_secret: config.clientSecret,
+const headers = resolveEpccCustomRuleHeaders();
+
+export const epccParam: ConfigOptions = {
+  ...epccEnv,
+  storage:
+    typeof window === "undefined"
+      ? new MemoryStorageFactory()
+      : new LocalStorageFactory(),
+  ...(headers ? { headers } : {}),
 };
 
-export const EPCCAPI = EPCCGateway(EPCCParam);
+export const EPCCAPI = EPCCGateway(epccParam);
 
 export async function register(
   name: string,

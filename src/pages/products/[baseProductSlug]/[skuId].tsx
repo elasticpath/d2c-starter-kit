@@ -1,5 +1,9 @@
 import { Container } from "@chakra-ui/react";
-import type { ProductResponse, Resource } from "@moltin/sdk";
+import type {
+  ProductResponse,
+  Resource,
+  ShopperCatalogResource,
+} from "@moltin/sdk";
 import type {
   GetStaticPaths,
   GetStaticProps,
@@ -37,7 +41,6 @@ import type {
   ISku,
   IExtensions,
 } from "../../../lib/product-types";
-import { ShopperCatalogResource } from "@moltin/sdk";
 
 export const Sku: NextPage<ISku> = (props: ISku) => {
   const { updateCartItems, setCartQuantity } = useCartItems();
