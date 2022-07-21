@@ -36,7 +36,6 @@ const Home: NextPage<IHome> = ({ products, promotion, parentNode }) => {
         buttonProps={{ text: "Browse all categories", link: "/categories" }}
         title="Shop by Category"
       ></NodeDisplay>
-      )
       <ProductShowcaseCarousel products={products} />
     </chakra.main>
   );
@@ -54,8 +53,6 @@ export const getStaticProps: GetStaticProps<IHome> = async () => {
   const parentNode =
     hierarchyChildren.length > 0 ? hierarchyChildren[0] : undefined;
 
-  console.clear();
-  console.log("getStaticProps - hierarchies ALL", hierarchies);
   return {
     props: {
       products: staticProducts,
