@@ -1,7 +1,6 @@
 import type { GetStaticProps, NextPage } from "next";
-import type { Hierarchy, Node } from "@moltin/sdk";
+import type { File, Hierarchy, Node } from "@moltin/sdk";
 import "pure-react-carousel/dist/react-carousel.es.css";
-import type { File , Hierarchy, Node} from "@moltin/sdk";
 import { chakra } from "@chakra-ui/react";
 import { getHierarchies, getNodes } from "../services/hierarchy";
 import { StaticProduct, staticProducts } from "../lib/product-data";
@@ -30,7 +29,7 @@ const Home: NextPage<IHome> = ({
   promotion,
   nodeProducts,
   nodeProductsImages,
-  parentNode
+  parentNode,
 }) => {
   const nodeId = "4cb5301a-9da3-41a4-9402-c104ed1c2569";
   return (
