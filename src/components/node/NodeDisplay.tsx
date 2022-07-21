@@ -69,13 +69,13 @@ const skeletonItemStyles: SkeletonProps[] = [
     startColor: "blue.500",
     endColor: "blue.400",
     rounded: "25px",
-    height: { base: "175px", md: "200" },
+    height: { base: "175px", md: "200px" },
   },
   {
     startColor: "blue.500",
     endColor: "blue.400",
     rounded: "25px",
-    height: { base: "175px", md: "200" },
+    height: { base: "175px", md: "200px" },
   },
 ];
 
@@ -108,9 +108,6 @@ export default function NodeDisplay({
       ? await getChildren()(idSpec)
       : [];
 
-    console.log("allNodes in effect", nodesArrayResponse);
-
-    /// ----- nodes array ready ----
     const topNodes: Node[] = nodesArrayResponse.slice(
       0,
       Math.min(3, nodesArrayResponse.length)
@@ -210,22 +207,6 @@ export default function NodeDisplay({
                   // placeholder url for categories page
                   onClick={() => router.push(`/categories/${node.id}`)}
                 />
-                {/* TODO: When images are available, use this component instead of the above Box*/}
-                {/* <Image
-                  objectPosition={"center"}
-                  objectFit={"cover"}
-                  // src={"/images/pillow.jpeg"}
-                  bgGradient="linear(to-r, green.200, pink.500)"
-                  alt={"pillow"}
-                  _hover={{ opacity: "75%" }}
-                  w={"100%"}
-                  h={"100%"}
-                  position="absolute"
-                  top="0"
-                  left="0"
-                  right="0"
-                  bottom="0"
-                /> */}
                 <Flex
                   fontWeight={"bold"}
                   bottom={"1rem"}
