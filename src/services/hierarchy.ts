@@ -20,6 +20,14 @@ export async function getNodes(hierarchyId: string): Promise<Node[]> {
   return result.data;
 }
 
+export async function getNodeChildren(nodeId: string): Promise<Node[]> {
+  const result = (await EPCCAPI.ShopperCatalog.Nodes.GetNodeChildren({
+    nodeId,
+  })) as unknown as ResourceList<Node>;
+  const nodes = result.data;
+  return nodes;
+}
+
 export async function getNodesProducts(
   nodeId: string
 ): Promise<ResourceList<ProductResponse>> {
