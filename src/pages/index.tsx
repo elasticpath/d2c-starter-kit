@@ -12,6 +12,7 @@ import { getPromotionById } from "../services/promotions";
 import FeaturedProducts from "../components/FeaturedProducts/FeaturedProducts";
 import { getProductsByNode } from "../services/hierarchy";
 import { ProductResponse } from "@moltin/sdk";
+import { connectProductsWithMainImages } from "../lib/product-util";
 import NodeDisplay from "../components/node/NodeDisplay";
 
 export interface IHome {
@@ -63,8 +64,15 @@ export const getStaticProps: GetStaticProps<IHome> = async () => {
   const { data: promotion } = await getPromotionById(
     "885709b4-0053-48ee-91a2-bc9f7eb41d27"
   );
-  const { data: nodeProducts, included: nodeProductsIncluded } =
+  const { data: nodeProductsResponse, included: nodeProductsIncluded } =
     await getProductsByNode("4cb5301a-9da3-41a4-9402-c104ed1c2569");
+  let nodeProducts = nodeProductsResponse.slice(0, 4);
+  if (nodeProductsIncluded?.main_images) {
+    nodeProducts = connectProductsWithMainImages(
+      nodeProducts,
+      nodeProductsIncluded?.main_images
+    );
+  }
 
   const hierarchies = await getHierarchies();
   const hierarchyChildren =
@@ -77,8 +85,7 @@ export const getStaticProps: GetStaticProps<IHome> = async () => {
     props: {
       staticProducts,
       promotion,
-      nodeProducts: nodeProducts.slice(0, 4),
-      nodeProductsImages: nodeProductsIncluded?.main_images,
+      nodeProducts: nodeProducts,
       hierarchies,
       parentNode: parentNode ?? null,
     },

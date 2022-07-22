@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { getProductsByNode } from "../../services/hierarchy";
 import { ProductResponse } from "@moltin/sdk";
 import type { File } from "@moltin/sdk";
+import { ProductResponseWithImage } from "../../lib/product-types";
+import { connectProductsWithMainImages } from "../../lib/product-util";
 
 interface IFeaturedProductsProps {
   title: string;
@@ -18,19 +20,19 @@ const FeaturedProducts = ({
   link,
   nodeId,
   nodeProducts = [],
-  nodeProductsImages = [],
 }: IFeaturedProductsProps): JSX.Element => {
   const router = useRouter();
 
-  const [products, setProducts] = useState<ProductResponse[]>(nodeProducts);
-  const [mainImages, setMainImages] = useState<File[]>(nodeProductsImages);
+  const [products, setProducts] =
+    useState<ProductResponseWithImage[]>(nodeProducts);
 
   const fetchNodeProducts = useCallback(async () => {
     const { data, included } = await getProductsByNode(nodeId!);
-    setProducts(data.slice(0, 4));
+    let products = data.slice(0, 4);
     if (included?.main_images) {
-      setMainImages(included.main_images);
+      products = connectProductsWithMainImages(products, included.main_images);
     }
+    setProducts(products);
   }, [nodeId]);
 
   useEffect(() => {
@@ -64,13 +66,13 @@ const FeaturedProducts = ({
         mb={8}
         flexWrap="wrap"
       >
-        {products.map((product, index) => (
+        {products.map((product) => (
           <Box key={product.id} textAlign="center">
             <Image
               width={290}
               height={290}
-              alt={mainImages[index]?.file_name || "Empty"}
-              src={mainImages[index]?.link.href}
+              alt={product.main_image?.file_name || "Empty"}
+              src={product.main_image?.link.href}
               fallbackSrc="/images/image_placeholder.svg"
               borderRadius={5}
               objectFit="cover"
