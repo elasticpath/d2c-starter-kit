@@ -1,68 +1,90 @@
-import { Box, Button, Flex, Heading, Image } from "@chakra-ui/react";
+import { Box, Flex, Heading, Image, Link } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { getProductsByNode } from "../../services/hierarchy";
-import { ProductResponse } from "@moltin/sdk";
-import type { File } from "@moltin/sdk";
-import { ProductResponseWithImage } from "../../lib/product-types";
+import type { ProductResponseWithImage } from "../../lib/product-types";
 import { connectProductsWithMainImages } from "../../lib/product-util";
 
-interface IFeaturedProductsProps {
+interface IFeaturedProductsBaseProps {
   title: string;
-  link: string;
-  nodeId?: string;
-  nodeProducts?: ProductResponse[];
-  nodeProductsImages?: File[];
+  linkProps?: {
+    link: string;
+    text: string;
+  };
 }
 
-const FeaturedProducts = ({
-  title,
-  link,
-  nodeId,
-  nodeProducts = [],
-}: IFeaturedProductsProps): JSX.Element => {
-  const router = useRouter();
+interface IFeaturedProductsProvidedProps extends IFeaturedProductsBaseProps {
+  type: "provided";
+  products: ProductResponseWithImage[];
+}
 
-  const [products, setProducts] =
-    useState<ProductResponseWithImage[]>(nodeProducts);
+interface IFeaturedProductsFetchProps extends IFeaturedProductsBaseProps {
+  type: "fetch";
+  nodeId: string;
+}
+
+type IFeaturedProductsProps =
+  | IFeaturedProductsFetchProps
+  | IFeaturedProductsProvidedProps;
+
+const FeaturedProducts = (props: IFeaturedProductsProps): JSX.Element => {
+  const router = useRouter();
+  const { type, title, linkProps } = props;
+
+  const [products, setProducts] = useState<ProductResponseWithImage[]>(
+    type === "provided" ? props.products : []
+  );
 
   const fetchNodeProducts = useCallback(async () => {
-    const { data, included } = await getProductsByNode(nodeId!);
-    let products = data.slice(0, 4);
-    if (included?.main_images) {
-      products = connectProductsWithMainImages(products, included.main_images);
+    if (type === "fetch") {
+      const { data, included } = await getProductsByNode(props.nodeId);
+      let products = data.slice(0, 4);
+      if (included?.main_images) {
+        products = connectProductsWithMainImages(
+          products,
+          included.main_images
+        );
+      }
+      setProducts(products);
     }
-    setProducts(products);
-  }, [nodeId]);
+  }, [props, type]);
 
   useEffect(() => {
     try {
-      nodeId && fetchNodeProducts();
+      fetchNodeProducts();
     } catch (error) {
       console.error(error);
       throw error;
     }
-  }, [fetchNodeProducts, nodeId]);
+  }, [fetchNodeProducts]);
 
   return (
-    <Box w="90%" m="0 auto">
+    <Box maxW={"80rem"} m="0 auto">
       <Flex justifyContent="space-between">
-        <Heading as="h6" size="lg">
+        <Heading
+          as="h2"
+          fontSize={{ base: "1.1rem", md: "1.3rem", lg: "1.5rem" }}
+          fontWeight="extrabold"
+        >
           {title}
         </Heading>
-        <Button
-          color={"#5348CA"}
-          variant="link"
-          mt="5"
-          onClick={() => router.push(link)}
-        >
-          See everything →
-        </Button>
+        {linkProps && (
+          <Link
+            color={"#0033CC"}
+            fontWeight={"bold"}
+            fontSize={{ base: "sm", md: "md", lg: "lg" }}
+            onClick={() => {
+              linkProps.link && router.push(linkProps.link);
+            }}
+          >
+            {linkProps.text} →
+          </Link>
+        )}
       </Flex>
       <Flex
         justifyContent="space-around"
         alignItems="center"
-        mt={6}
+        mt={4}
         mb={8}
         flexWrap="wrap"
       >

@@ -4,13 +4,24 @@ import { getPromotionById } from "../../services/promotions-api";
 import { Promotion } from "@moltin/sdk";
 import { useRouter } from "next/router";
 
-export type PromotionBannerSpec = string | Promotion;
-
-interface IPromotionBanner {
-  promotionSpec: PromotionBannerSpec;
-  buttonText?: string;
-  buttonLink?: string;
+interface PromotionBannerBase {
+  linkProps?: {
+    link: string;
+    text: string;
+  };
 }
+
+interface PromotionBannerFetch extends PromotionBannerBase {
+  type: "fetch";
+  id: string;
+}
+
+interface PromotionBannerProvided extends PromotionBannerBase {
+  type: "provided";
+  promotion: Promotion;
+}
+
+type IPromotionBanner = PromotionBannerFetch | PromotionBannerProvided;
 
 const basicBoxStyles = {
   backgroundPosition: "center",
@@ -30,27 +41,20 @@ const textBoxStyles = {
   color: "black",
 };
 
-const PromotionBanner = ({
-  buttonText,
-  promotionSpec,
-  buttonLink,
-}: IPromotionBanner): JSX.Element => {
+const PromotionBanner = (props: IPromotionBanner): JSX.Element => {
   const router = useRouter();
+  const { linkProps, type } = props;
 
   const [promotionData, setPromotionData] = useState<Promotion | undefined>(
-    typeof promotionSpec === "string" ? undefined : promotionSpec
-  );
-
-  const promotionId = useMemo(
-    () =>
-      typeof promotionSpec === "string" ? promotionSpec : promotionSpec.id,
-    [promotionSpec]
+    type === "provided" ? props.promotion : undefined
   );
 
   const fetchPromotion = useCallback(async () => {
-    const { data } = await getPromotionById(promotionId);
-    setPromotionData(data);
-  }, [setPromotionData, promotionId]);
+    if (type === "fetch") {
+      const { data } = await getPromotionById(props.id);
+      setPromotionData(data);
+    }
+  }, [setPromotionData, type, props]);
 
   useEffect(() => {
     try {
@@ -89,7 +93,7 @@ const PromotionBanner = ({
                 height="24px"
               />
             )}
-            {buttonText && (
+            {linkProps && (
               <Button
                 width="140px"
                 bg={"blue.900"}
@@ -101,10 +105,10 @@ const PromotionBanner = ({
                 variant="solid"
                 mt="5"
                 onClick={() => {
-                  buttonLink && router.push(buttonLink);
+                  router.push(linkProps.link);
                 }}
               >
-                {buttonText}
+                {linkProps.text}
               </Button>
             )}
           </Box>
