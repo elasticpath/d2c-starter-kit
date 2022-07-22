@@ -17,26 +17,33 @@ import { getNodes, getNodeChildren } from "../../services/hierarchy";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 
-interface NodeSpecNode {
-  type: "node";
-  data: Node | Node[] | string;
-}
-
-interface NodeSpecHierarchy {
-  type: "hierarchy";
-  data: Node | Node[] | string;
-}
-
-export type NodeSpec = NodeSpecHierarchy | NodeSpecNode; // could be Hierarchy | Node
-
-interface INodeDsiplay {
-  nodeSpec: NodeSpec;
+interface INodeDisplayBase {
   title: string;
-  buttonProps?: {
+  linkProps?: {
     link: string;
     text: string;
   };
 }
+
+interface INodeDisplayFetchNode extends INodeDisplayBase {
+  type: "fetch-node";
+  nodeId: string;
+}
+
+interface INodeDisplayFetchHierarchy extends INodeDisplayBase {
+  type: "fetch-hierarchy";
+  hierarchyId: string;
+}
+
+interface INodeDisplayProvidedNode extends INodeDisplayBase {
+  type: "provided";
+  nodes: Node[];
+}
+
+type INodeDisplay =
+  | INodeDisplayFetchNode
+  | INodeDisplayFetchHierarchy
+  | INodeDisplayProvidedNode;
 
 const gridItemStyles: GridItemProps[] = [
   {
@@ -79,85 +86,58 @@ const skeletonItemStyles: SkeletonProps[] = [
   },
 ];
 
-export default function NodeDisplay({
-  nodeSpec,
-  title,
-  buttonProps,
-}: INodeDsiplay) {
+export default function NodeDisplay(props: INodeDisplay): JSX.Element {
   const router = useRouter();
-  const [nodes, setNodes] = useState<Node[]>([]);
-
-  /**
-   * Either a hierarchy or a node ID
-   */
-  const idSpec = useMemo<string | undefined>(
-    () => (typeof nodeSpec.data === "string" ? nodeSpec.data : undefined),
-    [nodeSpec]
+  const { title, linkProps, type } = props;
+  const [nodes, setNodes] = useState<Node[]>(
+    type === "provided" ? props.nodes : []
   );
 
-  const getChildren = useCallback(() => {
-    return nodeSpec.type === "node" ? getNodeChildren : getNodes;
-  }, [nodeSpec]);
+  const fetchTopThreeNodes = useCallback(async () => {
+    if (type === "fetch-hierarchy" || type === "fetch-node") {
+      const allNodes = await (type === "fetch-node"
+        ? getNodeChildren(props.nodeId)
+        : getNodes(props.hierarchyId));
 
-  const fetchTopNodes = useCallback(async () => {
-    const nodesArrayResponse = Array.isArray(nodeSpec.data)
-      ? [...nodeSpec.data]
-      : typeof nodeSpec.data === "object"
-      ? [nodeSpec.data]
-      : idSpec != undefined
-      ? await getChildren()(idSpec)
-      : [];
+      // Only need the top three nodes
+      const topThreeNodes: Node[] = allNodes.slice(0, 3);
 
-    const topNodes: Node[] = nodesArrayResponse.slice(
-      0,
-      Math.min(3, nodesArrayResponse.length)
-    );
-
-    if (topNodes == null || topNodes.length === 0) {
-      console.log("Not enough nodes to display - setting to empty");
+      setNodes(topThreeNodes);
     }
-
-    setNodes([...topNodes]);
-  }, [nodeSpec, idSpec, getChildren]);
+  }, [type, props]);
 
   useEffect(() => {
     try {
-      fetchTopNodes();
+      fetchTopThreeNodes();
     } catch (error) {
       console.log(error);
     }
-  }, [fetchTopNodes]);
+  }, [fetchTopThreeNodes]);
 
   return (
-    <Stack
-      bg={"#FFAFB"}
-      display={"flex"}
-      maxW={"80rem"}
-      mx="auto"
-      padding={{ base: "2rem", md: "4rem" }}
-    >
+    <Stack bg={"#FFAFB"} display={"flex"} maxW={"80rem"} mx="auto">
       <Flex
         justifyContent={"space-between"}
         alignItems={"baseline"}
         direction={{ base: "column", sm: "row" }}
       >
         <Heading
-          as={"h1"}
+          as={"h2"}
           fontSize={{ base: "1.1rem", md: "1.3rem", lg: "1.5rem" }}
           fontWeight={"extrabold"}
         >
           {title}
         </Heading>
-        {buttonProps && (
+        {linkProps && (
           <Link
             color={"#0033CC"}
             fontWeight={"bold"}
             fontSize={{ base: "sm", md: "md", lg: "lg" }}
             onClick={() => {
-              buttonProps.link && router.push(buttonProps.link);
+              linkProps.link && router.push(linkProps.link);
             }}
           >
-            {buttonProps.text} <ArrowForwardIcon color={"inherit"} />
+            {linkProps.text} <ArrowForwardIcon color={"inherit"} />
           </Link>
         )}
       </Flex>
