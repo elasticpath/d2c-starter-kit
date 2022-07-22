@@ -56,3 +56,11 @@ export interface OptionDict {
 export type IExtensions =
   | PcmProductResponse["data"]["attributes"]["extensions"]
   | null;
+
+export interface ProductResponseWithImage extends ProductResponse {
+  main_image?: File;
+}
+
+export interface ProductImageObject {
+  [key: string]: File;
+}
