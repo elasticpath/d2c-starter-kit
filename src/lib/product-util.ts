@@ -87,10 +87,7 @@ export const createEmptyOptionDict = (
 
 export const productContext = createContext<ProductContext | null>(null);
 
-export const connectProductsWithMainImages: (
-  products: ProductResponse[],
-  images: File[]
-) => ProductResponseWithImage[] = (
+export const connectProductsWithMainImages = (
   products: ProductResponse[],
   images: File[]
 ) => {
