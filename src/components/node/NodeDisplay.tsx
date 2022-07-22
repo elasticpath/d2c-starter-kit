@@ -205,7 +205,7 @@ export default function NodeDisplay({
                   bgGradient="linear(to-r, gray.300, blue.500)"
                   _hover={{ opacity: "75%", cursor: "pointer" }}
                   // placeholder url for categories page
-                  onClick={() => router.push(`/categories/${node.id}`)}
+                  onClick={() => router.push(`/category/${node.id}`)}
                 />
                 <Flex
                   fontWeight={"bold"}
