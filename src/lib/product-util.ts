@@ -90,7 +90,7 @@ export const productContext = createContext<ProductContext | null>(null);
 export const connectProductsWithMainImages = (
   products: ProductResponse[],
   images: File[]
-) => {
+): ProductResponseWithImage[] => {
   // Object with image id as a key and File data as a value
   let imagesObject: ProductImageObject = {};
   images.forEach((image) => {
