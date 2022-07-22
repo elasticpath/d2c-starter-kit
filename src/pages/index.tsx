@@ -53,7 +53,7 @@ const Home: NextPage<IHome> = ({
           type: "node",
           data: parentNode?.id ?? "b85de12e-1fe4-4446-96f9-40a7ad641497", // fallback ID belongs to a hierarchy
         }}
-        buttonProps={{ text: "Browse all categories", link: "/categories" }}
+        buttonProps={{ text: "Browse all categories", link: "/category" }}
         title="Shop by Category"
       ></NodeDisplay>
     </chakra.main>
