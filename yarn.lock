@@ -2351,10 +2351,10 @@
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.22.tgz#219dfd89ae5b97a8801f015323ffa4b62f45718b"
   integrity sha512-H1rQc1ZOHANWBvPcW+JpGwr+juXSxM8Q8YCkm3GhZd8REu1fHR3z99CErO1p9pkcfcxZnMdIZdIsXkOHY0NilA==
 
-"@moltin/sdk@^12.3.2":
-  version "12.3.2"
-  resolved "https://registry.yarnpkg.com/@moltin/sdk/-/sdk-12.3.2.tgz#9dea484af1b0a3d60bdfa94c985de2f02dfea948"
-  integrity sha512-TEbNixWoyqmwztmNfzHfn6M4RasH+YeFqUy22BjatYK2chiDU/kzilCuJQfZl77b3oFS2f0U23FzP+KuInKN6w==
+"@moltin/sdk@^13.0.0":
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/@moltin/sdk/-/sdk-13.0.0.tgz#15c4d2778aff2787d0052b0fe88aa7793b4e3dfc"
+  integrity sha512-HFvmWXeeMA3aAd2UO5u7/W6esKwIZO0KST/+CEzLoYyUIfXafQ3ERngsaNByytrP7vsfdURX3tPIb/c08MLAGA==
   dependencies:
     cross-fetch "^3.1.5"
     es6-promise "^4.0.5"
