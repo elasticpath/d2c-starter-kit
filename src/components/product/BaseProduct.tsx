@@ -5,6 +5,7 @@ import ProductCarousel from "./carousel/ProductCarousel";
 import ProductDetails from "./ProductDetails";
 import ProductSummary from "./ProductSummary";
 import ProductVariations from "./ProductVariations";
+import ProductExtensions from "./ProductExtensions";
 
 interface IBaseProductDetail {
   baseSku: IBaseProductSku;
@@ -12,7 +13,14 @@ interface IBaseProductDetail {
 }
 
 const BaseProductDetail = ({
-  baseSku: { main_image, otherImages, product, variations, variationsMatrix },
+  baseSku: {
+    main_image,
+    otherImages,
+    product,
+    variations,
+    variationsMatrix,
+    extensions,
+  },
   handleAddToCart,
 }: IBaseProductDetail): JSX.Element => {
   return (
@@ -27,6 +35,7 @@ const BaseProductDetail = ({
       <Stack spacing={{ base: 6, md: 10 }}>
         <ProductSummary product={product} />
         <ProductDetails product={product} />
+        <ProductExtensions extensions={extensions} />
         {variations && (
           <ProductVariations
             variations={variations}

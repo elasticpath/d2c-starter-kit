@@ -5,7 +5,7 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import type { ParsedUrlQuery } from "querystring";
 import { getHierarchies, getNode, getNodes } from "../../services/hierarchy";
 import { Configure, useHits } from "react-instantsearch-hooks-web";
-import { Node } from "@moltin/sdk/src/types/nodes";
+import { Node } from "@moltin/sdk";
 import { SearchHit } from "../../components/search/SearchHit";
 import Pagination from "../../components/search/Pagination";
 

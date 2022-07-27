@@ -34,15 +34,13 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
-import algoliasearch from "algoliasearch/lite";
-import { config } from "../../services/config";
 import NoResults from "./NoResults";
 import NoImage from "./NoImage";
 import { SearchHit } from "./SearchHit";
 import { jsx } from "@emotion/react";
 import JSX = jsx.JSX;
-
-const searchClient = algoliasearch(config.algoliaAppId, config.algoliaAPIKey);
+import { searchClient } from "../../lib/search-client";
+import { algoliaEnvData } from "../../lib/resolve-algolia-env";
 
 export const useDebouncedEffect = (
   effect: EffectCallback,
@@ -186,7 +184,7 @@ export const SearchModal = (): JSX.Element => {
   return (
     <InstantSearch
       searchClient={searchClient}
-      indexName={config.algoliaIndexName}
+      indexName={algoliaEnvData.indexName}
     >
       <Button
         onClick={onOpen}

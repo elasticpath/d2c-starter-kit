@@ -4,20 +4,27 @@ import type {
   Hierarchy,
   ProductResponse,
 } from "@moltin/sdk";
-import { CatalogResource } from "@moltin/sdk/src/types/catalog";
+import { ShopperCatalogResource } from "@moltin/sdk";
 
 import { EPCCAPI } from "./helper";
+import { ShopperCatalogResourcePage } from "@moltin/sdk";
 
 export async function getHierarchies(): Promise<Hierarchy[]> {
-  const result = await EPCCAPI.Catalog.Hierarchies.All();
-  const hierarchy = result.data;
-  return hierarchy;
+  const result = await EPCCAPI.ShopperCatalog.Hierarchies.All();
+  return result.data;
 }
 
 export async function getNodes(hierarchyId: string): Promise<Node[]> {
-  const result = (await EPCCAPI.Catalog.Hierarchies.GetHierarchyChildren({
+  const result = await EPCCAPI.ShopperCatalog.Hierarchies.GetHierarchyChildren({
     hierarchyId,
-  })) as unknown as ResourceList<Node>; // TODO update the js-sdk to use Node instead of Hierarchy
+  });
+  return result.data;
+}
+
+export async function getNodeChildren(nodeId: string): Promise<Node[]> {
+  const result = (await EPCCAPI.ShopperCatalog.Nodes.GetNodeChildren({
+    nodeId,
+  })) as unknown as ResourceList<Node>;
   const nodes = result.data;
   return nodes;
 }
@@ -25,9 +32,20 @@ export async function getNodes(hierarchyId: string): Promise<Node[]> {
 export async function getNodesProducts(
   nodeId: string
 ): Promise<ResourceList<ProductResponse>> {
-  return await EPCCAPI.Catalog.Nodes.GetNodeProducts({ nodeId });
+  return await EPCCAPI.ShopperCatalog.Nodes.GetNodeProducts({ nodeId });
 }
 
-export async function getNode(nodeId: string): Promise<CatalogResource<Node>> {
-  return await EPCCAPI.Catalog.Nodes.Get({ nodeId });
+export async function getProductsByNode(
+  nodeId: string
+): Promise<ShopperCatalogResourcePage<ProductResponse>> {
+  return await EPCCAPI.ShopperCatalog.Products.With([
+    "main_image",
+    "files",
+  ]).GetProductsByNode({ nodeId });
+}
+
+export async function getNode(
+  nodeId: string
+): Promise<ShopperCatalogResource<Node>> {
+  return await EPCCAPI.ShopperCatalog.Nodes.Get({ nodeId });
 }

@@ -64,7 +64,6 @@ export default function MainMenu() {
           </Link>
         </Box>
         <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
-          <Link href="/products">All Products</Link>
           {menu.map((hierarchy) => {
             return (
               <NavItem
