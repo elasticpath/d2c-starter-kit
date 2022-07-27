@@ -5,7 +5,7 @@ import type {
 } from "@moltin/sdk";
 import { excludeChildProducts } from "../lib/product-util";
 import { EPCCAPI, wait300 } from "./helper";
-import { PcmProductResponse } from "@moltin/sdk/src/types/pcm";
+import { PcmProductResponse } from "@moltin/sdk";
 
 export async function getProductById(
   productId: string

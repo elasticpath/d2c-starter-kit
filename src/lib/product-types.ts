@@ -5,7 +5,7 @@ import type {
 } from "@moltin/sdk";
 import type { Dispatch, SetStateAction } from "react";
 import type { MatrixObjectEntry } from "../services/helper";
-import { PcmProductResponse } from "@moltin/sdk/src/types/pcm";
+import { PcmProductResponse } from "@moltin/sdk";
 
 export type IdentifiableBaseProduct = ProductResponse & {
   id: string;
