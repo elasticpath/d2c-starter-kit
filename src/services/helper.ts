@@ -5,6 +5,7 @@ import {
   ConfigOptions,
   MemoryStorageFactory,
   LocalStorageFactory,
+  CustomerBase,
 } from "@moltin/sdk";
 import { resolveEpccCustomRuleHeaders } from "../lib/custom-rule-headers";
 import { OptionDict } from "../lib/product-types";
@@ -27,7 +28,7 @@ export async function register(
   name: string,
   email: string,
   password: string
-): Promise<moltin.CustomerBase> {
+): Promise<CustomerBase> {
   const { data } = await EPCCAPI.Customers.Create({
     type: "customer",
     name,
