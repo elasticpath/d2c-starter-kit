@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider>
       <StoreProvider>
-        <MainLayout>
+        <MainLayout nav={pageProps.nav}>
           <InstantSearch
             searchClient={searchClient}
             indexName={algoliaEnvData.indexName}

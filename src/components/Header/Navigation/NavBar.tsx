@@ -33,24 +33,25 @@ const ListHeader = ({ children }: { children: ReactNode }) => {
 };
 
 import { ReactNode } from "react";
-import NavBar from "./Navigation/NavBar";
+import { INavigationNode } from "../Header";
+import NavItem from "./NavItem";
 
-export interface INavigationNode {
-  name: string;
-  id: string;
-  children: INavigationNode[];
-}
-
-interface IHeader {
+interface INavBar {
   nav: INavigationNode[];
 }
 
-const Footer = ({ nav }: IHeader): JSX.Element => {
+const NavBar = ({ nav }: INavBar): JSX.Element => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
-    <Box color={useColorModeValue("gray.700", "gray.200")} as="header">
-      <NavBar nav={nav} />
+    <Box as="nav">
+      <Menu isOpen={isOpen}>
+        {nav.map((item: INavigationNode) => (
+          <NavItem key={item.id} item={item} />
+        ))}
+      </Menu>
     </Box>
   );
 };
 
-export default Footer;
+export default NavBar;

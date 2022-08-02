@@ -13,10 +13,22 @@ export async function getHierarchies(): Promise<Hierarchy[]> {
   return result.data;
 }
 
-export async function getNodes(hierarchyId: string): Promise<Node[]> {
+export async function getHierarchyChildren(
+  hierarchyId: string
+): Promise<Node[]> {
   const result = await EPCCAPI.ShopperCatalog.Hierarchies.GetHierarchyChildren({
     hierarchyId,
   });
+  return result.data;
+}
+
+export async function getHierarchyNodes(
+  hierarchyId: string
+): Promise<Hierarchy[]> {
+  const result = await EPCCAPI.ShopperCatalog.Hierarchies.GetHierarchyNodes({
+    hierarchyId,
+  });
+
   return result.data;
 }
 
@@ -28,7 +40,7 @@ export async function getNodeChildren(nodeId: string): Promise<Node[]> {
   return nodes;
 }
 
-export async function getNodesProducts(
+export async function getNodeProducts(
   nodeId: string
 ): Promise<ResourceList<ProductResponse>> {
   return await EPCCAPI.ShopperCatalog.Nodes.GetNodeProducts({ nodeId });

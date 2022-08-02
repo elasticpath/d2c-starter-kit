@@ -1,19 +1,20 @@
+import Header, { INavigationNode } from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import MainMenu from "../../components/MainMenu/MainMenu";
 
 import type { ReactNode } from "react";
 
 interface IMainLayout {
+  nav: INavigationNode[];
   children: ReactNode;
 }
 
-const MainLayout = ({ children }: IMainLayout): JSX.Element => {
+const MainLayout = ({ nav, children }: IMainLayout): JSX.Element => {
   return (
-    <div>
-      <MainMenu />
+    <>
+      <Header nav={nav} />
       {children}
       <Footer />
-    </div>
+    </>
   );
 };
 
