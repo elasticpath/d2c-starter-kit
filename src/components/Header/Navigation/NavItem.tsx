@@ -1,30 +1,7 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Container,
-  Link,
-  SimpleGrid,
-  Stack,
-  Text,
-  Flex,
-  Tag,
-  useColorModeValue,
-  Button,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Button, ButtonGroup, useDisclosure } from "@chakra-ui/react";
 
-import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
-} from "@chakra-ui/react";
+import { Menu, MenuButton, MenuList } from "@chakra-ui/react";
 
-import { ReactNode } from "react";
 import { INavigationNode } from "../Header";
 import NavItemContent from "./NavItemContent";
 

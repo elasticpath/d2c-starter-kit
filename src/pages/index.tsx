@@ -143,8 +143,6 @@ export const getStaticProps: GetStaticProps<IHome> = async () => {
 
   const navInfo = await nav();
 
-  console.log(navInfo);
-
   return {
     props: {
       staticProducts,

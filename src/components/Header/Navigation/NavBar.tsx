@@ -44,13 +44,13 @@ const NavBar = ({ nav }: INavBar): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box as="nav">
+    <Flex w="100%" as="nav">
       <Menu isOpen={isOpen}>
         {nav.map((item: INavigationNode) => (
           <NavItem key={item.id} item={item} />
         ))}
       </Menu>
-    </Box>
+    </Flex>
   );
 };
 
