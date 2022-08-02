@@ -4,10 +4,22 @@ import { Badge, Box, Divider, Grid, GridItem, Heading } from "@chakra-ui/react";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import type { ParsedUrlQuery } from "querystring";
 import { getHierarchies, getNode, getNodes } from "../../services/hierarchy";
-import { Configure, useHits } from "react-instantsearch-hooks-web";
-import { Node } from "@moltin/sdk";
+import {
+  Configure,
+  Hits,
+  InstantSearch,
+  InstantSearchServerState,
+  InstantSearchSSRProvider,
+  RefinementList,
+} from "react-instantsearch-hooks-web";
 import { SearchHit } from "../../components/search/SearchHit";
 import Pagination from "../../components/search/Pagination";
+import { history } from "instantsearch.js/es/lib/routers/index.js";
+import algoliasearch from "algoliasearch/lite";
+import { algoliaEnvData } from "../../lib/resolve-algolia-env";
+import { Node } from "@moltin/sdk";
+import { searchClient } from "../../lib/search-client";
+import { getServerState } from "react-instantsearch-hooks-server";
 
 interface CatagoryRouterQuery extends ParsedUrlQuery {
   nodeId: string;
@@ -15,21 +27,39 @@ interface CatagoryRouterQuery extends ParsedUrlQuery {
 
 interface ICatagory {
   category: Node;
+  algoliaServerState?: InstantSearchServerState;
+  url?: string;
 }
 
-export const Category: NextPage<ICatagory> = ({ category }) => {
-  const { hits } = useHits<SearchHit>();
-
+export const Category: NextPage<ICatagory> = ({
+  category,
+  algoliaServerState,
+  url,
+}) => {
   return (
-    <div>
-      <Heading p="6">Category</Heading>
-      {category ? (
-        <>
-          <Configure
-            filters={`ep_category_page_id:\"${category?.attributes.name}\"`}
-          />
-          <Grid templateColumns="repeat(5, 1fr)" gap={6} p="6">
-            {hits.map(({ objectID, ep_name, ep_sku, ep_slug }) => {
+    <InstantSearchSSRProvider {...algoliaServerState}>
+      <InstantSearch
+        searchClient={searchClient}
+        indexName={algoliaEnvData.indexName}
+        routing={{
+          router: history({
+            // @ts-ignore TODO
+            getLocation: () =>
+              typeof window === "undefined"
+                ? new URL(url ?? "")
+                : window.location,
+          }),
+        }}
+      >
+        <Configure
+          filters={`ep_category_page_id:\"${category.attributes.name}\"`}
+        />
+        <Hits />
+        <Heading p="6">Category</Heading>
+        {category ? (
+          <>
+            {/* <Grid templateColumns="repeat(5, 1fr)" gap={6} p="6">
+            {hits?.map(({ objectID, ep_name, ep_sku, ep_slug }) => {
               return (
                 <Link
                   href={`/products/${ep_slug}/${objectID}`}
@@ -67,13 +97,14 @@ export const Category: NextPage<ICatagory> = ({ category }) => {
                 </Link>
               );
             })}
-          </Grid>
-          <Box mb={6}>
-            <Pagination />
-          </Box>
-        </>
-      ) : null}
-    </div>
+          </Grid> */}
+            <Box mb={6}>
+              <Pagination />
+            </Box>
+          </>
+        ) : null}
+      </InstantSearch>
+    </InstantSearchSSRProvider>
   );
 };
 
@@ -94,6 +125,8 @@ export const getStaticProps: GetStaticProps<
   ICatagory,
   CatagoryRouterQuery
 > = async ({ params }) => {
+  // Search the index and print the results
+
   if (!params) {
     return {
       notFound: true,
@@ -101,8 +134,17 @@ export const getStaticProps: GetStaticProps<
   }
 
   const categoryRes = await getNode(params.nodeId);
+
+  //const protocol = req.headers.referer?.split("://")[0] || "https";
+  //const url = `${protocol}://${req.headers.host}${req.url}`;
+  const algoliaServerState = await getServerState(
+    <Category url={""} category={categoryRes.data} />
+  );
+
   return {
     props: {
+      algoliaServerState,
+      //url,
       category: categoryRes.data,
     },
   };

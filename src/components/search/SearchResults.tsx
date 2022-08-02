@@ -1,48 +1,117 @@
-import { Divider, Grid, GridItem } from "@chakra-ui/react";
-import { useEffect } from "react";
-import { useSearchBox } from "react-instantsearch-hooks-web";
+import { ChevronDownIcon } from "@chakra-ui/icons";
+import {
+  Button,
+  Divider,
+  Grid,
+  GridItem,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Box,
+  Flex,
+  Spacer,
+  Stack,
+  Checkbox,
+  Badge,
+  chakra,
+} from "@chakra-ui/react";
+import { useEffect, useMemo } from "react";
+import {
+  SearchBox,
+  useSearchBox,
+  useRefinementList,
+  useSortBy,
+} from "react-instantsearch-hooks-web";
 import Hits from "./Hits";
 import HitsPerPage from "./HitsPerPage";
 import Pagination from "./Pagination";
 import PriceRangeSlider from "./PriceRangeSlider";
 
-interface ISearchResults {
-  query: string;
-}
+export default function SearchResults(): JSX.Element {
+  const { items, refine: catRefine } = useRefinementList({
+    attribute: "ep_category_page_id",
+    sortBy: ["name:asc"],
+  });
 
-export default function SearchResults({ query }: ISearchResults): JSX.Element {
-  const { refine } = useSearchBox();
+  const { options, refine } = useSortBy({
+    items: [
+      { label: "Featured", value: "d2c-reference" },
+      { label: "Price (Low to High)", value: "d2c-reference-low-to-high" },
+      { label: "Price (High to Low)", value: "d2c-reference-high-to-low" },
+    ],
+  });
 
-  useEffect(() => {
-    refine(query);
-  }, [query, refine]);
+  const refinedItemCount = useMemo(
+    () => items.filter((item) => item.isRefined).length,
+    [items]
+  );
 
   return (
-    <Grid
-      mt="8"
-      templateRows="50px 1fr 50px"
-      templateColumns="repeat(5, 1fr)"
-      gap={4}
-    >
-      <GridItem rowStart={2} rowSpan={3} colSpan={1}>
-        <PriceRangeSlider attribute={"ep_amount"} />
-        <Divider />
-      </GridItem>
-      <GridItem colStart={4} colSpan={2}>
-        <HitsPerPage
-          items={[
-            { value: 6, label: "Show 6 results" },
-            { value: 9, label: "Show 9 results", default: true },
-            { value: 12, label: "Show 12 results" },
-          ]}
-        />
-      </GridItem>
-      <GridItem colSpan={4}>
-        <Hits />
-      </GridItem>
-      <GridItem colSpan={4}>
-        <Pagination />
-      </GridItem>
-    </Grid>
+    <Box maxW="7xl" mx="auto">
+      <Divider />
+      <Flex minWidth="max-content" alignItems="center" gap="2" py={4}>
+        <Box p="2">
+          <Menu>
+            <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+              Sort
+            </MenuButton>
+            <MenuList>
+              {options.map((option) => (
+                <MenuItem
+                  key={option.value}
+                  onClick={() => refine(option.value)}
+                >
+                  {option.label}
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
+        </Box>
+        <Spacer />
+        <Stack direction="row" spacing={4}>
+          <Box>
+            <Menu closeOnSelect={false}>
+              {({ isOpen }) => (
+                <>
+                  <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                    Category
+                    {refinedItemCount > 0 && (
+                      <Badge
+                        borderRadius="full"
+                        px="2"
+                        colorScheme={isOpen ? "teal" : "gray"}
+                      >
+                        {refinedItemCount}
+                      </Badge>
+                    )}
+                  </MenuButton>
+                  <MenuList>
+                    <Stack spacing={2} px={4}>
+                      {items.map((item) => (
+                        <Checkbox
+                          key={item.value}
+                          isChecked={item.isRefined}
+                          value={item.value}
+                          onChange={(e) => {
+                            console.log("value change: ", e.target.value);
+                            console.log("list: ", e.target.value);
+                            catRefine(e.target.value);
+                          }}
+                        >
+                          {item.label}
+                        </Checkbox>
+                      ))}
+                    </Stack>
+                  </MenuList>
+                </>
+              )}
+            </Menu>
+          </Box>
+        </Stack>
+      </Flex>
+      <Hits />
+      <Pagination />
+    </Box>
   );
 }

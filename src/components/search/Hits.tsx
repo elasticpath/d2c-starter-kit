@@ -16,17 +16,21 @@ import Link from "next/link";
 import NoResults from "./NoResults";
 
 export default function Hits(): JSX.Element {
+  const { hits } = useHits<SearchHit>();
+
   const HitComponent = ({ hit }: { hit: SearchHit }) => {
-    const { ep_price, ep_image_url, ep_name, ep_sku, ep_slug, objectID } = hit;
+    const { ep_price, ep_name, ep_sku, ep_slug, objectID, ep_main_image_url } =
+      hit;
     return (
       <LinkBox mb="12">
         <Box position="relative" overflow="hidden" pb="100%">
-          {ep_image_url ? (
+          {ep_main_image_url ? (
             <Image
               boxSize="100%"
               position="absolute"
               objectFit="cover"
-              src={ep_image_url}
+              rounded="lg"
+              src={ep_main_image_url}
               alt={ep_name}
             />
           ) : (
@@ -36,6 +40,7 @@ export default function Hits(): JSX.Element {
               bg="gray.200"
               color="white"
               position="absolute"
+              rounded="lg"
             >
               <ViewOffIcon w="10" h="10" />
             </Center>
@@ -63,10 +68,9 @@ export default function Hits(): JSX.Element {
     );
   };
 
-  const { hits } = useHits<SearchHit>();
   if (hits.length) {
     return (
-      <Grid templateColumns="repeat(3, 1fr)" gap={4}>
+      <Grid maxW="7xl" templateColumns="repeat(3, 1fr)" gap={4}>
         {hits.map((hit) => (
           <GridItem key={hit.objectID}>
             <HitComponent hit={hit} />
