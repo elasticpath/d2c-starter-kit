@@ -8,9 +8,12 @@ import { InstantSearch } from "react-instantsearch-hooks-web";
 import { searchClient } from "../lib/search-client";
 import { algoliaEnvData } from "../lib/resolve-algolia-env";
 
+import "focus-visible/dist/focus-visible";
+import theme from "../styles/theme";
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <StoreProvider>
         <MainLayout nav={pageProps.nav}>
           <InstantSearch

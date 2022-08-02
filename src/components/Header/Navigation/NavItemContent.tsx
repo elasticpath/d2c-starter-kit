@@ -1,39 +1,4 @@
-import { ChevronDownIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Container,
-  Link,
-  SimpleGrid,
-  Stack,
-  Text,
-  Flex,
-  Tag,
-  useColorModeValue,
-  Button,
-  useDisclosure,
-  others,
-} from "@chakra-ui/react";
-
-import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
-} from "@chakra-ui/react";
-
-const ListHeader = ({ children }: { children: ReactNode }) => {
-  return (
-    <Text fontWeight={"500"} fontSize={"lg"} mb={2}>
-      {children}
-    </Text>
-  );
-};
-
-import { ReactNode } from "react";
+import { Container, Link, SimpleGrid, Stack } from "@chakra-ui/react";
 import { INavigationNode } from "../Header";
 
 interface INavItemContent {
@@ -41,19 +6,15 @@ interface INavItemContent {
 }
 
 const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  // console.log("nav", nav);
-
   const buildStack = (item: INavigationNode) => {
     return (
-      <Stack align={"flex-start"}>
-        <ListHeader>{item.name}</ListHeader>
+      <Stack key={item.id} align={"flex-start"}>
+        <h2>{item.name}</h2>
         {item.children.map((child: INavigationNode) => {
           return (
-            <MenuItem key={child.id}>
-              <Link href={"#"}>{child.name}</Link>
-            </MenuItem>
+            <Link key={child.id} href={"#"}>
+              {child.name}
+            </Link>
           );
         })}
       </Stack>
@@ -61,15 +22,13 @@ const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
   };
 
   return (
-    <>
-      <Container as={Stack} maxW={"6xl"} py={10}>
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
-          {item.children.map((parent: INavigationNode) => {
-            return buildStack(parent);
-          })}
-        </SimpleGrid>
-      </Container>
-    </>
+    <Container maxW={"80rem"} width="100%">
+      <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
+        {item.children.map((parent: INavigationNode) => {
+          return buildStack(parent);
+        })}
+      </SimpleGrid>
+    </Container>
   );
 };
 

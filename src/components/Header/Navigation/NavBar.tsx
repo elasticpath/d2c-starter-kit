@@ -38,18 +38,15 @@ import NavItem from "./NavItem";
 
 interface INavBar {
   nav: INavigationNode[];
+  headerRef: any;
 }
 
-const NavBar = ({ nav }: INavBar): JSX.Element => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+const NavBar = ({ nav, headerRef }: INavBar): JSX.Element => {
   return (
     <Flex w="100%" as="nav">
-      <Menu isOpen={isOpen}>
-        {nav.map((item: INavigationNode) => (
-          <NavItem key={item.id} item={item} />
-        ))}
-      </Menu>
+      {nav.map((item: INavigationNode) => (
+        <NavItem key={item.id} item={item} headerRef={headerRef} />
+      ))}
     </Flex>
   );
 };
