@@ -1,5 +1,4 @@
-import { Box, Container, Flex, Image } from "@chakra-ui/react";
-import { useRef } from "react";
+import { Box, Flex, Image } from "@chakra-ui/react";
 
 import NavBar from "./Navigation/NavBar";
 
@@ -14,30 +13,36 @@ interface IHeader {
 }
 
 const Header = ({ nav }: IHeader): JSX.Element => {
-  const headerRef = useRef(null);
+  const headerPadding = 4;
 
   return (
-    <>
-      <Box p={"4"} as="header">
-        <Flex alignItems="center" w="100%" justifyContent="space-between">
-          <Box flex={1}>
-            <Image
-              src="/icons/ep-icon.svg"
-              alt="ep Logo"
-              width={"40px"}
-              height={"40px"}
-            />
-          </Box>
+    <Box
+      p={headerPadding}
+      as="header"
+      position="sticky"
+      top={0}
+      bg="white"
+      zIndex="sticky"
+      borderBottom="1px"
+      borderColor="gray.200"
+    >
+      <Flex alignItems="center" w="100%" justifyContent="space-between">
+        <Box flex={1}>
+          <Image
+            src="/icons/ep-icon.svg"
+            alt="EP Icon"
+            width="40px"
+            height="40px"
+          />
+        </Box>
 
-          <Box maxW="80rem" w="100%">
-            <NavBar nav={nav} headerRef={headerRef} />
-          </Box>
+        <Box maxW="80rem" w="100%">
+          <NavBar nav={nav} headerPadding={headerPadding} />
+        </Box>
 
-          <Box flex={1}>cart goes here</Box>
-        </Flex>
-      </Box>
-      <div className="hellothere" ref={headerRef}></div>
-    </>
+        <Box flex={1}>cart goes here</Box>
+      </Flex>
+    </Box>
   );
 };
 
