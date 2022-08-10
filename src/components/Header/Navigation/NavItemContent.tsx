@@ -62,8 +62,8 @@ const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
         borderColor="gray.100"
         paddingBottom="2"
       >
-        {item.children.map((parent: INavigationNode) => {
-          return <>{buildStack(parent)}</>;
+        {item.children.map((parent: INavigationNode, index: number) => {
+          return <div key={index}>{buildStack(parent)}</div>;
         })}
       </SimpleGrid>
       <Link

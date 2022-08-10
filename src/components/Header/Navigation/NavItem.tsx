@@ -40,22 +40,6 @@ const NavItem = ({ item, headerPadding }: INavItem): JSX.Element => {
   const menuListPadding = 4;
 
   return (
-    // <ListItem marginRight="2rem">
-    //   <Popover offset={[0, 30]} matchWidth={true} placement="bottom-start">
-    //     <PopoverTrigger>
-    //       <span>{item.name}</span>
-    //     </PopoverTrigger>
-
-    //     <PopoverContent padding="2rem" width="100%">
-    //       <PopoverArrow />
-    //       <PopoverBody>
-    //         <NavItemContent item={item} />
-    //       </PopoverBody>
-    //     </PopoverContent>
-    //   </Popover>
-    // </ListItem>
-
-    // getComputedStyle(document.documentElement).getPropertyValue('--my-variable-name')
     <Menu
       offset={[
         -calculateOffset(menuListPadding),
@@ -66,6 +50,7 @@ const NavItem = ({ item, headerPadding }: INavItem): JSX.Element => {
         as={Button}
         variant="link"
         marginRight="2rem"
+        color="gray.800"
         _expanded={{ color: "brand.primary.blue" }}
       >
         {item.name}

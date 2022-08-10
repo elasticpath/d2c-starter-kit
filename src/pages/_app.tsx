@@ -16,12 +16,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ChakraProvider theme={theme}>
       <StoreProvider>
         <MainLayout nav={pageProps.nav}>
-          <InstantSearch
+          {/* <InstantSearch
             searchClient={searchClient}
             indexName={algoliaEnvData.indexName}
-          >
-            <Component {...pageProps} />
-          </InstantSearch>
+          > */}
+          <Component {...pageProps} />
+          {/* </InstantSearch> */}
         </MainLayout>
       </StoreProvider>
     </ChakraProvider>
