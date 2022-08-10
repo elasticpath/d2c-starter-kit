@@ -23,10 +23,10 @@ import {
   useRefinementList,
   useSortBy,
 } from "react-instantsearch-hooks-web";
+import { algoliaEnvData } from "../../lib/resolve-algolia-env";
 import Hits from "./Hits";
 import HitsPerPage from "./HitsPerPage";
 import Pagination from "./Pagination";
-import PriceRangeSlider from "./PriceRangeSlider";
 
 export default function SearchResults(): JSX.Element {
   const { items, refine: catRefine } = useRefinementList({
@@ -36,9 +36,15 @@ export default function SearchResults(): JSX.Element {
 
   const { options, refine } = useSortBy({
     items: [
-      { label: "Featured", value: "d2c-reference" },
-      { label: "Price (Low to High)", value: "d2c-reference-low-to-high" },
-      { label: "Price (High to Low)", value: "d2c-reference-high-to-low" },
+      { label: "Featured", value: algoliaEnvData.indexName },
+      {
+        label: "Price (Low to High)",
+        value: `${algoliaEnvData.indexName}_price_asc`,
+      },
+      {
+        label: "Price (High to Low)",
+        value: `${algoliaEnvData.indexName}_price_desc`,
+      },
     ],
   });
 
