@@ -11,29 +11,22 @@ import {
   Box,
   Flex,
   Spacer,
-  Stack,
-  Checkbox,
-  Badge,
-  chakra,
+  Text,
+  Heading,
 } from "@chakra-ui/react";
-import { useEffect, useMemo } from "react";
 import {
   SearchBox,
-  useSearchBox,
-  useRefinementList,
   useSortBy,
+  HierarchicalMenu,
+  useInstantSearch,
 } from "react-instantsearch-hooks-web";
 import { algoliaEnvData } from "../../lib/resolve-algolia-env";
 import Hits from "./Hits";
-import HitsPerPage from "./HitsPerPage";
 import Pagination from "./Pagination";
 
 export default function SearchResults(): JSX.Element {
-  const { items, refine: catRefine } = useRefinementList({
-    attribute: "ep_category_page_id",
-    sortBy: ["name:asc"],
-  });
-
+  // const { items, refine: catRefine } = useRefinementList();
+  const { uiState } = useInstantSearch();
   const { options, refine } = useSortBy({
     items: [
       { label: "Featured", value: algoliaEnvData.indexName },
@@ -48,15 +41,17 @@ export default function SearchResults(): JSX.Element {
     ],
   });
 
-  const refinedItemCount = useMemo(
-    () => items.filter((item) => item.isRefined).length,
-    [items]
-  );
+  const { hierarchicalMenu, query } = uiState[algoliaEnvData.indexName];
+  const title = hierarchicalMenu?.["slug_categories_data.lvl0"].join(" > ");
 
   return (
-    <Box maxW="7xl" mx="auto">
-      <Divider />
-      <Flex minWidth="max-content" alignItems="center" gap="2" py={4}>
+    <Grid gap={2} maxW="7xl" mx="auto">
+      <Flex minWidth="max-content" alignItems="center" gap="2">
+        <Box p="2">
+          <Heading>{title ? title : "Search"}</Heading>
+          {query && <Text>Search results for &quot;{query}&quot;</Text>}
+        </Box>
+        <Spacer />
         <Box p="2">
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
@@ -74,50 +69,27 @@ export default function SearchResults(): JSX.Element {
             </MenuList>
           </Menu>
         </Box>
-        <Spacer />
-        <Stack direction="row" spacing={4}>
-          <Box>
-            <Menu closeOnSelect={false}>
-              {({ isOpen }) => (
-                <>
-                  <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                    Category
-                    {refinedItemCount > 0 && (
-                      <Badge
-                        borderRadius="full"
-                        px="2"
-                        colorScheme={isOpen ? "teal" : "gray"}
-                      >
-                        {refinedItemCount}
-                      </Badge>
-                    )}
-                  </MenuButton>
-                  <MenuList>
-                    <Stack spacing={2} px={4}>
-                      {items.map((item) => (
-                        <Checkbox
-                          key={item.value}
-                          isChecked={item.isRefined}
-                          value={item.value}
-                          onChange={(e) => {
-                            console.log("value change: ", e.target.value);
-                            console.log("list: ", e.target.value);
-                            catRefine(e.target.value);
-                          }}
-                        >
-                          {item.label}
-                        </Checkbox>
-                      ))}
-                    </Stack>
-                  </MenuList>
-                </>
-              )}
-            </Menu>
-          </Box>
-        </Stack>
       </Flex>
-      <Hits />
+      <Divider />
+      <SearchBox />
+      <Grid templateColumns="repeat(5, 1fr)" gap={4}>
+        <GridItem colSpan={1}>
+          <HierarchicalMenu
+            attributes={[
+              "slug_categories_data.lvl0",
+              "slug_categories_data.lvl1",
+              "slug_categories_data.lvl2",
+              "slug_categories_data.lvl3",
+            ]}
+          />
+        </GridItem>
+
+        <GridItem colSpan={4}>
+          <Hits />
+        </GridItem>
+      </Grid>
+
       <Pagination />
-    </Box>
+    </Grid>
   );
 }
