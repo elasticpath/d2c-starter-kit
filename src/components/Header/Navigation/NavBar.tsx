@@ -1,5 +1,4 @@
-import { Flex, List } from "@chakra-ui/react";
-import { useRef } from "react";
+import { Flex } from "@chakra-ui/react";
 
 import { INavigationNode } from "../Header";
 import NavItem from "./NavItem";
@@ -12,9 +11,10 @@ interface INavBar {
 const NavBar = ({ nav, headerPadding }: INavBar): JSX.Element => {
   return (
     <Flex w="100%" as="nav">
-      {nav.map((item: INavigationNode) => (
-        <NavItem key={item.id} item={item} headerPadding={headerPadding} />
-      ))}
+      {nav &&
+        nav.map((item: INavigationNode) => (
+          <NavItem key={item.id} item={item} headerPadding={headerPadding} />
+        ))}
     </Flex>
   );
 };

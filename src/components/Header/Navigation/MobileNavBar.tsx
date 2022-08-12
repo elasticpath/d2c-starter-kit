@@ -11,22 +11,16 @@ import {
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
-  DrawerOverlay,
   Flex,
-  Input,
   Image,
-  List,
   Menu,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
-import { useRef } from "react";
-import SearchModal from "../../search/SearchModal";
 
 import { INavigationNode } from "../Header";
-import NavItem from "./NavItem";
+
+import SearchModal from "../../search/SearchModal";
 import NavItemContent from "./NavItemContent";
 
 interface IMobileNavBar {
@@ -35,19 +29,13 @@ interface IMobileNavBar {
 
 const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = useRef();
 
   return (
     <>
       <Button variant="ghost" color="gray.800" onClick={onOpen}>
         <HamburgerIcon />
       </Button>
-      <Image
-        src="/icons/ep-icon.svg"
-        alt="EP Icon"
-        width="40px"
-        height="40px"
-      />
+      <Image src="/icons/ep-icon.svg" alt="EP Icon" minW={10} w={10} h={10} />
       <SearchModal />
       <Drawer
         isOpen={isOpen}

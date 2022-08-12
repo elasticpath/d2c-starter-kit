@@ -1,26 +1,9 @@
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  ListItem,
-  Menu,
-  MenuButton,
-  MenuGroup,
-  MenuList,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  PopoverTrigger,
-  Portal,
-  useDisclosure,
-} from "@chakra-ui/react";
-
+import { Button, Menu, MenuButton, MenuList } from "@chakra-ui/react";
 import { INavigationNode } from "../Header";
-import NavItemContent from "./NavItemContent";
-
 import { ChakraProvider } from "@chakra-ui/react";
 import { styles } from "../../../styles/theme";
+
+import NavItemContent from "./NavItemContent";
 
 interface INavItem {
   item: INavigationNode;
@@ -58,7 +41,7 @@ const NavItem = ({ item, headerPadding }: INavItem): JSX.Element => {
       <MenuList
         w="100%"
         maxW="80rem"
-        padding={menuListPadding}
+        p={menuListPadding}
         borderTopLeftRadius={0}
         borderTopRightRadius={0}
         sx={{

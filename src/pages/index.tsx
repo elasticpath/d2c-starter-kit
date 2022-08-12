@@ -18,6 +18,9 @@ import { connectProductsWithMainImages } from "../lib/product-util";
 import NodeDisplay from "../components/node/NodeDisplay";
 import { ProductResponseWithImage } from "../lib/product-types";
 
+const NODE_ID = process.env.NEXT_PUBLIC_DEMO_NODE_ID || "";
+const PROMOTION_ID = process.env.NEXT_PUBLIC_DEMO_PROMO_ID || "";
+
 export interface IHome {
   staticProducts: StaticProduct[];
   hierarchies?: Hierarchy[];
@@ -32,7 +35,8 @@ const Home: NextPage<IHome> = ({
   featuredNodeProducts,
   categoryNodes,
 }) => {
-  const nodeId = "7e708df1-6b0a-4297-b81b-c198b6962538";
+  const nodeId = NODE_ID;
+
   return (
     <chakra.main>
       <PromotionBanner
@@ -73,13 +77,11 @@ export const getStaticProps: GetStaticProps<IHome> = async () => {
   // Fetching static data for the home page
 
   // Fetching the data for a specific promotion for the home page PromotionBanner
-  const { data: promotion } = await getPromotionById(
-    "232cb2c4-cfd6-4689-9cd1-555341d52156"
-  );
+  const { data: promotion } = await getPromotionById(PROMOTION_ID);
 
   // Fetching the first 4 products of a node to display in the FeaturedProducts component
   const { data: nodeProductsResponse, included: nodeProductsIncluded } =
-    await getProductsByNode("7e708df1-6b0a-4297-b81b-c198b6962538");
+    await getProductsByNode(NODE_ID);
 
   const featuredNodeProducts = nodeProductsIncluded?.main_images
     ? connectProductsWithMainImages(
@@ -92,17 +94,23 @@ export const getStaticProps: GetStaticProps<IHome> = async () => {
   const hierarchies = await getHierarchies();
   const hierarchyChildren =
     hierarchies.length > 0 ? await getHierarchyChildren(hierarchies[0].id) : [];
+
   // As an example, use first hierarchy's child, if there is one
   const parentNode =
     hierarchyChildren.length > 0 ? hierarchyChildren[0] : undefined;
 
   const categoryNodes = parentNode ? await getNodeChildren(parentNode?.id) : [];
 
-  const nav = async () => {
-    // Fetch hierarchies for statically generated nav
+  // Fetching nodes and hierarchies for statically generated nav
+  const buildSiteNavigation = async () => {
+    interface ISchema {
+      name: string;
+      id: string;
+      children: ISchema[];
+    }
 
-    const createNode = (name: string, id: string, children = []) => {
-      const schema = {
+    const createNode = (name: string, id: string, children: ISchema[] = []) => {
+      const schema: ISchema = {
         name,
         id,
         children,
@@ -111,37 +119,35 @@ export const getStaticProps: GetStaticProps<IHome> = async () => {
       return Object.assign({}, schema);
     };
 
-    // top level nav
+    // Fetch hierarchies to be used as top level nav
     const hierarchies = await getHierarchies();
+
+    // Construct hierarchy tree, limited to 5 hierarchies at the top level
     const tree = hierarchies
       .slice(0, 4)
-      .map((h) => createNode(h.attributes.name, h.id))
-      .map(async (h: any) => {
-        // first level nav ('parent nodes')
-        const directChildren = await getHierarchyChildren(h.id);
+      .map((hierarchy) => createNode(hierarchy.attributes.name, hierarchy.id))
+      .map(async (hierarchy) => {
+        // Fetch first-level nav ('parent nodes') - the direct children of each hierarchy
+        const directChildren = await getHierarchyChildren(hierarchy.id);
+        // Fetch all nodes in each hierarchy (i.e. all 'child nodes' belonging to a hierarchy)
+        const allNodes = await getHierarchyNodes(hierarchy.id);
 
-        // all nodes in hierarchy (i.e. all 'child nodes')
-        // 2nd level nav ('child nodes')
-        const allNodes = await getHierarchyNodes(h.id);
+        // Build 2nd level by finding all 'child nodes' belonging to each first level node
+        const directs = directChildren.slice(0, 4).map((child) => {
+          const children: ISchema[] = allNodes
+            .filter((node) => node?.relationships?.parent.data.id === child.id)
+            .map((node) => createNode(node.attributes.name, node.id));
 
-        const directs = directChildren.slice(0, 4).map((c) => {
-          const children: any = allNodes
-            // @ts-ignore
-            .filter((n) => n.relationships.parent.data.id === c.id)
-            .map((n) => createNode(n.attributes.name, n.id));
-
-          return createNode(c.attributes.name, c.id, children);
+          return createNode(child.attributes.name, child.id, children);
         });
 
-        const obj = { ...h, children: directs };
-
-        return obj;
+        return { ...hierarchy, children: directs };
       });
 
     return Promise.all(tree);
   };
 
-  const navInfo = await nav();
+  const nav = await buildSiteNavigation();
 
   return {
     props: {
@@ -150,7 +156,7 @@ export const getStaticProps: GetStaticProps<IHome> = async () => {
       featuredNodeProducts,
       hierarchies,
       categoryNodes,
-      nav: navInfo,
+      nav,
     },
   };
 };

@@ -1,15 +1,10 @@
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import {
-  Box,
-  Container,
   Flex,
-  GridItem,
-  Heading,
   Link,
   MenuGroup,
   MenuItem,
   SimpleGrid,
-  Stack,
   Text,
 } from "@chakra-ui/react";
 import { INavigationNode } from "../Header";
@@ -19,11 +14,9 @@ interface INavItemContent {
 }
 
 const menuItemInteractionStyle = {
-  background: "none",
+  bg: "none",
   color: "brand.primary.blue",
 };
-
-// const x =
 
 const menuItemStyleProps = {
   _hover: menuItemInteractionStyle,
@@ -60,15 +53,15 @@ const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
         spacing={10}
         borderBottom="1px solid"
         borderColor="gray.100"
-        paddingBottom="2"
+        paddingBottom={2}
       >
         {item.children.map((parent: INavigationNode, index: number) => {
           return <div key={index}>{buildStack(parent)}</div>;
         })}
       </SimpleGrid>
       <Link
-        margin="4"
-        marginBottom="0"
+        m={4}
+        marginBottom={0}
         href={"#"}
         fontSize="sm"
         fontWeight="semibold"
@@ -80,7 +73,7 @@ const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
           _hover={{ color: "brand.primary.blue" }}
         >
           Browse All {item.name}
-          <ArrowForwardIcon marginLeft="1" />
+          <ArrowForwardIcon marginLeft={1} />
         </Text>
       </Link>
     </Flex>

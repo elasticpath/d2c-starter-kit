@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { Box, Button, Heading, Skeleton, Text, Image } from "@chakra-ui/react";
+import React, { useState, useEffect, useCallback } from "react";
+import { Box, Button, Heading, Skeleton, Text } from "@chakra-ui/react";
 import { getPromotionById } from "../../services/promotions-api";
 import { Promotion } from "@moltin/sdk";
 import { useRouter } from "next/router";

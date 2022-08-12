@@ -22,13 +22,12 @@ export async function getHierarchyChildren(
   return result.data;
 }
 
-export async function getHierarchyNodes(
-  hierarchyId: string
-): Promise<Hierarchy[]> {
+export async function getHierarchyNodes(hierarchyId: string): Promise<Node[]> {
   const result = await EPCCAPI.ShopperCatalog.Hierarchies.GetHierarchyNodes({
     hierarchyId,
   });
 
+  // @ts-expect-error
   return result.data;
 }
 
