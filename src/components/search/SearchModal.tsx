@@ -210,8 +210,8 @@ export const SearchModal = (): JSX.Element => {
               onClose();
               setSearchValue("");
               router.push({
-                pathname: "/search",
-                query: { search: query },
+                pathname: "/search/",
+                query: { query },
               });
             }}
           />
