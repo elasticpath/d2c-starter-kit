@@ -142,7 +142,6 @@ export function resolveRouting(
           sortBy: indexUiState.sortBy,
         };
       },
-
       routeToState(routeState) {
         const { query, page, categories, brands, sortBy } = routeState;
         return {
