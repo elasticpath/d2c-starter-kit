@@ -12,13 +12,10 @@ export const styles = {
 // Elastic Path default brand colours
 const colors = {
   brand: {
-    primary: {
-      blue: "#0033CC",
-      navy: "#091740",
-      grey: "#6A6D72",
-      tangerine: "#EA7317",
-      yellow: "#ffcb47",
-    },
+    primary: "#0033CC",
+    secondary: "#091740",
+    primaryAlt: "#EA7317",
+    secondaryAlt: "#ffcb47",
   },
 };
 

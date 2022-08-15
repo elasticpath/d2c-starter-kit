@@ -34,16 +34,13 @@ const Home: NextPage<IHome> = (val) => {
   const { staticProducts, promotion, featured, categoryNodes } = val;
   return (
     <chakra.main>
-      {promotion && (
-        <PromotionBanner
-          type="provided"
-          promotion={promotion}
-          linkProps={{
-            link: "/cart",
-            text: "Shop Now",
-          }}
-        />
-      )}
+      <PromotionBanner
+        promotion={promotion}
+        linkProps={{
+          link: "/cart",
+          text: "Shop Now",
+        }}
+      />
       <Grid gap="12" padding={{ base: "2rem", md: "4rem" }}>
         {featured && (
           <GridItem>

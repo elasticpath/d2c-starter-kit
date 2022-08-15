@@ -33,7 +33,7 @@ const NavItem = ({ item, headerPadding }: INavItem): JSX.Element => {
         variant="link"
         marginRight="2rem"
         color="gray.800"
-        _expanded={{ color: "brand.primary.blue" }}
+        _expanded={{ color: "brand.primary" }}
       >
         {item.name}
       </MenuButton>

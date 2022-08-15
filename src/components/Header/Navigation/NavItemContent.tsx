@@ -71,7 +71,7 @@ const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
             display="flex"
             flexDirection="row"
             alignItems="center"
-            _hover={{ color: "brand.primary.blue" }}
+            _hover={{ color: "brand.primary" }}
           >
             Browse All {item.name}
             <ArrowForwardIcon marginLeft={1} />

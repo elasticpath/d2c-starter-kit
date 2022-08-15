@@ -81,7 +81,7 @@ const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
                       <h2>
                         <AccordionButton
                           color="gray.800"
-                          _expanded={{ color: "brand.primary.blue" }}
+                          _expanded={{ color: "brand.primary" }}
                           fontWeight={"bold"}
                           marginBottom={1}
                         >
