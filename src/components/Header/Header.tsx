@@ -32,7 +32,7 @@ const Header = ({ nav }: IHeader): JSX.Element => {
         alignItems="center"
         w="100%"
         justifyContent="space-between"
-        display={{ sm: "flex", md: "none" }}
+        display={{ base: "flex", sm: "flex", md: "none" }}
       >
         <MobileNavBar nav={nav} />
       </Flex>
@@ -40,7 +40,7 @@ const Header = ({ nav }: IHeader): JSX.Element => {
         alignItems="center"
         w="100%"
         justifyContent="space-between"
-        display={{ sm: "none", md: "flex" }}
+        display={{ base: "none", sm: "none", md: "flex" }}
       >
         <Box flex={1} minW={16}>
           <Image

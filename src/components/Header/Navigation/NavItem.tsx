@@ -1,6 +1,5 @@
 import { Button, Menu, MenuButton, MenuList, theme } from "@chakra-ui/react";
 import { INavigationNode } from "../Header";
-import { ChakraProvider } from "@chakra-ui/react";
 import { styles } from "../../../styles/theme";
 
 import NavItemContent from "./NavItemContent";
