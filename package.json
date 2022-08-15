@@ -10,7 +10,7 @@
     "test": "jest --watch",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
-    "type:check": "tsc",
+    "type:check": "tsc --noEmit",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "prepare": "husky install"
