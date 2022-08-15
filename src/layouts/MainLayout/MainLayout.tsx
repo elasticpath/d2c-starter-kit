@@ -1,10 +1,11 @@
-import Header, { INavigationNode } from "../../components/Header/Header";
+import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 
 import type { ReactNode } from "react";
+import type { NavigationNode } from "../../lib/build-site-navigation";
 
 interface IMainLayout {
-  nav: INavigationNode[];
+  nav: NavigationNode[];
   children: ReactNode;
 }
 

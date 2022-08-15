@@ -1,17 +1,12 @@
 import { Box, Flex, Image } from "@chakra-ui/react";
+import { NavigationNode } from "../../lib/build-site-navigation";
 import SearchModal from "../search/SearchModal";
 import MobileNavBar from "./Navigation/MobileNavBar";
 
 import NavBar from "./Navigation/NavBar";
 
-export interface INavigationNode {
-  name: string;
-  id: string;
-  children: INavigationNode[];
-}
-
 interface IHeader {
-  nav: INavigationNode[];
+  nav: NavigationNode[];
 }
 
 const Header = ({ nav }: IHeader): JSX.Element => {

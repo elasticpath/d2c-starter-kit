@@ -17,14 +17,13 @@ import {
   Menu,
   useDisclosure,
 } from "@chakra-ui/react";
-
-import { INavigationNode } from "../Header";
+import { NavigationNode } from "../../../lib/build-site-navigation";
 
 import SearchModal from "../../search/SearchModal";
 import NavItemContent from "./NavItemContent";
 
 interface IMobileNavBar {
-  nav: INavigationNode[];
+  nav: NavigationNode[];
 }
 
 const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
@@ -53,7 +52,7 @@ const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
             <Flex w="100%" as="nav">
               <Accordion w="100%" defaultIndex={[0]} allowToggle>
                 {nav &&
-                  nav.map((item: INavigationNode, index: number) => (
+                  nav.map((item: NavigationNode, index: number) => (
                     <AccordionItem border={0} key={index}>
                       <h2>
                         <AccordionButton

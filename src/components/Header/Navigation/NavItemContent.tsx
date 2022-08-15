@@ -7,10 +7,10 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import { INavigationNode } from "../Header";
+import { NavigationNode } from "../../../lib/build-site-navigation";
 
 interface INavItemContent {
-  item: INavigationNode;
+  item: NavigationNode;
 }
 
 const menuItemInteractionStyle = {
@@ -27,10 +27,10 @@ const menuItemStyleProps = {
 };
 
 const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
-  const buildStack = (item: INavigationNode) => {
+  const buildStack = (item: NavigationNode) => {
     return (
       <MenuGroup key={item.id} title={item.name}>
-        {item.children.map((child: INavigationNode) => (
+        {item.children.map((child: NavigationNode) => (
           <MenuItem {...menuItemStyleProps} key={child.id}>
             <Link href={"#"} fontSize="sm">
               {child.name}
@@ -55,7 +55,7 @@ const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
         borderColor="gray.100"
         paddingBottom={2}
       >
-        {item.children.map((parent: INavigationNode, index: number) => {
+        {item.children.map((parent: NavigationNode, index: number) => {
           return <div key={index}>{buildStack(parent)}</div>;
         })}
       </SimpleGrid>

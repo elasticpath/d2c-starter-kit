@@ -1,11 +1,11 @@
 import { Button, Menu, MenuButton, MenuList, theme } from "@chakra-ui/react";
-import { INavigationNode } from "../Header";
+import type { NavigationNode } from "../../../lib/build-site-navigation";
 import { styles } from "../../../styles/theme";
 
 import NavItemContent from "./NavItemContent";
 
 interface INavItem {
-  item: INavigationNode;
+  item: NavigationNode;
   headerPadding: number;
 }
 
