@@ -107,41 +107,4 @@ export const getStaticProps = withNavStaticProps<IHome>(async () => {
   };
 });
 
-export const getStaticPropsOne: GetStaticProps<IHome> = async () => {
-  // Fetching static data for the home page
-
-  // Fetching the data for a specific promotion for the home page PromotionBanner
-  const promotion = PROMOTION_ID
-    ? await getPromotionById(PROMOTION_ID)
-    : undefined;
-
-  // Fetching the first 4 products of a node to display in the FeaturedProducts component
-  const featured = NODE_ID ? await getFeaturedNodeProducts(NODE_ID) : undefined;
-
-  // Fetching a nodes to display in the NodeDisplay component
-  const hierarchies = await getHierarchies();
-  const hierarchyChildren =
-    hierarchies.length > 0 ? await getHierarchyChildren(hierarchies[0].id) : [];
-
-  // As an example, use first hierarchy's child, if there is one
-  const parentNode =
-    hierarchyChildren.length > 0 ? hierarchyChildren[0] : undefined;
-
-  const categoryNodes = parentNode ? await getNodeChildren(parentNode?.id) : [];
-
-  // Fetching nodes and hierarchies for statically generated nav
-  const nav = await buildSiteNavigation();
-
-  return {
-    props: {
-      staticProducts,
-      hierarchies,
-      categoryNodes,
-      nav,
-      ...(promotion && { promotion: promotion.data }),
-      ...(featured && { featured }),
-    },
-  };
-};
-
 export default Home;
