@@ -1,5 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { NavigationNode } from "../../lib/build-site-navigation";
+import { globalBaseWidth } from "../../styles/theme";
 import SearchModal from "../search/SearchModal";
 import MobileNavBar from "./Navigation/MobileNavBar";
 import NextImage from "next/image";
@@ -55,7 +56,7 @@ const Header = ({ nav }: IHeader): JSX.Element => {
           </Link>
         </Box>
 
-        <Box maxW="80rem" w="100%">
+        <Box maxW={globalBaseWidth} w="100%">
           <NavBar nav={nav} headerPadding={headerPadding} />
         </Box>
 

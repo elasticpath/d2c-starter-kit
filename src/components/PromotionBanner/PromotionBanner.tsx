@@ -11,12 +11,13 @@ interface IPromotionBanner {
     link: string;
     text: string;
   };
+  alignment?: "center" | "left" | "right";
   promotion: IPromotion;
 }
 
 const PromotionBanner = (props: IPromotionBanner): JSX.Element => {
   const router = useRouter();
-  const { linkProps, promotion } = props;
+  const { linkProps, promotion, alignment } = props;
 
   const { name, description } = promotion;
   const imageUrl = promotion["epcc-reference-promotion-image"];
@@ -28,6 +29,17 @@ const PromotionBanner = (props: IPromotionBanner): JSX.Element => {
       backgroundImage: `url(${imageUrl})`,
       backgroundSize: "cover",
       backgroundPosition: "center",
+      _before: {
+        content: "''",
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        backgroundColor: "white",
+        filter: "opacity(0.5)",
+        zIndex: 0,
+      },
     };
   } else {
     background = {
@@ -35,24 +47,39 @@ const PromotionBanner = (props: IPromotionBanner): JSX.Element => {
     };
   }
 
+  const contentAlignment = {
+    alignItems: (() => {
+      switch (alignment) {
+        case "left":
+          return "flex-start";
+        case "right":
+          return "flex-end";
+        default:
+          return "center";
+      }
+    })(),
+    textAlign: alignment,
+  };
+
   return (
     <>
       {
         <Box
           display="flex"
           justifyContent="center"
-          alignItems="center"
           flexDirection="column"
-          textAlign="center"
-          height="72"
+          padding={8}
+          position="relative"
+          height="xl"
+          {...contentAlignment}
           {...background}
         >
           {name && (
-            <Heading as="h1" size="4xl">
+            <Heading as="h1" size="3xl" zIndex={1} mb={4}>
               {name}
             </Heading>
           )}
-          {description && <Text>{description}</Text>}
+          {description && <Text zIndex={1}>{description}</Text>}
           {linkProps && (
             <Button
               bg={"brand.primary"}
@@ -63,6 +90,7 @@ const PromotionBanner = (props: IPromotionBanner): JSX.Element => {
               }}
               variant="solid"
               mt="5"
+              zIndex={1}
               onClick={() => {
                 router.push(linkProps.link);
               }}

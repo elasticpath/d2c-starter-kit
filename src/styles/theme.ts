@@ -1,5 +1,7 @@
 import { extendTheme } from "@chakra-ui/react";
 
+export const globalBaseWidth = "7xl";
+
 // Basic styles
 export const styles = {
   global: {

@@ -19,6 +19,7 @@ import {
 } from "../../services/hierarchy";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
+import { globalBaseWidth } from "../../styles/theme";
 
 interface INodeDisplayBase {
   title: string;
@@ -118,7 +119,7 @@ export default function NodeDisplay(props: INodeDisplay): JSX.Element {
   }, [fetchTopThreeNodes]);
 
   return (
-    <Stack bg={"#FFAFB"} display={"flex"} maxW={"80rem"} mx="auto">
+    <Stack bg={"#FFAFB"} display={"flex"} maxW={globalBaseWidth} mx="auto">
       <Flex
         justifyContent={"space-between"}
         alignItems={"baseline"}

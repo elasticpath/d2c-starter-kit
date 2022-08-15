@@ -1,6 +1,8 @@
 import { Button, Menu, MenuButton, MenuList, theme } from "@chakra-ui/react";
 import type { NavigationNode } from "../../../lib/build-site-navigation";
 import { styles } from "../../../styles/theme";
+import { INavigationNode } from "../Header";
+import { globalBaseWidth, styles } from "../../../styles/theme";
 
 import NavItemContent from "./NavItemContent";
 
@@ -21,6 +23,8 @@ const calculateOffset = (value: number, vertical: boolean = false) => {
 const NavItem = ({ item, headerPadding }: INavItem): JSX.Element => {
   const menuListPadding = 4;
 
+  console.log(theme);
+
   return (
     <Menu
       offset={[
@@ -39,7 +43,7 @@ const NavItem = ({ item, headerPadding }: INavItem): JSX.Element => {
       </MenuButton>
       <MenuList
         w="100%"
-        maxW="80rem"
+        maxW={globalBaseWidth}
         p={menuListPadding}
         borderTopLeftRadius={0}
         borderTopRightRadius={0}
