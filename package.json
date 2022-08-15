@@ -23,7 +23,6 @@
     "@moltin/sdk": "^15.0.0",
     "@stripe/react-stripe-js": "^1.10.0",
     "@stripe/stripe-js": "^1.35.0",
-    "@netlify/functions": "^1.0.0",
     "@types/react-stripe-elements": "^6.0.6",
     "algoliasearch": "^4.14.2",
     "focus-visible": "^5.2.0",
