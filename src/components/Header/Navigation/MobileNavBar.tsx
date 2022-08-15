@@ -52,28 +52,29 @@ const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
           <DrawerBody>
             <Flex w="100%" as="nav">
               <Accordion w="100%" defaultIndex={[0]} allowToggle>
-                {nav.map((item: INavigationNode, index: number) => (
-                  <AccordionItem border={0} key={index}>
-                    <h2>
-                      <AccordionButton
-                        color="gray.800"
-                        _expanded={{ color: "brand.primary.blue" }}
-                        fontWeight={"bold"}
-                        marginBottom={1}
-                      >
-                        <Box flex="1" textAlign="left">
-                          {item.name}
-                        </Box>
-                        <AccordionIcon />
-                      </AccordionButton>
-                    </h2>
-                    <AccordionPanel pl={0} pr={0} pb={14}>
-                      <Menu>
-                        <NavItemContent item={item} />
-                      </Menu>
-                    </AccordionPanel>
-                  </AccordionItem>
-                ))}
+                {nav &&
+                  nav.map((item: INavigationNode, index: number) => (
+                    <AccordionItem border={0} key={index}>
+                      <h2>
+                        <AccordionButton
+                          color="gray.800"
+                          _expanded={{ color: "brand.primary.blue" }}
+                          fontWeight={"bold"}
+                          marginBottom={1}
+                        >
+                          <Box flex="1" textAlign="left">
+                            {item.name}
+                          </Box>
+                          <AccordionIcon />
+                        </AccordionButton>
+                      </h2>
+                      <AccordionPanel pl={0} pr={0} pb={14}>
+                        <Menu>
+                          <NavItemContent item={item} />
+                        </Menu>
+                      </AccordionPanel>
+                    </AccordionItem>
+                  ))}
               </Accordion>
             </Flex>
           </DrawerBody>

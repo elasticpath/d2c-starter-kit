@@ -27,7 +27,6 @@ export async function getHierarchyNodes(hierarchyId: string): Promise<Node[]> {
     hierarchyId,
   });
 
-  // @ts-expect-error
   return result.data;
 }
 

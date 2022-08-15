@@ -1,4 +1,4 @@
-import { Button, Menu, MenuButton, MenuList } from "@chakra-ui/react";
+import { Button, Menu, MenuButton, MenuList, theme } from "@chakra-ui/react";
 import { INavigationNode } from "../Header";
 import { ChakraProvider } from "@chakra-ui/react";
 import { styles } from "../../../styles/theme";
@@ -11,7 +11,7 @@ interface INavItem {
 }
 
 const calculateOffset = (value: number, vertical: boolean = false) => {
-  const rem = ChakraProvider.defaultProps?.theme?.space[value];
+  const rem: string = theme.sizes[value as keyof typeof theme.sizes].toString();
   const global = styles.global.html.fontSize;
 
   // Adjusting the offset to align correctly
@@ -46,7 +46,7 @@ const NavItem = ({ item, headerPadding }: INavItem): JSX.Element => {
         borderTopRightRadius={0}
         sx={{
           // Workaround for https://github.com/chakra-ui/chakra-ui/issues/4276
-          boxShadow: `${ChakraProvider.defaultProps?.theme?.shadows["xl"]} !important`,
+          boxShadow: `${theme.shadows["xl"]} !important`,
         }}
       >
         <NavItemContent item={item} />
