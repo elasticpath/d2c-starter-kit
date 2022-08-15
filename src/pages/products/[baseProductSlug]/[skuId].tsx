@@ -42,6 +42,8 @@ import type {
   IExtensions,
 } from "../../../lib/product-types";
 
+import { withNavStaticProps } from "../../../lib/nav-wrapper-ssg";
+
 export const Sku: NextPage<ISku> = (props: ISku) => {
   const { updateCartItems, setCartQuantity } = useCartItems();
   const [isChangingSku, setIsChangingSku] = useState(false);
@@ -100,40 +102,40 @@ interface SkuRouteParams extends ParsedUrlQuery {
   skuId: string;
 }
 
-export const getStaticProps: GetStaticProps<ISku, SkuRouteParams> = async ({
-  params,
-}) => {
-  if (!params) {
+export const getStaticProps = withNavStaticProps<ISku, SkuRouteParams>(
+  async ({ params }) => {
+    if (!params) {
+      return {
+        notFound: true,
+      };
+    }
+    // alternative use params!.productId; instead of if check
+    // non-null assertion operator https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#non-null-assertion-operator
+    const product = await getProductById(params.skuId);
+    const pcmProduct = await getPCMProductById(params.skuId);
+    // TODO should getProductById return undefined or a more understandable error response
+    if (!product) {
+      return {
+        notFound: true,
+      };
+    }
+    const productData = product.data;
+    const extensions = pcmProduct.data.attributes.extensions || null;
+
+    const retrievedResults = isSimpleProductResource(productData)
+      ? retrieveSimpleProps(product, extensions)
+      : isChildProductResource(productData)
+      ? await retrieveChildProps(params.baseProductSlug, product, extensions)
+      : await retrieveBaseProps(product, extensions);
+
+    // TODO determine the best timeframe to rebuild a requested static page.
+    //  set to 5 miuntes (300 seconds) arbitrarily
     return {
-      notFound: true,
+      ...retrievedResults,
+      // revalidate: 300,
     };
   }
-  // alternative use params!.productId; instead of if check
-  // non-null assertion operator https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#non-null-assertion-operator
-  const product = await getProductById(params.skuId);
-  const pcmProduct = await getPCMProductById(params.skuId);
-  // TODO should getProductById return undefined or a more understandable error response
-  if (!product) {
-    return {
-      notFound: true,
-    };
-  }
-  const productData = product.data;
-  const extensions = pcmProduct.data.attributes.extensions || null;
-
-  const retrievedResults = isSimpleProductResource(productData)
-    ? retrieveSimpleProps(product, extensions)
-    : isChildProductResource(productData)
-    ? await retrieveChildProps(params.baseProductSlug, product, extensions)
-    : await retrieveBaseProps(product, extensions);
-
-  // TODO determine the best timeframe to rebuild a requested static page.
-  //  set to 5 miuntes (300 seconds) arbitrarily
-  return {
-    ...retrievedResults,
-    // revalidate: 300,
-  };
-};
+);
 
 const retrieveSimpleProps = (
   productResource: ShopperCatalogResource<ProductResponse>,
