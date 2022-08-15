@@ -188,16 +188,12 @@ export const SearchModal = (): JSX.Element => {
       indexName={algoliaEnvData.indexName}
     >
       <Button
+        variant="ghost"
         onClick={onOpen}
         fontWeight="normal"
-        border={"1px solid"}
-        borderColor="gray.300"
-        color="gray.400"
-        width="200px"
         justifyContent="left"
       >
-        <SearchIcon color="gray.400" mr="4" />
-        Search
+        <SearchIcon color="gray.800" />
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

@@ -13,7 +13,10 @@ import {
   SkeletonProps,
 } from "@chakra-ui/react";
 import { Node } from "@moltin/sdk";
-import { getNodes, getNodeChildren } from "../../services/hierarchy";
+import {
+  getHierarchyChildren,
+  getNodeChildren,
+} from "../../services/hierarchy";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
 
@@ -97,7 +100,7 @@ export default function NodeDisplay(props: INodeDisplay): JSX.Element {
     if (type === "fetch-hierarchy" || type === "fetch-node") {
       const allNodes = await (type === "fetch-node"
         ? getNodeChildren(props.nodeId)
-        : getNodes(props.hierarchyId));
+        : getHierarchyChildren(props.hierarchyId));
 
       // Only need the top three nodes
       const topThreeNodes: Node[] = allNodes.slice(0, 3);

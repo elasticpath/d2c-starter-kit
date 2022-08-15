@@ -64,7 +64,9 @@ export default function PersonalInfo({
                 Continue
               </Button>
             </Flex>
-            <FormErrorMessage>{errors}</FormErrorMessage>
+            <FormErrorMessage>
+              <>{errors}</>
+            </FormErrorMessage>
           </FormControl>
         </Box>
       </form>
