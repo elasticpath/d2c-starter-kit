@@ -1,4 +1,4 @@
-import type { GetServerSideProps } from "next";
+import { withNavServerSideProps } from "../../lib/nav-wrapper-ssr";
 
 import {
   getSearchSSRProps,
@@ -7,11 +7,10 @@ import {
 } from "../../lib/search-props";
 import Search from "../../components/search/SearchPage";
 
-export const getServerSideProps: GetServerSideProps<
-  ISearch,
-  SearchQuery
-> = async (context) => {
-  return getSearchSSRProps(Search)(context);
-};
+export const getServerSideProps = withNavServerSideProps<ISearch, SearchQuery>(
+  async (context) => {
+    return getSearchSSRProps(Search)(context);
+  }
+);
 
 export default Search;
