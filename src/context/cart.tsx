@@ -36,7 +36,7 @@ function CartReducer(): CartState {
   useEffect(() => {
     const cart = localStorage.getItem("mcart") || "";
     setMcart(cart);
-  });
+  }, [setMcart]);
 
   useEffect(() => {
     if (mcart) {

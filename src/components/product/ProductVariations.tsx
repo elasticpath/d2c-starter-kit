@@ -61,7 +61,15 @@ const ProductVariations = ({
         context?.setIsChangingSku(false);
       });
     }
-  }, [selectedOptions]);
+  }, [
+    selectedOptions,
+    baseProductSlug,
+    context,
+    currentSkuId,
+    router,
+    variations,
+    variationsMatrix,
+  ]);
 
   const updateOptionHandler: UpdateOptionHandler =
     (variationId) =>

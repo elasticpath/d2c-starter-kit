@@ -68,7 +68,9 @@ export const Promotion = (): JSX.Element => {
               </Button>
             </Flex>
 
-            <FormErrorMessage>{errors}</FormErrorMessage>
+            <FormErrorMessage>
+              <>{errors}</>
+            </FormErrorMessage>
           </FormControl>
         </Box>
       </form>

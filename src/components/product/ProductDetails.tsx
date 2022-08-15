@@ -21,7 +21,7 @@ const ProductDetails = ({ product }: IProductDetails): JSX.Element => {
       spacing={{ base: 4, sm: 6 }}
       direction={"column"}
       divider={
-        <StackDivider borderColor={useColorModeValue("gray.200", "gray.600")} />
+        <StackDivider borderColor={useColorModeValue("gray.200", "gray.800")} />
       }
       {...(context?.isChangingSku ? changingSkuStyle : {})}
     >

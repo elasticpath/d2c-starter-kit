@@ -16,7 +16,7 @@ const QuantityHandler = ({ item, size }: IQuantityHandler): JSX.Element => {
   useEffect(() => {
     const cart = localStorage.getItem("mcart") || "";
     setMcart(cart);
-  });
+  }, [setMcart]);
 
   const handleUpdateQuantity = (id: string, quantity: number) => {
     updateCartItem(mcart, id, quantity)

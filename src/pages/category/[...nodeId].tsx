@@ -7,8 +7,8 @@ import type { ProductResponse, ResourceList } from "@moltin/sdk";
 import type { ParsedUrlQuery } from "querystring";
 import {
   getHierarchies,
-  getNodes,
-  getNodesProducts,
+  getHierarchyChildren,
+  getNodeProducts,
 } from "../../services/hierarchy";
 
 interface CatagoryRouterQuery extends ParsedUrlQuery {
@@ -65,7 +65,7 @@ export const Category: NextPage<ICatagory> = ({ products }) => {
 
 export const getStaticPaths: GetStaticPaths<CatagoryRouterQuery> = async () => {
   const hierarchies = await getHierarchies();
-  const nodesRequest = hierarchies.map(({ id }) => getNodes(id));
+  const nodesRequest = hierarchies.map(({ id }) => getHierarchyChildren(id));
   const nodes = await Promise.all(nodesRequest);
   const paths = nodes.flat().map((node) => {
     return `/category/${node.id}`;
@@ -85,7 +85,7 @@ export const getStaticProps: GetStaticProps<
       notFound: true,
     };
   }
-  const products = await getNodesProducts(params.nodeId);
+  const products = await getNodeProducts(params.nodeId);
   return {
     props: {
       products,
