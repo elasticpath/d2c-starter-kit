@@ -1,5 +1,5 @@
-import type { GetStaticProps, NextPage } from "next";
-import type { Hierarchy, Node, Promotion, Resource } from "@moltin/sdk";
+import type { NextPage } from "next";
+import type { Hierarchy, Node, Promotion } from "@moltin/sdk";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import { chakra, Grid, GridItem } from "@chakra-ui/react";
 import {
@@ -17,7 +17,6 @@ import {
   Featured,
   getFeaturedNodeProducts,
 } from "../lib/get-featured-node-products";
-import { buildSiteNavigation } from "../lib/build-site-navigation";
 import { withNavStaticProps } from "../lib/nav-wrapper-ssg";
 
 const NODE_ID = process.env.NEXT_PUBLIC_DEMO_NODE_ID;
