@@ -172,7 +172,7 @@ export const Cart: NextPage<{}> = () => {
             <Promotion />
             <Divider my="2" />
             <Grid templateColumns="repeat(2, 1fr)" gap={2}>
-              <Link href={"/"} passHref>
+              <Link href="/" passHref>
                 <Button
                   _hover={{
                     color: "blue.700",
@@ -184,7 +184,7 @@ export const Cart: NextPage<{}> = () => {
                   Continue Shopping
                 </Button>
               </Link>
-              <Link href={"/checkout"} passHref>
+              <Link href="/checkout" passHref>
                 <Button
                   bg={colorBlue}
                   color={colorWhite}

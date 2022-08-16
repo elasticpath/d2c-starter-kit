@@ -44,14 +44,14 @@ const ProductVariation = ({
   return (
     <Grid>
       <h2>{variation.name}</h2>
-      <Flex gap={2} wrap={"wrap"}>
+      <Flex gap={2} wrap="wrap">
         {variation.options.map((o) => (
           <Button
             key={o.id}
             {...(o.id === selectedOptionId
               ? buttonHighlightStyle
               : buttonStandardStyle)}
-            border={"1px solid"}
+            border="1px solid"
             borderColor="gray.200"
             onClick={() => updateOptionHandler(variation.id)(o.id)}
           >

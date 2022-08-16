@@ -17,7 +17,7 @@ const ProductSummary = ({ product }: IProductSummary): JSX.Element => {
   const context = useContext(ProductContext);
 
   return (
-    <Box as={"header"} {...(context?.isChangingSku ? changingSkuStyle : {})}>
+    <Box as="header" {...(context?.isChangingSku ? changingSkuStyle : {})}>
       <Heading
         lineHeight={1.1}
         fontWeight={600}

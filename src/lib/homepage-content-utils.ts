@@ -3,7 +3,6 @@ import {
   getHierarchies,
   getHierarchyChildren,
   getNodeChildren,
-  getHierarchyNodes,
 } from "../services/hierarchy";
 import { getPromotionById } from "../services/promotions";
 import { connectProductsWithMainImages } from "./product-util";
