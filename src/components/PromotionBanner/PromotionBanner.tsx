@@ -58,7 +58,7 @@ const PromotionBanner = (props: IPromotionBanner): JSX.Element => {
           return "center";
       }
     })(),
-    textAlign: alignment,
+    textAlign: alignment || "center",
   };
 
   return (
