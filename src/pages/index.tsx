@@ -7,11 +7,11 @@ import FeaturedProducts from "../components/FeaturedProducts/FeaturedProducts";
 import NodeDisplay from "../components/node/NodeDisplay";
 import { ProductResponseWithImage } from "../lib/product-types";
 import {
-  buildSiteNavigation,
   buildStaticFeaturedNodes,
   buildStaticFeaturedProducts,
   buildStaticPromotion,
 } from "../lib/homepage-content-utils";
+import { withNavStaticProps } from "../lib/nav-wrapper-ssg";
 
 export interface IHome {
   promotion: Promotion;
@@ -62,7 +62,6 @@ const Home: NextPage<IHome> = ({
 
 export const getStaticProps = withNavStaticProps<IHome>(async () => {
   // Fetching static data for the home page
-  const staticNav = await buildSiteNavigation();
   const promotion = await buildStaticPromotion();
   const featuredProducts = await buildStaticFeaturedProducts();
   const featuredNodes = await buildStaticFeaturedNodes();
@@ -72,7 +71,6 @@ export const getStaticProps = withNavStaticProps<IHome>(async () => {
       promotion,
       featuredProducts,
       featuredNodes,
-      staticNav,
     },
   };
 });

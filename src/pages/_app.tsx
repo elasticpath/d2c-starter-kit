@@ -5,8 +5,12 @@ import { ChakraProvider } from "@chakra-ui/react";
 import "../components/checkout/CardSectionStyles.css";
 import "../styles/globals.css";
 
-import "focus-visible/dist/focus-visible";
+import { ChakraProvider } from "@chakra-ui/react";
+
 import theme from "../styles/theme";
+import "../components/checkout/CardSectionStyles.css";
+import "../styles/globals.css";
+import "focus-visible/dist/focus-visible";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
