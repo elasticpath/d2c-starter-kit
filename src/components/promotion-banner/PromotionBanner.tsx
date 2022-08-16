@@ -1,6 +1,7 @@
 import { Box, Button, Heading, Text } from "@chakra-ui/react";
 import { Promotion } from "@moltin/sdk";
 import { useRouter } from "next/router";
+import { getPromotionById } from "../../services/promotions";
 
 interface IPromotion extends Promotion {
   "epcc-reference-promotion-image"?: string;

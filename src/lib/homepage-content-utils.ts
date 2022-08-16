@@ -10,13 +10,13 @@ import { connectProductsWithMainImages } from "./product-util";
 const NODE_ID = process.env.NEXT_PUBLIC_DEMO_NODE_ID || "";
 const PROMOTION_ID = process.env.NEXT_PUBLIC_DEMO_PROMO_ID || "";
 
-// Fetching the data for a specific promotion for the home page PromotionBanner
+// Fetching the data for a specific promotion for the home page promotion-banner
 export const buildStaticPromotion = async () => {
   const { data } = await getPromotionById(PROMOTION_ID);
   return data;
 };
 
-// Fetching the first 4 products of a node to display in the FeaturedProducts component
+// Fetching the first 4 products of a node to display in the featured-products component
 export const buildStaticFeaturedProducts = async () => {
   const { data: nodeProductsResponse, included: nodeProductsIncluded } =
     await getProductsByNode(NODE_ID);

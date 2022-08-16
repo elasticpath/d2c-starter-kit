@@ -1,4 +1,4 @@
-import QuantityHandler from "../quantityHandler/QuantityHandler";
+import QuantityHandler from "../quantity-handler/QuantityHandler";
 import {
   Text,
   Button,

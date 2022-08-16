@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import QuantityHandler from "../components/quantityHandler/QuantityHandler";
+import QuantityHandler from "../components/quantity-handler/QuantityHandler";
 import Link from "next/link";
 import {
   Heading,

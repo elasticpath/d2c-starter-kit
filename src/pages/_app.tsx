@@ -1,4 +1,4 @@
-import MainLayout from "../layouts/MainLayout/MainLayout";
+import MainLayout from "../layouts/main-layout/MainLayout";
 import StoreProvider from "../context/store";
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";

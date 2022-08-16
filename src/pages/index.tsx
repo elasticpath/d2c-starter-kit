@@ -2,8 +2,8 @@ import type { NextPage } from "next";
 import type { Hierarchy, Node, Promotion } from "@moltin/sdk";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import { chakra, Grid, GridItem } from "@chakra-ui/react";
-import PromotionBanner from "../components/PromotionBanner/PromotionBanner";
-import FeaturedProducts from "../components/FeaturedProducts/FeaturedProducts";
+import PromotionBanner from "../components/promotion-banner/PromotionBanner";
+import FeaturedProducts from "../components/featured-products/FeaturedProducts";
 import NodeDisplay from "../components/node/NodeDisplay";
 import { ProductResponseWithImage } from "../lib/product-types";
 import {
