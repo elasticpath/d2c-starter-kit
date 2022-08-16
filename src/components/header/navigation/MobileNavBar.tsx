@@ -18,9 +18,13 @@ import {
   Menu,
   useDisclosure,
 } from "@chakra-ui/react";
+<<<<<<< HEAD
 import Link from "next/link";
 import { NavigationNode } from "../../../lib/build-site-navigation";
 import CartMenu from "../../cartItems/CartMenu";
+=======
+import { NavigationNode } from "./build-site-navigation";
+>>>>>>> 94d006f (refactor: rename folder structure)
 
 import SearchModal from "../../search/SearchModal";
 import NavItemContent from "./NavItemContent";

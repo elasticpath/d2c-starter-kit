@@ -7,8 +7,12 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
+<<<<<<< HEAD
 import { NavigationNode } from "../../../lib/build-site-navigation";
 import NextLink from "next/link";
+=======
+import { NavigationNode } from "./build-site-navigation";
+>>>>>>> 94d006f (refactor: rename folder structure)
 
 interface INavItemContent {
   item: NavigationNode;

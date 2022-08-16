@@ -1,5 +1,5 @@
 import { Button, Menu, MenuButton, MenuList, theme } from "@chakra-ui/react";
-import type { NavigationNode } from "../../../lib/build-site-navigation";
+import type { NavigationNode } from "./build-site-navigation";
 import { globalBaseWidth, styles } from "../../../styles/theme";
 
 import NavItemContent from "./NavItemContent";

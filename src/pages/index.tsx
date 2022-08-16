@@ -2,16 +2,21 @@ import type { NextPage } from "next";
 import type { Hierarchy, Node, Promotion } from "@moltin/sdk";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import { chakra, Grid, GridItem } from "@chakra-ui/react";
-import PromotionBanner from "../components/promotion-banner/PromotionBanner";
-import FeaturedProducts from "../components/featured-products/FeaturedProducts";
-import NodeDisplay from "../components/node/NodeDisplay";
 import { ProductResponseWithImage } from "../lib/product-types";
-import {
-  buildStaticFeaturedNodes,
-  buildStaticFeaturedProducts,
-  buildStaticPromotion,
-} from "../lib/homepage-content-utils";
+
+import PromotionBanner from "../components/promotion-banner/PromotionBanner";
+import { fetchFeaturedPromotion } from "../components/promotion-banner/fetchFeaturedPromotion";
+
+import FeaturedProducts from "../components/featured-products/FeaturedProducts";
+import { fetchFeaturedProducts } from "../components/featured-products/fetchFeaturedProducts";
+
+import FeaturedNodes from "../components/featured-nodes/FeaturedNodes";
+import { fetchFeaturedNodes } from "../components/featured-nodes/fetchFeaturedNodes";
+
 import { withNavStaticProps } from "../lib/nav-wrapper-ssg";
+
+const nodeId = process.env.NEXT_PUBLIC_DEMO_NODE_ID || "";
+const promotionId = process.env.NEXT_PUBLIC_DEMO_PROMOTION_ID || "";
 
 export interface IHome {
   promotion: Promotion;
@@ -24,8 +29,6 @@ const Home: NextPage<IHome> = ({
   featuredProducts,
   featuredNodes,
 }) => {
-  const nodeId = process.env.NEXT_PUBLIC_DEMO_NODE_ID || "";
-
   return (
     <chakra.main>
       <PromotionBanner
@@ -48,12 +51,12 @@ const Home: NextPage<IHome> = ({
           />
         </GridItem>
         <GridItem>
-          <NodeDisplay
+          <FeaturedNodes
             type="provided"
             nodes={featuredNodes}
             linkProps={{ text: "Browse all categories", link: "/search" }}
             title="Shop by Category"
-          ></NodeDisplay>
+          ></FeaturedNodes>
         </GridItem>
       </Grid>
     </chakra.main>
@@ -62,9 +65,9 @@ const Home: NextPage<IHome> = ({
 
 export const getStaticProps = withNavStaticProps<IHome>(async () => {
   // Fetching static data for the home page
-  const promotion = await buildStaticPromotion();
-  const featuredProducts = await buildStaticFeaturedProducts();
-  const featuredNodes = await buildStaticFeaturedNodes();
+  const promotion = await fetchFeaturedPromotion(promotionId);
+  const featuredProducts = await fetchFeaturedProducts(nodeId);
+  const featuredNodes = await fetchFeaturedNodes();
 
   return {
     props: {

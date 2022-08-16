@@ -1,6 +1,9 @@
 import { GetStaticPropsContext, GetStaticPropsResult } from "next";
 import type { ParsedUrlQuery } from "querystring";
-import { buildSiteNavigation, NavigationNode } from "./build-site-navigation";
+import {
+  buildSiteNavigation,
+  NavigationNode,
+} from "../components/header/navigation/build-site-navigation";
 
 type IncomingPageStaticProp<P, Q extends ParsedUrlQuery = ParsedUrlQuery> = (
   ctx: GetStaticPropsContext<Q>,
