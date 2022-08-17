@@ -55,7 +55,7 @@ function resolveSort(sortBy: string): SearchQuerySortBy {
   };
 }
 
-const EP_ROUTE_CATEGORY = "slug_categories_data.lvl0";
+const EP_ROUTE_CATEGORY = "ep_slug_categories.lvl0";
 
 export function resolveRouting(
   url: string

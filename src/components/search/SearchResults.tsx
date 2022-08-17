@@ -42,7 +42,7 @@ export default function SearchResults(): JSX.Element {
   });
 
   const { hierarchicalMenu, query } = uiState[algoliaEnvData.indexName];
-  const title = hierarchicalMenu?.["slug_categories_data.lvl0"].join(" > ");
+  const title = hierarchicalMenu?.["ep_slug_categories.lvl0"].join(" > ");
 
   return (
     <Grid gap={2} maxW="7xl" mx="auto">
@@ -76,10 +76,10 @@ export default function SearchResults(): JSX.Element {
         <GridItem colSpan={1}>
           <HierarchicalMenu
             attributes={[
-              "slug_categories_data.lvl0",
-              "slug_categories_data.lvl1",
-              "slug_categories_data.lvl2",
-              "slug_categories_data.lvl3",
+              "ep_slug_categories.lvl0",
+              "ep_slug_categories.lvl1",
+              "ep_slug_categories.lvl2",
+              "ep_slug_categories.lvl3",
             ]}
           />
         </GridItem>
