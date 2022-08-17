@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
-import type { Hierarchy, Node, Promotion } from "@moltin/sdk";
-import "pure-react-carousel/dist/react-carousel.es.css";
 import { chakra, Grid, GridItem } from "@chakra-ui/react";
+
+import type { Node, Promotion } from "@moltin/sdk";
 import { ProductResponseWithImage } from "../lib/product-types";
 
 import PromotionBanner from "../components/promotion-banner/PromotionBanner";
@@ -16,12 +16,12 @@ import { fetchFeaturedNodes } from "../components/featured-nodes/fetchFeaturedNo
 import { withNavStaticProps } from "../lib/nav-wrapper-ssg";
 
 const nodeId = process.env.NEXT_PUBLIC_DEMO_NODE_ID || "";
-const promotionId = process.env.NEXT_PUBLIC_DEMO_PROMOTION_ID || "";
+const promotionId = process.env.NEXT_PUBLIC_DEMO_PROMO_ID || "";
 
 export interface IHome {
-  promotion: Promotion;
-  featuredProducts: ProductResponseWithImage[];
-  featuredNodes: Node[];
+  promotion?: Promotion;
+  featuredProducts?: ProductResponseWithImage[];
+  featuredNodes?: Node[];
 }
 
 const Home: NextPage<IHome> = ({
@@ -31,32 +31,38 @@ const Home: NextPage<IHome> = ({
 }) => {
   return (
     <chakra.main>
-      <PromotionBanner
-        promotion={promotion}
-        linkProps={{
-          link: "/cart",
-          text: "Shop Now",
-        }}
-      />
+      {promotion && (
+        <PromotionBanner
+          promotion={promotion}
+          linkProps={{
+            link: "/cart",
+            text: "Shop Now",
+          }}
+        />
+      )}
       <Grid gap="12" padding={{ base: "2rem", md: "4rem" }}>
         <GridItem>
-          <FeaturedProducts
-            title="Trending Products"
-            linkProps={{
-              link: `/category/${nodeId}`,
-              text: "See all products",
-            }}
-            type="provided"
-            products={featuredProducts}
-          />
+          {featuredProducts && (
+            <FeaturedProducts
+              title="Trending Products"
+              linkProps={{
+                link: `/category/${nodeId}`,
+                text: "See all products",
+              }}
+              type="provided"
+              products={featuredProducts}
+            />
+          )}
         </GridItem>
         <GridItem>
-          <FeaturedNodes
-            type="provided"
-            nodes={featuredNodes}
-            linkProps={{ text: "Browse all categories", link: "/search" }}
-            title="Shop by Category"
-          ></FeaturedNodes>
+          {featuredNodes && (
+            <FeaturedNodes
+              type="provided"
+              nodes={featuredNodes}
+              linkProps={{ text: "Browse all categories", link: "/category" }}
+              title="Shop by Category"
+            />
+          )}
         </GridItem>
       </Grid>
     </chakra.main>
@@ -65,15 +71,19 @@ const Home: NextPage<IHome> = ({
 
 export const getStaticProps = withNavStaticProps<IHome>(async () => {
   // Fetching static data for the home page
-  const promotion = await fetchFeaturedPromotion(promotionId);
-  const featuredProducts = await fetchFeaturedProducts(nodeId);
+  const promotion = promotionId
+    ? await fetchFeaturedPromotion(promotionId)
+    : undefined;
+  const featuredProducts = nodeId
+    ? await fetchFeaturedProducts(nodeId)
+    : undefined;
   const featuredNodes = await fetchFeaturedNodes();
 
   return {
     props: {
-      promotion,
-      featuredProducts,
       featuredNodes,
+      ...(promotion && { promotion }),
+      ...(featuredProducts && { featuredProducts }),
     },
   };
 });

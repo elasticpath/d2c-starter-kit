@@ -1,7 +1,6 @@
 import { Box, Button, Heading, Text } from "@chakra-ui/react";
 import { Promotion } from "@moltin/sdk";
 import { useRouter } from "next/router";
-import { getPromotionById } from "../../services/promotions";
 
 interface IPromotion extends Promotion {
   "epcc-reference-promotion-image"?: string;
@@ -64,41 +63,43 @@ const PromotionBanner = (props: IPromotionBanner): JSX.Element => {
 
   return (
     <>
-      <Box
-        display="flex"
-        justifyContent="center"
-        flexDirection="column"
-        padding={8}
-        position="relative"
-        height="xl"
-        {...contentAlignment}
-        {...background}
-      >
-        {name && (
-          <Heading as="h1" size="3xl" zIndex={1} mb={4}>
-            {name}
-          </Heading>
-        )}
-        {description && <Text zIndex={1}>{description}</Text>}
-        {linkProps && (
-          <Button
-            bg="brand.primary"
-            color="white"
-            _hover={{
-              backgroundColor: "brand.secondary",
-              boxShadow: "lg",
-            }}
-            variant="solid"
-            mt="5"
-            zIndex={1}
-            onClick={() => {
-              router.push(linkProps.link);
-            }}
-          >
-            {linkProps.text}
-          </Button>
-        )}
-      </Box>
+      {promotion && (
+        <Box
+          display="flex"
+          justifyContent="center"
+          flexDirection="column"
+          padding={8}
+          position="relative"
+          height="xl"
+          {...contentAlignment}
+          {...background}
+        >
+          {name && (
+            <Heading as="h1" size="3xl" zIndex={1} mb={4}>
+              {name}
+            </Heading>
+          )}
+          {description && <Text zIndex={1}>{description}</Text>}
+          {linkProps && (
+            <Button
+              bg="brand.primary"
+              color="white"
+              _hover={{
+                backgroundColor: "brand.secondary",
+                boxShadow: "lg",
+              }}
+              variant="solid"
+              mt="5"
+              zIndex={1}
+              onClick={() => {
+                router.push(linkProps.link);
+              }}
+            >
+              {linkProps.text}
+            </Button>
+          )}
+        </Box>
+      )}
     </>
   );
 };
