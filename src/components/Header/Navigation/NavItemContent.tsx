@@ -8,6 +8,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { NavigationNode } from "../../../lib/build-site-navigation";
+import NextLink from "next/link";
 
 interface INavItemContent {
   item: NavigationNode;
@@ -32,19 +33,17 @@ const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
       <MenuGroup key={item.id} title={item.name}>
         {item.children.map((child: NavigationNode) => (
           <MenuItem {...menuItemStyleProps} key={child.id}>
-            <Link href={`/search/${child.href}`} fontSize="sm">
-              {child.name}
-            </Link>
+            <NextLink href={`/search${child.href}`} passHref>
+              <Link fontSize="sm">{child.name}</Link>
+            </NextLink>
           </MenuItem>
         ))}
         <MenuItem {...menuItemStyleProps}>
-          <Link
-            href={`/search/${item.href}`}
-            fontSize="sm"
-            fontWeight="semibold"
-          >
-            Browse All
-          </Link>
+          <NextLink href={`/search${item.href}`} passHref>
+            <Link fontSize="sm" fontWeight="semibold">
+              Browse All
+            </Link>
+          </NextLink>
         </MenuItem>
       </MenuGroup>
     );
@@ -63,23 +62,19 @@ const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
           return <div key={index}>{buildStack(parent)}</div>;
         })}
       </SimpleGrid>
-      <Link
-        m={4}
-        marginBottom={0}
-        href={`/search/${item.href}`}
-        fontSize="sm"
-        fontWeight="semibold"
-      >
-        <Text
-          display="flex"
-          flexDirection="row"
-          alignItems="center"
-          _hover={{ color: "brand.primary.blue" }}
-        >
-          Browse All {item.name}
-          <ArrowForwardIcon marginLeft={1} />
-        </Text>
-      </Link>
+      <NextLink href={`/search${item.href}`} passHref>
+        <Link m={4} marginBottom={0} fontSize="sm" fontWeight="semibold">
+          <Text
+            display="flex"
+            flexDirection="row"
+            alignItems="center"
+            _hover={{ color: "brand.primary.blue" }}
+          >
+            Browse All {item.name}
+            <ArrowForwardIcon marginLeft={1} />
+          </Text>
+        </Link>
+      </NextLink>
     </Flex>
   );
 };
