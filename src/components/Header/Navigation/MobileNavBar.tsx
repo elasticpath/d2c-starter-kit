@@ -13,11 +13,14 @@ import {
   DrawerContent,
   DrawerHeader,
   Flex,
+  Grid,
+  GridItem,
   Image,
   Menu,
   useDisclosure,
 } from "@chakra-ui/react";
 import { NavigationNode } from "../../../lib/build-site-navigation";
+import CartMenu from "../../cartItems/CartMenu";
 
 import SearchModal from "../../search/SearchModal";
 import NavItemContent from "./NavItemContent";
@@ -30,12 +33,21 @@ const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <>
-      <Button variant="ghost" color="gray.800" onClick={onOpen}>
-        <HamburgerIcon />
-      </Button>
-      <Image src="/icons/ep-icon.svg" alt="EP Icon" minW={10} w={10} h={10} />
-      <SearchModal />
+    <Grid templateColumns="1fr auto 1fr" w="full">
+      <GridItem>
+        <Button variant="ghost" color="gray.800" onClick={onOpen}>
+          <HamburgerIcon />
+        </Button>
+      </GridItem>
+      <GridItem>
+        <Image src="/icons/ep-icon.svg" alt="EP Icon" minW={10} w={10} h={10} />
+      </GridItem>
+      <GridItem justifySelf={"end"}>
+        <Flex gap={4}>
+          <SearchModal />
+          <CartMenu />
+        </Flex>
+      </GridItem>
       <Drawer
         isOpen={isOpen}
         placement="left"
@@ -79,7 +91,7 @@ const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
           </DrawerBody>
         </DrawerContent>
       </Drawer>
-    </>
+    </Grid>
   );
 };
 
