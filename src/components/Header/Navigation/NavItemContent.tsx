@@ -32,13 +32,17 @@ const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
       <MenuGroup key={item.id} title={item.name}>
         {item.children.map((child: NavigationNode) => (
           <MenuItem {...menuItemStyleProps} key={child.id}>
-            <Link href={"#"} fontSize="sm">
+            <Link href={`/search/${child.href}`} fontSize="sm">
               {child.name}
             </Link>
           </MenuItem>
         ))}
         <MenuItem {...menuItemStyleProps}>
-          <Link href={"#"} fontSize="sm" fontWeight="semibold">
+          <Link
+            href={`/search/${item.href}`}
+            fontSize="sm"
+            fontWeight="semibold"
+          >
             Browse All
           </Link>
         </MenuItem>
@@ -62,7 +66,7 @@ const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
       <Link
         m={4}
         marginBottom={0}
-        href={"#"}
+        href={`/search/${item.href}`}
         fontSize="sm"
         fontWeight="semibold"
       >

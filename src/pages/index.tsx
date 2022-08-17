@@ -32,7 +32,7 @@ export interface IHome {
 
 const Home: NextPage<IHome> = (val) => {
   const { staticProducts, promotion, featured, categoryNodes } = val;
-  console.log("value: ", val);
+
   return (
     <chakra.main>
       {promotion && (
