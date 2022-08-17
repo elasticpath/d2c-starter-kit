@@ -23,6 +23,7 @@ import { Promotion } from "../components/promotion/Promotion";
 import Image from "next/image";
 import { removeCartItem } from "../services/cart";
 import type { NextPage } from "next";
+import { withNavServerSideProps } from "../lib/nav-wrapper-ssr";
 
 export const Cart: NextPage<{}> = () => {
   const { cartData, updateCartItems, totalPrice, promotionItems, mcart } =
@@ -208,3 +209,5 @@ export const Cart: NextPage<{}> = () => {
   );
 };
 export default Cart;
+
+export const getServerSideProps = withNavServerSideProps();
