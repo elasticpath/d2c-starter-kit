@@ -6,6 +6,7 @@ import NextImage from "next/image";
 
 import NavBar from "./Navigation/NavBar";
 import Link from "next/link";
+import CartMenu from "../cartItems/CartMenu";
 
 interface IHeader {
   nav: NavigationNode[];
@@ -58,9 +59,10 @@ const Header = ({ nav }: IHeader): JSX.Element => {
           <NavBar nav={nav} headerPadding={headerPadding} />
         </Box>
 
-        <Box flex={1} display="flex" justifyContent="flex-end">
+        <Flex gap={4} flex={1} display="flex" justifyContent="flex-end">
           <SearchModal />
-        </Box>
+          <CartMenu />
+        </Flex>
       </Flex>
     </Box>
   );
