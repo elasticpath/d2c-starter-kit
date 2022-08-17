@@ -1,9 +1,11 @@
-import { Box, Flex, Image } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { NavigationNode } from "../../lib/build-site-navigation";
 import SearchModal from "../search/SearchModal";
 import MobileNavBar from "./Navigation/MobileNavBar";
+import NextImage from "next/image";
 
 import NavBar from "./Navigation/NavBar";
+import Link from "next/link";
 
 interface IHeader {
   nav: NavigationNode[];
@@ -38,13 +40,18 @@ const Header = ({ nav }: IHeader): JSX.Element => {
         display={{ base: "none", sm: "none", md: "flex" }}
       >
         <Box flex={1} minW={16}>
-          <Image
-            src="/icons/ep-icon.svg"
-            alt="EP Icon"
-            minW={10}
-            w={10}
-            h={10}
-          />
+          <Link href="/">
+            <a>
+              <Box position="relative" minW={10} w={10} h={10}>
+                <NextImage
+                  objectFit="cover"
+                  layout="fill"
+                  src="/icons/ep-icon.svg"
+                  alt="EP Icon"
+                />
+              </Box>
+            </a>
+          </Link>
         </Box>
 
         <Box maxW="80rem" w="100%">
