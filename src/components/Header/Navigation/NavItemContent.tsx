@@ -32,19 +32,22 @@ const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
     return (
       <MenuGroup key={item.id} title={item.name}>
         {item.children.map((child: NavigationNode) => (
-          <MenuItem {...menuItemStyleProps} key={child.id}>
-            <NextLink href={`/search${child.href}`} passHref>
-              <Link fontSize="sm">{child.name}</Link>
-            </NextLink>
-          </MenuItem>
-        ))}
-        <MenuItem {...menuItemStyleProps}>
-          <NextLink href={`/search${item.href}`} passHref>
-            <Link fontSize="sm" fontWeight="semibold">
-              Browse All
-            </Link>
+          <NextLink key={child.id} href={`/search${child.href}`} passHref>
+            <MenuItem as={Link} {...menuItemStyleProps} fontSize="sm">
+              {child.name}
+            </MenuItem>
           </NextLink>
-        </MenuItem>
+        ))}
+        <NextLink href={`/search${item.href}`} passHref>
+          <MenuItem
+            as={Link}
+            fontSize="sm"
+            fontWeight="semibold"
+            {...menuItemStyleProps}
+          >
+            Browse All
+          </MenuItem>
+        </NextLink>
       </MenuGroup>
     );
   };
