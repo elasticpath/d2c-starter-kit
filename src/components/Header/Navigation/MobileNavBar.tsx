@@ -19,11 +19,13 @@ import {
   Menu,
   useDisclosure,
 } from "@chakra-ui/react";
+import Link from "next/link";
 import { NavigationNode } from "../../../lib/build-site-navigation";
 import CartMenu from "../../cartItems/CartMenu";
 
 import SearchModal from "../../search/SearchModal";
 import NavItemContent from "./NavItemContent";
+import NextImage from "next/image";
 
 interface IMobileNavBar {
   nav: NavigationNode[];
@@ -40,7 +42,18 @@ const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
         </Button>
       </GridItem>
       <GridItem>
-        <Image src="/icons/ep-icon.svg" alt="EP Icon" minW={10} w={10} h={10} />
+        <Link href="/">
+          <a>
+            <Box position="relative" minW={10} w={10} h={10}>
+              <NextImage
+                objectFit="cover"
+                layout="fill"
+                src="/icons/ep-icon.svg"
+                alt="EP Icon"
+              />
+            </Box>
+          </a>
+        </Link>
       </GridItem>
       <GridItem justifySelf={"end"}>
         <Flex gap={4}>
