@@ -33,7 +33,7 @@ export default function CartMenu(): JSX.Element {
           <Icon
             viewBox="0 0 24 24"
             stroke="currentColor"
-            stroke-width="2"
+            strokeWidth="2"
             fill="none"
             h={6}
             w={6}
