@@ -15,7 +15,6 @@ import {
   Flex,
   Grid,
   GridItem,
-  Image,
   Menu,
   useDisclosure,
 } from "@chakra-ui/react";
