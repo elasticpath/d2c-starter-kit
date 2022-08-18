@@ -13,14 +13,16 @@ type IncomingPageServerSideProp<
 export function withNavServerSideProps<
   T extends object = {},
   P extends ParsedUrlQuery = ParsedUrlQuery
->(incomingGSSP: IncomingPageServerSideProp<T, P>) {
+>(incomingGSSP?: IncomingPageServerSideProp<T, P>) {
   return async (
     ctx: GetServerSidePropsContext<P>
   ): Promise<GetServerSidePropsResult<T & { nav: NavigationNode[] }>> => {
     // Fetching nodes and hierarchies for statically generated nav
     const nav = await buildSiteNavigation();
 
-    const incomingGSSPResult = await incomingGSSP(ctx, nav);
+    const incomingGSSPResult = incomingGSSP
+      ? await incomingGSSP(ctx, nav)
+      : { props: {} as T };
 
     if ("props" in incomingGSSPResult) {
       return {

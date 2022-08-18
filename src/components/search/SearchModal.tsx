@@ -110,7 +110,8 @@ const SearchBox = ({
 };
 
 const HitComponent = ({ hit }: { hit: SearchHit }) => {
-  const { ep_price, ep_image_url, ep_name, ep_sku, ep_slug, objectID } = hit;
+  const { ep_price, ep_main_image_url, ep_name, ep_sku, ep_slug, objectID } =
+    hit;
   return (
     <LinkBox>
       <Grid
@@ -120,11 +121,11 @@ const HitComponent = ({ hit }: { hit: SearchHit }) => {
         gap={2}
       >
         <GridItem rowSpan={3} colSpan={2}>
-          {ep_image_url ? (
+          {ep_main_image_url ? (
             <Image
               boxSize="100px"
               objectFit="cover"
-              src={ep_image_url}
+              src={ep_main_image_url}
               alt={ep_name}
             />
           ) : (
@@ -205,8 +206,8 @@ export const SearchModal = (): JSX.Element => {
               onClose();
               setSearchValue("");
               router.push({
-                pathname: "/search",
-                query: { search: query },
+                pathname: "/search/",
+                query: { query },
               });
             }}
           />

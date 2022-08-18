@@ -4,6 +4,7 @@ import type {
   Hierarchy,
   ProductResponse,
 } from "@moltin/sdk";
+import { ShopperCatalogResource } from "@moltin/sdk";
 
 import { EPCCAPI } from "./helper";
 import { ShopperCatalogResourcePage } from "@moltin/sdk";
@@ -51,4 +52,10 @@ export async function getProductsByNode(
     "main_image",
     "files",
   ]).GetProductsByNode({ nodeId });
+}
+
+export async function getNode(
+  nodeId: string
+): Promise<ShopperCatalogResource<Node>> {
+  return await EPCCAPI.ShopperCatalog.Nodes.Get({ nodeId });
 }

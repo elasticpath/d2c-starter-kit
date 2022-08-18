@@ -10,14 +10,16 @@ type IncomingPageStaticProp<P, Q extends ParsedUrlQuery = ParsedUrlQuery> = (
 export function withNavStaticProps<
   T extends object = {},
   P extends ParsedUrlQuery = ParsedUrlQuery
->(incomingGSP: IncomingPageStaticProp<T, P>) {
+>(incomingGSP?: IncomingPageStaticProp<T, P>) {
   return async (
     ctx: GetStaticPropsContext<P>
   ): Promise<GetStaticPropsResult<T & { nav: NavigationNode[] }>> => {
     // Fetching nodes and hierarchies for statically generated nav
     const nav = await buildSiteNavigation();
 
-    const incomingGSPResult = await incomingGSP(ctx, nav);
+    const incomingGSPResult = incomingGSP
+      ? await incomingGSP(ctx, nav)
+      : { props: {} as T };
 
     if ("props" in incomingGSPResult) {
       return {
