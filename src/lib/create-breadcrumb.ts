@@ -1,13 +1,13 @@
-export interface Breadcrumbs {
+export interface Breadcrumb {
   value: string;
   breadcrumb: string;
 }
 
 export function createBreadcrumb(
   [head, ...tail]: string[],
-  acc: Breadcrumbs[] = [],
+  acc: Breadcrumb[] = [],
   breadcrumb?: string
-): Breadcrumbs[] {
+): Breadcrumb[] {
   const updatedBreadcrumb = `${breadcrumb ? `${breadcrumb}/` : ""}${head}`;
   const entry = { value: head, breadcrumb: updatedBreadcrumb };
   if (tail.length < 1) {

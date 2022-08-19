@@ -13,11 +13,7 @@ import {
   Spacer,
   Text,
   Heading,
-  OrderedList,
-  ListItem,
-  Link,
 } from "@chakra-ui/react";
-import NextLink from "next/link";
 import {
   SearchBox,
   useSortBy,
@@ -25,21 +21,10 @@ import {
 } from "react-instantsearch-hooks-web";
 import { createBreadcrumb } from "../../lib/create-breadcrumb";
 import { algoliaEnvData } from "../../lib/resolve-algolia-env";
+import Breadcrumb from "../breadcrumb";
 import CustomHierarchicalMenu from "./CustomHierarchicalMenu";
 import Hits from "./Hits";
 import Pagination from "./Pagination";
-
-const menuItemInteractionStyle = {
-  bg: "none",
-  color: "brand.primary.blue",
-};
-
-const menuItemStyleProps = {
-  _hover: menuItemInteractionStyle,
-  _active: menuItemInteractionStyle,
-  _focus: menuItemInteractionStyle,
-  color: "gray.500",
-};
 
 export default function SearchResults(): JSX.Element {
   // const { items, refine: catRefine } = useRefinementList();
@@ -69,34 +54,7 @@ export default function SearchResults(): JSX.Element {
   return (
     <Grid gap={2} maxW="7xl" mx="auto">
       {/* Breadcrumb */}
-      <OrderedList
-        display={"flex"}
-        fontSize="sm"
-        gap={4}
-        listStyleType={"none"}
-        m={"0"}
-      >
-        {breadcrumbs &&
-          breadcrumbs?.length > 1 &&
-          breadcrumbs?.map((crumb, index, array) => (
-            <ListItem key={crumb.value}>
-              {array.length === index + 1 ? (
-                <Box as="span" fontWeight={"bold"}>
-                  {crumb.value}
-                </Box>
-              ) : (
-                <NextLink href={`/search/${crumb.breadcrumb}`} passHref>
-                  <Link {...menuItemStyleProps}>{crumb.value}</Link>
-                </NextLink>
-              )}
-              {array.length !== index + 1 && (
-                <Box as="span" ml={4}>
-                  /
-                </Box>
-              )}
-            </ListItem>
-          ))}
-      </OrderedList>
+      {breadcrumbs && <Breadcrumb breadcrumbs={breadcrumbs} />}
       <Flex minWidth="max-content" alignItems="center" gap="2" pt={8}>
         <Box py="2">
           <Heading>{title ? title : "Search"}</Heading>
