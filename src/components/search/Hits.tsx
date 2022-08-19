@@ -1,6 +1,5 @@
 import { ViewOffIcon } from "@chakra-ui/icons";
 import {
-  Box,
   Center,
   Grid,
   GridItem,
@@ -19,19 +18,25 @@ export default function Hits(): JSX.Element {
   const { hits } = useHits<SearchHit>();
 
   const HitComponent = ({ hit }: { hit: SearchHit }) => {
-    const { ep_price, ep_name, ep_sku, ep_slug, objectID, ep_main_image_url } =
-      hit;
+    const {
+      ep_price,
+      ep_name,
+      ep_slug,
+      objectID,
+      ep_main_image_url,
+      ep_description,
+    } = hit;
     return (
-      <LinkBox mb="12">
-        <Box position="relative" overflow="hidden" pb="100%">
+      <LinkBox display={"grid"} gridTemplateRows="auto 1fr" h="full">
+        <GridItem position="relative" overflow="hidden" pb="100%">
           {ep_main_image_url ? (
             <Image
               boxSize="100%"
               position="absolute"
               objectFit="cover"
-              rounded="lg"
               src={ep_main_image_url}
               alt={ep_name}
+              roundedTop="lg"
             />
           ) : (
             <Center
@@ -40,30 +45,31 @@ export default function Hits(): JSX.Element {
               bg="gray.200"
               color="white"
               position="absolute"
-              rounded="lg"
             >
               <ViewOffIcon w="10" h="10" />
             </Center>
           )}
-        </Box>
-        <Heading size="sm" mt="4">
-          <Link href={`/products/${ep_slug}/${objectID}`} passHref>
-            <LinkOverlay>{ep_name}</LinkOverlay>
-          </Link>
-        </Heading>
-        <Text
-          color="gray.500"
-          fontWeight="semibold"
-          letterSpacing="wide"
-          fontSize="xs"
-          textTransform="uppercase"
-          mt="1"
-        >
-          {ep_sku}
-        </Text>
-        <Text fontSize="sm" fontWeight="semibold" mt="1">
-          {ep_price}
-        </Text>
+        </GridItem>
+        <Grid gridTemplateRows="auto 1fr auto" gap={2} p={4}>
+          <Heading size="sm">
+            <Link href={`/products/${ep_slug}/${objectID}`} passHref>
+              <LinkOverlay>{ep_name}</LinkOverlay>
+            </Link>
+          </Heading>
+          <Text
+            color="gray.500"
+            fontWeight="semibold"
+            letterSpacing="wide"
+            fontSize="xs"
+            mt="1"
+            noOfLines={6}
+          >
+            {ep_description}
+          </Text>
+          <Text fontSize="md" fontWeight="semibold" mt="1">
+            {ep_price}
+          </Text>
+        </Grid>
       </LinkBox>
     );
   };
@@ -74,13 +80,20 @@ export default function Hits(): JSX.Element {
         maxW="7xl"
         templateColumns={{
           base: "1fr",
-          md: "repeat(2, 1fr)",
+          sm: "repeat(2, 1fr)",
           lg: "repeat(3, 1fr)",
         }}
-        gap={4}
+        columnGap={4}
+        rowGap={8}
       >
         {hits.map((hit) => (
-          <GridItem key={hit.objectID}>
+          <GridItem
+            key={hit.objectID}
+            gridAutoRows="1fr"
+            border="1px"
+            borderColor="gray.200"
+            rounded="lg"
+          >
             <HitComponent hit={hit} />
           </GridItem>
         ))}
