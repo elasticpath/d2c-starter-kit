@@ -13,7 +13,11 @@ import {
   Spacer,
   Text,
   Heading,
+  OrderedList,
+  ListItem,
+  Link,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import {
   SearchBox,
   useSortBy,
@@ -25,6 +29,18 @@ import Breadcrumb from "../breadcrumb";
 import CustomHierarchicalMenu from "./CustomHierarchicalMenu";
 import Hits from "./Hits";
 import Pagination from "./Pagination";
+
+const menuItemInteractionStyle = {
+  bg: "none",
+  color: "brand.primary.blue",
+};
+
+const menuItemStyleProps = {
+  _hover: menuItemInteractionStyle,
+  _active: menuItemInteractionStyle,
+  _focus: menuItemInteractionStyle,
+  color: "gray.500",
+};
 
 export default function SearchResults(): JSX.Element {
   // const { items, refine: catRefine } = useRefinementList();
