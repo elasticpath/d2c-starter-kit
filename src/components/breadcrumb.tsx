@@ -2,18 +2,7 @@ import { Box, Link, ListItem, OrderedList } from "@chakra-ui/react";
 import { Breadcrumb as BreadcrumbType } from "../lib/create-breadcrumb";
 
 import NextLink from "next/link";
-
-const menuItemInteractionStyle = {
-  bg: "none",
-  color: "brand.primary.blue",
-};
-
-const menuItemStyleProps = {
-  _hover: menuItemInteractionStyle,
-  _active: menuItemInteractionStyle,
-  _focus: menuItemInteractionStyle,
-  color: "gray.500",
-};
+import { menuItemStyleProps } from "../lib/menu-style";
 
 interface IBreadcrumb {
   breadcrumbs: BreadcrumbType[];
