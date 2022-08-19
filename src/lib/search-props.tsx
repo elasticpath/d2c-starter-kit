@@ -13,30 +13,27 @@ export interface SearchQuery extends ParsedUrlQuery {
 export interface ISearch {
   algoliaServerState?: InstantSearchServerState;
   url: string;
+  node: string[];
 }
 
 export const getSearchSSRProps =
   (
     SearchComponent: FunctionComponent<ISearch>
   ): GetServerSideProps<ISearch, SearchQuery> =>
-  async ({ req, res }) => {
-    // SSR Caching
-    // https://github.com/vercel/next.js/tree/canary/examples/ssr-caching
-    res.setHeader(
-      "Cache-Control",
-      "public, s-maxage=10, stale-while-revalidate=59"
-    );
-
+  async ({ req, params }) => {
     const protocol = req.headers.referer?.split("://")[0] || "https";
     const url = `${protocol}://${req.headers.host}${req.url}`;
+    const node = (params?.node as string[]) ?? [];
+
     const algoliaServerState = await getServerState(
-      <SearchComponent url={url} />
+      <SearchComponent url={url} node={node} />
     );
 
     return {
       props: {
         algoliaServerState,
         url,
+        node,
       },
     };
   };
