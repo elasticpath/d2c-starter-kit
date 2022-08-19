@@ -26,7 +26,6 @@ export const Promotion = (): JSX.Element => {
   const { handleSubmit, handleChange, values, errors, setErrors } = useFormik({
     initialValues,
     onSubmit: (values) => {
-      console.log(values);
       addPromotion(mcart, values.promoCode)
         .then(() => {
           updateCartItems();
