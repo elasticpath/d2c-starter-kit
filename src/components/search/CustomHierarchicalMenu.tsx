@@ -17,7 +17,6 @@ export type HierarchicalMenuProps = React.ComponentProps<"div"> &
     hasItems: boolean;
     showMore?: boolean;
     canToggleShowMore: boolean;
-    onToggleShowMore: () => void;
     isShowingMore: boolean;
   };
 
@@ -79,20 +78,10 @@ function HierarchicalList({
 export default function CustomHierarchicalMenu(
   props: UseHierarchicalMenuProps
 ): JSX.Element {
-  const {
-    items,
-    isShowingMore,
-    canToggleShowMore,
-    canRefine,
-    refine,
-    sendEvent,
-    toggleShowMore,
-    createURL,
-  } = useHierarchicalMenu(props);
+  const { items, canRefine, refine, createURL } = useHierarchicalMenu(props);
 
   const hasItems = canRefine;
   const onNavigate = refine;
-  const onToggleShowMore = toggleShowMore;
 
   return (
     <div
