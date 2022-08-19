@@ -70,7 +70,15 @@ export default function Hits(): JSX.Element {
 
   if (hits.length) {
     return (
-      <Grid maxW="7xl" templateColumns="repeat(3, 1fr)" gap={4}>
+      <Grid
+        maxW="7xl"
+        templateColumns={{
+          base: "1fr",
+          md: "repeat(2, 1fr)",
+          lg: "repeat(3, 1fr)",
+        }}
+        gap={4}
+      >
         {hits.map((hit) => (
           <GridItem key={hit.objectID}>
             <HitComponent hit={hit} />
