@@ -23,6 +23,7 @@ import {
   useSortBy,
   useInstantSearch,
 } from "react-instantsearch-hooks-web";
+import { createBreadcrumb } from "../../lib/create-breadcrumb";
 import { algoliaEnvData } from "../../lib/resolve-algolia-env";
 import CustomHierarchicalMenu from "./CustomHierarchicalMenu";
 import Hits from "./Hits";
@@ -61,24 +62,6 @@ export default function SearchResults(): JSX.Element {
   const slugArray = hierarchicalMenu?.["ep_slug_categories.lvl0"];
   const title = slugArray && slugArray[slugArray?.length - 1];
 
-  interface Breadcrumbs {
-    value: string;
-    breadcrumb: string;
-  }
-
-  function createBreadcrumb(
-    [head, ...tail]: string[],
-    acc: Breadcrumbs[] = [],
-    breadcrumb?: string
-  ): Breadcrumbs[] {
-    const updatedBreadcrumb = `${breadcrumb ? `${breadcrumb}/` : ""}${head}`;
-    const entry = { value: head, breadcrumb: updatedBreadcrumb };
-    if (tail.length < 1) {
-      return [...acc, entry];
-    }
-    return createBreadcrumb(tail, [...acc, entry], updatedBreadcrumb);
-  }
-
   const breadcrumbs =
     hierarchicalMenu &&
     createBreadcrumb(hierarchicalMenu?.["ep_slug_categories.lvl0"]);
@@ -93,24 +76,26 @@ export default function SearchResults(): JSX.Element {
         listStyleType={"none"}
         m={"0"}
       >
-        {breadcrumbs?.map((crumb, index, array) => (
-          <ListItem key={crumb.value}>
-            {array.length === index + 1 ? (
-              <Box as="span" fontWeight={"bold"}>
-                {crumb.value}
-              </Box>
-            ) : (
-              <NextLink href={`/search/${crumb.breadcrumb}`} passHref>
-                <Link {...menuItemStyleProps}>{crumb.value}</Link>
-              </NextLink>
-            )}
-            {array.length !== index + 1 && (
-              <Box as="span" ml={4}>
-                /
-              </Box>
-            )}
-          </ListItem>
-        ))}
+        {breadcrumbs &&
+          breadcrumbs?.length > 1 &&
+          breadcrumbs?.map((crumb, index, array) => (
+            <ListItem key={crumb.value}>
+              {array.length === index + 1 ? (
+                <Box as="span" fontWeight={"bold"}>
+                  {crumb.value}
+                </Box>
+              ) : (
+                <NextLink href={`/search/${crumb.breadcrumb}`} passHref>
+                  <Link {...menuItemStyleProps}>{crumb.value}</Link>
+                </NextLink>
+              )}
+              {array.length !== index + 1 && (
+                <Box as="span" ml={4}>
+                  /
+                </Box>
+              )}
+            </ListItem>
+          ))}
       </OrderedList>
       <Flex minWidth="max-content" alignItems="center" gap="2" pt={8}>
         <Box py="2">
@@ -142,8 +127,8 @@ export default function SearchResults(): JSX.Element {
       </Flex>
       <Divider />
       <SearchBox />
-      <Grid templateColumns="repeat(5, 1fr)" gap={4}>
-        <GridItem colSpan={1}>
+      <Grid templateColumns={{ base: "1fr", md: "auto 1fr" }} gap={8}>
+        <GridItem display={{ base: "none", md: "block" }}>
           <CustomHierarchicalMenu
             attributes={[
               "ep_slug_categories.lvl0",
@@ -154,7 +139,7 @@ export default function SearchResults(): JSX.Element {
           />
         </GridItem>
 
-        <GridItem colSpan={4}>
+        <GridItem>
           <Hits />
         </GridItem>
       </Grid>
