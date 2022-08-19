@@ -56,8 +56,7 @@ export const Checkout: NextPage<{}> = () => {
     SetSubTotal(subtotal);
   }, [cartData, totalPrice, promotionItems]);
 
-  const onPayOrder = async (token: string) => {
-    console.log("came here", token);
+  const onPayOrder = async () => {
     try {
       const mcart = localStorage.getItem("mcart") || "";
       const billing = isSameAddress ? shippingAddress : billingAddress;
