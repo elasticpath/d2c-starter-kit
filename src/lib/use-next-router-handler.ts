@@ -120,8 +120,7 @@ export function useNextRouterHandler<
   if (!dequal(stableDynamicRouteQuery, dynamicRouteQuery)) {
     setStableDynamicRouteQuery(dynamicRouteQuery);
   }
-  const initialParams = urlToParams(url) as TRouteParams;
-  const routeParams = initialParams["node"];
+
   return {
     initialUiState: routeToState(urlToParams(url) as TRouteParams),
     NextRouterHandler: useCallback(
