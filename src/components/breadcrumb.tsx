@@ -17,24 +17,25 @@ export default function Breadcrumb({ entries }: IBreadcrumb): JSX.Element {
       listStyleType={"none"}
       m={"0"}
     >
-      {entries.map((entry, index, array) => (
-        <ListItem key={entry.value}>
-          {array.length === index + 1 ? (
-            <Box as="span" fontWeight={"bold"}>
-              {entry.value}
-            </Box>
-          ) : (
-            <NextLink href={`/search/${entry.breadcrumb}`} passHref>
-              <Link {...menuItemStyleProps}>{entry.value}</Link>
-            </NextLink>
-          )}
-          {array.length !== index + 1 && (
-            <Box as="span" ml={4}>
-              /
-            </Box>
-          )}
-        </ListItem>
-      ))}
+      {entries.length > 1 &&
+        entries.map((entry, index, array) => (
+          <ListItem key={entry.value}>
+            {array.length === index + 1 ? (
+              <Box as="span" fontWeight={"bold"}>
+                {entry.value}
+              </Box>
+            ) : (
+              <NextLink href={`/search/${entry.breadcrumb}`} passHref>
+                <Link {...menuItemStyleProps}>{entry.value}</Link>
+              </NextLink>
+            )}
+            {array.length !== index + 1 && (
+              <Box as="span" ml={4}>
+                /
+              </Box>
+            )}
+          </ListItem>
+        ))}
     </OrderedList>
   );
 }
