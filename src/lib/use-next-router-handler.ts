@@ -16,7 +16,9 @@ function removeSearchParams(url: string) {
   return url.replace(/(\?.+)/, "");
 }
 
-function removeUndefinedParams<TRouteParams>(params: TRouteParams) {
+function removeUndefinedParams<TRouteParams>(
+  params: TRouteParams
+): Record<string, string | string[]> {
   return Object.entries(params).reduce((queries, [key, value]) => {
     if (typeof value !== "undefined") {
       return { ...queries, [key]: value };
@@ -90,11 +92,16 @@ function NextRouterHandler<
           clearTimeout(routerPushTimerRef.current);
         }
         routerPushTimerRef.current = setTimeout(() => {
+          const query = {
+            ...dynamicRouteQuery,
+            ...removeUndefinedParams<TRouteParams>(stateToRoute(uiState)),
+          };
+          // If nodes defined then dynamic path name otherwise standard
+          const pathname = query.node ? "/search/[...node]" : "/search";
+
           router.push({
-            query: {
-              ...dynamicRouteQuery,
-              ...removeUndefinedParams<TRouteParams>(stateToRoute(uiState)),
-            },
+            pathname,
+            query,
           });
         }, writeDelay);
       },
