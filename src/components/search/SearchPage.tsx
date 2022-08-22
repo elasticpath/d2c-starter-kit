@@ -10,8 +10,14 @@ import { algoliaEnvData } from "../../lib/resolve-algolia-env";
 import { ISearch } from "../../lib/search-props";
 import { useNextRouterHandler } from "../../lib/use-next-router-handler";
 import { resolveRouting } from "../../lib/algolia-search-routing";
+import Breadcrumb from "../breadcrumb";
 
-export const Search = ({ algoliaServerState, url, node }: ISearch) => {
+export const Search = ({
+  algoliaServerState,
+  url,
+  node,
+  breadcrumbEntries,
+}: ISearch) => {
   const { initialUiState, NextRouterHandler } = useNextRouterHandler(
     resolveRouting(node, url)
   );
@@ -30,6 +36,8 @@ export const Search = ({ algoliaServerState, url, node }: ISearch) => {
            *  https://github.com/algolia/react-instantsearch/issues/3506#issuecomment-1213341651
            */}
           <NextRouterHandler />
+          {/* Breadcrumb */}
+          {breadcrumbEntries && <Breadcrumb entries={breadcrumbEntries} />}
           <SearchResults />
         </InstantSearch>
       </InstantSearchSSRProvider>
