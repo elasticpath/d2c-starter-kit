@@ -37,7 +37,11 @@ export const Search = ({
            */}
           <NextRouterHandler />
           {/* Breadcrumb */}
-          {breadcrumbEntries && <Breadcrumb entries={breadcrumbEntries} />}
+          {breadcrumbEntries && (
+            <Box maxW="7xl" mx="auto">
+              <Breadcrumb entries={breadcrumbEntries} />
+            </Box>
+          )}
           <SearchResults />
         </InstantSearch>
       </InstantSearchSSRProvider>
