@@ -5,7 +5,6 @@ import type {
 } from "@moltin/sdk";
 import { excludeChildProducts } from "../lib/product-util";
 import { EPCCAPI, wait300 } from "./helper";
-import { PcmProductResponse } from "@moltin/sdk";
 
 export async function getProductById(
   productId: string
@@ -17,12 +16,6 @@ export async function getProductById(
   ]).Get({
     productId,
   });
-}
-
-export async function getPCMProductById(
-  productId: string
-): Promise<PcmProductResponse> {
-  return EPCCAPI.PCM.Get(productId);
 }
 
 export async function getProductBySlug(

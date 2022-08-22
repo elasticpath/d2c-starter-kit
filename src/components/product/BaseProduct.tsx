@@ -13,16 +13,10 @@ interface IBaseProductDetail {
 }
 
 const BaseProductDetail = ({
-  baseSku: {
-    main_image,
-    otherImages,
-    product,
-    variations,
-    variationsMatrix,
-    extensions,
-  },
+  baseSku: { main_image, otherImages, product, variations, variationsMatrix },
   handleAddToCart,
 }: IBaseProductDetail): JSX.Element => {
+  const { extensions } = product.attributes;
   return (
     <SimpleGrid
       columns={{ base: 1, lg: 2 }}
@@ -35,7 +29,7 @@ const BaseProductDetail = ({
       <Stack spacing={{ base: 6, md: 10 }}>
         <ProductSummary product={product} />
         <ProductDetails product={product} />
-        <ProductExtensions extensions={extensions} />
+        {extensions && <ProductExtensions extensions={extensions} />}
         {variations && (
           <ProductVariations
             variations={variations}

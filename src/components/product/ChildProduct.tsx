@@ -20,10 +20,10 @@ const ChildProductDetail = ({
     baseProduct,
     variations,
     variationsMatrix,
-    extensions,
   },
   handleAddToCart,
 }: IChildProductDetail): JSX.Element => {
+  const { extensions } = product.attributes;
   return (
     <SimpleGrid
       columns={{ base: 1, lg: 2 }}
@@ -36,7 +36,7 @@ const ChildProductDetail = ({
       <Stack spacing={{ base: 6, md: 10 }}>
         <ProductSummary product={product} />
         <ProductDetails product={product} />
-        <ProductExtensions extensions={extensions} />
+        {extensions && <ProductExtensions extensions={extensions} />}
         {variations && (
           <ProductVariations
             variations={variations}

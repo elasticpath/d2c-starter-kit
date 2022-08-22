@@ -4,12 +4,7 @@ import type {
   Resource,
   ShopperCatalogResource,
 } from "@moltin/sdk";
-import type {
-  GetStaticPaths,
-  GetStaticProps,
-  GetStaticPropsResult,
-  NextPage,
-} from "next";
+import type { GetStaticPaths, GetStaticPropsResult, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
 import ChildProductDetail from "../../../components/product/ChildProduct";
 import BaseProductDetail from "../../../components/product/BaseProduct";
@@ -19,11 +14,7 @@ import {
   isChildProductResource,
   isSimpleProductResource,
 } from "../../../services/helper";
-import {
-  getAllProducts,
-  getProductById,
-  getPCMProductById,
-} from "../../../services/products";
+import { getAllProducts, getProductById } from "../../../services/products";
 import SimpleProductDetail from "../../../components/product/SimpleProduct";
 import {
   filterBaseProducts,
@@ -39,7 +30,6 @@ import type {
   IChildSku,
   ISimpleSku,
   ISku,
-  IExtensions,
 } from "../../../lib/product-types";
 
 import { withNavStaticProps } from "../../../lib/nav-wrapper-ssg";
@@ -112,7 +102,6 @@ export const getStaticProps = withNavStaticProps<ISku, SkuRouteParams>(
     // alternative use params!.productId; instead of if check
     // non-null assertion operator https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#non-null-assertion-operator
     const product = await getProductById(params.skuId);
-    const pcmProduct = await getPCMProductById(params.skuId);
     // TODO should getProductById return undefined or a more understandable error response
     if (!product) {
       return {
@@ -120,13 +109,12 @@ export const getStaticProps = withNavStaticProps<ISku, SkuRouteParams>(
       };
     }
     const productData = product.data;
-    const extensions = pcmProduct.data.attributes.extensions || null;
-
+    console.log("extentions: ", product.data.attributes.extensions);
     const retrievedResults = isSimpleProductResource(productData)
-      ? retrieveSimpleProps(product, extensions)
+      ? retrieveSimpleProps(product)
       : isChildProductResource(productData)
-      ? await retrieveChildProps(params.baseProductSlug, product, extensions)
-      : await retrieveBaseProps(product, extensions);
+      ? await retrieveChildProps(params.baseProductSlug, product)
+      : await retrieveBaseProps(product);
 
     // TODO determine the best timeframe to rebuild a requested static page.
     //  set to 5 miuntes (300 seconds) arbitrarily
@@ -138,8 +126,7 @@ export const getStaticProps = withNavStaticProps<ISku, SkuRouteParams>(
 );
 
 const retrieveSimpleProps = (
-  productResource: ShopperCatalogResource<ProductResponse>,
-  extensions: IExtensions
+  productResource: ShopperCatalogResource<ProductResponse>
 ): GetStaticPropsResult<ISimpleSku> => {
   const component_products = productResource.included?.component_products;
   return {
@@ -148,7 +135,6 @@ const retrieveSimpleProps = (
       product: productResource.data,
       main_image: getProductMainImage(productResource),
       otherImages: getProductOtherImageUrls(productResource),
-      extensions,
       ...(component_products && { component_products }),
     },
   };
@@ -156,8 +142,7 @@ const retrieveSimpleProps = (
 
 async function retrieveChildProps(
   baseProductSlug: string,
-  childProductResource: Resource<ProductResponse>,
-  extensions: IExtensions
+  childProductResource: Resource<ProductResponse>
 ): Promise<GetStaticPropsResult<IChildSku>> {
   const baseProductId = childProductResource.data.attributes.base_product_id;
   const baseProduct = await getProductById(baseProductId);
@@ -187,14 +172,12 @@ async function retrieveChildProps(
       otherImages: getProductOtherImageUrls(childProductResource),
       variationsMatrix: variation_matrix,
       variations: variations.sort(sortAlphabetically),
-      extensions,
     },
   };
 }
 
 async function retrieveBaseProps(
-  baseProductResource: Resource<ProductResponse>,
-  extensions: IExtensions
+  baseProductResource: Resource<ProductResponse>
 ): Promise<GetStaticPropsResult<IBaseProductSku>> {
   const {
     data: {
@@ -217,7 +200,6 @@ async function retrieveBaseProps(
       otherImages: getProductOtherImageUrls(baseProductResource),
       variationsMatrix: variation_matrix,
       variations: variations.sort(sortAlphabetically),
-      extensions,
     },
   };
 }

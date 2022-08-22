@@ -13,15 +13,10 @@ interface ISimpleProductDetail {
 }
 
 const SimpleProductDetail = ({
-  simpleSku: {
-    product,
-    main_image,
-    otherImages,
-    component_products,
-    extensions,
-  },
+  simpleSku: { product, main_image, otherImages, component_products },
   handleAddToCart,
 }: ISimpleProductDetail): JSX.Element => {
+  const { extensions } = product.attributes;
   return (
     <SimpleGrid
       columns={{ base: 1, lg: main_image ? 2 : 1 }}
@@ -40,7 +35,7 @@ const SimpleProductDetail = ({
             components={component_products}
           />
         )}
-        <ProductExtensions extensions={extensions} />
+        {extensions && <ProductExtensions extensions={extensions} />}
         <CartActions handleAddToCart={handleAddToCart} />
       </Stack>
     </SimpleGrid>
