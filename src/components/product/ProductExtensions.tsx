@@ -18,7 +18,7 @@ const DescriptionDetails = chakra("dd", {
 
 const ProductExtensions = ({ extensions }: IProductExtensions): JSX.Element => {
   const extensionsValues = Object.values(extensions ?? {}).flat();
-  console.log("extensions component: ", extensions);
+
   const colour = useColorModeValue("blue.500", "blue.300");
   return (
     <Stack spacing={{ base: 4, sm: 6 }} direction={"column"}>

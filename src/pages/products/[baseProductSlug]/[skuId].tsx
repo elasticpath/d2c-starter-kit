@@ -109,7 +109,7 @@ export const getStaticProps = withNavStaticProps<ISku, SkuRouteParams>(
       };
     }
     const productData = product.data;
-    console.log("extentions: ", product.data.attributes.extensions);
+
     const retrievedResults = isSimpleProductResource(productData)
       ? retrieveSimpleProps(product)
       : isChildProductResource(productData)
