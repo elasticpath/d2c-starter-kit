@@ -9,7 +9,7 @@ export function resolveRouting(
   url: string
 ): NextRouterHandlerProps<RouterParams> & { url: string } {
   return {
-    dynamicRouteQuery: { node },
+    dynamicRouteQuery: {},
     url,
     routeToState(routeState) {
       //  stateNode set to default to node for initial direct navigation render
@@ -30,12 +30,13 @@ export function resolveRouting(
     },
     stateToRoute(uiState) {
       const indexUiState = uiState[algoliaEnvData.indexName] || {};
+      const { query, page, hierarchicalMenu, sortBy } = indexUiState;
 
       return {
-        query: indexUiState.query,
-        page: indexUiState.page,
-        node: indexUiState.hierarchicalMenu?.[EP_ROUTE_CATEGORY],
-        sortBy: indexUiState.sortBy,
+        query,
+        page,
+        sortBy,
+        node: hierarchicalMenu?.[EP_ROUTE_CATEGORY],
       };
     },
   };
