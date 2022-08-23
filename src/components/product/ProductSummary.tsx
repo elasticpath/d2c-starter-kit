@@ -1,4 +1,4 @@
-import { Box, Heading, Tag } from "@chakra-ui/react";
+import { Box, Heading, Tag, Flex } from "@chakra-ui/react";
 import type { ProductResponse } from "@moltin/sdk";
 import { useContext } from "react";
 import { changingSkuStyle, productContext } from "../../lib/product-util";
@@ -27,7 +27,7 @@ const ProductSummary = ({ product }: IProductSummary): JSX.Element => {
       </Heading>
       <Tag marginTop={4}> {attributes.sku}</Tag>
       {display_price && (
-        <Box display={"flex"} alignItems={"center"}>
+        <Flex alignItems={"center"}>
           <Price
             price={display_price.without_tax.formatted}
             currency={display_price.without_tax.currency}
@@ -38,7 +38,7 @@ const ProductSummary = ({ product }: IProductSummary): JSX.Element => {
               currency={display_price.without_tax.currency}
             />
           )}
-        </Box>
+        </Flex>
       )}
     </Box>
   );
