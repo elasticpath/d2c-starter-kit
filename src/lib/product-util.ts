@@ -9,7 +9,7 @@ import { createContext } from "react";
 import type {
   IdentifiableBaseProduct,
   OptionDict,
-  ProductContext,
+  ProductContextState,
 } from "./product-types";
 import { ProductImageObject, ProductResponseWithImage } from "./product-types";
 
@@ -67,25 +67,12 @@ export const excludeChildProducts = (
       !product?.relationships?.parent
   );
 
-export function findBaseProductSlug(
-  product: ProductResponse,
-  baseProducts: IdentifiableBaseProduct[]
-): string {
-  const result = baseProducts.find(
-    (baseProduct) => baseProduct.id === product.attributes.base_product_id
-  );
-  if (!result) {
-    throw new Error("Failed to find base product slug.");
-  }
-  return result.attributes.slug;
-}
-
 export const createEmptyOptionDict = (
   variations: CatalogsProductVariation[]
 ): OptionDict =>
   variations.reduce((acc, c) => ({ ...acc, [c.id]: undefined }), {});
 
-export const productContext = createContext<ProductContext | null>(null);
+export const ProductContext = createContext<ProductContextState | null>(null);
 
 export const connectProductsWithMainImages = (
   products: ProductResponse[],

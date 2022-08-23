@@ -107,10 +107,10 @@ export interface MatrixObjectEntry {
   [key: string]: MatrixObjectEntry | MatrixValue;
 }
 
-export const isChildProductResource = (product: ProductResponse) =>
+export const isChildProductResource = (product: ProductResponse): boolean =>
   !product.attributes.base_product && !!product.attributes.base_product_id;
 
-export const isSimpleProductResource = (product: ProductResponse) =>
+export const isSimpleProductResource = (product: ProductResponse): boolean =>
   !product.attributes.base_product && !product.attributes.base_product_id;
 
 /**

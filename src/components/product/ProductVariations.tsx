@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useContext } from "react";
 import { useEffect, useState } from "react";
 import { OptionDict } from "../../lib/product-types";
-import { createEmptyOptionDict, productContext } from "../../lib/product-util";
+import { createEmptyOptionDict, ProductContext } from "../../lib/product-util";
 import {
   allVariationsHaveSelectedOption,
   getOptionsFromSkuId,
@@ -40,7 +40,7 @@ const ProductVariations = ({
     ? mapOptionsToVariation(currentSkuOptions, variations)
     : createEmptyOptionDict(variations);
 
-  const context = useContext(productContext);
+  const context = useContext(ProductContext);
   const [selectedOptions, setSelectedOptions] =
     useState<OptionDict>(initialOptions);
   const router = useRouter();
@@ -57,7 +57,7 @@ const ProductVariations = ({
       allVariationsHaveSelectedOption(selectedOptions, variations)
     ) {
       context?.setIsChangingSku(true);
-      router.push(`/products/${baseProductSlug}/${selectedSkuId}`).then(() => {
+      router.push(`/products/${selectedSkuId}`).then(() => {
         context?.setIsChangingSku(false);
       });
     }

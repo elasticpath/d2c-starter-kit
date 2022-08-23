@@ -1,13 +1,13 @@
 import { useColorModeValue, Flex, Button } from "@chakra-ui/react";
 import { useContext } from "react";
-import { changingSkuStyle, productContext } from "../../lib/product-util";
+import { changingSkuStyle, ProductContext } from "../../lib/product-util";
 
 interface ICartActions {
   handleAddToCart: () => void;
 }
 
 const CartActions = ({ handleAddToCart }: ICartActions): JSX.Element => {
-  const context = useContext(productContext);
+  const context = useContext(ProductContext);
   return (
     <Flex gap={10} {...(context?.isChangingSku ? changingSkuStyle : {})}>
       <Button

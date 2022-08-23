@@ -13,14 +13,8 @@ import { ViewOffIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 
 export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
-  const {
-    ep_price,
-    ep_name,
-    ep_slug,
-    objectID,
-    ep_main_image_url,
-    ep_description,
-  } = hit;
+  const { ep_price, ep_name, objectID, ep_main_image_url, ep_description } =
+    hit;
   return (
     <LinkBox display={"grid"} gridTemplateRows="auto 1fr" h="full">
       <GridItem position="relative" overflow="hidden" pb="100%">
@@ -47,7 +41,7 @@ export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
       </GridItem>
       <Grid gridTemplateRows="auto 1fr auto" gap={2} p={4}>
         <Heading size="sm">
-          <Link href={`/products/${ep_slug}/${objectID}`} passHref>
+          <Link href={`/products/${objectID}`} passHref>
             <LinkOverlay>{ep_name}</LinkOverlay>
           </Link>
         </Heading>
