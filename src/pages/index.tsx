@@ -62,7 +62,7 @@ const Home: NextPage<IHome> = (val) => {
           <NodeDisplay
             type="provided"
             nodes={categoryNodes}
-            linkProps={{ text: "Browse all categories", link: "/category" }}
+            linkProps={{ text: "Browse all categories", link: "/search" }}
             title="Shop by Category"
           ></NodeDisplay>
         </GridItem>
