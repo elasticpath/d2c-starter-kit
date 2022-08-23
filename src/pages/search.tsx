@@ -38,6 +38,7 @@ import type {
 } from "instantsearch.js/es/connectors/range/connectRange";
 import connectRange from "instantsearch.js/es/connectors/range/connectRange";
 import { SearchHit } from "../components/search/SearchHit";
+
 import NoResults from "../components/search/NoResults";
 
 type UseRangeSliderProps = RangeConnectorParams;
@@ -60,7 +61,6 @@ export const Search: NextPage<{}> = () => {
         <Box position="relative" overflow="hidden" pb="100%">
           {ep_image_url ? (
             <Image
-              boxSize="100%"
               position="absolute"
               objectFit="cover"
               src={ep_image_url}

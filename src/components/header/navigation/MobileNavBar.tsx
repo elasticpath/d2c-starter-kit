@@ -18,17 +18,15 @@ import {
   Menu,
   useDisclosure,
 } from "@chakra-ui/react";
-<<<<<<< HEAD
+
 import Link from "next/link";
+
 import { NavigationNode } from "../../../lib/build-site-navigation";
-import CartMenu from "../../cartItems/CartMenu";
-=======
-import { NavigationNode } from "./build-site-navigation";
->>>>>>> 94d006f (refactor: rename folder structure)
 
 import SearchModal from "../../search/SearchModal";
 import NavItemContent from "./NavItemContent";
 import NextImage from "next/image";
+import CartMenu from "../../cart-items/CartMenu";
 
 interface IMobileNavBar {
   nav: NavigationNode[];
@@ -58,7 +56,7 @@ const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
           </a>
         </Link>
       </GridItem>
-      <GridItem justifySelf={"end"}>
+      <GridItem justifySelf="end">
         <Flex gap={4}>
           <SearchModal />
           <CartMenu />

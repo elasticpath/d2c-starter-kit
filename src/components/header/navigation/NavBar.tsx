@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import type { NavigationNode } from "./build-site-navigation";
+import type { NavigationNode } from "../../../lib/build-site-navigation";
 
 import NavItem from "./NavItem";
 

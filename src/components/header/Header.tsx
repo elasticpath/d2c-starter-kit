@@ -2,12 +2,12 @@ import { Box, Flex } from "@chakra-ui/react";
 import { NavigationNode } from "../../lib/build-site-navigation";
 import { globalBaseWidth } from "../../styles/theme";
 import SearchModal from "../search/SearchModal";
-import MobileNavBar from "./Navigation/MobileNavBar";
+import MobileNavBar from "./navigation/MobileNavBar";
 import NextImage from "next/image";
 
-import NavBar from "./Navigation/NavBar";
+import NavBar from "./navigation/NavBar";
 import Link from "next/link";
-import CartMenu from "../cartItems/CartMenu";
+import CartMenu from "../cart-items/CartMenu";
 
 interface IHeader {
   nav: NavigationNode[];

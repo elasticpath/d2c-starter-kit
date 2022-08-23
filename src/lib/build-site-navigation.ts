@@ -3,7 +3,7 @@ import {
   getHierarchies,
   getHierarchyChildren,
   getHierarchyNodes,
-} from "../../../services/hierarchy";
+} from "../services/hierarchy";
 
 interface ISchema {
   name: string;

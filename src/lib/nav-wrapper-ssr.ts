@@ -1,9 +1,6 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import { ParsedUrlQuery } from "querystring";
-import {
-  buildSiteNavigation,
-  NavigationNode,
-} from "../components/header/navigation/build-site-navigation";
+import { buildSiteNavigation, NavigationNode } from "./build-site-navigation";
 
 type IncomingPageServerSideProp<
   P,

@@ -1,4 +1,3 @@
-import { ArrowForwardIcon } from "@chakra-ui/icons";
 import {
   Flex,
   Link,
@@ -7,12 +6,9 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-<<<<<<< HEAD
-import { NavigationNode } from "../../../lib/build-site-navigation";
 import NextLink from "next/link";
-=======
-import { NavigationNode } from "./build-site-navigation";
->>>>>>> 94d006f (refactor: rename folder structure)
+import { NavigationNode } from "../../../lib/build-site-navigation";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 interface INavItemContent {
   item: NavigationNode;

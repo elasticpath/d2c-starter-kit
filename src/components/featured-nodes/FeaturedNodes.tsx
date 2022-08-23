@@ -30,7 +30,7 @@ interface INodeDisplayBase {
 }
 
 interface INodeDisplayFetchNode extends INodeDisplayBase {
-  type: "fetch-featured-nodes";
+  type: "fetch-node";
   nodeId: string;
 }
 
@@ -98,8 +98,8 @@ export default function FeaturedNodes(props: INodeDisplay): JSX.Element {
   );
 
   const fetchTopThreeNodes = useCallback(async () => {
-    if (type === "fetch-hierarchy" || type === "fetch-featured-nodes") {
-      const allNodes = await (type === "fetch-featured-nodes"
+    if (type === "fetch-hierarchy" || type === "fetch-node") {
+      const allNodes = await (type === "fetch-node"
         ? getNodeChildren(props.nodeId)
         : getHierarchyChildren(props.hierarchyId));
 
