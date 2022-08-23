@@ -29,6 +29,13 @@ export const getSearchSSRProps =
 
     const breadcrumbEntries = createBreadcrumb(node);
 
+    console.log(
+      "passing data into getServerState: ",
+      url,
+      JSON.stringify(node),
+      JSON.stringify(breadcrumbEntries)
+    );
+
     const algoliaServerState = await getServerState(
       <SearchComponent
         url={url}
