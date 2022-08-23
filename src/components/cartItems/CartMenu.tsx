@@ -1,13 +1,10 @@
 import {
   Button,
-  Grid,
   Popover,
-  PopoverArrow,
+  Box,
   PopoverBody,
-  PopoverCloseButton,
   PopoverContent,
   PopoverFooter,
-  PopoverHeader,
   PopoverTrigger,
   Portal,
   Tag,
@@ -26,8 +23,14 @@ export default function CartMenu(): JSX.Element {
   const numCartItems = cartData.reduce((pre, current) => {
     return pre + current.quantity;
   }, 0);
+
   return (
-    <Popover onClose={onClose} isOpen={isOpen} onOpen={onOpen}>
+    <Popover
+      placement="top-end"
+      onClose={onClose}
+      isOpen={isOpen}
+      onOpen={onOpen}
+    >
       <PopoverTrigger>
         <Button variant="ghost" _focus={{ border: "none" }}>
           <Icon
@@ -67,39 +70,23 @@ export default function CartMenu(): JSX.Element {
         </Button>
       </PopoverTrigger>
       <Portal>
-        <PopoverContent boxShadow="2xl" _focus={{ border: "none" }}>
-          <PopoverArrow />
-          <PopoverCloseButton />
-          <PopoverHeader pt={4} fontWeight="bold" border="0">
-            Your Shopping Cart
-          </PopoverHeader>
+        <PopoverContent borderRadius={8} mt={4} boxShadow="2xl" p={4}>
           <PopoverBody
-            height={cartData && cartData.length ? "450px" : "250px"}
+            height={cartData && cartData.length ? "350px" : "250px"}
             overflow="scroll"
           >
             <ModalCartItems />
           </PopoverBody>
           <PopoverFooter>
-            <Grid templateColumns="repeat(2, 1fr)" gap={2}>
-              <Link href={"/cart"} passHref>
-                <Button
-                  onClick={onClose}
-                  _hover={{
-                    color: "blue.700",
-                    boxShadow: "lg",
-                  }}
-                  colorScheme={useColorModeValue("blue.900", "blue.50")}
-                  variant="outline"
-                >
-                  View cart
-                </Button>
-              </Link>
+            <Box>
               <Link href={"/checkout"} passHref>
                 <Button
                   disabled={cartData.length === 0}
                   onClick={onClose}
                   bg={useColorModeValue("blue.900", "blue.50")}
                   color={useColorModeValue("white", "gray.900")}
+                  w="100%"
+                  display="block"
                   _hover={{
                     backgroundColor: "blue.700",
                     boxShadow: "m",
@@ -109,7 +96,21 @@ export default function CartMenu(): JSX.Element {
                   Checkout
                 </Button>
               </Link>
-            </Grid>
+              <Link href={"/cart"} passHref>
+                <Button
+                  onClick={onClose}
+                  _hover={{
+                    color: "blue.700",
+                  }}
+                  m="10px auto auto"
+                  display="block"
+                  colorScheme={useColorModeValue("blue.900", "blue.50")}
+                  variant="text"
+                >
+                  View shopping bag
+                </Button>
+              </Link>
+            </Box>
           </PopoverFooter>
         </PopoverContent>
       </Portal>

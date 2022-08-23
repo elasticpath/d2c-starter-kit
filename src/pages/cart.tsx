@@ -27,7 +27,6 @@ import { CloseIcon } from "@chakra-ui/icons";
 export const Cart: NextPage<{}> = () => {
   const { cartData, updateCartItems, totalPrice, promotionItems, mcart } =
     useCartItems();
-  console.warn(cartData, "cartData");
   const [subTotal, setSubTotal] = useState(0.0);
 
   useEffect(() => {
