@@ -6,36 +6,35 @@ import {
   Grid,
   Button,
   Table,
-  Thead,
+  Flex,
   Tbody,
   Tr,
-  Th,
   Td,
   Box,
-  TableContainer,
   useColorModeValue,
-  Divider,
   Text,
   VStack,
+  IconButton,
+  Image,
 } from "@chakra-ui/react";
 import { useCartItems } from "../context/cart";
 import { Promotion } from "../components/promotion/Promotion";
-import Image from "next/image";
 import { removeCartItem } from "../services/cart";
 import type { NextPage } from "next";
 import { withNavServerSideProps } from "../lib/nav-wrapper-ssr";
+import { CloseIcon } from "@chakra-ui/icons";
 
 export const Cart: NextPage<{}> = () => {
   const { cartData, updateCartItems, totalPrice, promotionItems, mcart } =
     useCartItems();
-
-  const [subTotal, SetSubTotal] = useState(0.0);
+  console.warn(cartData, "cartData");
+  const [subTotal, setSubTotal] = useState(0.0);
 
   useEffect(() => {
     const subtotal = cartData.reduce((pre, item) => {
       return pre + item.unit_price.amount * item.quantity;
     }, 0);
-    SetSubTotal(subtotal);
+    setSubTotal(subtotal);
   }, [cartData, totalPrice, promotionItems]);
 
   const handleRemovePromotion = () => {
@@ -61,73 +60,86 @@ export const Cart: NextPage<{}> = () => {
   const colorWhite = useColorModeValue("white", "gray.900");
 
   return (
-    <div>
-      <Heading p="6">Your Shopping Cart</Heading>
+    <Box px={{ base: 6, md: 20 }} py={6}>
+      <Heading p={6} pl={0}>
+        Your Shopping Cart
+      </Heading>
       {cartData && cartData.length > 0 ? (
-        <Grid templateColumns="2.5fr 1fr" columnGap="60px" p="12px">
-          <TableContainer>
-            <Table variant="simple">
-              <Thead backgroundColor="gray.100" padding="24px">
-                <Tr>
-                  <Th py="16px">Product</Th>
-                  <Th py="16px">SKU</Th>
-                  <Th py="16px" isNumeric>
-                    Unit Price
-                  </Th>
-                  <Th py="16px">Quantity</Th>
-                  <Th py="16px" isNumeric>
-                    Line Subtotal
-                  </Th>
-                  <Th py="16px">Action</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {cartData.map((item) => (
-                  <Tr key={item.id}>
-                    <Td>
-                      {item.image && item.image.href && (
-                        <Image
-                          src={item.image.href}
-                          alt="Vercel Logo"
-                          width={48}
-                          height={48}
-                          objectFit="fill"
-                        />
-                      )}
-                    </Td>
-                    <Td>{item.sku}</Td>
-                    <Td isNumeric>
+        <Grid
+          templateColumns={{ base: "1fr", lg: "2fr 1.5fr" }}
+          columnGap="50px"
+        >
+          <Box>
+            {cartData.map((item) => (
+              <Box
+                key={item.id}
+                display="flex"
+                paddingY={10}
+                borderTop="1px solid"
+                borderColor="gray.200"
+              >
+                <Box flexShrink={0}>
+                  {item.image && item.image.href && (
+                    <Box overflow="hidden" borderRadius={6}>
+                      <Image
+                        src={item.image.href}
+                        alt="Vercel Logo"
+                        width={{ base: "96px", sm: "192px" }}
+                        height={{ base: "96px", sm: "192px" }}
+                        objectFit="cover"
+                      />
+                    </Box>
+                  )}
+                </Box>
+
+                <Grid
+                  gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
+                  marginLeft={6}
+                  columnGap={6}
+                  width="100%"
+                  position="relative"
+                >
+                  <Box>
+                    <Box maxWidth="90%">{item.sku}</Box>
+                    <Box mt={2}>
                       {item.meta.display_price.without_tax.unit.formatted}
-                    </Td>
-                    <Td>
-                      <QuantityHandler item={item} size="sm" />
-                    </Td>
-                    <Td isNumeric>
-                      {item.meta.display_price.without_tax.value.formatted}
-                    </Td>
-                    <Td>
-                      <Button
-                        onClick={() => {
-                          handleRemoveItem(item.id);
-                        }}
-                      >
-                        Remove
-                      </Button>
-                    </Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          </TableContainer>
-          <Box backgroundColor="gray.100" p="24px">
+                    </Box>
+                  </Box>
+                  <Flex paddingRight={9}>
+                    <QuantityHandler item={item} size="sm" />
+                    <IconButton
+                      aria-label="Remove"
+                      color="gray.500"
+                      icon={<CloseIcon w={3} h={3} />}
+                      variant="text"
+                      position="absolute"
+                      right={0}
+                      top={0}
+                      _hover={{ color: "gray.700" }}
+                      size="sm"
+                      onClick={() => {
+                        handleRemoveItem(item.id);
+                      }}
+                    />
+                  </Flex>
+                </Grid>
+              </Box>
+            ))}
+          </Box>
+          <Box backgroundColor="#F9FAFB" p={8} borderRadius={6}>
+            <Text fontSize={"lg"} fontWeight={500}>
+              Order Summary
+            </Text>
             <Table variant="simple">
               <Tbody>
-                <Tr>
-                  <Td>Subtotal</Td>
+                <Tr fontSize={14}>
+                  <Td color="gray.600" pl={0}>
+                    Subtotal
+                  </Td>
                   <Td isNumeric>{subTotal}</Td>
                 </Tr>
-                <Tr>
-                  <Td>
+                <Tr fontSize={14}>
+                  <Td color="gray.600" pl={0}>
                     <VStack alignItems="start">
                       <Text>Discount</Text>
                       {promotionItems && promotionItems.length > 0 && (
@@ -135,7 +147,7 @@ export const Cart: NextPage<{}> = () => {
                       )}
                     </VStack>
                   </Td>
-                  <Td isNumeric>
+                  <Td isNumeric fontSize={14}>
                     {promotionItems && promotionItems.length > 0 ? (
                       <VStack alignItems="end">
                         <Text>
@@ -161,17 +173,25 @@ export const Cart: NextPage<{}> = () => {
                     )}
                   </Td>
                 </Tr>
-                <Tr fontWeight="semibold">
-                  <Td>Order Total</Td>
+                <Tr fontWeight={500}>
+                  <Td pl={0}>Order Total</Td>
                   <Td isNumeric>{totalPrice}</Td>
                 </Tr>
               </Tbody>
             </Table>
 
-            <Divider my="2" />
-            <Promotion />
-            <Divider my="2" />
-            <Grid templateColumns="repeat(2, 1fr)" gap={2}>
+            <Box mt={5}>
+              <Promotion />
+            </Box>
+            <Grid
+              gridTemplateColumns={{
+                sm: "repeat(2, 1fr)",
+                lg: "auto",
+                xl: "repeat(2, 1fr)",
+              }}
+              gap={2}
+              mt={5}
+            >
               <Link href={"/"} passHref>
                 <Button
                   _hover={{
@@ -205,7 +225,7 @@ export const Cart: NextPage<{}> = () => {
           <Image alt="" src="/icons/empty.svg" width="488px" height="461px" />
         </Box>
       )}
-    </div>
+    </Box>
   );
 };
 export default Cart;
