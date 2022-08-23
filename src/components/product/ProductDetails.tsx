@@ -7,14 +7,14 @@ import {
 } from "@chakra-ui/react";
 import type { ProductResponse } from "@moltin/sdk";
 import { useContext } from "react";
-import { changingSkuStyle, productContext } from "../../lib/product-util";
+import { changingSkuStyle, ProductContext } from "../../lib/product-util";
 
 interface IProductDetails {
   product: ProductResponse;
 }
 
 const ProductDetails = ({ product }: IProductDetails): JSX.Element => {
-  const context = useContext(productContext);
+  const context = useContext(ProductContext);
 
   return (
     <Stack

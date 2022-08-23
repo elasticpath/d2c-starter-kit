@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Flex,
   Text,
@@ -188,7 +188,7 @@ export default function NodeDisplay(props: INodeDisplay): JSX.Element {
                   bgGradient="linear(to-r, gray.300, blue.500)"
                   _hover={{ opacity: "75%", cursor: "pointer" }}
                   // placeholder url for categories page
-                  onClick={() => router.push(`/category/${node.id}`)}
+                  onClick={() => router.push(`/search/${node.attributes.slug}`)}
                 />
                 <Flex
                   fontWeight={"bold"}

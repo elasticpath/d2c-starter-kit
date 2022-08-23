@@ -13,38 +13,20 @@ import {
   Spacer,
   Text,
   Heading,
-  OrderedList,
-  ListItem,
-  Link,
 } from "@chakra-ui/react";
-import NextLink from "next/link";
 import {
   SearchBox,
   useSortBy,
   useInstantSearch,
 } from "react-instantsearch-hooks-web";
-import { createBreadcrumb } from "../../lib/create-breadcrumb";
 import { algoliaEnvData } from "../../lib/resolve-algolia-env";
-import Breadcrumb from "../breadcrumb";
 import CustomHierarchicalMenu from "./CustomHierarchicalMenu";
 import Hits from "./Hits";
 import Pagination from "./Pagination";
 
-const menuItemInteractionStyle = {
-  bg: "none",
-  color: "brand.primary.blue",
-};
-
-const menuItemStyleProps = {
-  _hover: menuItemInteractionStyle,
-  _active: menuItemInteractionStyle,
-  _focus: menuItemInteractionStyle,
-  color: "gray.500",
-};
-
 export default function SearchResults(): JSX.Element {
-  // const { items, refine: catRefine } = useRefinementList();
   const { uiState } = useInstantSearch();
+
   const { options, refine } = useSortBy({
     items: [
       { label: "Featured", value: algoliaEnvData.indexName },
@@ -63,14 +45,8 @@ export default function SearchResults(): JSX.Element {
   const slugArray = hierarchicalMenu?.["ep_slug_categories.lvl0"];
   const title = slugArray && slugArray[slugArray?.length - 1];
 
-  const breadcrumbs =
-    hierarchicalMenu &&
-    createBreadcrumb(hierarchicalMenu?.["ep_slug_categories.lvl0"]);
-
   return (
     <Grid gap={2} maxW="7xl" mx="auto">
-      {/* Breadcrumb */}
-      {breadcrumbs && <Breadcrumb breadcrumbs={breadcrumbs} />}
       <Flex minWidth="max-content" alignItems="center" gap="2" pt={8}>
         <Box py="2">
           <Heading>{title ? title : "Search"}</Heading>
