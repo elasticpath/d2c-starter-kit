@@ -28,11 +28,6 @@ function removeUndefinedParams<TRouteParams>(
 }
 
 function urlToParams(url: string): Record<string, string | string[]> {
-  console.log(
-    "url when it hits urlToParams: ",
-    url,
-    JSON.stringify(new URL(url).searchParams)
-  );
   return Array.from(new URL(url).searchParams.entries()).reduce<{
     [key: string]: string | string[];
   }>((acc, [key, value]) => {
