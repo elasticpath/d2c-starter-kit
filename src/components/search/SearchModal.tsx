@@ -64,7 +64,15 @@ const SearchBox = ({
   const { query, refine, clear } = useSearchBox();
   const [search, setSearch] = useState<string>(query);
 
-  useDebouncedEffect(() => refine(search), 400, [search]);
+  useDebouncedEffect(
+    () => {
+      if (search !== query) {
+        refine(search);
+      }
+    },
+    400,
+    [search]
+  );
 
   return (
     <InputGroup>
