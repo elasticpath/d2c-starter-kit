@@ -17,7 +17,7 @@ interface INavItemContent {
 
 const menuItemInteractionStyle = {
   bg: "none",
-  color: "brand.primary.blue",
+  color: "brand.primary",
 };
 
 const menuItemStyleProps = {

@@ -11,7 +11,7 @@ export const Pagination = (): JSX.Element => {
         {pages.map((page) => (
           <Button
             key={page}
-            bg={currentRefinement === page ? "brand.primary.blue" : "gray.100"}
+            bg={currentRefinement === page ? "brand.primary" : "gray.100"}
             onClick={() => refine(page)}
             disabled={!canRefine}
             color={currentRefinement === page ? "white" : "black"}

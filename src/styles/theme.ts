@@ -27,16 +27,16 @@ const Checkbox: ComponentStyleConfig = {
     control: {
       bg: "white",
       _checked: {
-        bg: "brand.primary.blue",
-        borderColor: "brand.primary.blue",
+        bg: "brand.primary",
+        borderColor: "brand.primary",
         _hover: {
           bg: "brand.hover.blue",
-          borderColor: "brand.hover.blue",
+          borderColor: "brand.secondary",
         },
       },
       _indeterminate: {
-        bg: "brand.primary.blue",
-        borderColor: "brand.primary.blue",
+        bg: "brand.primary",
+        borderColor: "brand.primary",
       },
     },
   },

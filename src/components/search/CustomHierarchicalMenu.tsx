@@ -48,7 +48,7 @@ function HierarchicalItem({
       <NextLink href={createURL(item.value)} passHref>
         <Link
           className={clsx("ais-HierarchicalMenu-link")}
-          textColor={clsx(item.isRefined && "brand.primary.blue")}
+          textColor={clsx(item.isRefined && "brand.primary")}
           fontWeight={clsx(item.isRefined && "bold")}
           onClick={(event) => {
             if (isModifierClick(event)) {
@@ -92,9 +92,9 @@ function HierarchicalList({
 }: HierarchicalListProps) {
   return (
     <UnorderedList
-      display={"grid"}
+      display="grid"
       gap={2}
-      listStyleType={"none"}
+      listStyleType="none"
       marginInlineStart={2}
       mt={2}
     >
