@@ -1,10 +1,18 @@
-import { Box, Flex, Heading, Image, Link, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Flex,
+  Heading,
+  Image,
+  Link,
+  Text,
+} from "@chakra-ui/react";
 import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { getProductsByNode } from "../../services/hierarchy";
 import type { ProductResponseWithImage } from "../../lib/product-types";
 import { connectProductsWithMainImages } from "../../lib/product-util";
-import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { ArrowForwardIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { globalBaseWidth } from "../../styles/theme";
 
 interface IFeaturedProductsBaseProps {
@@ -76,7 +84,7 @@ const FeaturedProducts = (props: IFeaturedProductsProps): JSX.Element => {
         </Heading>
         {linkProps && (
           <Link
-            color="#0033CC"
+            color="brand.primary"
             fontWeight="bold"
             fontSize={{ base: "sm", md: "md", lg: "lg" }}
             onClick={() => {
@@ -106,16 +114,30 @@ const FeaturedProducts = (props: IFeaturedProductsProps): JSX.Element => {
             href="/category"
           >
             <Box width="100%" maxW={64} textAlign="center">
-              <Image
-                width={64}
-                height={64}
-                alt={product.main_image?.file_name || "Empty"}
-                src={product.main_image?.link.href}
-                fallbackSrc="/images/image_placeholder.svg"
-                borderRadius={5}
-                objectFit="cover"
-                boxShadow="sm"
-              />
+              {product.main_image?.link.href ? (
+                <Image
+                  width={64}
+                  height={64}
+                  alt={product.main_image?.file_name || "Empty"}
+                  src={product.main_image?.link.href}
+                  borderRadius={5}
+                  objectFit="cover"
+                  boxShadow="sm"
+                />
+              ) : (
+                <Center
+                  width={64}
+                  height={64}
+                  bg="gray.200"
+                  color="white"
+                  borderRadius={5}
+                  objectFit="cover"
+                  boxShadow="sm"
+                >
+                  <ViewOffIcon w="10" h="10" />
+                </Center>
+              )}
+
               <Text p="2" fontWeight="semibold">
                 {product.attributes.name}
               </Text>
