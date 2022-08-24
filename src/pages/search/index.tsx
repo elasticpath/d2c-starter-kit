@@ -6,10 +6,11 @@ import {
   SearchQuery,
 } from "../../lib/search-props";
 import Search from "../../components/search/SearchPage";
+import { buildBreadcrumbLookup } from "../../lib/build-breadcrumb-lookup";
 
 export const getServerSideProps = withNavServerSideProps<ISearch, SearchQuery>(
-  async (context) => {
-    return getSearchSSRProps(Search)(context);
+  async (context, nav) => {
+    return getSearchSSRProps(Search, buildBreadcrumbLookup(nav))(context);
   }
 );
 
