@@ -11,17 +11,17 @@ interface IBreadcrumb {
 export default function Breadcrumb({ entries }: IBreadcrumb): JSX.Element {
   return (
     <OrderedList
-      display={"flex"}
+      display="flex"
       fontSize={{ base: "xs", md: "sm" }}
       gap={4}
-      listStyleType={"none"}
-      m={"0"}
+      listStyleType="none"
+      m="0"
     >
       {entries.length > 1 &&
         entries.map((entry, index, array) => (
           <ListItem key={entry.label}>
             {array.length === index + 1 ? (
-              <Box as="span" fontWeight={"bold"}>
+              <Box as="span" fontWeight="bold">
                 {entry.label}
               </Box>
             ) : (

@@ -38,7 +38,7 @@ const HorizontalCarousel = ({
       visibleSlides={visibleSlides}
       totalSlides={images.length}
       step={1}
-      orientation={"horizontal"}
+      orientation="horizontal"
       naturalSlideWidth={45}
       naturalSlideHeight={40}
       infinite={images.length >= visibleSlides}
@@ -47,11 +47,11 @@ const HorizontalCarousel = ({
       <Grid
         gridTemplateColumns={shouldDisplayControls ? "auto 1fr auto" : "1fr"}
         gap={4}
-        alignItems={"center"}
+        alignItems="center"
       >
         <StyledButtonBack
           display={controlsDisplaySettings}
-          justifyContent={"center"}
+          justifyContent="center"
         >
           <ChevronLeftIcon boxSize={5} />
         </StyledButtonBack>

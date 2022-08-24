@@ -12,13 +12,13 @@ const CartActions = ({ handleAddToCart }: ICartActions): JSX.Element => {
     <Flex gap={10} {...(context?.isChangingSku ? changingSkuStyle : {})}>
       <Button
         disabled={context?.isChangingSku}
-        rounded={"md"}
-        w={"full"}
+        rounded="md"
+        w="full"
         mt={4}
-        py={"7"}
+        py="7"
         bg={useColorModeValue("blue.900", "blue.50")}
         color={useColorModeValue("white", "gray.900")}
-        textTransform={"uppercase"}
+        textTransform="uppercase"
         _hover={{
           transform: "translateY(2px)",
           boxShadow: "lg",
