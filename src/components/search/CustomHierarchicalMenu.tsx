@@ -51,7 +51,7 @@ function HierarchicalItem({
           textColor={clsx(item.isRefined && "brand.primary")}
           fontWeight={clsx(item.isRefined && "bold")}
           onClick={(event) => {
-            if (isModifierClick(event)) {
+            if (isModifierClick(event)) return
               return;
             }
             event.preventDefault();
