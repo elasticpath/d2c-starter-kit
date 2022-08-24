@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 
 import { globalBaseWidth } from "../../styles/theme";
-import { InfoIcon } from "@chakra-ui/icons";
+import { InfoIcon, PhoneIcon } from "@chakra-ui/icons";
 
 import GithubIcon from "../../../public/icons/github.svg";
 
@@ -43,7 +43,7 @@ const Footer = (): JSX.Element => (
                 color: "brand.primary",
               }}
             >
-              <GithubIcon fill="currentColor" width={25} height={25} />
+              <GithubIcon width={25} height={25} />
             </Link>
           </Box>
           <Box>
@@ -55,6 +55,17 @@ const Footer = (): JSX.Element => (
               }}
             >
               <InfoIcon width={25} height={25} />
+            </Link>
+          </Box>
+          <Box>
+            <Link
+              href="https://www.elasticpath.com/company/contact-us#contact-information"
+              ml={4}
+              _hover={{
+                color: "brand.primary",
+              }}
+            >
+              <PhoneIcon width={25} height={25} />
             </Link>
           </Box>
         </HStack>
