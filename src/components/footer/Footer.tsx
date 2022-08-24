@@ -11,6 +11,8 @@ import {
 import { globalBaseWidth } from "../../styles/theme";
 import { InfoIcon } from "@chakra-ui/icons";
 
+import GithubIcon from "../../../public/icons/github.svg";
+
 const Footer = (): JSX.Element => (
   <Box as="footer" borderTop="1px" borderColor="gray.200" bg="white">
     <Container as={Stack} maxW={globalBaseWidth} py={10}>
@@ -35,19 +37,22 @@ const Footer = (): JSX.Element => (
         <Stack align="flex-start"></Stack>
         <HStack align="flex-start" justifyContent="flex-end">
           <Box>
-            <Link href="https://github.com/elasticpath/d2c-reference-store">
-              <Image
-                src="/icons/github.svg"
-                alt="GitHub Icon"
-                width={25}
-                height={25}
-              />
+            <Link
+              href="https://github.com/elasticpath/d2c-reference-store"
+              _hover={{
+                color: "brand.primary",
+              }}
+            >
+              <GithubIcon fill="currentColor" width={25} height={25} />
             </Link>
           </Box>
           <Box>
             <Link
-              href="https://github.com/elasticpath/d2c-reference-store"
+              href="https://www.elasticpath.com"
               ml={4}
+              _hover={{
+                color: "brand.primary",
+              }}
             >
               <InfoIcon width={25} height={25} />
             </Link>
