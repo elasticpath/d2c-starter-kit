@@ -17,6 +17,7 @@ export const Search = ({
   url,
   node,
   breadcrumbEntries,
+  lookup,
 }: ISearch) => {
   const { initialUiState, NextRouterHandler } = useNextRouterHandler(
     resolveRouting(node, url)
@@ -42,7 +43,10 @@ export const Search = ({
               <Breadcrumb entries={breadcrumbEntries} />
             </Box>
           )}
-          <SearchResults />
+          <SearchResults
+            lookup={lookup}
+            NextRouterHandler={NextRouterHandler}
+          />
         </InstantSearch>
       </InstantSearchSSRProvider>
     </Box>

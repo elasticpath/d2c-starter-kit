@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
+import { ComponentStyleConfig, extendTheme } from "@chakra-ui/react";
 
 export const globalBaseWidth = "7xl";
 
@@ -21,9 +21,33 @@ const colors = {
   },
 };
 
+// Custom Checkbox Styles
+const Checkbox: ComponentStyleConfig = {
+  baseStyle: {
+    control: {
+      bg: "white",
+      _checked: {
+        bg: "brand.primary",
+        borderColor: "brand.primary",
+        _hover: {
+          bg: "brand.hover.blue",
+          borderColor: "brand.secondary",
+        },
+      },
+      _indeterminate: {
+        bg: "brand.primary",
+        borderColor: "brand.primary",
+      },
+    },
+  },
+};
+
 const theme = extendTheme({
   ...{ styles },
   ...{ colors },
+  components: {
+    Checkbox,
+  },
 });
 
 export default theme;

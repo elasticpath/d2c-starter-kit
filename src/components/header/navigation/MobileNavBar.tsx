@@ -95,7 +95,7 @@ const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
                       </h2>
                       <AccordionPanel pl={0} pr={0} pb={14}>
                         <Menu>
-                          <NavItemContent item={item} />
+                          <NavItemContent item={item} triggered={onClose} />
                         </Menu>
                       </AccordionPanel>
                     </AccordionItem>

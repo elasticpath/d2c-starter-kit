@@ -49,7 +49,7 @@ export default function CartMenu(): JSX.Element {
               display="flex"
               justifyContent="center"
               borderRadius="full"
-              bgColor="brand.primary.blue"
+              bgColor="brand.primary"
               variant="solid"
               position="absolute"
               size="sm"

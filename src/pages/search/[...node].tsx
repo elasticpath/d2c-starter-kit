@@ -6,6 +6,7 @@ import {
   SearchQuery,
 } from "../../lib/search-props";
 import Search from "../../components/search/SearchPage";
+import { buildBreadcrumbLookup } from "../../lib/build-breadcrumb-lookup";
 
 interface INodeSearch extends ISearch {
   nodeName?: string | string[];
@@ -16,8 +17,8 @@ export function NodeSearch(props: INodeSearch): JSX.Element {
 }
 
 export const getServerSideProps = withNavServerSideProps<ISearch, SearchQuery>(
-  async (context) => {
-    return getSearchSSRProps(NodeSearch)(context);
+  async (context, nav) => {
+    return getSearchSSRProps(NodeSearch, buildBreadcrumbLookup(nav))(context);
   }
 );
 
