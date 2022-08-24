@@ -1,9 +1,4 @@
-import React, {
-  DependencyList,
-  EffectCallback,
-  useEffect,
-  useState,
-} from "react";
+import { useState } from "react";
 import {
   InstantSearch,
   useHits,
@@ -37,22 +32,9 @@ import { useRouter } from "next/router";
 import NoResults from "./NoResults";
 import NoImage from "./NoImage";
 import { SearchHit } from "./SearchHit";
-import { jsx } from "@emotion/react";
-import JSX = jsx.JSX;
 import { searchClient } from "../../lib/search-client";
 import { algoliaEnvData } from "../../lib/resolve-algolia-env";
-
-export const useDebouncedEffect = (
-  effect: EffectCallback,
-  delay: number,
-  deps?: DependencyList
-) => {
-  useEffect(() => {
-    const handler = setTimeout(() => effect(), delay);
-
-    return () => clearTimeout(handler);
-  }, [...(deps || []), delay, effect]);
-};
+import { useDebouncedEffect } from "../../lib/use-debounced";
 
 const SearchBox = ({
   onChange,
