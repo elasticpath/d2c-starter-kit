@@ -70,7 +70,7 @@ function HierarchicalItem({
         </Link>
       </NextLink>
 
-      {item.data && item.data.length > 0 && (
+      {item.data?.length && (
         <Box>
           <HierarchicalList
             items={item.data!}
