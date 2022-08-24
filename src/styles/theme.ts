@@ -1,4 +1,4 @@
-import { extendTheme } from "@chakra-ui/react";
+import { ComponentStyleConfig, extendTheme } from "@chakra-ui/react";
 
 // Basic styles
 export const styles = {
@@ -19,12 +19,39 @@ const colors = {
       tangerine: "#EA7317",
       yellow: "#ffcb47",
     },
+    hover: {
+      blue: "#002699",
+    },
+  },
+};
+
+// Custom Checkbox Styles
+const Checkbox: ComponentStyleConfig = {
+  baseStyle: {
+    control: {
+      bg: "white",
+      _checked: {
+        bg: "brand.primary.blue",
+        borderColor: "brand.primary.blue",
+        _hover: {
+          bg: "brand.hover.blue",
+          borderColor: "brand.hover.blue",
+        },
+      },
+      _indeterminate: {
+        bg: "brand.primary.blue",
+        borderColor: "brand.primary.blue",
+      },
+    },
   },
 };
 
 const theme = extendTheme({
   ...{ styles },
   ...{ colors },
+  components: {
+    Checkbox,
+  },
 });
 
 export default theme;
