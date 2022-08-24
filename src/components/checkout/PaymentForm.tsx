@@ -45,7 +45,7 @@ export const PaymentForm = (props: CheckoutParams): JSX.Element => {
           {!isLoading ? (
             "pay" + " " + totalPrice
           ) : (
-            <span className="circularLoader" aria-label={"loading"} />
+            <span className="circularLoader" aria-label="loading" />
           )}
         </Button>
       </form>

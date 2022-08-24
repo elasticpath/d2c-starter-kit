@@ -85,6 +85,7 @@ export const connectProductsWithMainImages = (
   });
 
   const productList: ProductResponseWithImage[] = [...products];
+
   productList.forEach((product) => {
     if (
       product.relationships.main_image?.data &&

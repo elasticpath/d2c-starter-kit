@@ -18,13 +18,15 @@ import {
   Menu,
   useDisclosure,
 } from "@chakra-ui/react";
+
 import Link from "next/link";
+
 import { NavigationNode } from "../../../lib/build-site-navigation";
-import CartMenu from "../../cartItems/CartMenu";
 
 import SearchModal from "../../search/SearchModal";
 import NavItemContent from "./NavItemContent";
 import NextImage from "next/image";
+import CartMenu from "../../cart-items/CartMenu";
 
 interface IMobileNavBar {
   nav: NavigationNode[];
@@ -54,7 +56,7 @@ const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
           </a>
         </Link>
       </GridItem>
-      <GridItem justifySelf={"end"}>
+      <GridItem justifySelf="end">
         <Flex gap={4}>
           <SearchModal />
           <CartMenu />
@@ -81,8 +83,8 @@ const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
                       <h2>
                         <AccordionButton
                           color="gray.800"
-                          _expanded={{ color: "brand.primary.blue" }}
-                          fontWeight={"bold"}
+                          _expanded={{ color: "brand.primary" }}
+                          fontWeight="bold"
                           marginBottom={1}
                         >
                           <Box flex="1" textAlign="left">

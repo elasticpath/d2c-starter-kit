@@ -17,7 +17,7 @@ const ProductSummary = ({ product }: IProductSummary): JSX.Element => {
   const context = useContext(ProductContext);
 
   return (
-    <Box as={"header"} {...(context?.isChangingSku ? changingSkuStyle : {})}>
+    <Box as="header" {...(context?.isChangingSku ? changingSkuStyle : {})}>
       <Heading
         lineHeight={1.1}
         fontWeight={600}
@@ -27,7 +27,7 @@ const ProductSummary = ({ product }: IProductSummary): JSX.Element => {
       </Heading>
       <Tag marginTop={4}> {attributes.sku}</Tag>
       {display_price && (
-        <Flex alignItems={"center"}>
+        <Flex alignItems="center">
           <Price
             price={display_price.without_tax.formatted}
             currency={display_price.without_tax.currency}

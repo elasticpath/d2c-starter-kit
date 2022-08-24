@@ -7,7 +7,7 @@ import { withNavStaticProps } from "../lib/nav-wrapper-ssg";
 export default function Custom404() {
   return (
     <Flex
-      direction={"column"}
+      direction="column"
       h="xl"
       alignItems="center"
       justifyContent="center"

@@ -53,36 +53,36 @@ const ProductHighlightCarousel = ({
 
       <Box
         display={{ base: "flex", md: "none" }}
-        position={"absolute"}
+        position="absolute"
         zIndex={1}
         alignItems="center"
         h={0}
-        top={"50%"}
-        transform={"translateY(-50%)"}
-        w={"full"}
+        top="50%"
+        transform="translateY(-50%)"
+        w="full"
         px={4}
       >
         <StyledButtonBack
           display={selectedImageIndex < 1 ? "none" : "flex"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          backgroundColor={"white"}
-          rounded={"full"}
-          w={"2rem"}
-          h={"2rem"}
+          justifyContent="center"
+          alignItems="center"
+          backgroundColor="white"
+          rounded="full"
+          w="2rem"
+          h="2rem"
           onClick={() => selectPrevImage(selectedImageIndex)}
         >
           <ChevronLeftIcon boxSize={5} />
         </StyledButtonBack>
         <StyledButtonNext
           display={selectedImageIndex + 1 === images.length ? "none" : "flex"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          backgroundColor={"white"}
-          rounded={"full"}
-          w={"2rem"}
-          h={"2rem"}
-          marginLeft={"auto"}
+          justifyContent="center"
+          alignItems="center"
+          backgroundColor="white"
+          rounded="full"
+          w="2rem"
+          h="2rem"
+          marginLeft="auto"
           onClick={() => selectNextImage(selectedImageIndex)}
         >
           <ChevronRightIcon boxSize={5} />

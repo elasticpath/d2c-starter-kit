@@ -16,7 +16,7 @@ export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
   const { ep_price, ep_name, objectID, ep_main_image_url, ep_description } =
     hit;
   return (
-    <LinkBox display={"grid"} gridTemplateRows="auto 1fr" h="full">
+    <LinkBox display="grid" gridTemplateRows="auto 1fr" h="full">
       <GridItem position="relative" overflow="hidden" pb="100%">
         {ep_main_image_url ? (
           <Image

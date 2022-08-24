@@ -1,4 +1,3 @@
-import { ArrowForwardIcon } from "@chakra-ui/icons";
 import {
   Flex,
   Link,
@@ -7,8 +6,9 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import { NavigationNode } from "../../../lib/build-site-navigation";
 import NextLink from "next/link";
+import { NavigationNode } from "../../../lib/build-site-navigation";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 interface INavItemContent {
   item: NavigationNode;
@@ -71,7 +71,7 @@ const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
             display="flex"
             flexDirection="row"
             alignItems="center"
-            _hover={{ color: "brand.primary.blue" }}
+            _hover={{ color: "brand.primary" }}
           >
             Browse All {item.name}
             <ArrowForwardIcon marginLeft={1} />

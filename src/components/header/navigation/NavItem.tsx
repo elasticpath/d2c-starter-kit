@@ -1,6 +1,6 @@
 import { Button, Menu, MenuButton, MenuList, theme } from "@chakra-ui/react";
 import type { NavigationNode } from "../../../lib/build-site-navigation";
-import { styles } from "../../../styles/theme";
+import { globalBaseWidth, styles } from "../../../styles/theme";
 
 import NavItemContent from "./NavItemContent";
 
@@ -33,13 +33,13 @@ const NavItem = ({ item, headerPadding }: INavItem): JSX.Element => {
         variant="link"
         marginRight="2rem"
         color="gray.800"
-        _expanded={{ color: "brand.primary.blue" }}
+        _expanded={{ color: "brand.primary" }}
       >
         {item.name}
       </MenuButton>
       <MenuList
         w="100%"
-        maxW="80rem"
+        maxW={globalBaseWidth}
         p={menuListPadding}
         borderTopLeftRadius={0}
         borderTopRightRadius={0}

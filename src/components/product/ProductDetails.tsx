@@ -19,7 +19,7 @@ const ProductDetails = ({ product }: IProductDetails): JSX.Element => {
   return (
     <Stack
       spacing={{ base: 4, sm: 6 }}
-      direction={"column"}
+      direction="column"
       divider={
         <StackDivider borderColor={useColorModeValue("gray.200", "gray.800")} />
       }
@@ -29,9 +29,9 @@ const ProductDetails = ({ product }: IProductDetails): JSX.Element => {
         <Text
           fontSize={{ base: "16px", lg: "18px" }}
           color={useColorModeValue("blue.500", "blue.300")}
-          fontWeight={"500"}
-          textTransform={"uppercase"}
-          mb={"4"}
+          fontWeight="500"
+          textTransform="uppercase"
+          mb="4"
         >
           Product Details
         </Text>
