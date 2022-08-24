@@ -27,7 +27,7 @@ const ProductSummary = ({ product }: IProductSummary): JSX.Element => {
       </Heading>
       <Tag marginTop={4}> {attributes.sku}</Tag>
       {display_price && (
-        <Flex alignItems={"center"}>
+        <Flex alignItems="center">
           <Price
             price={display_price.without_tax.formatted}
             currency={display_price.without_tax.currency}

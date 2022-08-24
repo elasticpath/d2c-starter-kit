@@ -26,7 +26,7 @@ function HierarchicalList({
   onNavigate,
 }: HierarchicalListProps) {
   return (
-    <UnorderedList display={"grid"} gap={2} listStyleType={"none"}>
+    <UnorderedList display="grid" gap={2} listStyleType="none">
       {items.map((item) => (
         <ListItem
           key={item.value}

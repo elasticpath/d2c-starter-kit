@@ -81,7 +81,7 @@ export default function CartMenu(): JSX.Element {
           </PopoverBody>
           <PopoverFooter>
             <Grid templateColumns="repeat(2, 1fr)" gap={2}>
-              <Link href={"/cart"} passHref>
+              <Link href="/cart" passHref>
                 <Button
                   onClick={onClose}
                   _hover={{
@@ -94,7 +94,7 @@ export default function CartMenu(): JSX.Element {
                   View cart
                 </Button>
               </Link>
-              <Link href={"/checkout"} passHref>
+              <Link href="/checkout" passHref>
                 <Button
                   disabled={cartData.length === 0}
                   onClick={onClose}

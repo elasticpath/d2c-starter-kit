@@ -35,7 +35,7 @@ export const Product: NextPage<IProduct> = (props: IProduct) => {
   }, [product, updateCartItems, setCartQuantity]);
 
   return (
-    <Container maxW={"7xl"} key={"page_" + product.id}>
+    <Container maxW="7xl" key={"page_" + product.id}>
       <ProductContext.Provider
         value={{
           isChangingSku,
