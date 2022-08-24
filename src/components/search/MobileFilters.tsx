@@ -49,11 +49,7 @@ export default function MobileFilters({
 
   return (
     <Box display={{ base: "block", md: "none" }}>
-      <Button
-        variant={"ghost"}
-        rightIcon={<ChevronDownIcon />}
-        onClick={onOpen}
-      >
+      <Button variant="ghost" rightIcon={<ChevronDownIcon />} onClick={onOpen}>
         Filters
       </Button>
       <Drawer isOpen={isOpen} placement="right" onClose={onClose}>

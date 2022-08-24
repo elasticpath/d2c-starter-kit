@@ -25,7 +25,7 @@ export default function SearchBox(): JSX.Element {
   );
 
   return (
-    <InputGroup bgColor={"gray.50"} rounded={"lg"}>
+    <InputGroup bgColor="gray.50" rounded="lg">
       <InputLeftElement h="12" pl="4" pointerEvents="none">
         <SearchIcon color="gray.300" />
       </InputLeftElement>
@@ -50,7 +50,7 @@ export default function SearchBox(): JSX.Element {
         <IconButton
           aria-label="Search database"
           icon={<CloseIcon />}
-          variant={"ghost"}
+          variant="ghost"
           onClick={() => {
             clear();
             setSearch("");

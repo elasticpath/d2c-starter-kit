@@ -63,7 +63,7 @@ export default function SearchResults({
 
   return (
     <Grid gap={4} maxW="7xl" mx="auto">
-      <Flex alignItems="center" gap="2" pt={8} wrap={"wrap"}>
+      <Flex alignItems="center" gap="2" pt={8} wrap="wrap">
         <Box py="2">
           <Heading>{title}</Heading>
           {query && <Text>Search results for &quot;{query}&quot;</Text>}
