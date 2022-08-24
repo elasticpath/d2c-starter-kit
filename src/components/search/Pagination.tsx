@@ -11,12 +11,12 @@ export const Pagination = (): JSX.Element => {
         {pages.map((page) => (
           <Button
             key={page}
-            bg={currentRefinement === page ? "blue.900" : "gray.100"}
+            bg={currentRefinement === page ? "brand.primary.blue" : "gray.100"}
             onClick={() => refine(page)}
             disabled={!canRefine}
             color={currentRefinement === page ? "white" : "black"}
             _hover={{
-              backgroundColor: "blue.700",
+              backgroundColor: "brand.hover.blue",
               boxShadow: "m",
               color: "white",
             }}
