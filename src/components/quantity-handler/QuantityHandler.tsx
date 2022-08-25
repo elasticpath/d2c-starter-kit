@@ -31,8 +31,7 @@ const QuantityHandler = ({ item, size }: IQuantityHandler): JSX.Element => {
     <Box
       display="flex"
       justifyContent="space-around"
-      alignItems="center"
-      width={size === "xs" ? "120px" : "160px"}
+      width={size === "xs" ? "120px" : "120px"}
     >
       <Button
         size={size}
@@ -45,14 +44,14 @@ const QuantityHandler = ({ item, size }: IQuantityHandler): JSX.Element => {
       </Button>
       <NumberInput
         size={size}
-        width={size === "xs" ? "60px" : "80px"}
+        width={size === "xs" ? "45px" : "45px"}
         value={item.quantity}
         onChange={(_valueAsString: string, valueAsNumber: number) =>
           handleUpdateQuantity(item.id, valueAsNumber)
         }
         min={1}
       >
-        <NumberInputField p="8px" borderRadius="md" />
+        <NumberInputField p="8px" borderRadius="md" textAlign="center" />
       </NumberInput>
       <Button
         size={size}

@@ -1,18 +1,17 @@
-import QuantityHandler from "../quantity-handler/QuantityHandler";
 import {
   Text,
   Button,
-  useColorModeValue,
-  Grid,
-  GridItem,
-  Heading,
+  Image,
   Divider,
   Flex,
+  Box,
+  IconButton,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useCartItems } from "../../context/cart";
 import { removeCartItem } from "../../services/cart";
-import Image from "next/image";
+import { CloseIcon } from "@chakra-ui/icons";
+import React from "react";
 
 export default function ModalCartItems(): JSX.Element {
   const { cartData, mcart, updateCartItems } = useCartItems();
@@ -27,46 +26,49 @@ export default function ModalCartItems(): JSX.Element {
       });
   };
 
-  const color = useColorModeValue("blue.900", "blue.50");
-
   return (
     <>
       {cartData && cartData.length > 0 ? (
         <>
           {cartData.map((item) => (
             <div key={item.id}>
-              <Grid key={item.id} my="4" templateColumns="1fr 3fr" gap={1}>
-                <GridItem alignSelf="center">
+              <Flex my="4" gap={1} position="relative">
+                <Box alignSelf="center">
                   {item.image && item.image.href && (
-                    <Image
-                      src={item.image.href}
-                      alt="Vercel Logo"
-                      width={56}
-                      height={56}
-                      objectFit="fill"
-                    />
+                    <Box overflow="hidden" borderRadius={6}>
+                      <Image
+                        src={item.image.href}
+                        alt="Vercel Logo"
+                        width="64px"
+                        height="64px"
+                        objectFit="cover"
+                      />
+                    </Box>
                   )}
-                </GridItem>
-                <GridItem>
-                  <Heading size="xs" mb="4px">
+                </Box>
+                <Box ml={3}>
+                  <Text size="xs" mb="4px">
                     {item.name}
-                  </Heading>
+                  </Text>
                   <Text mb="4px">
                     {item.meta.display_price.without_tax.value.formatted}
                   </Text>
-                  <Flex gap={8}>
-                    <QuantityHandler item={item} size="xs" />
-                    <Button
-                      size="xs"
-                      onClick={() => {
-                        handleRemove(item.id);
-                      }}
-                    >
-                      Remove
-                    </Button>
-                  </Flex>
-                </GridItem>
-              </Grid>
+                  <IconButton
+                    aria-label="Remove"
+                    color="gray.500"
+                    icon={<CloseIcon w={2} h={2} />}
+                    variant="text"
+                    position="absolute"
+                    right={0}
+                    top={0}
+                    _hover={{ color: "gray.700" }}
+                    size="xs"
+                    onClick={() => {
+                      handleRemove(item.id);
+                    }}
+                  />
+                </Box>
+              </Flex>
               <Divider />
             </div>
           ))}
@@ -86,7 +88,7 @@ export default function ModalCartItems(): JSX.Element {
                 boxShadow: "lg",
               }}
               width="100%"
-              colorScheme={color}
+              colorScheme="blue.900"
               variant="outline"
             >
               Start Shopping
