@@ -1,8 +1,8 @@
-import { withNavServerSideProps } from "../lib/nav-wrapper-ssr";
+import { withNavStaticProps } from "../lib/nav-wrapper-ssg";
 import Blurb from "../components/shared/blurb";
 
 const Shipping = () => <Blurb title="Shipping" />;
 
 export default Shipping;
 
-export const getServerSideProps = withNavServerSideProps();
+export const getServerSideProps = withNavStaticProps();
