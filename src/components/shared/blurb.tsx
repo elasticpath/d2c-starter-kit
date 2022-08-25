@@ -10,9 +10,13 @@ const Para = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const Blurb = () => (
+interface IBlurbProps {
+  title: string;
+}
+
+const Blurb = ({ title }: IBlurbProps) => (
   <chakra.main maxW={globalBaseWidth} margin="auto" padding={8}>
-    <Heading textAlign="center">FAQ</Heading>
+    <Heading textAlign="center">{title}</Heading>
     <Para>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec arcu
       lectus, pharetra nec velit in, vehicula suscipit tellus. Quisque id mollis

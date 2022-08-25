@@ -1,7 +1,7 @@
 import { withNavServerSideProps } from "../lib/nav-wrapper-ssr";
 import Blurb from "../components/shared/blurb";
 
-const FAQ = () => <Blurb />;
+const FAQ = () => <Blurb title="FAQs" />;
 
 export default FAQ;
 
