@@ -21,31 +21,25 @@ import {
 import { useCartItems } from "../../context/cart";
 import { useCheckoutForm } from "../../context/checkout";
 import Image from "next/image";
-import {
-  checkout,
-  getCart,
-  getCartItems,
-  payment,
-  removeAllCartItems,
-} from "../../services/checkout";
+import { checkout, payment, removeAllCartItems } from "../../services/checkout";
 import PersonalInfo from "../../components/checkout/PersonalInfo";
 import ShippingForm from "../../components/checkout/ShippingForm";
 import PaymentForm from "../../components/checkout/PaymentForm";
 import ShippingInfo from "../../components/checkout/ShippingInfo";
 import type { NextPage } from "next";
 import { stripeEnv } from "../../lib/resolve-stripe-env";
-import { Cart, CartItemsResponse, Resource } from "@moltin/sdk";
+import { Cart, Resource } from "@moltin/sdk";
 import { ParsedUrlQuery } from "querystring";
 import { withNavServerSideProps } from "../../lib/nav-wrapper-ssr";
+import { getCart } from "../../services/cart";
 
 const stripePromise = loadStripe(stripeEnv);
 
 interface ICheckout {
   cart: Resource<Cart>;
-  items: CartItemsResponse;
 }
 
-export const Checkout: NextPage<ICheckout> = ({ cart, items }) => {
+export const Checkout: NextPage<ICheckout> = ({ cart }) => {
   const {
     shippingAddress,
     billingAddress,
@@ -92,7 +86,6 @@ export const Checkout: NextPage<ICheckout> = ({ cart, items }) => {
   };
 
   console.log("cart page cart: ", cart);
-  console.log("cart page items: ", items);
 
   return (
     <Box px={24} py={8}>
@@ -264,13 +257,9 @@ export const getServerSideProps = withNavServerSideProps<
   const cart = await getCart(cartId);
   // TODO when cart doesnt exist is it just created every time
 
-  const items = await getCartItems(cartId);
-  items.data;
-
   return {
     props: {
       cart,
-      items,
     },
   };
 });

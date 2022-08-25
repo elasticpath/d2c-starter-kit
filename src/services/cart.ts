@@ -1,11 +1,11 @@
 import type { CartItemsResponse } from "@moltin/sdk";
+import { Cart, CartIncluded, ResourceIncluded } from "@moltin/sdk";
 import { EPCCAPI } from "./helper";
 
 export async function getCartItems(
   reference: string
 ): Promise<CartItemsResponse> {
-  const CartItems = await EPCCAPI.Cart(reference).Items();
-  return CartItems;
+  return EPCCAPI.Cart(reference).Items();
 }
 
 export async function removeCartItem(
@@ -55,18 +55,17 @@ export const getCartId = (): string => {
   return cartId || "";
 };
 
-export async function getMultiCarts(token: string) {
-  const cartsList = await EPCCAPI.Cart().GetCartsList(token);
-  return cartsList;
-}
-
 export async function addToCart(
   productId: string,
   quantity: number
 ): Promise<any> {
   const cartId: string = getCartId();
 
-  const response = await EPCCAPI.Cart(cartId).AddProduct(productId, quantity);
+  return EPCCAPI.Cart(cartId).AddProduct(productId, quantity);
+}
 
-  return response;
+export async function getCart(
+  cartId: string
+): Promise<ResourceIncluded<Cart, CartIncluded>> {
+  return EPCCAPI.Cart(cartId).With("items").Get();
 }
