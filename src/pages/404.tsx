@@ -12,10 +12,15 @@ export default function Custom404() {
       alignItems="center"
       justifyContent="center"
       gap={4}
+      p={8}
     >
-      <Heading>404 - The page could not be found.</Heading>
+      <Heading fontSize={{ base: "xl", md: "3xl" }} textAlign="center">
+        404 - The page could not be found.
+      </Heading>
       <NextLink href="/" passHref>
-        <Link {...menuItemStyleProps}>Back to home</Link>
+        <Link {...menuItemStyleProps} fontSize={{ base: "md", md: "lg" }}>
+          Back to home
+        </Link>
       </NextLink>
     </Flex>
   );
