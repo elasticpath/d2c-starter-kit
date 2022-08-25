@@ -10,12 +10,17 @@ import {
 
 import { globalBaseWidth } from "../../styles/theme";
 import { InfoIcon, PhoneIcon } from "@chakra-ui/icons";
-
 import GithubIcon from "../../../public/icons/github.svg";
 
 const Footer = (): JSX.Element => (
   <Box as="footer" borderTop="1px" borderColor="gray.200" bg="white">
-    <Container as={Stack} maxW={globalBaseWidth} py={10}>
+    <Container
+      as={Stack}
+      maxW={globalBaseWidth}
+      py={10}
+      borderBottom="1px"
+      borderColor="gray.200"
+    >
       <SimpleGrid columns={{ base: 1, sm: 2, md: 5 }} spacing={8}>
         <Stack align="flex-start">
           <Image
@@ -27,12 +32,12 @@ const Footer = (): JSX.Element => (
         </Stack>
         <Stack align="flex-start">
           <Link href="/">Home</Link>
-          <Link href="/about">About</Link>
-          <Link href="/terms">Terms</Link>
           <Link href="/shipping">Shipping</Link>
+          <Link href="/faq">FAQ</Link>
         </Stack>
         <Stack align="flex-start">
-          <Link href="/faq">FAQ</Link>
+          <Link href="/about">About</Link>
+          <Link href="/terms">Terms</Link>
         </Stack>
         <Stack align="flex-start"></Stack>
         <HStack align="flex-start" justifyContent="flex-end">
