@@ -19,7 +19,7 @@ import { Icon } from "@chakra-ui/icons";
 
 export default function CartMenu(): JSX.Element {
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const { cartData } = useCartItems();
+  const { cartData, mcart } = useCartItems();
   const numCartItems = cartData.reduce((pre, current) => {
     return pre + current.quantity;
   }, 0);

@@ -18,20 +18,34 @@ import {
   Checkbox,
   VStack,
 } from "@chakra-ui/react";
-import { useCartItems } from "../context/cart";
-import { useCheckoutForm } from "../context/checkout";
+import { useCartItems } from "../../context/cart";
+import { useCheckoutForm } from "../../context/checkout";
 import Image from "next/image";
-import { checkout, payment, removeAllCartItems } from "../services/checkout";
-import PersonalInfo from "../components/checkout/PersonalInfo";
-import ShippingForm from "../components/checkout/ShippingForm";
-import PaymentForm from "../components/checkout/PaymentForm";
-import ShippingInfo from "../components/checkout/ShippingInfo";
+import {
+  checkout,
+  getCart,
+  getCartItems,
+  payment,
+  removeAllCartItems,
+} from "../../services/checkout";
+import PersonalInfo from "../../components/checkout/PersonalInfo";
+import ShippingForm from "../../components/checkout/ShippingForm";
+import PaymentForm from "../../components/checkout/PaymentForm";
+import ShippingInfo from "../../components/checkout/ShippingInfo";
 import type { NextPage } from "next";
-import { stripeEnv } from "../lib/resolve-stripe-env";
+import { stripeEnv } from "../../lib/resolve-stripe-env";
+import { Cart, CartItemsResponse, Resource } from "@moltin/sdk";
+import { ParsedUrlQuery } from "querystring";
+import { withNavServerSideProps } from "../../lib/nav-wrapper-ssr";
 
 const stripePromise = loadStripe(stripeEnv);
 
-export const Checkout: NextPage<{}> = () => {
+interface ICheckout {
+  cart: Resource<Cart>;
+  items: CartItemsResponse;
+}
+
+export const Checkout: NextPage<ICheckout> = ({ cart, items }) => {
   const {
     shippingAddress,
     billingAddress,
@@ -77,6 +91,9 @@ export const Checkout: NextPage<{}> = () => {
     }
   };
 
+  console.log("cart page cart: ", cart);
+  console.log("cart page items: ", items);
+
   return (
     <Box px={24} py={8}>
       <Heading>Checkout</Heading>
@@ -115,7 +132,6 @@ export const Checkout: NextPage<{}> = () => {
                       billing Address
                     </Heading>
                     <Checkbox
-                      // @ts-ignore
                       defaultChecked={isSameAddress}
                       // @ts-ignore
                       value={isSameAddress}
@@ -192,7 +208,7 @@ export const Checkout: NextPage<{}> = () => {
           <Grid templateColumns="1fr 1fr">
             <Heading size="sm">Items in your cart</Heading>
             <Box justifySelf="end" _hover={{ textDecoration: "underline" }}>
-              <Link href="/cart">Edit Cart</Link>
+              <Link href="/src/pages/cart">Edit Cart</Link>
             </Box>
           </Grid>
           {cartData.map((item) => (
@@ -202,7 +218,7 @@ export const Checkout: NextPage<{}> = () => {
                   {item.image && item.image.href && (
                     <Image
                       src={item.image.href}
-                      alt="Vercel Logo"
+                      alt={item.name}
                       width={56}
                       height={56}
                       objectFit="fill"
@@ -227,3 +243,34 @@ export const Checkout: NextPage<{}> = () => {
   );
 };
 export default Checkout;
+
+interface CheckoutParams extends ParsedUrlQuery {
+  cartId: string;
+}
+
+export const getServerSideProps = withNavServerSideProps<
+  ICheckout,
+  CheckoutParams
+>(async ({ params }) => {
+  const cartId = params?.cartId;
+  console.log("cart id: ", cartId);
+
+  if (!cartId) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const cart = await getCart(cartId);
+  // TODO when cart doesnt exist is it just created every time
+
+  const items = await getCartItems(cartId);
+  items.data;
+
+  return {
+    props: {
+      cart,
+      items,
+    },
+  };
+});

@@ -203,7 +203,7 @@ export const Cart: NextPage<{}> = () => {
                   Continue Shopping
                 </Button>
               </Link>
-              <Link href="/checkout" passHref>
+              <Link href={`/checkout/${mcart}`} passHref>
                 <Button
                   bg={colorBlue}
                   color={colorWhite}
