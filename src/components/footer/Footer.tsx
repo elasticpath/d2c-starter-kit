@@ -2,99 +2,77 @@ import Image from "next/image";
 import {
   Box,
   Container,
+  HStack,
   Link,
   SimpleGrid,
   Stack,
-  Text,
-  Flex,
-  Tag,
-  useColorModeValue,
 } from "@chakra-ui/react";
 
-const ListHeader = ({ children }: { children: ReactNode }) => {
-  return (
-    <Text fontWeight="500" fontSize="lg" mb={2}>
-      {children}
-    </Text>
-  );
-};
+import { globalBaseWidth } from "../../styles/theme";
+import { InfoIcon, PhoneIcon } from "@chakra-ui/icons";
+import GithubIcon from "../../../public/icons/github.svg";
+import EpLogo from "../../../public/icons/ep-logo.svg";
 
-import { ReactNode } from "react";
-const Footer = (): JSX.Element => {
-  return (
-    <Box
-      bg={useColorModeValue("gray.50", "gray.900")}
-      color={useColorModeValue("gray.700", "gray.200")}
+const Footer = (): JSX.Element => (
+  <Box as="footer" borderTop="1px" borderColor="gray.200" bg="white">
+    <Container
+      as={Stack}
+      maxW={globalBaseWidth}
+      py={10}
+      borderBottom="1px"
+      borderColor="gray.200"
     >
-      <Container as={Stack} maxW="6xl" py={10}>
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
-          <Stack align="flex-start">
-            <ListHeader>Products</ListHeader>
-            <Link href="#">Bags</Link>
-            <Link href="#">Tees</Link>
-            <Link href="#">Objects</Link>
-            <Link href="#">Home Goods</Link>
-            <Link href="#">Accessories</Link>
-          </Stack>
-          <Stack align="flex-start">
-            <ListHeader>Customer Service</ListHeader>
-            <Link href="#">Contact</Link>
-            <Link href="#">Shipping</Link>
-            <Link href="#">Returns</Link>
-            <Link href="#">Warranty</Link>
-            <Link href="#">Secure Payments</Link>
-            <Link href="#">FAQ</Link>
-            <Link href="#">Find a store</Link>
-          </Stack>
-          <Stack align="flex-start">
-            <ListHeader>Company</ListHeader>
-            <Link href="#">Who we are</Link>
-            <Link href="#">Sustainability</Link>
-            <Link href="#">Press</Link>
-            <Link href="#">Careers</Link>
-            <Link href="#">Terms & Conditions</Link>
-            <Link href="#">Privacy</Link>
-          </Stack>
-          <Stack align="flex-start">
-            <ListHeader>Legal</ListHeader>
-            <Link href="#">Terms of Service</Link>
-            <Link href="#">Return Policy</Link>
-            <Link href="#">Privacy Policy</Link>
-            <Link href="#">Shipping Policy</Link>
-          </Stack>
-        </SimpleGrid>
-      </Container>
-      <Box py={10}>
-        <Flex
-          align="center"
-          _before={{
-            content: '""',
-            borderBottom: "1px solid",
-            borderColor: useColorModeValue("gray.200", "gray.700"),
-            flexGrow: 1,
-            mr: 8,
-          }}
-          _after={{
-            content: '""',
-            borderBottom: "1px solid",
-            borderColor: useColorModeValue("gray.200", "gray.700"),
-            flexGrow: 1,
-            ml: 8,
-          }}
-        >
-          <Image
-            src="/icons/ep-logo.svg"
-            alt="ep Logo"
-            width={150}
-            height={25}
-          />
-        </Flex>
-        <Text pt={6} fontSize="sm" textAlign="center">
-          © 2022, Elastic Path Software Inc. All rights reserved.
-        </Text>
-      </Box>
-    </Box>
-  );
-};
+      <SimpleGrid columns={{ base: 1, sm: 2, md: 5 }} spacing={8}>
+        <Stack align="flex-start">
+          <EpLogo width={120} height={40} />
+        </Stack>
+        <Stack align="flex-start">
+          <Link href="/">Home</Link>
+          <Link href="/shipping">Shipping</Link>
+          <Link href="/faq">FAQ</Link>
+        </Stack>
+        <Stack align="flex-start">
+          <Link href="/about">About</Link>
+          <Link href="/terms">Terms</Link>
+        </Stack>
+        <Stack align="flex-start"></Stack>
+        <HStack align="flex-start" justifyContent="flex-end">
+          <Box>
+            <Link
+              href="https://github.com/elasticpath/d2c-reference-store"
+              _hover={{
+                color: "brand.primary",
+              }}
+            >
+              <GithubIcon width={25} height={25} />
+            </Link>
+          </Box>
+          <Box>
+            <Link
+              href="https://www.elasticpath.com"
+              ml={4}
+              _hover={{
+                color: "brand.primary",
+              }}
+            >
+              <InfoIcon width={25} height={25} />
+            </Link>
+          </Box>
+          <Box>
+            <Link
+              href="https://www.elasticpath.com/company/contact-us#contact-information"
+              ml={4}
+              _hover={{
+                color: "brand.primary",
+              }}
+            >
+              <PhoneIcon width={25} height={25} />
+            </Link>
+          </Box>
+        </HStack>
+      </SimpleGrid>
+    </Container>
+  </Box>
+);
 
 export default Footer;

@@ -3,7 +3,7 @@ import { NavigationNode } from "../../lib/build-site-navigation";
 import { globalBaseWidth } from "../../styles/theme";
 import SearchModal from "../search/SearchModal";
 import MobileNavBar from "./navigation/MobileNavBar";
-import NextImage from "next/image";
+import EpIcon from "../../../public/icons/ep-icon.svg";
 
 import NavBar from "./navigation/NavBar";
 import Link from "next/link";
@@ -45,12 +45,7 @@ const Header = ({ nav }: IHeader): JSX.Element => {
           <Link href="/">
             <a>
               <Box position="relative" minW={10} w={10} h={10}>
-                <NextImage
-                  objectFit="cover"
-                  layout="fill"
-                  src="/icons/ep-icon.svg"
-                  alt="EP Icon"
-                />
+                <EpIcon />
               </Box>
             </a>
           </Link>
