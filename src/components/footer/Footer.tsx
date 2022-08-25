@@ -11,6 +11,7 @@ import {
 import { globalBaseWidth } from "../../styles/theme";
 import { InfoIcon, PhoneIcon } from "@chakra-ui/icons";
 import GithubIcon from "../../../public/icons/github.svg";
+import EpLogo from "../../../public/icons/ep-logo.svg";
 
 const Footer = (): JSX.Element => (
   <Box as="footer" borderTop="1px" borderColor="gray.200" bg="white">
@@ -23,12 +24,7 @@ const Footer = (): JSX.Element => (
     >
       <SimpleGrid columns={{ base: 1, sm: 2, md: 5 }} spacing={8}>
         <Stack align="flex-start">
-          <Image
-            src="/icons/ep-logo.svg"
-            alt="Elastic Path logo"
-            width={120}
-            height={40}
-          />
+          <EpLogo width={120} height={40} />
         </Stack>
         <Stack align="flex-start">
           <Link href="/">Home</Link>

@@ -25,8 +25,9 @@ import { NavigationNode } from "../../../lib/build-site-navigation";
 
 import SearchModal from "../../search/SearchModal";
 import NavItemContent from "./NavItemContent";
-import NextImage from "next/image";
 import CartMenu from "../../cart-items/CartMenu";
+
+import EpIcon from "../../../../public/icons/ep-icon.svg";
 
 interface IMobileNavBar {
   nav: NavigationNode[];
@@ -46,12 +47,7 @@ const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
         <Link href="/">
           <a>
             <Box position="relative" minW={10} w={10} h={10}>
-              <NextImage
-                objectFit="cover"
-                layout="fill"
-                src="/icons/ep-icon.svg"
-                alt="EP Icon"
-              />
+              <EpIcon />
             </Box>
           </a>
         </Link>
