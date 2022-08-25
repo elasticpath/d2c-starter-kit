@@ -1,7 +1,7 @@
 import { Box, Heading, Tag, Flex } from "@chakra-ui/react";
 import type { ProductResponse } from "@moltin/sdk";
 import { useContext } from "react";
-import { changingSkuStyle, productContext } from "../../lib/product-util";
+import { changingSkuStyle, ProductContext } from "../../lib/product-util";
 import Price from "./Price";
 import StrikePrice from "./StrikePrice";
 
@@ -14,10 +14,10 @@ const ProductSummary = ({ product }: IProductSummary): JSX.Element => {
     attributes,
     meta: { display_price, original_display_price },
   } = product;
-  const context = useContext(productContext);
+  const context = useContext(ProductContext);
 
   return (
-    <Box as={"header"} {...(context?.isChangingSku ? changingSkuStyle : {})}>
+    <Box as="header" {...(context?.isChangingSku ? changingSkuStyle : {})}>
       <Heading
         lineHeight={1.1}
         fontWeight={600}
@@ -27,7 +27,7 @@ const ProductSummary = ({ product }: IProductSummary): JSX.Element => {
       </Heading>
       <Tag marginTop={4}> {attributes.sku}</Tag>
       {display_price && (
-        <Flex alignItems={"center"}>
+        <Flex alignItems="center">
           <Price
             price={display_price.without_tax.formatted}
             currency={display_price.without_tax.currency}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import QuantityHandler from "../components/quantityHandler/QuantityHandler";
+import QuantityHandler from "../components/quantity-handler/QuantityHandler";
 import Link from "next/link";
 import {
   Heading,
@@ -126,7 +126,7 @@ export const Cart: NextPage<{}> = () => {
             ))}
           </Box>
           <Box backgroundColor="#F9FAFB" p={8} borderRadius={6}>
-            <Text fontSize={"lg"} fontWeight={500}>
+            <Text fontSize="lg" fontWeight={500}>
               Order Summary
             </Text>
             <Table variant="simple">
@@ -191,7 +191,7 @@ export const Cart: NextPage<{}> = () => {
               gap={2}
               mt={5}
             >
-              <Link href={"/"} passHref>
+              <Link href="/" passHref>
                 <Button
                   _hover={{
                     color: "blue.700",
@@ -203,7 +203,7 @@ export const Cart: NextPage<{}> = () => {
                   Continue Shopping
                 </Button>
               </Link>
-              <Link href={"/checkout"} passHref>
+              <Link href="/checkout" passHref>
                 <Button
                   bg={colorBlue}
                   color={colorWhite}

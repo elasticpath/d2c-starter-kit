@@ -5,46 +5,39 @@ import type {
 } from "@moltin/sdk";
 import type { Dispatch, SetStateAction } from "react";
 import type { MatrixObjectEntry } from "../services/helper";
-import { PcmProductResponse } from "@moltin/sdk";
 
 export type IdentifiableBaseProduct = ProductResponse & {
   id: string;
   attributes: { slug: string; sku: string; base_product: true };
 };
 
-export type IdentifiableChildProduct = ProductResponse & {
-  id: string;
-  attributes: { base_product: false; base_product_id: string };
-};
-
-export interface IBaseSku {
+export interface IBase {
   product: ProductResponse;
   main_image: File | null;
   otherImages: File[];
-  extensions: IExtensions;
   component_products?: ProductResponse[];
 }
 
-export interface IBaseProductSku extends IBaseSku {
+export interface IBaseProduct extends IBase {
   kind: "base-product";
   variations: CatalogsProductVariation[];
   variationsMatrix: MatrixObjectEntry;
 }
 
-export interface IChildSku extends IBaseSku {
+export interface IChildProduct extends IBase {
   kind: "child-product";
   baseProduct: ProductResponse;
   variations: CatalogsProductVariation[];
   variationsMatrix: MatrixObjectEntry;
 }
 
-export interface ISimpleSku extends IBaseSku {
+export interface ISimpleProduct extends IBase {
   kind: "simple-product";
 }
 
-export type ISku = IBaseProductSku | IChildSku | ISimpleSku;
+export type IProduct = IBaseProduct | IChildProduct | ISimpleProduct;
 
-export interface ProductContext {
+export interface ProductContextState {
   isChangingSku: boolean;
   setIsChangingSku: Dispatch<SetStateAction<boolean>>;
 }
@@ -52,10 +45,6 @@ export interface ProductContext {
 export interface OptionDict {
   [key: string]: string;
 }
-
-export type IExtensions =
-  | PcmProductResponse["data"]["attributes"]["extensions"]
-  | null;
 
 export interface ProductResponseWithImage extends ProductResponse {
   main_image?: File;

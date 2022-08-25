@@ -1,12 +1,13 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { NavigationNode } from "../../lib/build-site-navigation";
+import { globalBaseWidth } from "../../styles/theme";
 import SearchModal from "../search/SearchModal";
 import MobileNavBar from "./Navigation/MobileNavBar";
 import NextImage from "next/image";
 
 import NavBar from "./Navigation/NavBar";
 import Link from "next/link";
-import CartMenu from "../cartItems/CartMenu";
+import CartMenu from "../cart-items/CartMenu";
 
 interface IHeader {
   nav: NavigationNode[];
@@ -55,7 +56,7 @@ const Header = ({ nav }: IHeader): JSX.Element => {
           </Link>
         </Box>
 
-        <Box maxW="80rem" w="100%">
+        <Box maxW={globalBaseWidth} w="100%">
           <NavBar nav={nav} headerPadding={headerPadding} />
         </Box>
 

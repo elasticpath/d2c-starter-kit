@@ -28,7 +28,7 @@ const ProductShowcaseCarousel = ({
         visibleSlides={visibleSlides}
         totalSlides={products.length}
         step={1}
-        orientation={"horizontal"}
+        orientation="horizontal"
         naturalSlideWidth={60}
         naturalSlideHeight={40}
         infinite={products.length >= visibleSlides}
@@ -37,46 +37,46 @@ const ProductShowcaseCarousel = ({
         <Grid
           gridTemplateColumns={{ base: "1fr", lg: "auto 1fr auto" }}
           gap={12}
-          alignItems={"center"}
+          alignItems="center"
           width={{ base: "full", lg: "80%" }}
-          margin={"0 auto"}
-          position={"relative"}
+          margin="0 auto"
+          position="relative"
         >
           <StyledButtonBack
             display={{ base: "none", lg: "flex" }}
-            justifyContent={"center"}
+            justifyContent="center"
           >
             <ChevronLeftIcon boxSize={5} />
           </StyledButtonBack>
           <Box
             display={{ base: "flex", lg: "none" }}
-            position={"absolute"}
+            position="absolute"
             zIndex={1}
             alignItems="center"
             h="0"
-            w={"full"}
+            w="full"
             px={4}
           >
             <StyledButtonBack
-              display={"flex"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              backgroundColor={"white"}
-              rounded={"full"}
-              w={"2rem"}
-              h={"2rem"}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              backgroundColor="white"
+              rounded="full"
+              w="2rem"
+              h="2rem"
             >
               <ChevronLeftIcon boxSize={5} />
             </StyledButtonBack>
             <StyledButtonNext
-              display={"flex"}
-              justifyContent={"center"}
-              alignItems={"center"}
-              backgroundColor={"white"}
-              rounded={"full"}
-              w={"2rem"}
-              h={"2rem"}
-              marginLeft={"auto"}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              backgroundColor="white"
+              rounded="full"
+              w="2rem"
+              h="2rem"
+              marginLeft="auto"
             >
               <ChevronRightIcon boxSize={5} />
             </StyledButtonNext>
@@ -91,7 +91,7 @@ const ProductShowcaseCarousel = ({
               >
                 <Grid
                   gridTemplateColumns={{ base: "1fr", lg: "1fr 2fr" }}
-                  gap={"3.125rem"}
+                  gap="3.125rem"
                   alignItems="center"
                   justifyContent="center"
                 >
@@ -106,8 +106,8 @@ const ProductShowcaseCarousel = ({
                       {subTitle}
                     </Text>
                     <Button
-                      bg={"blue.900"}
-                      color={"white"}
+                      bg="blue.900"
+                      color="white"
                       _hover={{
                         backgroundColor: "blue.700",
                         boxShadow: "m",
@@ -152,7 +152,7 @@ const ProductShowcaseCarousel = ({
                   backgroundColor={
                     currentSlide !== index ? "gray.400" : "gray.800"
                   }
-                  borderRadius={"full"}
+                  borderRadius="full"
                 />
               ))}
             </Flex>

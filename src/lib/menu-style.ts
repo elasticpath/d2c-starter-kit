@@ -1,6 +1,6 @@
 const menuItemInteractionStyle = {
   bg: "none",
-  color: "brand.primary.blue",
+  color: "brand.primary",
 };
 
 export const menuItemStyleProps = {

@@ -37,7 +37,7 @@ const ProductCarousel = ({
           setSelectedProductImage={setSelectedProductImage}
         />
       </GridItem>
-      <GridItem position={"relative"}>
+      <GridItem position="relative">
         <ProductHighlightCarousel
           images={completeImages}
           selectedProductImage={selectedProductImage}

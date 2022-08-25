@@ -46,7 +46,7 @@ function constructTree(hierarchies: Hierarchy[]): Promise<NavigationNode[]> {
       // Fetch all nodes in each hierarchy (i.e. all 'child nodes' belonging to a hierarchy)
       const allNodes = await getHierarchyNodes(hierarchy.id);
 
-      // Build 2nd level by finding all 'child nodes' belonging to each first level node
+      // Build 2nd level by finding all 'child nodes' belonging to each first level featured-nodes
       const directs = directChildren.slice(0, 4).map((child) => {
         const children: ISchema[] = allNodes
           .filter((node) => node?.relationships?.parent.data.id === child.id)

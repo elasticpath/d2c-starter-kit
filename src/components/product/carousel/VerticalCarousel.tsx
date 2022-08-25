@@ -33,14 +33,14 @@ const VerticalCarousel = ({
       visibleSlides={visibleSlides}
       totalSlides={images.length}
       step={1}
-      orientation={"vertical"}
+      orientation="vertical"
       naturalSlideWidth={80}
       naturalSlideHeight={100}
       infinite={images.length >= visibleSlides}
       dragEnabled={isMobile}
     >
       <StyledButtonBack
-        paddingBottom={"1rem"}
+        paddingBottom="1rem"
         display={controlsDisplay}
         justifyContent="center"
         py=".5rem"

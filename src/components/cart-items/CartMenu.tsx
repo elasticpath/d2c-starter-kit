@@ -52,7 +52,7 @@ export default function CartMenu(): JSX.Element {
               display="flex"
               justifyContent="center"
               borderRadius="full"
-              bgColor="brand.primary.blue"
+              bgColor="brand.primary"
               variant="solid"
               position="absolute"
               size="sm"
@@ -79,7 +79,7 @@ export default function CartMenu(): JSX.Element {
           </PopoverBody>
           <PopoverFooter>
             <Box>
-              <Link href={"/checkout"} passHref>
+              <Link href="/checkout" passHref>
                 <Button
                   disabled={cartData.length === 0}
                   onClick={onClose}
@@ -96,7 +96,7 @@ export default function CartMenu(): JSX.Element {
                   Checkout
                 </Button>
               </Link>
-              <Link href={"/cart"} passHref>
+              <Link href="/cart" passHref>
                 <Button
                   onClick={onClose}
                   _hover={{
@@ -107,7 +107,7 @@ export default function CartMenu(): JSX.Element {
                   colorScheme={useColorModeValue("blue.900", "blue.50")}
                   variant="text"
                 >
-                  View shopping bag
+                  View cart
                 </Button>
               </Link>
             </Box>

@@ -1,9 +1,19 @@
-import { Box, Flex, Heading, Image, Link } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Flex,
+  Heading,
+  Image,
+  Link,
+  Text,
+} from "@chakra-ui/react";
 import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { getProductsByNode } from "../../services/hierarchy";
 import type { ProductResponseWithImage } from "../../lib/product-types";
 import { connectProductsWithMainImages } from "../../lib/product-util";
+import { ArrowForwardIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { globalBaseWidth } from "../../styles/theme";
 
 interface IFeaturedProductsBaseProps {
   title: string;
@@ -59,25 +69,29 @@ const FeaturedProducts = (props: IFeaturedProductsProps): JSX.Element => {
   }, [fetchNodeProducts]);
 
   return (
-    <Box maxW={"80rem"} m="0 auto">
+    <Box
+      display={products.length ? "block" : "none"}
+      maxW={globalBaseWidth}
+      m="0 auto"
+    >
       <Flex justifyContent="space-between">
         <Heading
           as="h2"
-          fontSize={{ base: "1.1rem", md: "1.3rem", lg: "1.5rem" }}
+          fontSize={{ base: "1rem", md: "1.1rem", lg: "1.3rem" }}
           fontWeight="extrabold"
         >
           {title}
         </Heading>
         {linkProps && (
           <Link
-            color={"#0033CC"}
-            fontWeight={"bold"}
+            color="brand.primary"
+            fontWeight="bold"
             fontSize={{ base: "sm", md: "md", lg: "lg" }}
             onClick={() => {
               linkProps.link && router.push(linkProps.link);
             }}
           >
-            {linkProps.text} →
+            {linkProps.text} <ArrowForwardIcon />
           </Link>
         )}
       </Flex>
@@ -89,25 +103,47 @@ const FeaturedProducts = (props: IFeaturedProductsProps): JSX.Element => {
         flexWrap="wrap"
       >
         {products.map((product) => (
-          <Box key={product.id} textAlign="center">
-            <Image
-              width={290}
-              height={290}
-              alt={product.main_image?.file_name || "Empty"}
-              src={product.main_image?.link.href}
-              fallbackSrc="/images/image_placeholder.svg"
-              borderRadius={5}
-              objectFit="cover"
-            />
+          <Link
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            flexDirection="column"
+            p={4}
+            flex={{ base: "100%", md: "50%", lg: "25%" }}
+            key={product.id}
+            href="/category"
+          >
+            <Box width="100%" maxW={64} textAlign="center">
+              {product.main_image?.link.href ? (
+                <Image
+                  width={64}
+                  height={64}
+                  alt={product.main_image?.file_name || "Empty"}
+                  src={product.main_image?.link.href}
+                  borderRadius={5}
+                  objectFit="cover"
+                  boxShadow="sm"
+                />
+              ) : (
+                <Center
+                  width={64}
+                  height={64}
+                  bg="gray.200"
+                  color="white"
+                  borderRadius={5}
+                  objectFit="cover"
+                  boxShadow="sm"
+                >
+                  <ViewOffIcon w="10" h="10" />
+                </Center>
+              )}
 
-            <Box fontSize={14} mt={8} color="gray.500">
-              {product.attributes.sku}
+              <Text p="2" fontWeight="semibold">
+                {product.attributes.name}
+              </Text>
+              <Text>{product.meta.display_price?.without_tax.formatted}</Text>
             </Box>
-            <Box p="2" fontWeight="semibold">
-              {product.attributes.name}
-            </Box>
-            <Box>{product.meta.display_price?.without_tax.formatted}</Box>
-          </Box>
+          </Link>
         ))}
       </Flex>
     </Box>

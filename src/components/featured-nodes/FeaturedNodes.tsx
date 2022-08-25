@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Flex,
   Text,
@@ -19,6 +19,7 @@ import {
 } from "../../services/hierarchy";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
+import { globalBaseWidth } from "../../styles/theme";
 
 interface INodeDisplayBase {
   title: string;
@@ -89,7 +90,7 @@ const skeletonItemStyles: SkeletonProps[] = [
   },
 ];
 
-export default function NodeDisplay(props: INodeDisplay): JSX.Element {
+export default function FeaturedNodes(props: INodeDisplay): JSX.Element {
   const router = useRouter();
   const { title, linkProps, type } = props;
   const [nodes, setNodes] = useState<Node[]>(
@@ -118,29 +119,29 @@ export default function NodeDisplay(props: INodeDisplay): JSX.Element {
   }, [fetchTopThreeNodes]);
 
   return (
-    <Stack bg={"#FFAFB"} display={"flex"} maxW={"80rem"} mx="auto">
+    <Stack bg="#FFAFB" display="flex" maxW={globalBaseWidth} mx="auto">
       <Flex
-        justifyContent={"space-between"}
-        alignItems={"baseline"}
+        justifyContent="space-between"
+        alignItems="baseline"
         direction={{ base: "column", sm: "row" }}
       >
         <Heading
-          as={"h2"}
-          fontSize={{ base: "1.1rem", md: "1.3rem", lg: "1.5rem" }}
-          fontWeight={"extrabold"}
+          as="h2"
+          fontSize={{ base: "1rem", md: "1.1rem", lg: "1.3rem" }}
+          fontWeight="extrabold"
         >
           {title}
         </Heading>
         {linkProps && (
           <Link
-            color={"#0033CC"}
-            fontWeight={"bold"}
+            color="brand.primary"
+            fontWeight="bold"
             fontSize={{ base: "sm", md: "md", lg: "lg" }}
             onClick={() => {
               linkProps.link && router.push(linkProps.link);
             }}
           >
-            {linkProps.text} <ArrowForwardIcon color={"inherit"} />
+            {linkProps.text} <ArrowForwardIcon color="inherit" />
           </Link>
         )}
       </Flex>
@@ -156,17 +157,17 @@ export default function NodeDisplay(props: INodeDisplay): JSX.Element {
           base: "repeat(1,minmax(0,1fr)",
           md: "repeat(2, minmax(0,1fr))",
         }}
-        pb={"1em"}
-        px={"1em"}
+        pb="1em"
+        px="1em"
       >
         {nodes.length > 0 ? (
           nodes.map((node, i) => {
             return (
               <GridItem
-                position={"relative"}
+                position="relative"
                 key={`node-${node.id}`}
-                rounded={"lg"}
-                overflow={"hidden"}
+                rounded="lg"
+                overflow="hidden"
                 {...gridItemStyles[i]}
                 {...(nodes.length === 1 && {
                   gridColumn: "1 / -1",
@@ -178,9 +179,9 @@ export default function NodeDisplay(props: INodeDisplay): JSX.Element {
                 })}
               >
                 <Box
-                  position={"absolute"}
-                  w={"100%"}
-                  h={"100%"}
+                  position="absolute"
+                  w="100%"
+                  h="100%"
                   top="0"
                   left="0"
                   right="0"
@@ -188,22 +189,22 @@ export default function NodeDisplay(props: INodeDisplay): JSX.Element {
                   bgGradient="linear(to-r, gray.300, blue.500)"
                   _hover={{ opacity: "75%", cursor: "pointer" }}
                   // placeholder url for categories page
-                  onClick={() => router.push(`/category/${node.id}`)}
+                  onClick={() => router.push(`/search/${node.attributes.slug}`)}
                 />
                 <Flex
-                  fontWeight={"bold"}
-                  bottom={"1rem"}
-                  left={"2rem"}
-                  zIndex={"100"}
+                  fontWeight="bold"
+                  bottom="1rem"
+                  left="2rem"
+                  zIndex="100"
                   position="absolute"
-                  flexDirection={"column"}
-                  justifyContent={"space-between"}
+                  flexDirection="column"
+                  justifyContent="space-between"
                 >
                   <Heading fontSize={{ base: "md", md: "1.3rem", lg: "lg" }}>
                     {node.attributes.name}
                   </Heading>
                   <Text
-                    fontWeight={"initial"}
+                    fontWeight="initial"
                     fontSize={{ base: "sm", md: "0.9rem", lg: "1.1rem" }}
                   >
                     {node.attributes.description}

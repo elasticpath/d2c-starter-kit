@@ -1,7 +1,6 @@
 import {
   Text,
   Button,
-  useColorModeValue,
   Image,
   Divider,
   Flex,
@@ -82,7 +81,7 @@ export default function ModalCartItems(): JSX.Element {
           height="100%"
         >
           <Text textAlign="center">You have no items in your cart!</Text>
-          <Link href={"/"} passHref>
+          <Link href="/" passHref>
             <Button
               _hover={{
                 color: "blue.700",

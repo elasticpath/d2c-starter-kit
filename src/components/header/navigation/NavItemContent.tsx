@@ -1,4 +1,3 @@
-import { ArrowForwardIcon } from "@chakra-ui/icons";
 import {
   Flex,
   Link,
@@ -7,16 +6,18 @@ import {
   SimpleGrid,
   Text,
 } from "@chakra-ui/react";
-import { NavigationNode } from "../../../lib/build-site-navigation";
 import NextLink from "next/link";
+import { NavigationNode } from "../../../lib/build-site-navigation";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 interface INavItemContent {
   item: NavigationNode;
+  triggered?: () => void;
 }
 
 const menuItemInteractionStyle = {
   bg: "none",
-  color: "brand.primary.blue",
+  color: "brand.primary",
 };
 
 const menuItemStyleProps = {
@@ -27,13 +28,18 @@ const menuItemStyleProps = {
   margin: "1",
 };
 
-const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
+const NavItemContent = ({ item, triggered }: INavItemContent): JSX.Element => {
   const buildStack = (item: NavigationNode) => {
     return (
       <MenuGroup key={item.id} title={item.name}>
         {item.children.map((child: NavigationNode) => (
           <NextLink key={child.id} href={`/search${child.href}`} passHref>
-            <MenuItem as={Link} {...menuItemStyleProps} fontSize="sm">
+            <MenuItem
+              as={Link}
+              {...menuItemStyleProps}
+              fontSize="sm"
+              onClick={triggered}
+            >
               {child.name}
             </MenuItem>
           </NextLink>
@@ -44,6 +50,7 @@ const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
             fontSize="sm"
             fontWeight="semibold"
             {...menuItemStyleProps}
+            onClick={triggered}
           >
             Browse All
           </MenuItem>
@@ -66,12 +73,18 @@ const NavItemContent = ({ item }: INavItemContent): JSX.Element => {
         })}
       </SimpleGrid>
       <NextLink href={`/search${item.href}`} passHref>
-        <Link m={4} marginBottom={0} fontSize="sm" fontWeight="semibold">
+        <Link
+          m={4}
+          marginBottom={0}
+          fontSize="sm"
+          fontWeight="semibold"
+          onClick={triggered}
+        >
           <Text
             display="flex"
             flexDirection="row"
             alignItems="center"
-            _hover={{ color: "brand.primary.blue" }}
+            _hover={{ color: "brand.primary" }}
           >
             Browse All {item.name}
             <ArrowForwardIcon marginLeft={1} />

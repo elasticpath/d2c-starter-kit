@@ -81,7 +81,7 @@ export const Checkout: NextPage<{}> = () => {
     <Box px={24} py={8}>
       <Heading>Checkout</Heading>
       <Grid templateColumns="1.7fr 1fr" columnGap="60px" mt="16px">
-        <Box border={"1px solid white"}>
+        <Box border="1px solid white">
           <Box
             p={4}
             bg={useColorModeValue("blue.900", "blue.50")}
