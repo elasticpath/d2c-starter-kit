@@ -1,107 +1,65 @@
-import { useEffect, useState, useContext, createContext } from "react";
-import { CartItem, CartItemsResponse } from "@moltin/sdk";
+import {
+  useEffect,
+  useState,
+  useContext,
+  createContext,
+  useCallback,
+} from "react";
+import { CartItem } from "@moltin/sdk";
 import { getCartItems } from "../services/cart";
 import { ProviderProps } from "./types";
 
 interface CartState {
-  cartData: CartItem[];
-  cartRes: CartItemsResponse | undefined;
+  cartItems: CartItem[];
   promotionItems: CartItem[];
-  count: number;
-  cartQuantity: number;
-  setCartQuantity: (qt: number) => void;
-  showCartPopup: boolean;
-  handleShowCartPopup: () => void;
   totalPrice: string;
   updateCartItems: () => void;
-  addedItem: string;
-  setAddedItem: (added: string) => void;
   mcart: string;
 }
 
 const CartItemsContext = createContext<CartState | undefined>(undefined);
 
 function CartReducer(): CartState {
-  const [cartData, setCartData] = useState<CartItem[]>([]);
-  const [promotionItems, setPromotionItems] = useState<CartItem[]>([]);
-  const [count, setCount] = useState(0);
-  const [cartQuantity, setCartQuantity] = useState(0);
-  const [showCartPopup, setShowCartPopup] = useState(false);
-  const [totalPrice, setTotalPrice] = useState("");
-  const [cartRes, setCartRes] = useState<CartItemsResponse>();
   const [mcart, setMcart] = useState("");
-
-  const [addedItem, setAddedItem] = useState("");
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [promotionItems, setPromotionItems] = useState<CartItem[]>([]);
+  const [totalPrice, setTotalPrice] = useState("");
 
   useEffect(() => {
     const cart = localStorage.getItem("mcart") || "";
-    setMcart(cart);
-  }, [setMcart]);
+    cart && setMcart(cart);
+  }, []);
 
-  useEffect(() => {
+  const updateCartItems = useCallback(() => {
     if (mcart) {
       getCartItems(mcart).then((res) => {
-        setCartRes(res);
-        setCartData(
-          res.data.filter(
-            ({ type }) => type === "cart_item" || type === "custom_item"
-          )
-        );
-        setPromotionItems(
-          res.data.filter(({ type }) => type === "promotion_item")
-        );
-        setCount(res.data.reduce((sum, { quantity }) => sum + quantity, 0));
-        setTotalPrice(res.meta.display_price.without_tax.formatted);
+        const cartItems = res.data.length
+          ? res.data.filter(
+              ({ type }) => type === "cart_item" || type === "custom_item"
+            )
+          : [];
+        setCartItems(cartItems);
+        const promotionItems = res.data.length
+          ? res.data.filter(({ type }) => type === "promotion_item")
+          : [];
+        setPromotionItems(promotionItems);
+        const totalPrice = res.meta
+          ? res.meta.display_price.without_tax.formatted
+          : "";
+        setTotalPrice(totalPrice);
       });
     }
   }, [mcart]);
 
-  const updateCartItems = () => {
-    const mcart = localStorage.getItem("mcart") || "";
-    getCartItems(mcart).then((res) => {
-      const cartData = res.data.length
-        ? res.data.filter(
-            ({ type }) => type === "cart_item" || type === "custom_item"
-          )
-        : [];
-      setCartData(cartData);
-      const promotionItems = res.data.length
-        ? res.data.filter(({ type }) => type === "promotion_item")
-        : [];
-      setPromotionItems(promotionItems);
-      const itemQuantity = res.data.length
-        ? res.data.reduce((sum, { quantity }) => sum + quantity, 0)
-        : 0;
-      setCount(itemQuantity);
-      const totalPrice = res.meta
-        ? res.meta.display_price.without_tax.formatted
-        : "";
-      setTotalPrice(totalPrice);
-    });
-  };
-
-  const handleShowCartPopup = () => {
-    if (!showCartPopup) {
-      setShowCartPopup(true);
-      setTimeout(() => {
-        setShowCartPopup(false);
-      }, 3200);
-    }
-  };
+  useEffect(() => {
+    updateCartItems();
+  }, [updateCartItems]);
 
   return {
-    cartData,
-    cartRes,
+    cartItems,
     promotionItems,
-    count,
-    cartQuantity,
-    setCartQuantity,
-    showCartPopup,
-    handleShowCartPopup,
     totalPrice,
     updateCartItems,
-    addedItem,
-    setAddedItem,
     mcart,
   };
 }

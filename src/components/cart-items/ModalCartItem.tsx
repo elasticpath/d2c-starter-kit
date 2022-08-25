@@ -14,7 +14,7 @@ import { CloseIcon } from "@chakra-ui/icons";
 import React from "react";
 
 export default function ModalCartItems(): JSX.Element {
-  const { cartData, mcart, updateCartItems } = useCartItems();
+  const { cartItems, mcart, updateCartItems } = useCartItems();
 
   const handleRemove = (id: string) => {
     removeCartItem(mcart, id)
@@ -28,9 +28,9 @@ export default function ModalCartItems(): JSX.Element {
 
   return (
     <>
-      {cartData && cartData.length > 0 ? (
+      {cartItems && cartItems.length > 0 ? (
         <>
-          {cartData.map((item) => (
+          {cartItems.map((item) => (
             <div key={item.id}>
               <Flex my="4" gap={1} position="relative">
                 <Box alignSelf="center">

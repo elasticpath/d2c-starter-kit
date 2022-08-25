@@ -25,16 +25,16 @@ import { withNavServerSideProps } from "../lib/nav-wrapper-ssr";
 import { CloseIcon } from "@chakra-ui/icons";
 
 export const Cart: NextPage<{}> = () => {
-  const { cartData, updateCartItems, totalPrice, promotionItems, mcart } =
+  const { cartItems, updateCartItems, totalPrice, promotionItems, mcart } =
     useCartItems();
   const [subTotal, setSubTotal] = useState(0.0);
 
   useEffect(() => {
-    const subtotal = cartData.reduce((pre, item) => {
+    const subtotal = cartItems.reduce((pre, item) => {
       return pre + item.unit_price.amount * item.quantity;
     }, 0);
     setSubTotal(subtotal);
-  }, [cartData, totalPrice, promotionItems]);
+  }, [cartItems, totalPrice, promotionItems]);
 
   const handleRemovePromotion = () => {
     removeCartItem(mcart, promotionItems[0].id)
@@ -63,13 +63,13 @@ export const Cart: NextPage<{}> = () => {
       <Heading p={6} pl={0}>
         Your Shopping Cart
       </Heading>
-      {cartData && cartData.length > 0 ? (
+      {cartItems && cartItems.length > 0 ? (
         <Grid
           templateColumns={{ base: "1fr", lg: "2fr 1.5fr" }}
           columnGap="50px"
         >
           <Box>
-            {cartData.map((item) => (
+            {cartItems.map((item) => (
               <Box
                 key={item.id}
                 display="flex"

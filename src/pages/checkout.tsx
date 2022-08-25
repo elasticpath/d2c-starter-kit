@@ -40,7 +40,7 @@ export const Checkout: NextPage<{}> = () => {
     isEditShippingForm,
     isEditBillingForm,
   } = useCheckoutForm();
-  const { promotionItems, updateCartItems, totalPrice, cartData } =
+  const { promotionItems, updateCartItems, totalPrice, cartItems } =
     useCartItems();
 
   const [formStep, setFormStep] = useState(0);
@@ -50,11 +50,11 @@ export const Checkout: NextPage<{}> = () => {
   const [subTotal, SetSubTotal] = useState(0.0);
 
   useEffect(() => {
-    const subtotal = cartData.reduce((pre, item) => {
+    const subtotal = cartItems.reduce((pre, item) => {
       return pre + item.unit_price.amount * item.quantity;
     }, 0);
     SetSubTotal(subtotal);
-  }, [cartData, totalPrice, promotionItems]);
+  }, [cartItems, totalPrice, promotionItems]);
 
   const onPayOrder = async () => {
     try {
@@ -195,7 +195,7 @@ export const Checkout: NextPage<{}> = () => {
               <Link href="/cart">Edit Cart</Link>
             </Box>
           </Grid>
-          {cartData.map((item) => (
+          {cartItems.map((item) => (
             <Box key={item.id}>
               <Grid my="4" templateColumns="1fr 3fr" gap={1}>
                 <GridItem alignSelf="center">

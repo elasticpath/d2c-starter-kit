@@ -19,8 +19,8 @@ import { Icon } from "@chakra-ui/icons";
 
 export default function CartMenu(): JSX.Element {
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const { cartData } = useCartItems();
-  const numCartItems = cartData.reduce((pre, current) => {
+  const { cartItems } = useCartItems();
+  const numCartItems = cartItems.reduce((pre, current) => {
     return pre + current.quantity;
   }, 0);
 
@@ -72,7 +72,7 @@ export default function CartMenu(): JSX.Element {
       <Portal>
         <PopoverContent borderRadius={8} mt={4} boxShadow="2xl" p={4}>
           <PopoverBody
-            height={cartData && cartData.length ? "350px" : "250px"}
+            height={cartItems && cartItems.length ? "350px" : "250px"}
             overflow="scroll"
           >
             <ModalCartItems />
@@ -81,7 +81,7 @@ export default function CartMenu(): JSX.Element {
             <Box>
               <Link href="/checkout" passHref>
                 <Button
-                  disabled={cartData.length === 0}
+                  disabled={cartItems.length === 0}
                   onClick={onClose}
                   bg={useColorModeValue("blue.900", "blue.50")}
                   color={useColorModeValue("white", "gray.900")}

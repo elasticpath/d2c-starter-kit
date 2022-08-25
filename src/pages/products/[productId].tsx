@@ -23,7 +23,7 @@ import {
 } from "../../lib/retrieve-product-props";
 
 export const Product: NextPage<IProduct> = (props: IProduct) => {
-  const { updateCartItems, setCartQuantity } = useCartItems();
+  const { updateCartItems } = useCartItems();
   const [isChangingSku, setIsChangingSku] = useState(false);
 
   const { product } = props;
@@ -31,8 +31,7 @@ export const Product: NextPage<IProduct> = (props: IProduct) => {
   const handleAddToCart = useCallback(async () => {
     await addToCart(product.id, 1);
     updateCartItems();
-    setCartQuantity(1);
-  }, [product, updateCartItems, setCartQuantity]);
+  }, [product, updateCartItems]);
 
   return (
     <Container maxW="7xl" key={"page_" + product.id}>
