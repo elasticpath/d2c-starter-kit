@@ -8,29 +8,20 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { useCartItems } from "../../context/cart";
-import { removeCartItem } from "../../services/cart";
 import { CloseIcon } from "@chakra-ui/icons";
 import React from "react";
+import { useCart } from "../../context/use-cart-hook";
 
 export default function ModalCartItems(): JSX.Element {
-  const { cartData, mcart, updateCartItems } = useCartItems();
+  const { state, removeCartItem } = useCart();
 
-  const handleRemove = (id: string) => {
-    removeCartItem(mcart, id)
-      .then(() => {
-        updateCartItems();
-      })
-      .catch((error) => {
-        console.error(error.errors);
-      });
-  };
+  const handleRemove = async (id: string) => removeCartItem(id);
 
   return (
     <>
-      {cartData && cartData.length > 0 ? (
+      {state.kind === "present-cart-state" ? (
         <>
-          {cartData.map((item) => (
+          {[...state.items.regular, ...state.items.custom].map((item) => (
             <div key={item.id}>
               <Flex my="4" gap={1} position="relative">
                 <Box alignSelf="center">
@@ -38,7 +29,7 @@ export default function ModalCartItems(): JSX.Element {
                     <Box overflow="hidden" borderRadius={6}>
                       <Image
                         src={item.image.href}
-                        alt="Vercel Logo"
+                        alt={item.name}
                         width="64px"
                         height="64px"
                         objectFit="cover"

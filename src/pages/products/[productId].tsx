@@ -3,8 +3,6 @@ import type { GetStaticPaths, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
 import ChildProductDetail from "../../components/product/ChildProduct";
 import BaseProductDetail from "../../components/product/BaseProduct";
-import { useCartItems } from "../../context/cart";
-import { addToCart } from "../../services/cart";
 import {
   isChildProductResource,
   isSimpleProductResource,
@@ -15,24 +13,23 @@ import { ProductContext } from "../../lib/product-util";
 import { useCallback, useState } from "react";
 import type { IProduct } from "../../lib/product-types";
 
-import { withNavStaticProps } from "../../lib/nav-wrapper-ssg";
+import { withStoreStaticProps } from "../../lib/store-wrapper-ssg";
 import {
   retrieveBaseProps,
   retrieveChildProps,
   retrieveSimpleProps,
 } from "../../lib/retrieve-product-props";
+import { useCart } from "../../context/use-cart-hook";
 
 export const Product: NextPage<IProduct> = (props: IProduct) => {
-  const { updateCartItems, setCartQuantity } = useCartItems();
+  const { addProductToCart } = useCart();
   const [isChangingSku, setIsChangingSku] = useState(false);
 
   const { product } = props;
 
   const handleAddToCart = useCallback(async () => {
-    await addToCart(product.id, 1);
-    updateCartItems();
-    setCartQuantity(1);
-  }, [product, updateCartItems, setCartQuantity]);
+    return addProductToCart(product.id, 1);
+  }, [product, addProductToCart]);
 
   return (
     <Container maxW="7xl" key={"page_" + product.id}>
@@ -81,35 +78,36 @@ interface ProductRouteParams extends ParsedUrlQuery {
   productId: string;
 }
 
-export const getStaticProps = withNavStaticProps<IProduct, ProductRouteParams>(
-  async ({ params }) => {
-    if (!params) {
-      return {
-        notFound: true,
-      };
-    }
-
-    const product = await getProductById(params.productId);
-
-    if (!product) {
-      return {
-        notFound: true,
-      };
-    }
-
-    const productData = product.data;
-
-    const retrievedResults = isSimpleProductResource(productData)
-      ? retrieveSimpleProps(product)
-      : isChildProductResource(productData)
-      ? await retrieveChildProps(product)
-      : await retrieveBaseProps(product);
-
+export const getStaticProps = withStoreStaticProps<
+  IProduct,
+  ProductRouteParams
+>(async ({ params }) => {
+  if (!params) {
     return {
-      ...retrievedResults,
+      notFound: true,
     };
   }
-);
+
+  const product = await getProductById(params.productId);
+
+  if (!product) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const productData = product.data;
+
+  const retrievedResults = isSimpleProductResource(productData)
+    ? retrieveSimpleProps(product)
+    : isChildProductResource(productData)
+    ? await retrieveChildProps(product)
+    : await retrieveBaseProps(product);
+
+  return {
+    ...retrievedResults,
+  };
+});
 
 export const getStaticPaths: GetStaticPaths<ProductRouteParams> = async () => {
   const productResponses = await getAllProducts();

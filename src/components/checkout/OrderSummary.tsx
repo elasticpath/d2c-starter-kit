@@ -1,4 +1,3 @@
-import React, { useMemo } from "react";
 import {
   Box,
   Button,
@@ -15,28 +14,25 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import { CartItem } from "@moltin/sdk";
+import {
+  CustomCartItem,
+  PromotionCartItem,
+  RegularCartItem,
+} from "../../context/types/cart-reducer-types";
 
 interface IOrderSummary {
-  items: CartItem[];
-  promotionItems: CartItem[];
+  items: (RegularCartItem | CustomCartItem)[];
+  promotionItems: PromotionCartItem[];
   totalPrice: string;
+  subtotal: string;
 }
 
 export function OrderSummary({
   items,
   promotionItems,
   totalPrice,
+  subtotal,
 }: IOrderSummary): JSX.Element {
-  const subTotal = useMemo(
-    () =>
-      // TODO not taking into account promotions items
-      items.reduce((pre, item) => {
-        return pre + item.unit_price.amount * item.quantity;
-      }, 0),
-    [items]
-  );
-
   return (
     <Box backgroundColor="gray.50" p={8} borderRadius={6}>
       <Text fontSize="lg" fontWeight={500}>
@@ -75,7 +71,7 @@ export function OrderSummary({
             <Td color="gray.600" pl={0}>
               Subtotal
             </Td>
-            <Td isNumeric>{subTotal}</Td>
+            <Td isNumeric>{subtotal}</Td>
           </Tr>
           <Tr fontSize={14}>
             <Td color="gray.600" pl={0}>

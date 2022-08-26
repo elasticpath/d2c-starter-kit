@@ -1,28 +1,34 @@
 import {
+  Box,
   Button,
   Popover,
-  Box,
   PopoverBody,
   PopoverContent,
   PopoverFooter,
   PopoverTrigger,
   Portal,
-  Tag,
-  TagLabel,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { useCartItems } from "../../context/cart";
 import ModalCartItems from "./ModalCartItem";
 import { Icon } from "@chakra-ui/icons";
+import { useMemo } from "react";
+import { useCart } from "../../context/use-cart-hook";
+import CartUpdatingSpinner from "./CartUpdatingSpinner";
+import CartItemNumTag from "./CartItemNumTag";
+import { CartState } from "../../context/types/cart-reducer-types";
 
 export default function CartMenu(): JSX.Element {
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const { cartData, mcart } = useCartItems();
-  const numCartItems = cartData.reduce((pre, current) => {
-    return pre + current.quantity;
-  }, 0);
+  const { state, emptyCart } = useCart();
+
+  const hasCartItems: boolean = useMemo(
+    (): boolean =>
+      state.kind === "present-cart-state" &&
+      (state.items.regular.length > 0 || state.items.custom.length > 0),
+    [state]
+  );
 
   return (
     <Popover
@@ -47,73 +53,78 @@ export default function CartMenu(): JSX.Element {
               d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
             />
           </Icon>
-          {numCartItems > 0 && (
-            <Tag
-              display="flex"
-              justifyContent="center"
-              borderRadius="full"
-              bgColor="brand.primary"
-              variant="solid"
-              position="absolute"
-              size="sm"
-              top="0px"
-              right="2px"
-              padding="0px"
-              width="20px"
-              height="20px"
-            >
-              <TagLabel fontSize="10px" fontWeight="500">
-                {numCartItems}
-              </TagLabel>
-            </Tag>
+          {state.kind === "updating-cart-state" && <CartUpdatingSpinner />}
+          {state.kind === "present-cart-state" && (
+            <CartItemNumTag state={state} />
           )}
         </Button>
       </PopoverTrigger>
       <Portal>
         <PopoverContent borderRadius={8} mt={4} boxShadow="2xl" p={4}>
           <PopoverBody
-            height={cartData && cartData.length ? "350px" : "250px"}
+            height={hasCartItems ? "350px" : "250px"}
             overflow="scroll"
           >
+            <Button onClick={() => emptyCart()}>Empty Cart</Button>
             <ModalCartItems />
           </PopoverBody>
           <PopoverFooter>
-            <Box>
-              <Link href="/checkout" passHref>
-                <Button
-                  disabled={cartData.length === 0}
-                  onClick={onClose}
-                  bg={useColorModeValue("blue.900", "blue.50")}
-                  color={useColorModeValue("white", "gray.900")}
-                  w="100%"
-                  display="block"
-                  _hover={{
-                    backgroundColor: "blue.700",
-                    boxShadow: "m",
-                  }}
-                  variant="solid"
-                >
-                  Checkout
-                </Button>
-              </Link>
-              <Link href="/cart" passHref>
-                <Button
-                  onClick={onClose}
-                  _hover={{
-                    color: "blue.700",
-                  }}
-                  m="10px auto auto"
-                  display="block"
-                  colorScheme={useColorModeValue("blue.900", "blue.50")}
-                  variant="text"
-                >
-                  View cart
-                </Button>
-              </Link>
-            </Box>
+            <CartPopoverFooter
+              state={state}
+              onClose={onClose}
+              hasCartItems={hasCartItems}
+            />
           </PopoverFooter>
         </PopoverContent>
       </Portal>
     </Popover>
+  );
+}
+
+function CartPopoverFooter({
+  state,
+  onClose,
+  hasCartItems,
+}: {
+  state: CartState;
+  onClose: () => void;
+  hasCartItems: boolean;
+}): JSX.Element {
+  const checkoutHref =
+    state.kind === "present-cart-state" ? `/checkout/${state.id}` : "#";
+  return (
+    <Box>
+      <Link href={checkoutHref} passHref>
+        <Button
+          disabled={!hasCartItems}
+          onClick={onClose}
+          bg={useColorModeValue("blue.900", "blue.50")}
+          color={useColorModeValue("white", "gray.900")}
+          w="100%"
+          display="block"
+          _hover={{
+            backgroundColor: "blue.700",
+            boxShadow: "m",
+          }}
+          variant="solid"
+        >
+          Checkout
+        </Button>
+      </Link>
+      <Link href="/cart" passHref>
+        <Button
+          onClick={onClose}
+          _hover={{
+            color: "blue.700",
+          }}
+          m="10px auto auto"
+          display="block"
+          colorScheme={useColorModeValue("blue.900", "blue.50")}
+          variant="text"
+        >
+          View cart
+        </Button>
+      </Link>
+    </Box>
   );
 }

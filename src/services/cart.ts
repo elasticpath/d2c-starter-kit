@@ -2,36 +2,32 @@ import type { CartItemsResponse } from "@moltin/sdk";
 import { Cart, CartIncluded, ResourceIncluded } from "@moltin/sdk";
 import { EPCCAPI } from "./helper";
 
-export async function getCartItems(
-  reference: string
-): Promise<CartItemsResponse> {
-  return EPCCAPI.Cart(reference).Items();
-}
-
 export async function removeCartItem(
-  reference: string,
+  id: string,
   itemId: string
-): Promise<void> {
-  await EPCCAPI.Cart(reference).RemoveItem(itemId);
+): Promise<CartItemsResponse> {
+  return EPCCAPI.Cart(id).RemoveItem(itemId);
 }
 
-export async function removeAllCartItems(reference: string): Promise<void> {
-  await EPCCAPI.Cart(reference).RemoveAllItems();
+export async function removeAllCartItems(
+  id: string
+): Promise<CartItemsResponse> {
+  return EPCCAPI.Cart(id).RemoveAllItems();
 }
 
 export async function updateCartItem(
-  reference: string,
+  id: string,
   productId: string,
   quantity: number
-): Promise<void> {
-  await EPCCAPI.Cart(reference).UpdateItem(productId, quantity);
+): Promise<CartItemsResponse> {
+  return EPCCAPI.Cart(id).UpdateItem(productId, quantity);
 }
 
 export async function addPromotion(
-  reference: string,
+  id: string,
   promoCode: string
-): Promise<void> {
-  await EPCCAPI.Cart(reference).AddPromotion(promoCode);
+): Promise<CartItemsResponse> {
+  return EPCCAPI.Cart(id).AddPromotion(promoCode);
 }
 
 const createCartIdentifier = () => {
@@ -61,6 +57,14 @@ export async function addToCart(
 ): Promise<any> {
   const cartId: string = getCartId();
 
+  return EPCCAPI.Cart(cartId).AddProduct(productId, quantity);
+}
+
+export async function addProductToCart(
+  cartId: string,
+  productId: string,
+  quantity: number
+): Promise<CartItemsResponse> {
   return EPCCAPI.Cart(cartId).AddProduct(productId, quantity);
 }
 

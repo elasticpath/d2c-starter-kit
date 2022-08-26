@@ -1,11 +1,17 @@
 import React from "react";
 import { CartProvider } from "./cart";
 import { CheckoutProvider } from "./checkout";
-import { ProviderProps } from "./types";
+import { StoreProviderProps } from "./types/store-context";
 
-const StoreProvider = ({ children }: ProviderProps) => {
+const StoreProvider = ({ children, storeContext }: StoreProviderProps) => {
   return (
-    <CartProvider>
+    <CartProvider
+      cart={
+        storeContext?.type === "store-context-ssr"
+          ? storeContext.cart
+          : undefined
+      }
+    >
       <CheckoutProvider>{children}</CheckoutProvider>
     </CartProvider>
   );

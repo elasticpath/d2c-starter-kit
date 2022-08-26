@@ -1,6 +1,4 @@
-import { useCartItems } from "../../context/cart";
 import { useFormik } from "formik";
-import { addPromotion } from "../../services/cart";
 import {
   FormControl,
   FormLabel,
@@ -11,33 +9,29 @@ import {
   Flex,
   useColorModeValue,
 } from "@chakra-ui/react";
+import { useCart } from "../../context/use-cart-hook";
 
 interface FormValues {
   promoCode: string;
 }
 
 export const Promotion = (): JSX.Element => {
-  const { updateCartItems, promotionItems, mcart } = useCartItems();
+  const { addPromotionToCart, state } = useCart();
 
   const initialValues: FormValues = {
     promoCode: "",
   };
 
-  const { handleSubmit, handleChange, values, errors, setErrors } = useFormik({
+  const { handleSubmit, handleChange, values, errors } = useFormik({
     initialValues,
-    onSubmit: (values) => {
-      addPromotion(mcart, values.promoCode)
-        .then(() => {
-          updateCartItems();
-          setErrors({ promoCode: "" });
-          values.promoCode = "";
-        })
-        .catch((error) => {
-          console.error(error);
-          setErrors(error.errors[0].detail);
-        });
+    onSubmit: async (values) => {
+      await addPromotionToCart(values.promoCode);
+      // TODO handle invalid promo code setErrors(error.errors[0].detail);
     },
   });
+
+  const shouldDisableInput =
+    state.kind !== "present-cart-state" || state.items.promotion.length > 0;
 
   return (
     <Box>
@@ -50,7 +44,7 @@ export const Promotion = (): JSX.Element => {
                 id="promoCode"
                 onChange={handleChange}
                 value={values.promoCode}
-                disabled={promotionItems && promotionItems.length > 0}
+                disabled={shouldDisableInput}
               />
               <Button
                 width="120px"
