@@ -27,6 +27,7 @@
     "@types/react-stripe-elements": "^6.0.6",
     "algoliasearch": "^4.14.2",
     "clsx": "^1.2.1",
+    "cookies-next": "^2.1.1",
     "dequal": "^2.0.3",
     "focus-visible": "^5.2.0",
     "formik": "^2.2.9",
