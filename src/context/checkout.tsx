@@ -1,5 +1,6 @@
 import { useState, useContext, createContext } from "react";
-import { Address, ProviderProps } from "./types";
+import { Address } from "./types";
+import { ProviderProps } from "./types/store-context";
 
 interface CheckoutFormState {
   shippingAddress: Address;
