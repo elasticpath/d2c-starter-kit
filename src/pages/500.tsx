@@ -2,7 +2,7 @@ import { Flex, Heading, Link } from "@chakra-ui/react";
 
 import NextLink from "next/link";
 import { menuItemStyleProps } from "../lib/menu-style";
-import { withNavStaticProps } from "../lib/nav-wrapper-ssg";
+import { withStoreStaticProps } from "../lib/store-wrapper-ssg";
 
 export default function Custom500() {
   return (
@@ -26,4 +26,4 @@ export default function Custom500() {
   );
 }
 
-export const getStaticProps = withNavStaticProps();
+export const getStaticProps = withStoreStaticProps();

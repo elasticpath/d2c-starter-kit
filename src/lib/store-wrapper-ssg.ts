@@ -1,19 +1,24 @@
 import { GetStaticPropsContext, GetStaticPropsResult } from "next";
 import type { ParsedUrlQuery } from "querystring";
 import { buildSiteNavigation, NavigationNode } from "./build-site-navigation";
+import { StoreContextSSG } from "./types/store-context";
 
 type IncomingPageStaticProp<P, Q extends ParsedUrlQuery = ParsedUrlQuery> = (
   ctx: GetStaticPropsContext<Q>,
   nav: NavigationNode[]
 ) => Promise<GetStaticPropsResult<P>>;
 
-export function withNavStaticProps<
+interface ExpandedContext {
+  store: StoreContextSSG;
+}
+
+export function withStoreStaticProps<
   T extends object = {},
   P extends ParsedUrlQuery = ParsedUrlQuery
 >(incomingGSP?: IncomingPageStaticProp<T, P>) {
   return async (
     ctx: GetStaticPropsContext<P>
-  ): Promise<GetStaticPropsResult<T & { nav: NavigationNode[] }>> => {
+  ): Promise<GetStaticPropsResult<T & ExpandedContext>> => {
     // Fetching nodes and hierarchies for statically generated nav
     const nav = await buildSiteNavigation();
 
@@ -25,7 +30,10 @@ export function withNavStaticProps<
       return {
         props: {
           ...incomingGSPResult.props,
-          nav,
+          store: {
+            type: "store-context-ssg",
+            nav,
+          },
         },
       };
     }

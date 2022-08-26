@@ -13,7 +13,7 @@ import { fetchFeaturedProducts } from "../components/featured-products/fetchFeat
 import FeaturedNodes from "../components/featured-nodes/FeaturedNodes";
 import { fetchFeaturedNodes } from "../components/featured-nodes/fetchFeaturedNodes";
 
-import { withNavStaticProps } from "../lib/nav-wrapper-ssg";
+import { withStoreStaticProps } from "../lib/store-wrapper-ssg";
 
 const nodeId = process.env.NEXT_PUBLIC_DEMO_NODE_ID || "";
 const promotionId = process.env.NEXT_PUBLIC_DEMO_PROMO_ID || "";
@@ -69,7 +69,7 @@ const Home: NextPage<IHome> = ({
   );
 };
 
-export const getStaticProps = withNavStaticProps<IHome>(async () => {
+export const getStaticProps = withStoreStaticProps<IHome>(async () => {
   // Fetching static data for the home page
   const promotion = promotionId
     ? await fetchFeaturedPromotion(promotionId)

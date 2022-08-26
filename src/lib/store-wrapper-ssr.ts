@@ -1,6 +1,9 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { buildSiteNavigation, NavigationNode } from "./build-site-navigation";
+import { getCookie } from "cookies-next";
+import { getCart } from "../services/cart";
+import { StoreContextSSR } from "./types/store-context";
 
 type IncomingPageServerSideProp<
   P,
@@ -10,15 +13,26 @@ type IncomingPageServerSideProp<
   nav: NavigationNode[]
 ) => Promise<GetServerSidePropsResult<P>>;
 
-export function withNavServerSideProps<
+interface ExpandedContext {
+  store: StoreContextSSR;
+}
+
+export function withStoreServerSideProps<
   T extends object = {},
   P extends ParsedUrlQuery = ParsedUrlQuery
 >(incomingGSSP?: IncomingPageServerSideProp<T, P>) {
   return async (
     ctx: GetServerSidePropsContext<P>
-  ): Promise<GetServerSidePropsResult<T & { nav: NavigationNode[] }>> => {
+  ): Promise<GetServerSidePropsResult<T & ExpandedContext>> => {
     // Fetching nodes and hierarchies for statically generated nav
     const nav = await buildSiteNavigation();
+    const cartCookie = getCookie("mcart", { req: ctx.req, res: ctx.res });
+    console.log("cartCookie: ", cartCookie);
+    if (typeof cartCookie !== "string") {
+      throw Error("Failed to get cookie server side");
+    }
+
+    const cart = await getCart(cartCookie);
 
     const incomingGSSPResult = incomingGSSP
       ? await incomingGSSP(ctx, nav)
@@ -28,7 +42,11 @@ export function withNavServerSideProps<
       return {
         props: {
           ...(await Promise.resolve(incomingGSSPResult.props)),
-          nav,
+          store: {
+            type: "store-context-ssr",
+            nav,
+            cart,
+          },
         },
       };
     }
