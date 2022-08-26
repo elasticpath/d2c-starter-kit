@@ -34,8 +34,8 @@ const ProductSummary = ({ product }: IProductSummary): JSX.Element => {
           />
           {original_display_price && (
             <StrikePrice
-              price={display_price.without_tax.formatted}
-              currency={display_price.without_tax.currency}
+              price={original_display_price.without_tax.formatted}
+              currency={original_display_price.without_tax.currency}
             />
           )}
         </Flex>
