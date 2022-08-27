@@ -2,7 +2,7 @@ import {
   CartState,
   PresentCartState,
 } from "../context/types/cart-reducer-types";
-import { ICart } from "../components/cart-items/Cart";
+import { ICart } from "../components/cart/Cart";
 
 export function resolveShoppingCartProps(
   state: CartState,
