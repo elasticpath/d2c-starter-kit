@@ -98,7 +98,7 @@ export function CartOrderSummary({
         <Link href="/" passHref>
           <Button
             _hover={{
-              color: "brand.secondary",
+              color: "brand.highlight",
               boxShadow: "lg",
             }}
             colorScheme="brand.primary"

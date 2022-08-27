@@ -16,6 +16,7 @@ const colors = {
   brand: {
     primary: "#0033CC",
     secondary: "#091740",
+    highlight: "#1E40AF",
     primaryAlt: "#EA7317",
     secondaryAlt: "#ffcb47",
   },
@@ -30,8 +31,8 @@ const Checkbox: ComponentStyleConfig = {
         bg: "brand.primary",
         borderColor: "brand.primary",
         _hover: {
-          bg: "brand.hover.blue",
-          borderColor: "brand.secondary",
+          bg: "brand.highlight",
+          borderColor: "brand.highlight",
         },
       },
       _indeterminate: {

@@ -85,7 +85,7 @@ const PromotionBanner = (props: IPromotionBanner): JSX.Element => {
               bg="brand.primary"
               color="white"
               _hover={{
-                backgroundColor: "brand.secondary",
+                backgroundColor: "brand.highlight",
                 boxShadow: "lg",
               }}
               variant="solid"
