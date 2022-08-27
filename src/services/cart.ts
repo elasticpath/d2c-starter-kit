@@ -36,30 +36,6 @@ const createCartIdentifier = () => {
   );
 };
 
-function setCartId() {
-  localStorage.setItem("mcart", createCartIdentifier());
-}
-
-export const getCartId = (): string => {
-  let cartId = localStorage.getItem("mcart");
-
-  if (!cartId) {
-    setCartId();
-    cartId = localStorage.getItem("mcart");
-  }
-
-  return cartId || "";
-};
-
-export async function addToCart(
-  productId: string,
-  quantity: number
-): Promise<any> {
-  const cartId: string = getCartId();
-
-  return EPCCAPI.Cart(cartId).AddProduct(productId, quantity);
-}
-
 export async function addProductToCart(
   cartId: string,
   productId: string,

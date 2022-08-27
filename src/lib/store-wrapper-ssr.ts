@@ -1,9 +1,9 @@
 import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { buildSiteNavigation, NavigationNode } from "./build-site-navigation";
-import { getCookie } from "cookies-next";
 import { getCart } from "../services/cart";
 import { StoreContextSSR } from "./types/store-context";
+import { getCartCookie } from "./cart-cookie";
 
 type IncomingPageServerSideProp<
   P,
@@ -26,11 +26,8 @@ export function withStoreServerSideProps<
   ): Promise<GetServerSidePropsResult<T & ExpandedContext>> => {
     // Fetching nodes and hierarchies for statically generated nav
     const nav = await buildSiteNavigation();
-    const cartCookie = getCookie("mcart", { req: ctx.req, res: ctx.res });
+    const cartCookie = getCartCookie({ req: ctx.req, res: ctx.res });
     console.log("cartCookie: ", cartCookie);
-    if (typeof cartCookie !== "string") {
-      throw Error("Failed to get cookie server side");
-    }
 
     const cart = await getCart(cartCookie);
 

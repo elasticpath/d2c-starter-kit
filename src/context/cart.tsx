@@ -3,8 +3,8 @@ import { Cart, CartIncluded, ResourceIncluded } from "@moltin/sdk";
 import { CartAction, CartState } from "./types/cart-reducer-types";
 import { groupCartItems } from "../lib/group-cart-items";
 import { calculateCartNumbers, cartReducer } from "./cart-reducer";
-import { getCookie } from "cookies-next";
 import { getCart } from "../services/cart";
+import { getCartCookie } from "../lib/cart-cookie";
 
 export const CartItemsContext = createContext<
   { state: CartState; dispatch: (action: CartAction) => void } | undefined
@@ -35,16 +35,12 @@ export function CartProvider({ cart, children }: CartProviderProps) {
 }
 
 async function _initialiseCart(dispatch: (action: CartAction) => void) {
-  const cartId = getCookie("mcart");
+  const cartId = getCartCookie();
   console.log("initialiseCart cart cookie: ", cartId);
 
   dispatch({
     type: "initialise-cart",
   });
-
-  if (typeof cartId !== "string") {
-    throw Error("Failed to fetch cookie so couldn't initialiseCart cart");
-  }
 
   const resp = await getCart(cartId);
   console.log("get updated cart, ", resp);

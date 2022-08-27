@@ -7,11 +7,11 @@ import {
   updateCartItem,
 } from "../services/cart";
 import { checkout } from "../services/checkout";
-import { getCookie } from "cookies-next";
 import { CartItemsContext } from "./cart";
 import { CartAction, CartState } from "./types/cart-reducer-types";
 import { payment } from "../services/checkout";
 import { Address } from "@moltin/sdk";
+import { getCartCookie } from "../lib/cart-cookie";
 
 export function useCart() {
   const context = useContext(CartItemsContext);
@@ -40,16 +40,12 @@ function _checkout(dispatch: (action: CartAction) => void) {
     shippingAddress: Partial<Address>,
     billingAddress?: Partial<Address>
   ): Promise<void> => {
-    const cartId = getCookie("mcart");
+    const cartId = getCartCookie();
 
     dispatch({
       type: "updating-cart",
       payload: { action: "add" },
     });
-
-    if (typeof cartId !== "string") {
-      throw Error("Failed to fetch cookie so couldn't add to cart");
-    }
 
     const customer = `${shippingAddress.first_name} ${shippingAddress.last_name}`;
     const orderResponse = await checkout(
@@ -81,16 +77,12 @@ function _checkout(dispatch: (action: CartAction) => void) {
 
 function _updateCartItem(dispatch: (action: CartAction) => void) {
   return async (itemId: string, quantity: number): Promise<void> => {
-    const cartId = getCookie("mcart");
+    const cartId = getCartCookie();
 
     dispatch({
       type: "updating-cart",
       payload: { action: "add" },
     });
-
-    if (typeof cartId !== "string") {
-      throw Error("Failed to fetch cookie so couldn't add to cart");
-    }
 
     const response = await updateCartItem(cartId, itemId, quantity);
 
@@ -103,17 +95,13 @@ function _updateCartItem(dispatch: (action: CartAction) => void) {
 
 function _addProductToCart(dispatch: (action: CartAction) => void) {
   return async (productId: string, quantity: number): Promise<void> => {
-    const cartId = getCookie("mcart");
+    const cartId = getCartCookie();
     console.log("add to cart cookie: ", cartId);
 
     dispatch({
       type: "updating-cart",
       payload: { action: "add" },
     });
-
-    if (typeof cartId !== "string") {
-      throw Error("Failed to fetch cookie so couldn't add to cart");
-    }
 
     const response = await addProductToCart(cartId, productId, quantity);
 
@@ -126,16 +114,12 @@ function _addProductToCart(dispatch: (action: CartAction) => void) {
 
 function _addPromotionToCart(dispatch: (action: CartAction) => void) {
   return async (promoCode: string): Promise<void> => {
-    const cartId = getCookie("mcart");
+    const cartId = getCartCookie();
 
     dispatch({
       type: "updating-cart",
       payload: { action: "add" },
     });
-
-    if (typeof cartId !== "string") {
-      throw Error("Failed to fetch cookie so couldn't add to cart");
-    }
 
     const response = await addPromotion(cartId, promoCode);
 
@@ -150,11 +134,7 @@ function _addPromotionToCart(dispatch: (action: CartAction) => void) {
 
 function _removeCartItem(dispatch: (action: CartAction) => void) {
   return async (itemId: string): Promise<void> => {
-    const cartId = getCookie("mcart");
-
-    if (typeof cartId !== "string") {
-      throw Error("Failed to fetch cookie so couldn't add to cart");
-    }
+    const cartId = getCartCookie();
 
     dispatch({
       type: "updating-cart",
@@ -172,11 +152,7 @@ function _removeCartItem(dispatch: (action: CartAction) => void) {
 
 function _emptyCart(dispatch: (action: CartAction) => void, state: CartState) {
   return async (): Promise<void> => {
-    const cartId = getCookie("mcart");
-
-    if (typeof cartId !== "string") {
-      throw Error("Failed to fetch cookie so couldn't add to cart");
-    }
+    const cartId = getCartCookie();
 
     if (state.kind === "present-cart-state") {
       dispatch({
