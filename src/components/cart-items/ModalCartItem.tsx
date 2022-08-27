@@ -1,92 +1,169 @@
 import {
   Text,
   Button,
-  Image,
-  Divider,
   Flex,
   Box,
   IconButton,
+  Spinner,
+  Grid,
+  GridItem,
+  Link,
 } from "@chakra-ui/react";
-import Link from "next/link";
 import { CloseIcon } from "@chakra-ui/icons";
-import React from "react";
+import React, { useState } from "react";
 import { useCart } from "../../context/use-cart-hook";
+import {
+  CartState,
+  CustomCartItem,
+  RegularCartItem,
+} from "../../context/types/cart-reducer-types";
+import NextImage from "next/future/image";
+import { toBase64 } from "../../lib/to-base-64";
+import { shimmer } from "../shimmer";
+import NextLink from "next/link";
+
+function resolveStateCartItems(
+  state: CartState
+): (CustomCartItem | RegularCartItem)[] | undefined {
+  return state.kind === "present-cart-state"
+    ? [...state.items.regular, ...state.items.custom]
+    : state.kind === "updating-cart-state" &&
+      state.previousCart.kind === "present-cart-state"
+    ? [...state.previousCart.items.regular, ...state.previousCart.items.custom]
+    : undefined;
+}
+
+function ModalCartItem({
+  item,
+  handleRemove,
+}: {
+  item: CustomCartItem | RegularCartItem;
+  handleRemove: (itemId: string) => void;
+}): JSX.Element {
+  const [removing, setRemoving] = useState(false);
+
+  return (
+    <Grid gap={4} position="relative" gridTemplateColumns="auto 1fr auto">
+      <Box>
+        {item.image && item.image.href && (
+          <Box overflow="hidden" borderRadius={6} w="64px" h="64px">
+            <NextLink href={`/products/${item.product_id}`} passHref>
+              <Link>
+                <NextImage
+                  src={item.image.href}
+                  alt={item.name}
+                  placeholder="blur"
+                  blurDataURL={`data:image/svg+xml;base64,${toBase64(
+                    shimmer(128, 128)
+                  )}`}
+                  width={128}
+                  height={128}
+                  style={{ objectFit: "cover", width: "64px", height: "64px" }}
+                />
+              </Link>
+            </NextLink>
+          </Box>
+        )}
+      </Box>
+      <Grid gridTemplateRows="max-content auto">
+        <NextLink href={`/products/${item.product_id}`} passHref>
+          <Link fontSize="sm" fontWeight="semibold" noOfLines={2}>
+            {item.name}
+          </Link>
+        </NextLink>
+        <Text fontSize="sm" fontWeight="semibold">
+          {item.meta.display_price.without_tax.value.formatted}
+        </Text>
+        <Text fontSize="xs">Qty {item.quantity}</Text>
+      </Grid>
+      <GridItem>
+        {removing ? (
+          <Spinner
+            position="absolute"
+            m={2}
+            w={2}
+            h={2}
+            color="brand.primary"
+            right={0}
+            top={0}
+            size="xs"
+          />
+        ) : (
+          <IconButton
+            aria-label="Remove"
+            color="gray.500"
+            icon={<CloseIcon w={2} h={2} />}
+            variant="text"
+            position="absolute"
+            right={0}
+            top={0}
+            _hover={{ color: "gray.700" }}
+            size="xs"
+            onClick={async () => {
+              setRemoving(true);
+              await handleRemove(item.id);
+              setRemoving(false);
+            }}
+          />
+        )}
+      </GridItem>
+    </Grid>
+  );
+}
 
 export default function ModalCartItems(): JSX.Element {
   const { state, removeCartItem } = useCart();
 
-  const handleRemove = async (id: string) => removeCartItem(id);
+  const stateItems = resolveStateCartItems(state);
+
+  if (stateItems) {
+    return (
+      <Grid gap={4}>
+        {stateItems.map((item) => (
+          <Box
+            key={item.id}
+            borderBottomWidth="1px"
+            pb={4}
+            _last={{ borderBottomWidth: 0 }}
+          >
+            <ModalCartItem
+              key={item.id}
+              handleRemove={removeCartItem}
+              item={item}
+            />
+          </Box>
+        ))}
+      </Grid>
+    );
+  }
+
+  if (
+    state.kind === "uninitialised-cart-state" ||
+    state.kind === "loading-cart-state"
+  ) {
+    return (
+      <Flex alignItems="center" justifyContent="center" h="full">
+        <Spinner color="brand.primary" size="xl" />
+      </Flex>
+    );
+  }
 
   return (
-    <>
-      {state.kind === "present-cart-state" ? (
-        <>
-          {[...state.items.regular, ...state.items.custom].map((item) => (
-            <div key={item.id}>
-              <Flex my="4" gap={1} position="relative">
-                <Box alignSelf="center">
-                  {item.image && item.image.href && (
-                    <Box overflow="hidden" borderRadius={6}>
-                      <Image
-                        src={item.image.href}
-                        alt={item.name}
-                        width="64px"
-                        height="64px"
-                        objectFit="cover"
-                      />
-                    </Box>
-                  )}
-                </Box>
-                <Box ml={3}>
-                  <Text size="xs" mb="4px">
-                    {item.name}
-                  </Text>
-                  <Text mb="4px">
-                    {item.meta.display_price.without_tax.value.formatted}
-                  </Text>
-                  <IconButton
-                    aria-label="Remove"
-                    color="gray.500"
-                    icon={<CloseIcon w={2} h={2} />}
-                    variant="text"
-                    position="absolute"
-                    right={0}
-                    top={0}
-                    _hover={{ color: "gray.700" }}
-                    size="xs"
-                    onClick={() => {
-                      handleRemove(item.id);
-                    }}
-                  />
-                </Box>
-              </Flex>
-              <Divider />
-            </div>
-          ))}
-        </>
-      ) : (
-        <Flex
-          flexDirection="column"
-          gap={4}
-          justifyContent="center"
-          height="100%"
+    <Flex flexDirection="column" gap={4} justifyContent="center" height="100%">
+      <Text textAlign="center">You have no items in your cart!</Text>
+      <NextLink href="/" passHref>
+        <Button
+          _hover={{
+            color: "brand.primary",
+            boxShadow: "sm",
+          }}
+          width="100%"
+          colorScheme="brand.primary"
+          variant="outline"
         >
-          <Text textAlign="center">You have no items in your cart!</Text>
-          <Link href="/" passHref>
-            <Button
-              _hover={{
-                color: "blue.700",
-                boxShadow: "lg",
-              }}
-              width="100%"
-              colorScheme="blue.900"
-              variant="outline"
-            >
-              Start Shopping
-            </Button>
-          </Link>
-        </Flex>
-      )}
-    </>
+          Start Shopping
+        </Button>
+      </NextLink>
+    </Flex>
   );
 }

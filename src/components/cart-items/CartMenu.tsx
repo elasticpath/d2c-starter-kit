@@ -7,7 +7,6 @@ import {
   PopoverFooter,
   PopoverTrigger,
   Portal,
-  useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
 import Link from "next/link";
@@ -21,7 +20,7 @@ import { CartState } from "../../context/types/cart-reducer-types";
 
 export default function CartMenu(): JSX.Element {
   const { onOpen, onClose, isOpen } = useDisclosure();
-  const { state, emptyCart } = useCart();
+  const { state } = useCart();
 
   const hasCartItems: boolean = useMemo(
     (): boolean =>
@@ -53,22 +52,22 @@ export default function CartMenu(): JSX.Element {
               d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
             />
           </Icon>
-          {state.kind === "updating-cart-state" && <CartUpdatingSpinner />}
+          {(state.kind === "updating-cart-state" ||
+            state.kind === "loading-cart-state" ||
+            state.kind === "uninitialised-cart-state") && (
+            <CartUpdatingSpinner />
+          )}
           {state.kind === "present-cart-state" && (
             <CartItemNumTag state={state} />
           )}
         </Button>
       </PopoverTrigger>
       <Portal>
-        <PopoverContent borderRadius={8} mt={4} boxShadow="2xl" p={4}>
-          <PopoverBody
-            height={hasCartItems ? "350px" : "250px"}
-            overflow="scroll"
-          >
-            <Button onClick={() => emptyCart()}>Empty Cart</Button>
+        <PopoverContent borderRadius={8} mt={4} boxShadow="2xl">
+          <PopoverBody height="sm" overflowY="auto" p={4}>
             <ModalCartItems />
           </PopoverBody>
-          <PopoverFooter>
+          <PopoverFooter p={4}>
             <CartPopoverFooter
               state={state}
               onClose={onClose}
@@ -98,12 +97,12 @@ function CartPopoverFooter({
         <Button
           disabled={!hasCartItems}
           onClick={onClose}
-          bg={useColorModeValue("blue.900", "blue.50")}
-          color={useColorModeValue("white", "gray.900")}
+          bg="brand.primary"
+          color="white"
           w="100%"
           display="block"
           _hover={{
-            backgroundColor: "blue.700",
+            backgroundColor: "brand.highlight",
             boxShadow: "m",
           }}
           variant="solid"
@@ -115,11 +114,10 @@ function CartPopoverFooter({
         <Button
           onClick={onClose}
           _hover={{
-            color: "blue.700",
+            color: "brand.primary",
           }}
           m="10px auto auto"
           display="block"
-          colorScheme={useColorModeValue("blue.900", "blue.50")}
           variant="text"
         >
           View cart
