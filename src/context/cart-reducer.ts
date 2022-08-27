@@ -24,6 +24,15 @@ export function calculateCartNumbers(
 export function cartReducer(state: CartState, action: CartAction): CartState {
   console.log("inside cart reducer");
   switch (action.type) {
+    case "initialise-cart": {
+      if (state.kind !== "uninitialised-cart-state") {
+        return state;
+      }
+      return {
+        showCartPopup: state.showCartPopup,
+        kind: "loading-cart-state",
+      };
+    }
     case "updating-cart": {
       if (
         state.kind === "present-cart-state" ||
@@ -48,7 +57,7 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
 
       if (
         state.kind !== "updating-cart-state" &&
-        state.kind !== "uninitialised-cart-state"
+        state.kind !== "loading-cart-state"
       ) {
         return state;
       }

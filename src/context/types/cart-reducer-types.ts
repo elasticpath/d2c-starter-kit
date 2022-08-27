@@ -89,8 +89,13 @@ export interface UpdatingCartAction {
   };
 }
 
+export interface InitialiseCartAction {
+  type: "initialise-cart";
+}
+
 export type CartAction =
   | UpdateCartQuantityAction
   | ShowCartPopupAction
   | UpdateCartAction
-  | UpdatingCartAction;
+  | UpdatingCartAction
+  | InitialiseCartAction;

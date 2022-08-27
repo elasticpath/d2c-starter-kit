@@ -38,11 +38,9 @@ async function _initialiseCart(dispatch: (action: CartAction) => void) {
   const cartId = getCookie("mcart");
   console.log("initialiseCart cart cookie: ", cartId);
 
-  // TODO create and dispatch loading cart event
-  // dispatch({
-  //   type: "add-to-cart",
-  //   payload: { cart: cart.data, items: cart.included?.items ?? [] },
-  // });
+  dispatch({
+    type: "initialise-cart",
+  });
 
   if (typeof cartId !== "string") {
     throw Error("Failed to fetch cookie so couldn't initialiseCart cart");
