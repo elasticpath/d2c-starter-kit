@@ -7,6 +7,7 @@ const nextConfig = {
   images: {
     domains: ["files-eu.epusercontent.com"],
   },
+  experimental: { images: { allowFutureImage: true } },
   webpack(config) {
     config.resolve.fallback = {
       ...config.resolve.fallback,
