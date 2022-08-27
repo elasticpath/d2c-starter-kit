@@ -4,6 +4,7 @@ import { withStoreServerSideProps } from "../lib/store-wrapper-ssr";
 import { useCart } from "../context/use-cart-hook";
 import Cart from "../components/cart-items/Cart";
 import { resolveShoppingCartProps } from "../lib/resolve-shopping-cart-props";
+import { globalBaseWidth } from "../styles/theme";
 
 export const CartPage: NextPage = () => {
   const { removeCartItem, state } = useCart();
@@ -11,7 +12,13 @@ export const CartPage: NextPage = () => {
   const shoppingCartProps = resolveShoppingCartProps(state, removeCartItem);
 
   return (
-    <Box px={{ base: 6, md: 20 }} py={6}>
+    <Box
+      px={{ base: 6, md: 0 }}
+      py={6}
+      maxW={globalBaseWidth}
+      m="0 auto"
+      w="full"
+    >
       <Heading p={6} pl={0}>
         Your Shopping Cart
       </Heading>
