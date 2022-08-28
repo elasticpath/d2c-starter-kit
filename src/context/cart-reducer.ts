@@ -22,14 +22,12 @@ export function calculateCartNumbers(
 }
 
 export function cartReducer(state: CartState, action: CartAction): CartState {
-  console.log("inside cart reducer");
   switch (action.type) {
     case "initialise-cart": {
       if (state.kind !== "uninitialised-cart-state") {
         return state;
       }
       return {
-        showCartPopup: state.showCartPopup,
         kind: "loading-cart-state",
       };
     }
@@ -39,7 +37,6 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
         state.kind === "empty-cart-state"
       ) {
         return {
-          showCartPopup: state.showCartPopup,
           kind: "updating-cart-state",
           previousCart: state,
           updateAction: action.payload.action,
@@ -47,14 +44,7 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
       }
       return state;
     }
-    case "show-cart-popup":
-      return {
-        ...state,
-        showCartPopup: true,
-      };
     case "update-cart":
-      console.log("update cart inside  cart reducer: ", action);
-
       if (
         state.kind !== "updating-cart-state" &&
         state.kind !== "loading-cart-state"
@@ -62,13 +52,11 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
         return state;
       }
       const { id, meta, items } = action.payload;
-      console.log("updating card");
 
       if (!items || items.length < 1) {
         return {
           kind: "empty-cart-state",
           id,
-          showCartPopup: state.showCartPopup,
         };
       }
 
@@ -78,15 +66,6 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
         items: groupedItems,
         id,
         ...calculateCartNumbers(meta),
-        showCartPopup: state.showCartPopup,
-      };
-    case "update-cart-quantity":
-      if (state.kind !== "present-cart-state") {
-        return state;
-      }
-      return {
-        ...state,
-        cartQuantity: action.payload.quantity,
       };
     default:
       return state;

@@ -4,9 +4,7 @@ import { Cart, CartItem } from "@moltin/sdk";
  * Cart State
  */
 
-interface CartStateBase {
-  showCartPopup: boolean;
-}
+interface CartStateBase {}
 
 export type CartItemsType = "cart_item" | "promotion_item" | "custom_item";
 
@@ -43,7 +41,7 @@ export interface PresentCartState extends CartStateBase {
   subtotal: string;
 }
 
-type UpdatingAction = "add" | "remove" | "empty";
+type UpdatingAction = "add" | "remove" | "update" | "empty";
 
 export interface UpdatingCartState extends CartStateBase {
   kind: "updating-cart-state";
@@ -61,17 +59,6 @@ export type CartState =
 /**
  * Cart Actions
  */
-
-export interface UpdateCartQuantityAction {
-  type: "update-cart-quantity";
-  payload: {
-    quantity: number;
-  };
-}
-
-export interface ShowCartPopupAction {
-  type: "show-cart-popup";
-}
 
 export interface UpdateCartAction {
   type: "update-cart";
@@ -94,8 +81,6 @@ export interface InitialiseCartAction {
 }
 
 export type CartAction =
-  | UpdateCartQuantityAction
-  | ShowCartPopupAction
   | UpdateCartAction
   | UpdatingCartAction
   | InitialiseCartAction;

@@ -16,13 +16,10 @@ interface CartProviderProps {
 }
 
 export function CartProvider({ cart, children }: CartProviderProps) {
-  console.log("cart inside reducer: ", cart);
   const [state, dispatch] = useReducer(cartReducer, getInitialState(cart));
-  console.log("initial cart state value after reducer: ", state);
 
   useEffect(() => {
     if (state.kind === "uninitialised-cart-state") {
-      console.log("inside use effect initialise cart");
       _initialiseCart(dispatch);
     }
   }, [state, dispatch]);
@@ -36,14 +33,13 @@ export function CartProvider({ cart, children }: CartProviderProps) {
 
 async function _initialiseCart(dispatch: (action: CartAction) => void) {
   const cartId = getCartCookie();
-  console.log("initialiseCart cart cookie: ", cartId);
 
   dispatch({
     type: "initialise-cart",
   });
 
   const resp = await getCart(cartId);
-  console.log("get updated cart, ", resp);
+
   dispatch({
     type: "update-cart",
     payload: {
@@ -60,7 +56,6 @@ function getInitialState(
   if (!cart) {
     return {
       kind: "uninitialised-cart-state",
-      showCartPopup: false,
     };
   }
 
@@ -68,7 +63,6 @@ function getInitialState(
     return {
       kind: "empty-cart-state",
       id: cart.data.id,
-      showCartPopup: false,
     };
   }
 
@@ -78,6 +72,5 @@ function getInitialState(
     items: groupedItems,
     id: cart.data.id,
     ...calculateCartNumbers(cart.data.meta),
-    showCartPopup: false,
   };
 }
