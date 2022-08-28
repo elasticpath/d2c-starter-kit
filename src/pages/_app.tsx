@@ -10,8 +10,7 @@ import "../components/checkout/CardSectionStyles.css";
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const { nav, cart } = pageProps.store ?? {};
-  console.log("cart in MyApp: ", cart);
+  const { nav } = pageProps.store ?? {};
   return (
     <ChakraProvider theme={theme}>
       <StoreProvider storeContext={pageProps.store}>
