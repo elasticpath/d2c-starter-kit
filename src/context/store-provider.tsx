@@ -1,4 +1,3 @@
-import React from "react";
 import { CartProvider } from "./cart-provider";
 import { CheckoutProvider } from "./checkout";
 import { StoreProviderProps } from "./types/store-context";
