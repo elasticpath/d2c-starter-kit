@@ -1,10 +1,10 @@
 import { createContext, ReactNode, useEffect, useReducer } from "react";
 import { Cart, CartIncluded, ResourceIncluded } from "@moltin/sdk";
 import { CartAction, CartState } from "./types/cart-reducer-types";
-import { groupCartItems } from "../lib/group-cart-items";
-import { calculateCartNumbers, cartReducer } from "./cart-reducer";
+import { cartReducer } from "./cart-reducer";
 import { getCart } from "../services/cart";
 import { getCartCookie } from "../lib/cart-cookie";
+import { getInitialState } from "../lib/get-initial-cart-state";
 
 export const CartItemsContext = createContext<
   { state: CartState; dispatch: (action: CartAction) => void } | undefined
@@ -48,29 +48,4 @@ async function _initialiseCart(dispatch: (action: CartAction) => void) {
       items: resp.included?.items ?? [],
     },
   });
-}
-
-function getInitialState(
-  cart?: ResourceIncluded<Cart, CartIncluded>
-): CartState {
-  if (!cart) {
-    return {
-      kind: "uninitialised-cart-state",
-    };
-  }
-
-  if (!cart.included?.items) {
-    return {
-      kind: "empty-cart-state",
-      id: cart.data.id,
-    };
-  }
-
-  const groupedItems = groupCartItems(cart.included.items);
-  return {
-    kind: "present-cart-state",
-    items: groupedItems,
-    id: cart.data.id,
-    ...calculateCartNumbers(cart.data.meta),
-  };
 }
