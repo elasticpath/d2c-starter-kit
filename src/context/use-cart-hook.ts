@@ -7,7 +7,7 @@ import {
   updateCartItem,
 } from "../services/cart";
 import { checkout } from "../services/checkout";
-import { CartItemsContext } from "./cart";
+import { CartItemsContext } from "./cart-provider";
 import { CartAction, CartState } from "./types/cart-reducer-types";
 import { payment } from "../services/checkout";
 import { Address } from "@moltin/sdk";
@@ -81,7 +81,7 @@ function _updateCartItem(dispatch: (action: CartAction) => void) {
 
     dispatch({
       type: "updating-cart",
-      payload: { action: "add" },
+      payload: { action: "update" },
     });
 
     const response = await updateCartItem(cartId, itemId, quantity);
@@ -96,7 +96,6 @@ function _updateCartItem(dispatch: (action: CartAction) => void) {
 function _addProductToCart(dispatch: (action: CartAction) => void) {
   return async (productId: string, quantity: number): Promise<void> => {
     const cartId = getCartCookie();
-    console.log("add to cart cookie: ", cartId);
 
     dispatch({
       type: "updating-cart",
