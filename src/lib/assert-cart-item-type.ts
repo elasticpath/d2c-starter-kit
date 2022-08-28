@@ -1,4 +1,4 @@
-import { CartItemsType } from "../context/types/cart-reducer-types";
+type CartItemsType = "cart_item" | "promotion_item" | "custom_item";
 
 export function assertCartItemType<
   T extends { type?: string },
