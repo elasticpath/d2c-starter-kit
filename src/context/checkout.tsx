@@ -1,6 +1,19 @@
-import { useState, useContext, createContext } from "react";
-import { Address } from "./types";
+import { createContext, useContext, useState } from "react";
 import { ProviderProps } from "./types/store-context";
+
+export interface Address {
+  email?: string;
+  first_name?: string;
+  last_name?: string;
+  line_1?: string;
+  line_2?: string;
+  city?: string;
+  county?: string;
+  country?: string;
+  postcode?: string;
+  phone_number?: string;
+  instructions?: string;
+}
 
 interface CheckoutFormState {
   shippingAddress: Address;
