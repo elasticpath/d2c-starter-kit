@@ -82,11 +82,12 @@ export default ConfigurationError;
 
 export const getServerSideProps = withStoreServerSideProps<IConfigurationError>(
   async ({ query }) => {
+    const { "missing-env-variable": missingEnvVariables, from } = query;
     return {
       props: {
-        missingEnvVariables: query["missing-env-variable"],
-        from: query.from,
-      } as IConfigurationError,
+        missingEnvVariables,
+        from: Array.isArray(from) ? from[0] : from,
+      },
     };
   }
 );
