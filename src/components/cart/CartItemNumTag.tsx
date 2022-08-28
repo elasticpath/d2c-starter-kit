@@ -6,12 +6,6 @@ export default function CartItemNumTag({
 }: {
   state: PresentCartState;
 }): JSX.Element {
-  const { regular, custom } = state.items;
-
-  const numCartItems = [...regular, ...custom].reduce((pre, current) => {
-    return pre + current.quantity;
-  }, 0);
-
   return (
     <Tag
       display="flex"
@@ -28,7 +22,7 @@ export default function CartItemNumTag({
       height="20px"
     >
       <TagLabel fontSize="10px" fontWeight="500">
-        {numCartItems}
+        {state.items.length}
       </TagLabel>
     </Tag>
   );

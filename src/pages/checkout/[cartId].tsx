@@ -98,17 +98,17 @@ export const Checkout: NextPage<ICheckout> = () => {
               <Elements stripe={stripePromise}>
                 <PaymentForm
                   onPayOrder={onPayOrder}
-                  totalPrice={state.totalPrice}
+                  totalPrice={state.withTax}
                 />
               </Elements>
             </Box>
           </GridItem>
           <GridItem>
             <OrderSummary
-              items={[...state.items.regular, ...state.items.custom] ?? []}
-              promotionItems={state.items.promotion}
-              totalPrice={state.totalPrice}
-              subtotal={state.subtotal}
+              items={state.items}
+              promotionItems={state.groupedItems.promotion}
+              totalPrice={state.withTax}
+              subtotal={state.withoutTax}
             />
           </GridItem>
         </Grid>

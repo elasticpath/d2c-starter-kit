@@ -1,18 +1,23 @@
-import { GroupedCartItems } from "../../context/types/cart-reducer-types";
+import { RefinedCartItem } from "../../context/types/cart-reducer-types";
 import { Box, Flex, Grid, IconButton, Image } from "@chakra-ui/react";
 import QuantityHandler from "../quantity-handler/QuantityHandler";
 import { CloseIcon } from "@chakra-ui/icons";
+import { NonEmptyArray } from "../../lib/types/non-empty-array";
+import { ReadonlyNonEmptyArray } from "../../lib/types/read-only-non-empty-array";
 
 export function CartItemList({
-  items: { regular, custom },
+  items,
   handleRemoveItem,
 }: {
-  items: GroupedCartItems;
+  items:
+    | RefinedCartItem[]
+    | NonEmptyArray<RefinedCartItem>
+    | ReadonlyNonEmptyArray<RefinedCartItem>;
   handleRemoveItem: (itemId: string) => Promise<void>;
 }): JSX.Element {
   return (
     <Box>
-      {[...regular, ...custom].map((item) => (
+      {items.map((item) => (
         <Box
           key={item.id}
           display="flex"

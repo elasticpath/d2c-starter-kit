@@ -31,7 +31,8 @@ export const Promotion = (): JSX.Element => {
   });
 
   const shouldDisableInput =
-    state.kind !== "present-cart-state" || state.items.promotion.length > 0;
+    state.kind !== "present-cart-state" ||
+    state.groupedItems.promotion.length > 0;
 
   return (
     <Box>

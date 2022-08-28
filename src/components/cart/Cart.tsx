@@ -1,11 +1,16 @@
-import { GroupedCartItems } from "../../context/types/cart-reducer-types";
+import {
+  GroupedCartItems,
+  RefinedCartItem,
+} from "../../context/types/cart-reducer-types";
 import { Grid } from "@chakra-ui/react";
 import { CartItemList } from "./CartItemList";
 import { CartOrderSummary } from "./CartOrderSummary";
+import { ReadonlyNonEmptyArray } from "../../lib/types/read-only-non-empty-array";
 
 export interface ICart {
   id: string;
-  items: GroupedCartItems;
+  items: ReadonlyNonEmptyArray<RefinedCartItem>;
+  groupedItems: GroupedCartItems;
   totalPrice: string;
   subtotal: string;
   removeCartItem: (itemId: string) => Promise<void>;
@@ -14,6 +19,7 @@ export interface ICart {
 export default function Cart({
   id,
   items,
+  groupedItems,
   totalPrice,
   subtotal,
   removeCartItem,
@@ -24,7 +30,7 @@ export default function Cart({
       <CartOrderSummary
         cartId={id}
         handleRemoveItem={removeCartItem}
-        promotionItems={items.promotion}
+        promotionItems={groupedItems.promotion}
         totalPrice={totalPrice}
         subtotal={subtotal}
       />

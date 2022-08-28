@@ -15,13 +15,17 @@ import {
 } from "@chakra-ui/react";
 import Image from "next/image";
 import {
-  CustomCartItem,
   PromotionCartItem,
-  RegularCartItem,
+  RefinedCartItem,
 } from "../../context/types/cart-reducer-types";
+import { NonEmptyArray } from "../../lib/types/non-empty-array";
+import { ReadonlyNonEmptyArray } from "../../lib/types/read-only-non-empty-array";
 
 interface IOrderSummary {
-  items: (RegularCartItem | CustomCartItem)[];
+  items:
+    | RefinedCartItem[]
+    | NonEmptyArray<RefinedCartItem>
+    | ReadonlyNonEmptyArray<RefinedCartItem>;
   promotionItems: PromotionCartItem[];
   totalPrice: string;
   subtotal: string;

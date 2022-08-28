@@ -27,7 +27,7 @@ export function withStoreServerSideProps<
     // Fetching nodes and hierarchies for statically generated nav
     const nav = await buildSiteNavigation();
     const cartCookie = getCartCookie({ req: ctx.req, res: ctx.res });
-    console.log("cartCookie: ", cartCookie);
+    // console.log("cartCookie: ", cartCookie);
 
     const cart = await getCart(cartCookie);
 

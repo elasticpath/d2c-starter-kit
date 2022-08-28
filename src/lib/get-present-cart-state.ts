@@ -1,0 +1,15 @@
+import {
+  CartState,
+  PresentCartState,
+} from "../context/types/cart-reducer-types";
+
+export function getPresentCartState(
+  state: CartState
+): PresentCartState | undefined {
+  return state.kind === "present-cart-state"
+    ? state
+    : state.kind === "updating-cart-state" &&
+      state.previousCart.kind === "present-cart-state"
+    ? state.previousCart
+    : undefined;
+}

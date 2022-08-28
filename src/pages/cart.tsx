@@ -19,16 +19,25 @@ export const CartPage: NextPage = () => {
       m="0 auto"
       w="full"
     >
-      <Heading p={6} pl={0}>
-        Your Shopping Cart
-      </Heading>
-      {shoppingCartProps && <Cart {...shoppingCartProps} />}
-      {state.kind === "empty-cart-state" ? (
-        <Box p="16">
-          <Image alt="" src="/icons/empty.svg" width="488px" height="461px" />
-        </Box>
-      ) : (
-        <></>
+      {shoppingCartProps && (
+        <>
+          <Heading p={6} pl={0}>
+            Your Shopping Cart
+          </Heading>
+          <Cart {...shoppingCartProps} />
+        </>
+      )}
+      {(state.kind === "empty-cart-state" ||
+        state.kind === "uninitialised-cart-state" ||
+        state.kind === "loading-cart-state") && (
+        <>
+          <Heading p={6} pl={0}>
+            Your cart is empty
+          </Heading>
+          <Box p="16">
+            <Image alt="" src="/icons/empty.svg" width="488px" height="461px" />
+          </Box>
+        </>
       )}
     </Box>
   );

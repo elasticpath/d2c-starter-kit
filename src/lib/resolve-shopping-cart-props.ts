@@ -3,34 +3,30 @@ import {
   PresentCartState,
 } from "../context/types/cart-reducer-types";
 import { ICart } from "../components/cart/Cart";
+import { getPresentCartState } from "./get-present-cart-state";
 
 export function resolveShoppingCartProps(
   state: CartState,
   removeCartItem: (itemId: string) => Promise<void>
 ): ICart | undefined {
+  /**
+   * Checking if the current cart state is a present cart or updating with a previous state of present cart
+   * as in both cases we want to show cart items
+   */
   const resolvePresentCartState: PresentCartState | undefined =
-    state.kind === "present-cart-state"
-      ? state
-      : state.kind === "updating-cart-state" &&
-        state.previousCart.kind === "present-cart-state"
-      ? state.previousCart
-      : undefined;
+    getPresentCartState(state);
 
-  if (
-    resolvePresentCartState &&
-    [
-      ...resolvePresentCartState.items.regular,
-      ...resolvePresentCartState.items.custom,
-    ].length > 0
-  ) {
-    const { id, totalPrice, subtotal, items } = resolvePresentCartState;
+  if (resolvePresentCartState) {
+    const { id, withTax, withoutTax, groupedItems, items } =
+      resolvePresentCartState;
     return {
       id,
-      totalPrice,
-      subtotal,
+      totalPrice: withTax,
+      subtotal: withoutTax,
       items,
+      groupedItems: groupedItems,
       removeCartItem: removeCartItem,
     };
   }
-  return undefined;
+  return;
 }

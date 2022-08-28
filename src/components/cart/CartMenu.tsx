@@ -12,7 +12,6 @@ import {
 import Link from "next/link";
 import ModalCartItems from "./ModalCartItem";
 import { Icon } from "@chakra-ui/icons";
-import { useMemo } from "react";
 import { useCart } from "../../context/use-cart-hook";
 import CartUpdatingSpinner from "./CartUpdatingSpinner";
 import CartItemNumTag from "./CartItemNumTag";
@@ -21,13 +20,6 @@ import { CartState } from "../../context/types/cart-reducer-types";
 export default function CartMenu(): JSX.Element {
   const { onOpen, onClose, isOpen } = useDisclosure();
   const { state } = useCart();
-
-  const hasCartItems: boolean = useMemo(
-    (): boolean =>
-      state.kind === "present-cart-state" &&
-      (state.items.regular.length > 0 || state.items.custom.length > 0),
-    [state]
-  );
 
   return (
     <Popover
@@ -68,11 +60,7 @@ export default function CartMenu(): JSX.Element {
             <ModalCartItems />
           </PopoverBody>
           <PopoverFooter p={4}>
-            <CartPopoverFooter
-              state={state}
-              onClose={onClose}
-              hasCartItems={hasCartItems}
-            />
+            <CartPopoverFooter state={state} onClose={onClose} />
           </PopoverFooter>
         </PopoverContent>
       </Portal>
@@ -83,14 +71,13 @@ export default function CartMenu(): JSX.Element {
 function CartPopoverFooter({
   state,
   onClose,
-  hasCartItems,
 }: {
   state: CartState;
   onClose: () => void;
-  hasCartItems: boolean;
 }): JSX.Element {
   const checkoutHref =
     state.kind === "present-cart-state" ? `/checkout/${state.id}` : "#";
+  const hasCartItems = state.kind === "present-cart-state";
   return (
     <Box>
       <Link href={checkoutHref} passHref>

@@ -2,22 +2,33 @@ import { Cart } from "@moltin/sdk";
 import {
   CartAction,
   CartState,
+  CustomCartItem,
   PresentCartState,
+  RegularCartItem,
 } from "./types/cart-reducer-types";
 import { groupCartItems } from "../lib/group-cart-items";
+import { isNonEmpty } from "../lib/types/read-only-non-empty-array";
 
 export function calculateCartNumbers(
-  meta: Cart["meta"]
-): Pick<
-  PresentCartState,
-  "count" | "cartQuantity" | "totalPrice" | "subtotal"
-> {
+  meta?: Cart["meta"]
+): Pick<PresentCartState, "withTax" | "withoutTax"> {
+  const { without_tax, with_tax } = meta?.display_price ?? {};
+
+  if (!with_tax?.formatted) {
+    throw Error(
+      "Unexpected value was undefined: display_price.with_tax.formatted can't calculate cart numbers."
+    );
+  }
+
+  if (!without_tax?.formatted) {
+    throw Error(
+      "Unexpected value was undefined: display_price.without_tax.formatted can't calculate cart numbers."
+    );
+  }
+
   return {
-    totalPrice: meta?.display_price?.with_tax?.formatted || "Unknown",
-    // TODO implement these properly
-    count: 2,
-    cartQuantity: 2,
-    subtotal: meta?.display_price?.without_tax?.formatted || "Unknown",
+    withTax: with_tax.formatted,
+    withoutTax: without_tax.formatted,
   };
 }
 
@@ -60,11 +71,23 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
         };
       }
 
+      const filteredItems = items.filter(
+        (item) => item.type === "cart_item" || item.type === "custom_item"
+      ) as (RegularCartItem | CustomCartItem)[];
+
+      if (!isNonEmpty(filteredItems)) {
+        return {
+          kind: "empty-cart-state",
+          id,
+        };
+      }
+
       const groupedItems = groupCartItems(items);
       return {
         kind: "present-cart-state",
-        items: groupedItems,
+        groupedItems: groupedItems,
         id,
+        items: filteredItems,
         ...calculateCartNumbers(meta),
       };
     default:

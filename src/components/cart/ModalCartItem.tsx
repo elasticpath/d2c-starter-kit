@@ -10,27 +10,26 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useCart } from "../../context/use-cart-hook";
 import {
   CartState,
   CustomCartItem,
+  RefinedCartItem,
   RegularCartItem,
 } from "../../context/types/cart-reducer-types";
 import NextImage from "next/future/image";
 import { toBase64 } from "../../lib/to-base-64";
 import { shimmer } from "../shimmer";
 import NextLink from "next/link";
+import { getPresentCartState } from "../../lib/get-present-cart-state";
+import { ReadonlyNonEmptyArray } from "../../lib/types/read-only-non-empty-array";
 
 function resolveStateCartItems(
   state: CartState
-): (CustomCartItem | RegularCartItem)[] | undefined {
-  return state.kind === "present-cart-state"
-    ? [...state.items.regular, ...state.items.custom]
-    : state.kind === "updating-cart-state" &&
-      state.previousCart.kind === "present-cart-state"
-    ? [...state.previousCart.items.regular, ...state.previousCart.items.custom]
-    : undefined;
+): ReadonlyNonEmptyArray<RefinedCartItem> | undefined {
+  const presentCartState = getPresentCartState(state);
+  return presentCartState && presentCartState.items;
 }
 
 function ModalCartItem({
