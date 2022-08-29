@@ -1,11 +1,46 @@
 import { getCookie } from "cookies-next";
-import { CART_COOKIE_KEY } from "./resolve-cart-env";
-import type { OptionsType } from "cookies-next/lib/types";
+import { COOKIE_PREFIX_KEY } from "./resolve-cart-env";
+import { ParsedUrlQuery } from "querystring";
+import { GetServerSidePropsContext } from "next";
+import { parseCookies } from "./parse-cookie";
 
-export function getCartCookie(options?: OptionsType): string {
-  const cartId = getCookie(CART_COOKIE_KEY, options);
-  if (typeof cartId !== "string") {
-    throw Error("Failed to fetch cart cookie!");
+/**
+ * The cart cookie is set by nextjs middleware.
+ */
+export function getCartCookie<P extends ParsedUrlQuery = ParsedUrlQuery>(
+  context?: GetServerSidePropsContext<P>
+): string {
+  /**
+   * Get the cookie if it's set and retrievable through either the context provided or the browsers
+   */
+  const possibleCartCookie = getCookie(
+    `${COOKIE_PREFIX_KEY}_ep_cart`,
+    context && {
+      req: context.req,
+      res: context.res,
+    }
+  );
+
+  if (typeof possibleCartCookie === "string") {
+    return possibleCartCookie;
   }
-  return cartId;
+
+  /**
+   * As a fallback check to see if this is server side and the res header has the cookie set
+   *
+   * This can happen if the cookie has been set by middleware but not yet been set
+   * on the browser.
+   */
+  const setCookiesHeader = context?.res?.getHeader("set-cookie");
+  const possibleResCookie =
+    Array.isArray(setCookiesHeader) &&
+    parseCookies(setCookiesHeader)[`${COOKIE_PREFIX_KEY}_ep_cart`]?.value;
+
+  if (typeof possibleResCookie === "string") {
+    return possibleResCookie;
+  }
+
+  throw Error(
+    `Failed to fetch cart cookie! key ${`${COOKIE_PREFIX_KEY}_ep_cart`}`
+  );
 }
