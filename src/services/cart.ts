@@ -1,51 +1,55 @@
-import type { CartItemsResponse } from "@moltin/sdk";
+import type { CartItemsResponse, Moltin as EPCCClient } from "@moltin/sdk";
 import { Cart, CartIncluded, ResourceIncluded } from "@moltin/sdk";
-import { EPCCAPI } from "./helper";
+import { getEpccImplicitClient } from "../lib/epcc-implicit-client";
 
 export async function removeCartItem(
   id: string,
-  itemId: string
+  itemId: string,
+  client?: EPCCClient
 ): Promise<CartItemsResponse> {
-  return EPCCAPI.Cart(id).RemoveItem(itemId);
+  return (client ?? getEpccImplicitClient()).Cart(id).RemoveItem(itemId);
 }
 
 export async function removeAllCartItems(
-  id: string
+  id: string,
+  client?: EPCCClient
 ): Promise<CartItemsResponse> {
-  return EPCCAPI.Cart(id).RemoveAllItems();
+  return (client ?? getEpccImplicitClient()).Cart(id).RemoveAllItems();
 }
 
 export async function updateCartItem(
   id: string,
   productId: string,
-  quantity: number
+  quantity: number,
+  client?: EPCCClient
 ): Promise<CartItemsResponse> {
-  return EPCCAPI.Cart(id).UpdateItem(productId, quantity);
+  return (client ?? getEpccImplicitClient())
+    .Cart(id)
+    .UpdateItem(productId, quantity);
 }
 
 export async function addPromotion(
   id: string,
-  promoCode: string
+  promoCode: string,
+  client?: EPCCClient
 ): Promise<CartItemsResponse> {
-  return EPCCAPI.Cart(id).AddPromotion(promoCode);
+  return (client ?? getEpccImplicitClient()).Cart(id).AddPromotion(promoCode);
 }
-
-const createCartIdentifier = () => {
-  return "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx".replace(/[x]/g, () =>
-    ((Math.random() * 16) | 0).toString(16)
-  );
-};
 
 export async function addProductToCart(
   cartId: string,
   productId: string,
-  quantity: number
+  quantity: number,
+  client?: EPCCClient
 ): Promise<CartItemsResponse> {
-  return EPCCAPI.Cart(cartId).AddProduct(productId, quantity);
+  return (client ?? getEpccImplicitClient())
+    .Cart(cartId)
+    .AddProduct(productId, quantity);
 }
 
 export async function getCart(
-  cartId: string
+  cartId: string,
+  client?: EPCCClient
 ): Promise<ResourceIncluded<Cart, CartIncluded>> {
-  return EPCCAPI.Cart(cartId).With("items").Get();
+  return (client ?? getEpccImplicitClient()).Cart(cartId).With("items").Get();
 }
