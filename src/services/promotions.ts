@@ -1,5 +1,5 @@
 import type { Promotion, Resource } from "@moltin/sdk";
-import { EPCCAPI } from "./helper";
+import { epccServerClient } from "../lib/epcc-server-client";
 
 /**
  * Get a promotion by id
@@ -9,5 +9,5 @@ import { EPCCAPI } from "./helper";
 export async function getPromotionById(
   promotionId: string
 ): Promise<Resource<Promotion>> {
-  return await EPCCAPI.Promotions.Get(promotionId);
+  return await epccServerClient.Promotions.Get(promotionId);
 }
