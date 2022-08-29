@@ -20,11 +20,11 @@ import { globalBaseWidth } from "../styles/theme";
 
 interface IConfigurationError {
   from?: string;
-  missingEnvVariables?: string | string[];
+  issues?: Record<string, string | string[]>;
 }
 
 export const ConfigurationError: NextPage = ({
-  missingEnvVariables,
+  issues,
   from,
 }: IConfigurationError) => {
   return (
@@ -55,23 +55,26 @@ export const ConfigurationError: NextPage = ({
           </Tr>
         </Thead>
         <Tbody>
-          {missingEnvVariables && (
-            <Tr>
-              <Td>Missing Environment Variables</Td>
-              <Td>
-                <UnorderedList>
-                  {(Array.isArray(missingEnvVariables)
-                    ? missingEnvVariables
-                    : [missingEnvVariables]
-                  ).map((missingVar) => (
-                    <ListItem key={missingVar} wordBreak="break-all">
-                      {missingVar}
-                    </ListItem>
-                  ))}
-                </UnorderedList>
-              </Td>
-            </Tr>
-          )}
+          {issues &&
+            Object.keys(issues).map((key) => {
+              const issue = issues[key];
+              return (
+                <Tr key={key}>
+                  <Td>{key}</Td>
+                  <Td>
+                    <UnorderedList>
+                      {(Array.isArray(issue) ? issue : [issue]).map(
+                        (messsage) => (
+                          <ListItem key={messsage} wordBreak="break-all">
+                            {decodeURIComponent(messsage)}
+                          </ListItem>
+                        )
+                      )}
+                    </UnorderedList>
+                  </Td>
+                </Tr>
+              );
+            })}
         </Tbody>
       </Table>
     </Flex>
@@ -82,10 +85,17 @@ export default ConfigurationError;
 
 export const getServerSideProps = withStoreServerSideProps<IConfigurationError>(
   async ({ query }) => {
-    const { "missing-env-variable": missingEnvVariables, from } = query;
+    const {
+      "missing-env-variable": missingEnvVariables,
+      authentication,
+      from,
+    } = query;
     return {
       props: {
-        missingEnvVariables,
+        issues: {
+          ...(missingEnvVariables && { missingEnvVariables }),
+          ...(authentication && { authentication }),
+        },
         from: Array.isArray(from) ? from[0] : from,
       },
     };
