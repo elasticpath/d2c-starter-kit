@@ -1,4 +1,4 @@
-import type { Hierarchy } from "@moltin/sdk";
+import type { Hierarchy, Moltin as EPCCClient } from "@moltin/sdk";
 import {
   getHierarchies,
   getHierarchyChildren,
@@ -21,16 +21,21 @@ export interface NavigationNode {
   children: NavigationNode[];
 }
 
-export async function buildSiteNavigation(): Promise<NavigationNode[]> {
+export async function buildSiteNavigation(
+  client?: EPCCClient
+): Promise<NavigationNode[]> {
   // Fetch hierarchies to be used as top level nav
-  const hierarchies = await getHierarchies();
-  return constructTree(hierarchies);
+  const hierarchies = await getHierarchies(client);
+  return constructTree(hierarchies, client);
 }
 
 /**
  * Construct hierarchy tree, limited to 5 hierarchies at the top level
  */
-function constructTree(hierarchies: Hierarchy[]): Promise<NavigationNode[]> {
+function constructTree(
+  hierarchies: Hierarchy[],
+  client?: EPCCClient
+): Promise<NavigationNode[]> {
   const tree = hierarchies
     .slice(0, 4)
     .map((hierarchy) =>
@@ -42,9 +47,9 @@ function constructTree(hierarchies: Hierarchy[]): Promise<NavigationNode[]> {
     )
     .map(async (hierarchy) => {
       // Fetch first-level nav ('parent nodes') - the direct children of each hierarchy
-      const directChildren = await getHierarchyChildren(hierarchy.id);
+      const directChildren = await getHierarchyChildren(hierarchy.id, client);
       // Fetch all nodes in each hierarchy (i.e. all 'child nodes' belonging to a hierarchy)
-      const allNodes = await getHierarchyNodes(hierarchy.id);
+      const allNodes = await getHierarchyNodes(hierarchy.id, client);
 
       // Build 2nd level by finding all 'child nodes' belonging to each first level featured-nodes
       const directs = directChildren.slice(0, 4).map((child) => {
