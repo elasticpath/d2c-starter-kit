@@ -1,11 +1,11 @@
-export const CART_COOKIE_KEY = cartEnv();
+export const COOKIE_PREFIX_KEY = cartEnv();
 
 function cartEnv(): string {
-  const cartCookieKey = process.env.NEXT_PUBLIC_CART_COOKIE_KEY;
-  if (!cartCookieKey) {
+  const cookiePrefixKey = process.env.NEXT_PUBLIC_COOKIE_PREFIX_KEY;
+  if (!cookiePrefixKey) {
     throw new Error(
-      `Failed to get cart cookie key environment variables cartCookieKey id: ${cartCookieKey}\n Make sure you have set NEXT_PUBLIC_CART_COOKIE_KEY`
+      `Failed to get cart cookie key environment variables cookiePrefixKey id: ${cookiePrefixKey}\n Make sure you have set NEXT_PUBLIC_COOKIE_PREFIX_KEY`
     );
   }
-  return cartCookieKey;
+  return cookiePrefixKey;
 }
