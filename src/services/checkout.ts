@@ -3,22 +3,26 @@ import type {
   ConfirmPaymentBody,
   Address,
   CheckoutCustomerObject,
+  Moltin as EPCCClient,
 } from "@moltin/sdk";
-import { EPCCAPI } from "./helper";
+import { getEpccImplicitClient } from "../lib/epcc-implicit-client";
 
-export async function checkout(
+export function checkout(
   id: string,
   customer: CheckoutCustomerObject,
   billing: Partial<Address>,
-  shipping: Partial<Address>
+  shipping: Partial<Address>,
+  client?: EPCCClient
 ): Promise<{ data: Order }> {
-  return EPCCAPI.Cart(id).Checkout(customer, billing, shipping);
+  return (client ?? getEpccImplicitClient())
+    .Cart(id)
+    .Checkout(customer, billing, shipping);
 }
 
-export async function payment(payment: ConfirmPaymentBody, orderId: string) {
-  await EPCCAPI.Orders.Payment(orderId, payment);
-}
-
-export async function removeAllCartItems(reference: string): Promise<void> {
-  await EPCCAPI.Cart(reference).RemoveAllItems();
+export function payment(
+  payment: ConfirmPaymentBody,
+  orderId: string,
+  client?: EPCCClient
+) {
+  (client ?? getEpccImplicitClient()).Orders.Payment(orderId, payment);
 }
