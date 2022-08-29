@@ -4,6 +4,7 @@ import { buildSiteNavigation, NavigationNode } from "./build-site-navigation";
 import { getCart } from "../services/cart";
 import { StoreContextSSR } from "./types/store-context";
 import { getCartCookie } from "./cart-cookie";
+import { getEpccImplicitClient } from "./epcc-implicit-client";
 
 type IncomingPageServerSideProp<
   P,
@@ -25,11 +26,12 @@ export function withStoreServerSideProps<
     ctx: GetServerSidePropsContext<P>
   ): Promise<GetServerSidePropsResult<T & ExpandedContext>> => {
     // Fetching nodes and hierarchies for statically generated nav
-    const nav = await buildSiteNavigation();
-    const cartCookie = getCartCookie({ req: ctx.req, res: ctx.res });
-    // console.log("cartCookie: ", cartCookie);
+    const client = getEpccImplicitClient(ctx);
 
-    const cart = await getCart(cartCookie);
+    const nav = await buildSiteNavigation(client);
+    const cartCookie = getCartCookie(ctx);
+
+    const cart = await getCart(cartCookie, client);
 
     const incomingGSSPResult = incomingGSSP
       ? await incomingGSSP(ctx, nav)
