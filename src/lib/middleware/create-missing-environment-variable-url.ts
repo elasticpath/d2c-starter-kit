@@ -28,7 +28,6 @@ export function createAuthenticationErrorUrl(
 }
 
 function createBaseErrorUrl(reqUrl: string, from?: string): URL {
-  console.log("reqUrl: ", reqUrl);
   const configErrorUrl = new URL("/configuration-error", reqUrl);
   if (from) {
     configErrorUrl.searchParams.set("from", from);

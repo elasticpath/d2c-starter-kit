@@ -4,6 +4,7 @@ import type {
   Address,
   CheckoutCustomerObject,
   Moltin as EPCCClient,
+  ConfirmPaymentResponse,
 } from "@moltin/sdk";
 import { getEpccImplicitClient } from "../lib/epcc-implicit-client";
 
@@ -19,10 +20,10 @@ export function checkout(
     .Checkout(customer, billing, shipping);
 }
 
-export function payment(
+export function makePayment(
   payment: ConfirmPaymentBody,
   orderId: string,
   client?: EPCCClient
-) {
-  (client ?? getEpccImplicitClient()).Orders.Payment(orderId, payment);
+): Promise<ConfirmPaymentResponse> {
+  return (client ?? getEpccImplicitClient()).Orders.Payment(orderId, payment);
 }

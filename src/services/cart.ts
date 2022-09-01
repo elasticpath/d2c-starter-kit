@@ -47,6 +47,29 @@ export async function addProductToCart(
     .AddProduct(productId, quantity);
 }
 
+export interface CustomItemRequest {
+  type: "custom_item";
+  name: string;
+  quantity: number;
+  price: {
+    amount: number;
+    includes_tax?: boolean;
+  };
+  sku?: string;
+  description?: string;
+  custom_inputs?: Record<string, any>;
+}
+
+export async function addCustomItemToCart(
+  cartId: string,
+  customItem: CustomItemRequest,
+  client?: EPCCClient
+): Promise<CartItemsResponse> {
+  return (client ?? getEpccImplicitClient())
+    .Cart(cartId)
+    .AddCustomItem(customItem);
+}
+
 export async function getCart(
   cartId: string,
   client?: EPCCClient

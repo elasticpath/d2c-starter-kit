@@ -94,12 +94,7 @@ function retrieveAuthToken(
   const authCookie =
     req.cookies.get(`${cookiePrefixKey}_ep_credentials`) ??
     resp.cookies.get(`${cookiePrefixKey}_ep_credentials`);
-  console.log(
-    "retrieveAuthToken: ",
-    authCookie,
-    req.cookies.get(`${cookiePrefixKey}_ep_credentials`),
-    resp.cookies.get(`${cookiePrefixKey}_ep_credentials`)
-  );
+
   const possiblyParsedCookie = authCookie && JSON.parse(authCookie);
 
   return possiblyParsedCookie && tokenExpired(possiblyParsedCookie.expires)

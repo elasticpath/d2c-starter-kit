@@ -30,7 +30,7 @@ export function CartItemList({
               <Box overflow="hidden" borderRadius={6}>
                 <Image
                   src={item.image.href}
-                  alt="Vercel Logo"
+                  alt={item.name}
                   width={{ base: "96px", sm: "192px" }}
                   height={{ base: "96px", sm: "192px" }}
                   objectFit="cover"

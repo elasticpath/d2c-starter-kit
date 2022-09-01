@@ -1,7 +1,9 @@
 import { useContext } from "react";
 import {
+  addCustomItemToCart,
   addProductToCart,
   addPromotion,
+  CustomItemRequest,
   removeAllCartItems,
   removeCartItem,
   updateCartItem,
@@ -9,8 +11,13 @@ import {
 import { checkout } from "../services/checkout";
 import { CartItemsContext } from "./cart-provider";
 import { CartAction, CartState } from "./types/cart-reducer-types";
-import { payment } from "../services/checkout";
-import { Address } from "@moltin/sdk";
+import { makePayment } from "../services/checkout";
+import {
+  ConfirmPaymentBody,
+  ConfirmPaymentResponse,
+  OrderBillingAddress,
+  OrderShippingAddress,
+} from "@moltin/sdk";
 import { getCartCookie } from "../lib/cart-cookie";
 
 export function useCart() {
@@ -29,7 +36,7 @@ export function useCart() {
     addPromotionToCart: _addPromotionToCart(dispatch),
     updateCartItem: _updateCartItem(dispatch),
     checkout: _checkout(dispatch),
-    // TODO addCustomItemToCart
+    addCustomItemToCart: _addCustomItemToCart(dispatch),
     state,
   };
 }
@@ -37,9 +44,11 @@ export function useCart() {
 function _checkout(dispatch: (action: CartAction) => void) {
   return async (
     email: string,
-    shippingAddress: Partial<Address>,
-    billingAddress?: Partial<Address>
-  ): Promise<void> => {
+    shippingAddress: Partial<OrderShippingAddress>,
+    payment: ConfirmPaymentBody,
+    sameAsShipping?: boolean,
+    billingAddress?: Partial<OrderBillingAddress>
+  ): Promise<ConfirmPaymentResponse> => {
     const cartId = getCartCookie();
 
     dispatch({
@@ -54,17 +63,11 @@ function _checkout(dispatch: (action: CartAction) => void) {
         email,
         name: customer,
       },
-      billingAddress ?? shippingAddress,
+      billingAddress && !sameAsShipping ? billingAddress : shippingAddress,
       shippingAddress
     );
 
-    const paymentParams = {
-      gateway: "stripe_connect",
-      method: "purchase",
-      payment: "pm_card_visa",
-    };
-
-    await payment(paymentParams, orderResponse.data.id);
+    const paymentResponse = await makePayment(payment, orderResponse.data.id);
 
     const response = await removeAllCartItems(cartId);
 
@@ -72,6 +75,8 @@ function _checkout(dispatch: (action: CartAction) => void) {
       type: "update-cart",
       payload: { id: cartId, meta: response.meta, items: response.data },
     });
+
+    return paymentResponse;
   };
 }
 
@@ -103,6 +108,24 @@ function _addProductToCart(dispatch: (action: CartAction) => void) {
     });
 
     const response = await addProductToCart(cartId, productId, quantity);
+
+    dispatch({
+      type: "update-cart",
+      payload: { id: cartId, meta: response.meta, items: response.data },
+    });
+  };
+}
+
+function _addCustomItemToCart(dispatch: (action: CartAction) => void) {
+  return async (customItem: CustomItemRequest): Promise<void> => {
+    const cartId = getCartCookie();
+
+    dispatch({
+      type: "updating-cart",
+      payload: { action: "add" },
+    });
+
+    const response = await addCustomItemToCart(cartId, customItem);
 
     dispatch({
       type: "update-cart",
