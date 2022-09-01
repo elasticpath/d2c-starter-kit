@@ -21,16 +21,16 @@ import { OrderPendingState } from "./types/order-pending-state";
 
 const initialValues: Partial<CheckoutFormType> = {
   personal: {
-    email: "robert.field@elasticpath.com",
+    email: "",
   },
   sameAsShipping: true,
   shippingAddress: {
-    first_name: "Robert",
-    last_name: "Field",
-    line_1: "53 Sunnyville",
-    country: "GB",
-    region: "Sunnystate",
-    postcode: "YK78AK",
+    first_name: "",
+    last_name: "",
+    line_1: "",
+    country: "",
+    region: "",
+    postcode: "",
   },
 };
 interface ICheckoutForm {
