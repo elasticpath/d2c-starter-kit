@@ -3,6 +3,7 @@ import dropin, { Dropin } from "braintree-web-drop-in";
 import { Button } from "@chakra-ui/react";
 import { useFormikContext } from "formik";
 import { CheckoutForm } from "../form-schema/checkout-form-schema";
+import { BRAINTREE_AUTH_KEY } from "../../../lib/resolve-braintree-env";
 
 export const BrainTreePayment = (): JSX.Element => {
   const {
@@ -31,7 +32,7 @@ export const BrainTreePayment = (): JSX.Element => {
     async () =>
       setBraintreeInstance(
         await dropin.create({
-          authorization: "sandbox_x6w6yjj2_c7vsygnbwqhy7wxx",
+          authorization: BRAINTREE_AUTH_KEY,
           container: "#braintree-drop-in",
         })
       ),
