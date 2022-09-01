@@ -13,7 +13,7 @@ export const CartPage: NextPage = () => {
 
   return (
     <Box
-      px={{ base: 6, md: 0 }}
+      px={{ base: 6, "2xl": 0 }}
       py={6}
       maxW={globalBaseWidth}
       m="0 auto"
