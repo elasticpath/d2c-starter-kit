@@ -29,29 +29,11 @@ const shippingAddressSchema = Yup.object({
   instructions: Yup.string().min(1).optional(),
 }).concat(billingAddressSchema);
 
-type SupportedGateways = "braintree"; // TODO add more gateways
-
-const paymentSchema = Yup.object({
-  method: Yup.mixed<"purchase">()
-    .oneOf(["purchase"])
-    .required("Missing payment method"),
-  gateway: Yup.mixed<SupportedGateways>()
-    .oneOf(["braintree"])
-    .required("Missing payment gateway"),
-  payment: Yup.string().required("Missing payment nonce or token"),
-  options: Yup.object({
-    customer: Yup.string().optional(),
-    idempotency_key: Yup.string().optional(),
-    receipt_email: Yup.string().optional(),
-  }).optional(),
-});
-
 export const checkoutFormSchema = Yup.object().shape({
   personal: personalInformationSchema,
   shippingAddress: shippingAddressSchema,
   sameAsShipping: Yup.boolean().default(true),
   billingAddress: billingAddressSchema.notRequired().default(undefined),
-  payment: paymentSchema.required(),
 });
 
 export type CheckoutForm = Yup.InferType<typeof checkoutFormSchema>;

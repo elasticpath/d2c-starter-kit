@@ -1,5 +1,6 @@
 import { Form, Formik } from "formik";
 import {
+  Button,
   Checkbox,
   FormControl,
   Grid,
@@ -10,78 +11,71 @@ import {
   CheckoutForm as CheckoutFormType,
   checkoutFormSchema,
 } from "./form-schema/checkout-form-schema";
-import { ConfirmPaymentBody } from "@moltin/sdk";
+import { ConfirmPaymentResponse } from "@moltin/sdk";
 import ShippingForm from "./ShippingForm";
 import CustomFormControl from "./CustomFormControl";
 import BillingForm from "./BillingForm";
 import BrainTreePayment from "./payments/BraintreePayment";
 import { useCart } from "../../context/use-cart-hook";
-import { PresentCartState } from "../../context/types/cart-reducer-types";
-import { OrderPendingState } from "./types/order-pending-state";
+import { usePaymentGateway } from "../../context/use-payment-gateway";
 
 const initialValues: Partial<CheckoutFormType> = {
   personal: {
-    email: "",
+    email: "robert.field@elasticpath.com",
   },
   sameAsShipping: true,
   shippingAddress: {
-    first_name: "",
-    last_name: "",
-    line_1: "",
-    country: "",
-    region: "",
-    postcode: "",
+    first_name: "Robert",
+    last_name: "Field",
+    line_1: "51 Sunnyville",
+    country: "GB",
+    region: "Sunnycounty",
+    postcode: "WD23DD",
   },
 };
 
 interface ICheckoutForm {
   checkout: ReturnType<typeof useCart>["checkout"];
-  cartState: PresentCartState;
-  setOrderPendingState: (data: OrderPendingState) => void;
+  showCompletedOrder: (
+    paymentResponse: ConfirmPaymentResponse,
+    checkoutForm: CheckoutFormType
+  ) => void;
 }
 
 export default function CheckoutForm({
   checkout,
-  cartState,
-  setOrderPendingState,
+  showCompletedOrder,
 }: ICheckoutForm): JSX.Element {
+  const { state } = usePaymentGateway();
+
   return (
     <Formik
       initialValues={initialValues as CheckoutFormType}
       validationSchema={checkoutFormSchema}
-      onSubmit={async (validatedValues, actions) => {
-        setOrderPendingState({
-          status: "processing-order",
-          checkoutForm: validatedValues,
-          cart: cartState,
-        });
+      onSubmit={async (validatedValues) => {
+        const { personal, shippingAddress, billingAddress, sameAsShipping } =
+          validatedValues;
 
-        const {
-          personal,
-          shippingAddress,
-          billingAddress,
-          sameAsShipping,
-          payment,
-        } = validatedValues;
+        if (state.kind === "uninitialized-payment-gateway-register-state") {
+          throw Error(
+            "Unable to process payment due to no payment gateway being registered!"
+          );
+        }
+
+        const payment = await state.resolvePayment();
 
         const response = await checkout(
           personal.email,
           shippingAddress,
-          payment as ConfirmPaymentBody,
+          payment,
           sameAsShipping,
           billingAddress ?? undefined
         );
 
-        actions.setSubmitting(false);
-        setOrderPendingState({
-          status: "complete-ordered",
-          checkoutForm: validatedValues,
-          cart: cartState,
-          paymentResponse: response,
-        });
+        showCompletedOrder(response, validatedValues);
       }}
     >
-      {({ handleChange, values }) => (
+      {({ handleChange, values, isSubmitting }) => (
         <Form>
           <Grid gridTemplateRows="1fr" gap={10}>
             <Heading as="h2" fontSize="lg" fontWeight="medium">
@@ -123,6 +117,23 @@ export default function CheckoutForm({
               {!values.sameAsShipping && <BillingForm />}
             </GridItem>
             <BrainTreePayment />
+            <Button
+              justifySelf="right"
+              bg="brand.primary"
+              color="white"
+              _hover={{
+                backgroundColor: "brand.highlight",
+                boxShadow: "md",
+              }}
+              variant="solid"
+              type="submit"
+              isLoading={isSubmitting}
+              spinnerPlacement="end"
+              disabled={isSubmitting}
+              loadingText="Paying"
+            >
+              Pay Now
+            </Button>
           </Grid>
         </Form>
       )}

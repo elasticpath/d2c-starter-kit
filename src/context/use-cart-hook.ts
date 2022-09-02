@@ -53,7 +53,7 @@ function _checkout(dispatch: (action: CartAction) => void) {
 
     dispatch({
       type: "updating-cart",
-      payload: { action: "add" },
+      payload: { action: "checkout" },
     });
 
     const customer = `${shippingAddress.first_name} ${shippingAddress.last_name}`;

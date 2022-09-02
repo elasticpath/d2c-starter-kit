@@ -23,7 +23,6 @@ const myLoader = (resolverProps: ImageLoaderProps): string => {
 
 export const ChakraNextImage = (props: ImageProps & BoxProps) => {
   const { src, alt, width, quality, height, ...rest } = props;
-  console.log("rest: ", rest, width, height);
   return (
     <Box pos="relative" {...rest}>
       <ChakraNextUnwrappedImage

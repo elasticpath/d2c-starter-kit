@@ -97,7 +97,7 @@ export interface PresentCartState extends CartStateBase {
   readonly withoutTax: string;
 }
 
-type UpdatingAction = "add" | "remove" | "update" | "empty";
+type UpdatingAction = "add" | "remove" | "update" | "empty" | "checkout";
 
 /**
  * State the cart is in when there is an update actions in progress.
