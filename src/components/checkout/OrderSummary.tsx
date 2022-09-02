@@ -63,13 +63,17 @@ export function OrderSummary({
             )}
           </GridItem>
           <GridItem>
-            <Text fontWeight="medium" fontSize="md" mb="4px">
+            <Text
+              fontWeight="medium"
+              fontSize={{ base: "sm", lg: "md" }}
+              mb="4px"
+            >
               {item.name}
             </Text>
-            <Text mb="4px">
+            <Text mb="4px" fontSize={{ base: "sm", lg: "md" }}>
               {item.meta.display_price.without_tax.value.formatted}
             </Text>
-            <Text fontWeight="light" fontSize="sm">
+            <Text fontWeight="light" fontSize={{ base: "xs", lg: "sm" }}>
               Qty {item.quantity}
             </Text>
           </GridItem>
@@ -119,7 +123,9 @@ export function OrderSummary({
             </Td>
           </Tr>
           <Tr fontWeight="medium">
-            <Td pl={0}>Order Total</Td>
+            <Td pl={0} fontSize={{ base: "sm", lg: "md" }}>
+              Order Total
+            </Td>
             <Td isNumeric>{totalPrice}</Td>
           </Tr>
         </Tbody>
