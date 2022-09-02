@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import dropin, { Dropin } from "braintree-web-drop-in";
-import { Button } from "@chakra-ui/react";
+import { Button, Grid } from "@chakra-ui/react";
 import { useFormikContext } from "formik";
 import { CheckoutForm } from "../form-schema/checkout-form-schema";
 import { BRAINTREE_AUTH_KEY } from "../../../lib/resolve-braintree-env";
@@ -72,9 +72,18 @@ export const BrainTreePayment = (): JSX.Element => {
   }, [initializeBraintree]);
 
   return (
-    <div>
+    <Grid>
       <div id="braintree-drop-in"></div>
       <Button
+        justifySelf="right"
+        bg="brand.primary"
+        color="white"
+        display="block"
+        _hover={{
+          backgroundColor: "brand.highlight",
+          boxShadow: "m",
+        }}
+        variant="solid"
         _disabled={{ opacity: 50 }}
         type="button"
         onClick={() => resolveNonce()}
@@ -82,9 +91,9 @@ export const BrainTreePayment = (): JSX.Element => {
         isLoading={isFormSubmitting || submitting}
         loadingText="Paying"
       >
-        Pay
+        Pay Now
       </Button>
-    </div>
+    </Grid>
   );
 };
 
