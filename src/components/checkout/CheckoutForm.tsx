@@ -83,7 +83,7 @@ export default function CheckoutForm({
     >
       {({ handleChange, values }) => (
         <Form>
-          <Grid gridTemplateRows="1fr" gap={4}>
+          <Grid gridTemplateRows="1fr" gap={10}>
             <Heading as="h2" fontSize="lg" fontWeight="medium">
               Contact Information
             </Heading>
