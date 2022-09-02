@@ -27,7 +27,7 @@ export function CartOrderSummary({
   handleRemoveItem: (itemId: string) => Promise<void>;
 }): JSX.Element {
   return (
-    <Box backgroundColor="#F9FAFB" p={8} borderRadius={6}>
+    <Box backgroundColor="gray.50" p={8} borderRadius={6}>
       <Text fontSize="lg" fontWeight={500}>
         Order Summary
       </Text>

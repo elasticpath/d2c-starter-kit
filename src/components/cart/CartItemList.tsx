@@ -1,9 +1,10 @@
 import { RefinedCartItem } from "../../context/types/cart-reducer-types";
-import { Box, Flex, Grid, IconButton, Image } from "@chakra-ui/react";
+import { Box, Text, Grid, GridItem, IconButton } from "@chakra-ui/react";
 import QuantityHandler from "../quantity-handler/QuantityHandler";
 import { CloseIcon } from "@chakra-ui/icons";
 import { NonEmptyArray } from "../../lib/types/non-empty-array";
 import { ReadonlyNonEmptyArray } from "../../lib/types/read-only-non-empty-array";
+import { ChakraNextImage } from "../ChakraNextImage";
 
 export function CartItemList({
   items,
@@ -18,59 +19,59 @@ export function CartItemList({
   return (
     <Box>
       {items.map((item) => (
-        <Box
+        <Grid
           key={item.id}
-          display="flex"
-          paddingY={10}
-          borderTop="1px solid"
+          gridTemplateColumns={{ base: "auto 1fr auto" }}
+          gap={6}
+          py={10}
+          borderBottom="1px solid"
           borderColor="gray.200"
+          _last={{ border: "none" }}
+          _first={{ borderTop: "1px solid", borderColor: "gray.200" }}
         >
-          <Box flexShrink={0}>
-            {item.image && item.image.href && (
-              <Box overflow="hidden" borderRadius={6}>
-                <Image
-                  src={item.image.href}
-                  alt={item.name}
-                  width={{ base: "96px", sm: "192px" }}
-                  height={{ base: "96px", sm: "192px" }}
-                  objectFit="cover"
-                />
-              </Box>
+          <Box>
+            {item.image?.href && (
+              <ChakraNextImage
+                src={item.image.href}
+                alt={item.name}
+                width={192}
+                height={192}
+                w={{ base: "5rem", sm: "12rem" }}
+                h={{ base: "5rem", sm: "12rem" }}
+                overflow="hidden"
+                rounded="lg"
+              />
             )}
           </Box>
 
           <Grid
-            gridTemplateColumns={{ base: "auto", sm: "1fr 1fr" }}
-            marginLeft={6}
-            columnGap={6}
-            width="100%"
-            position="relative"
+            gridTemplateRows={{ base: "auto 1fr", md: "" }}
+            gridTemplateColumns={{ base: "", md: "1fr 1fr" }}
+            gap={{ base: 4, md: 6 }}
           >
-            <Box>
-              <Box maxWidth="90%">{item.sku}</Box>
-              <Box mt={2}>
+            <GridItem>
+              <Text fontWeight="medium" fontSize="sm" noOfLines={2}>
+                {item.name}
+              </Text>
+              <Text fontSize="md" fontWeight="medium" mt={2}>
                 {item.meta.display_price.without_tax.unit.formatted}
-              </Box>
-            </Box>
-            <Flex paddingRight={9}>
-              <QuantityHandler item={item} />
-              <IconButton
-                aria-label="Remove"
-                color="gray.500"
-                icon={<CloseIcon w={3} h={3} />}
-                variant="text"
-                position="absolute"
-                right={0}
-                top={0}
-                _hover={{ color: "gray.700" }}
-                size="sm"
-                onClick={() => {
-                  handleRemoveItem(item.id);
-                }}
-              />
-            </Flex>
+              </Text>
+            </GridItem>
+            <QuantityHandler item={item} />
           </Grid>
-        </Box>
+          <GridItem>
+            <IconButton
+              aria-label="Remove"
+              color="gray.500"
+              icon={<CloseIcon w={{ base: 2, md: 3 }} h={{ base: 2, md: 3 }} />}
+              variant="text"
+              _hover={{ color: "gray.700" }}
+              onClick={() => {
+                handleRemoveItem(item.id);
+              }}
+            />
+          </GridItem>
+        </Grid>
       ))}
     </Box>
   );

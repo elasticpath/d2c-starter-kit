@@ -2,10 +2,9 @@ import {
   Box,
   Button,
   Divider,
-  Flex,
   Grid,
   GridItem,
-  Heading,
+  Link,
   Table,
   Tbody,
   Td,
@@ -13,13 +12,14 @@ import {
   Tr,
   VStack,
 } from "@chakra-ui/react";
-import Image from "next/image";
 import {
   PromotionCartItem,
   RefinedCartItem,
 } from "../../context/types/cart-reducer-types";
 import { NonEmptyArray } from "../../lib/types/non-empty-array";
 import { ReadonlyNonEmptyArray } from "../../lib/types/read-only-non-empty-array";
+import NextLink from "next/link";
+import { ChakraNextImage } from "../ChakraNextImage";
 
 interface IOrderSummary {
   items:
@@ -43,30 +43,37 @@ export function OrderSummary({
         Order Summary
       </Text>
       {items.map((item) => (
-        <Box key={item.id}>
-          <Grid my="4" templateColumns="1fr 3fr" gap={1}>
-            <GridItem alignSelf="center">
-              {item.image && item.image.href && (
-                <Image
-                  src={item.image.href}
-                  alt={item.name}
-                  width={56}
-                  height={56}
-                  objectFit="fill"
-                />
-              )}
-            </GridItem>
-            <GridItem>
-              <Heading size="xs" mb="4px">
-                {item.name}
-              </Heading>
-              <Text mb="4px">
-                {item.meta.display_price.without_tax.value.formatted}
-              </Text>
-              <Flex gap={8}>Quantity: {item.quantity}</Flex>
-            </GridItem>
-          </Grid>
-        </Box>
+        <Grid key={item.id} my="4" templateColumns="auto 1fr" gap={3}>
+          <GridItem>
+            {item.image?.href && (
+              <NextLink href={`/products/${item.product_id}`} passHref>
+                <Link>
+                  <ChakraNextImage
+                    src={item.image.href}
+                    alt={item.name}
+                    width={192}
+                    height={192}
+                    w="5rem"
+                    h="5rem"
+                    overflow="hidden"
+                    rounded="lg"
+                  />
+                </Link>
+              </NextLink>
+            )}
+          </GridItem>
+          <GridItem>
+            <Text fontWeight="medium" fontSize="md" mb="4px">
+              {item.name}
+            </Text>
+            <Text mb="4px">
+              {item.meta.display_price.without_tax.value.formatted}
+            </Text>
+            <Text fontWeight="light" fontSize="sm">
+              Qty {item.quantity}
+            </Text>
+          </GridItem>
+        </Grid>
       ))}
       <Divider />
       <Table variant="simple">
@@ -111,7 +118,7 @@ export function OrderSummary({
               )}
             </Td>
           </Tr>
-          <Tr fontWeight={500}>
+          <Tr fontWeight="medium">
             <Td pl={0}>Order Total</Td>
             <Td isNumeric>{totalPrice}</Td>
           </Tr>

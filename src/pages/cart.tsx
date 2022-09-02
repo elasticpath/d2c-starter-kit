@@ -14,14 +14,14 @@ export const CartPage: NextPage = () => {
   return (
     <Box
       px={{ base: 6, "2xl": 0 }}
-      py={6}
+      py={10}
       maxW={globalBaseWidth}
       m="0 auto"
       w="full"
     >
       {shoppingCartProps && (
         <>
-          <Heading p={6} pl={0}>
+          <Heading as="h1" pb={6} size={{ base: "md", sm: "lg" }}>
             Your Shopping Cart
           </Heading>
           <Cart {...shoppingCartProps} />

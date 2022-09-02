@@ -33,6 +33,7 @@ const initialValues: Partial<CheckoutFormType> = {
     postcode: "",
   },
 };
+
 interface ICheckoutForm {
   checkout: ReturnType<typeof useCart>["checkout"];
   cartState: PresentCartState;
@@ -91,7 +92,9 @@ export default function CheckoutForm({
                 id="email"
                 type="email"
                 name="personal.email"
-                label="Email (checkout as a guest)"
+                autoComplete="email"
+                helperText="required for guest checkout"
+                label="Email"
                 isRequired={true}
               />
             </GridItem>

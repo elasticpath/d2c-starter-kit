@@ -25,7 +25,10 @@ export default function Cart({
   removeCartItem,
 }: ICart): JSX.Element {
   return (
-    <Grid templateColumns={{ base: "1fr", lg: "2fr 1.5fr" }} columnGap="50px">
+    <Grid
+      templateColumns={{ base: "1fr", lg: "2fr 1.5fr" }}
+      gap={{ base: 4, lg: 12 }}
+    >
       <CartItemList items={items} handleRemoveItem={removeCartItem} />
       <CartOrderSummary
         cartId={id}

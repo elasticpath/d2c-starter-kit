@@ -2,6 +2,7 @@ import { useField } from "formik";
 import {
   FormControl,
   FormErrorMessage,
+  FormHelperText,
   FormLabel,
   Input,
   InputProps,
@@ -10,11 +11,13 @@ import {
 interface ITextField extends InputProps {
   label: string;
   isRequired?: boolean;
+  helperText?: string;
 }
 
 export default function CustomFormControl({
   label,
   isRequired = false,
+  helperText,
   ...props
 }: ITextField): JSX.Element {
   // TODO type props correctly
@@ -29,6 +32,7 @@ export default function CustomFormControl({
         {label}
       </FormLabel>
       <Input {...field} {...props} />
+      {helperText && <FormHelperText>{helperText}</FormHelperText>}
       {meta.error && meta.touched && (
         <FormErrorMessage>
           <>{meta.error}</>

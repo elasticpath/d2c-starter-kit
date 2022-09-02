@@ -18,12 +18,10 @@ import {
   RefinedCartItem,
   RegularCartItem,
 } from "../../context/types/cart-reducer-types";
-import NextImage from "next/future/image";
-import { toBase64 } from "../../lib/to-base-64";
-import { shimmer } from "../shimmer";
 import NextLink from "next/link";
 import { getPresentCartState } from "../../lib/get-present-cart-state";
 import { ReadonlyNonEmptyArray } from "../../lib/types/read-only-non-empty-array";
+import { ChakraNextImage } from "../ChakraNextImage";
 
 function resolveStateCartItems(
   state: CartState
@@ -44,24 +42,21 @@ function ModalCartItem({
   return (
     <Grid gap={4} position="relative" gridTemplateColumns="auto 1fr auto">
       <Box>
-        {item.image && item.image.href && (
-          <Box overflow="hidden" borderRadius={6} w="64px" h="64px">
-            <NextLink href={`/products/${item.product_id}`} passHref>
-              <Link>
-                <NextImage
-                  src={item.image.href}
-                  alt={item.name}
-                  placeholder="blur"
-                  blurDataURL={`data:image/svg+xml;base64,${toBase64(
-                    shimmer(128, 128)
-                  )}`}
-                  width={128}
-                  height={128}
-                  style={{ objectFit: "cover", width: "64px", height: "64px" }}
-                />
-              </Link>
-            </NextLink>
-          </Box>
+        {item.image?.href && (
+          <NextLink href={`/products/${item.product_id}`} passHref>
+            <Link>
+              <ChakraNextImage
+                src={item.image.href}
+                alt={item.name}
+                width={128}
+                height={128}
+                w="4rem"
+                h="4rem"
+                overflow="hidden"
+                rounded="lg"
+              />
+            </Link>
+          </NextLink>
         )}
       </Box>
       <Grid gridTemplateRows="max-content auto">
