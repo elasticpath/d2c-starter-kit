@@ -1,5 +1,4 @@
 import { CartProvider } from "./cart-provider";
-import { CheckoutProvider } from "./checkout";
 import { StoreProviderProps } from "./types/store-context";
 
 const StoreProvider = ({ children, storeContext }: StoreProviderProps) => {
@@ -11,7 +10,7 @@ const StoreProvider = ({ children, storeContext }: StoreProviderProps) => {
           : undefined
       }
     >
-      <CheckoutProvider>{children}</CheckoutProvider>
+      {children}
     </CartProvider>
   );
 };
