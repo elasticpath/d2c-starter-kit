@@ -1,5 +1,6 @@
 import { Grid } from "@chakra-ui/react";
 import CustomFormControl from "./CustomFormControl";
+import CountrySelect from "./CountrySelect";
 
 export default function BillingForm(): JSX.Element {
   return (
@@ -62,11 +63,11 @@ export default function BillingForm(): JSX.Element {
           label="Postcode"
           isRequired={true}
         />
-        <CustomFormControl
+        <CountrySelect
           id="country"
-          type="text"
           name="billingAddress.country"
           label="Country"
+          placeholder="select country"
           isRequired={true}
         />
       </Grid>

@@ -1,5 +1,6 @@
 import { Grid } from "@chakra-ui/react";
 import CustomFormControl from "./CustomFormControl";
+import CountrySelect from "./CountrySelect";
 
 export default function ShippingForm(): JSX.Element {
   return (
@@ -62,17 +63,18 @@ export default function ShippingForm(): JSX.Element {
           label="Postcode"
           isRequired={true}
         />
-        <CustomFormControl
+        <CountrySelect
           id="country"
-          type="text"
           name="shippingAddress.country"
           label="Country"
+          placeholder="select country"
           isRequired={true}
         />
       </Grid>
       <CustomFormControl
         id="phone_number"
         type="text"
+        inputMode="numeric"
         name="shippingAddress.phone_number"
         label="Phone Number"
       />
