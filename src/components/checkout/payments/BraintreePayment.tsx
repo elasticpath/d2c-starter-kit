@@ -47,7 +47,6 @@ export const BrainTreePayment = (): JSX.Element => {
     registerGateway(resolveNonce, "braintree");
   }, [registerGateway]);
 
-  // TODO is broken then you try checkout back to back tries to reuse the same nonce.
   useEffect(() => {
     if (!braintreeInstance) {
       initializeBraintree();
