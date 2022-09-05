@@ -41,6 +41,7 @@ export const Checkout: NextPage<ICheckout> = () => {
           checkoutForm,
           cart,
         });
+        window.scrollTo({ top: 0, left: 0 });
       };
     },
     [setOrderCompleteState]
