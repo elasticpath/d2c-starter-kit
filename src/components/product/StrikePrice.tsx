@@ -8,7 +8,7 @@ interface IPrice {
 const StrikePrice = ({ price, currency }: IPrice): JSX.Element => {
   return (
     <Text
-      color={useColorModeValue("gray.500", "gray.200")}
+      color={useColorModeValue("red.500", "red.200")}
       fontWeight={300}
       marginTop="15px"
       fontSize="lg"
