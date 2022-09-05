@@ -114,7 +114,7 @@ export default function FeaturedNodes(props: INodeDisplay): JSX.Element {
     try {
       fetchTopThreeNodes();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }, [fetchTopThreeNodes]);
 

@@ -1,72 +1,78 @@
-import type { CartItemsResponse } from "@moltin/sdk";
-import { EPCCAPI } from "./helper";
-
-export async function getCartItems(
-  reference: string
-): Promise<CartItemsResponse> {
-  const CartItems = await EPCCAPI.Cart(reference).Items();
-  return CartItems;
-}
+import type { CartItemsResponse, Moltin as EPCCClient } from "@moltin/sdk";
+import { Cart, CartIncluded, ResourceIncluded } from "@moltin/sdk";
+import { getEpccImplicitClient } from "../lib/epcc-implicit-client";
 
 export async function removeCartItem(
-  reference: string,
-  itemId: string
-): Promise<void> {
-  await EPCCAPI.Cart(reference).RemoveItem(itemId);
+  id: string,
+  itemId: string,
+  client?: EPCCClient
+): Promise<CartItemsResponse> {
+  return (client ?? getEpccImplicitClient()).Cart(id).RemoveItem(itemId);
 }
 
-export async function removeAllCartItems(reference: string): Promise<void> {
-  await EPCCAPI.Cart(reference).RemoveAllItems();
+export async function removeAllCartItems(
+  id: string,
+  client?: EPCCClient
+): Promise<CartItemsResponse> {
+  return (client ?? getEpccImplicitClient()).Cart(id).RemoveAllItems();
 }
 
 export async function updateCartItem(
-  reference: string,
+  id: string,
   productId: string,
-  quantity: number
-): Promise<void> {
-  await EPCCAPI.Cart(reference).UpdateItem(productId, quantity);
+  quantity: number,
+  client?: EPCCClient
+): Promise<CartItemsResponse> {
+  return (client ?? getEpccImplicitClient())
+    .Cart(id)
+    .UpdateItem(productId, quantity);
 }
 
 export async function addPromotion(
-  reference: string,
-  promoCode: string
-): Promise<void> {
-  await EPCCAPI.Cart(reference).AddPromotion(promoCode);
+  id: string,
+  promoCode: string,
+  client?: EPCCClient
+): Promise<CartItemsResponse> {
+  return (client ?? getEpccImplicitClient()).Cart(id).AddPromotion(promoCode);
 }
 
-const createCartIdentifier = () => {
-  return "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx".replace(/[x]/g, () =>
-    ((Math.random() * 16) | 0).toString(16)
-  );
-};
-
-function setCartId() {
-  localStorage.setItem("mcart", createCartIdentifier());
-}
-
-export const getCartId = (): string => {
-  let cartId = localStorage.getItem("mcart");
-
-  if (!cartId) {
-    setCartId();
-    cartId = localStorage.getItem("mcart");
-  }
-
-  return cartId || "";
-};
-
-export async function getMultiCarts(token: string) {
-  const cartsList = await EPCCAPI.Cart().GetCartsList(token);
-  return cartsList;
-}
-
-export async function addToCart(
+export async function addProductToCart(
+  cartId: string,
   productId: string,
-  quantity: number
-): Promise<any> {
-  const cartId: string = getCartId();
+  quantity: number,
+  client?: EPCCClient
+): Promise<CartItemsResponse> {
+  return (client ?? getEpccImplicitClient())
+    .Cart(cartId)
+    .AddProduct(productId, quantity);
+}
 
-  const response = await EPCCAPI.Cart(cartId).AddProduct(productId, quantity);
+export interface CustomItemRequest {
+  type: "custom_item";
+  name: string;
+  quantity: number;
+  price: {
+    amount: number;
+    includes_tax?: boolean;
+  };
+  sku?: string;
+  description?: string;
+  custom_inputs?: Record<string, any>;
+}
 
-  return response;
+export async function addCustomItemToCart(
+  cartId: string,
+  customItem: CustomItemRequest,
+  client?: EPCCClient
+): Promise<CartItemsResponse> {
+  return (client ?? getEpccImplicitClient())
+    .Cart(cartId)
+    .AddCustomItem(customItem);
+}
+
+export async function getCart(
+  cartId: string,
+  client?: EPCCClient
+): Promise<ResourceIncluded<Cart, CartIncluded>> {
+  return (client ?? getEpccImplicitClient()).Cart(cartId).With("items").Get();
 }

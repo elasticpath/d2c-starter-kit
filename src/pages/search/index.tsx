@@ -1,4 +1,4 @@
-import { withNavServerSideProps } from "../../lib/nav-wrapper-ssr";
+import { withStoreServerSideProps } from "../../lib/store-wrapper-ssr";
 
 import {
   getSearchSSRProps,
@@ -8,10 +8,11 @@ import {
 import Search from "../../components/search/SearchPage";
 import { buildBreadcrumbLookup } from "../../lib/build-breadcrumb-lookup";
 
-export const getServerSideProps = withNavServerSideProps<ISearch, SearchQuery>(
-  async (context, nav) => {
-    return getSearchSSRProps(Search, buildBreadcrumbLookup(nav))(context);
-  }
-);
+export const getServerSideProps = withStoreServerSideProps<
+  ISearch,
+  SearchQuery
+>(async (context, nav) => {
+  return getSearchSSRProps(Search, buildBreadcrumbLookup(nav))(context);
+});
 
 export default Search;

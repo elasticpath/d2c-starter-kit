@@ -25,7 +25,7 @@ import { NavigationNode } from "../../../lib/build-site-navigation";
 
 import SearchModal from "../../search/SearchModal";
 import NavItemContent from "./NavItemContent";
-import CartMenu from "../../cart-items/CartMenu";
+import CartMenu from "../../cart/CartMenu";
 
 import EpIcon from "../../../../public/icons/ep-icon.svg";
 

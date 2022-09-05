@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import { useCartItems } from "../../context/cart";
 
 import { Button } from "@chakra-ui/react";
 interface CheckoutParams {
+  totalPrice: string;
   onPayOrder: (...args: any) => any;
 }
 
-export const PaymentForm = (props: CheckoutParams): JSX.Element => {
-  const { onPayOrder } = props;
-  const { totalPrice } = useCartItems();
-
+export const PaymentForm = ({
+  onPayOrder,
+  totalPrice,
+}: CheckoutParams): JSX.Element => {
   const stripe = useStripe();
   const elements = useElements();
 

@@ -1,63 +1,41 @@
-import { useState, useEffect } from "react";
-import { updateCartItem } from "../../services/cart";
-import { useCartItems } from "../../context/cart";
 import { Box, Button, NumberInput, NumberInputField } from "@chakra-ui/react";
 import type { CartItem } from "@moltin/sdk";
+import { useCart } from "../../context/use-cart-hook";
 
 interface IQuantityHandler {
   item: CartItem;
-  size: string; // TODO should probably be constrained further e.g. union type of "sm" | "md" | "lg"
 }
 
-const QuantityHandler = ({ item, size }: IQuantityHandler): JSX.Element => {
-  const { updateCartItems } = useCartItems();
-  const [mcart, setMcart] = useState("");
+const QuantityHandler = ({ item }: IQuantityHandler): JSX.Element => {
+  const { updateCartItem } = useCart();
 
-  useEffect(() => {
-    const cart = localStorage.getItem("mcart") || "";
-    setMcart(cart);
-  }, [setMcart]);
-
-  const handleUpdateQuantity = (id: string, quantity: number) => {
-    updateCartItem(mcart, id, quantity)
-      .then(() => {
-        updateCartItems();
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
   return (
-    <Box
-      display="flex"
-      justifyContent="space-around"
-      width={size === "xs" ? "120px" : "120px"}
-    >
+    <Box display="flex" justifyContent="space-around" width="120px">
       <Button
-        size={size}
+        size="sm"
         className="cartsdetailspage__arrow"
         onClick={() => {
-          handleUpdateQuantity(item.id, item.quantity - 1);
+          updateCartItem(item.id, item.quantity - 1);
         }}
       >
         -
       </Button>
       <NumberInput
-        size={size}
-        width={size === "xs" ? "45px" : "45px"}
+        size="sm"
+        width="45px"
         value={item.quantity}
         onChange={(_valueAsString: string, valueAsNumber: number) =>
-          handleUpdateQuantity(item.id, valueAsNumber)
+          updateCartItem(item.id, valueAsNumber)
         }
         min={1}
       >
         <NumberInputField p="8px" borderRadius="md" textAlign="center" />
       </NumberInput>
       <Button
-        size={size}
+        size="sm"
         className="cartsdetailspage__arrow"
         onClick={() => {
-          handleUpdateQuantity(item.id, item.quantity + 1);
+          updateCartItem(item.id, item.quantity + 1);
         }}
       >
         +

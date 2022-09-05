@@ -1,4 +1,4 @@
-import { withNavServerSideProps } from "../../lib/nav-wrapper-ssr";
+import { withStoreServerSideProps } from "../../lib/store-wrapper-ssr";
 
 import {
   getSearchSSRProps,
@@ -16,10 +16,11 @@ export function NodeSearch(props: INodeSearch): JSX.Element {
   return <Search {...props} />;
 }
 
-export const getServerSideProps = withNavServerSideProps<ISearch, SearchQuery>(
-  async (context, nav) => {
-    return getSearchSSRProps(NodeSearch, buildBreadcrumbLookup(nav))(context);
-  }
-);
+export const getServerSideProps = withStoreServerSideProps<
+  ISearch,
+  SearchQuery
+>(async (context, nav) => {
+  return getSearchSSRProps(NodeSearch, buildBreadcrumbLookup(nav))(context);
+});
 
 export default NodeSearch;

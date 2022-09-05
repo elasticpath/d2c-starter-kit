@@ -1,35 +1,19 @@
 import {
-  gateway as EPCCGateway,
-  ProductResponse,
   CatalogsProductVariation,
-  ConfigOptions,
-  MemoryStorageFactory,
-  LocalStorageFactory,
   CustomerBase,
+  ProductResponse,
+  Moltin as EPCCClient,
 } from "@moltin/sdk";
-import { resolveEpccCustomRuleHeaders } from "../lib/custom-rule-headers";
 import { OptionDict } from "../lib/product-types";
-import { epccEnv } from "../lib/resolve-epcc-env";
-
-const headers = resolveEpccCustomRuleHeaders();
-
-export const epccParam: ConfigOptions = {
-  ...epccEnv,
-  storage:
-    typeof window === "undefined"
-      ? new MemoryStorageFactory()
-      : new LocalStorageFactory(),
-  ...(headers ? { headers } : {}),
-};
-
-export const EPCCAPI = EPCCGateway(epccParam);
+import { getEpccImplicitClient } from "../lib/epcc-implicit-client";
 
 export async function register(
   name: string,
   email: string,
-  password: string
+  password: string,
+  client?: EPCCClient
 ): Promise<CustomerBase> {
-  const { data } = await EPCCAPI.Customers.Create({
+  const { data } = await (client ?? getEpccImplicitClient()).Customers.Create({
     type: "customer",
     name,
     email,

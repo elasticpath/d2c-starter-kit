@@ -2,7 +2,7 @@ import { Flex, Heading, Link } from "@chakra-ui/react";
 
 import NextLink from "next/link";
 import { menuItemStyleProps } from "../lib/menu-style";
-import { withNavStaticProps } from "../lib/nav-wrapper-ssg";
+import { withStoreStaticProps } from "../lib/store-wrapper-ssg";
 
 export default function Custom500() {
   return (
@@ -12,13 +12,18 @@ export default function Custom500() {
       alignItems="center"
       justifyContent="center"
       gap={4}
+      p={8}
     >
-      <Heading>500 - Internal server error.</Heading>
+      <Heading fontSize={{ base: "xl", md: "3xl" }} textAlign="center">
+        500 - Internal server error.
+      </Heading>
       <NextLink href="/" passHref>
-        <Link {...menuItemStyleProps}>Back to home</Link>
+        <Link {...menuItemStyleProps} fontSize={{ base: "md", md: "lg" }}>
+          Back to home
+        </Link>
       </NextLink>
     </Flex>
   );
 }
 
-export const getStaticProps = withNavStaticProps();
+export const getStaticProps = withStoreStaticProps();
