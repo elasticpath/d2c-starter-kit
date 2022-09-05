@@ -21,16 +21,16 @@ import { usePaymentGateway } from "../../context/use-payment-gateway";
 
 const initialValues: Partial<CheckoutFormType> = {
   personal: {
-    email: "robert.field@elasticpath.com",
+    email: "",
   },
   sameAsShipping: true,
   shippingAddress: {
-    first_name: "Robert",
-    last_name: "Field",
-    line_1: "51 Sunnyville",
-    country: "GB",
-    region: "Sunnycounty",
-    postcode: "WD23DD",
+    first_name: "",
+    last_name: "",
+    line_1: "",
+    country: "",
+    region: "",
+    postcode: "",
   },
 };
 
