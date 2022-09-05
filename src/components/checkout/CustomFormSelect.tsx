@@ -22,7 +22,6 @@ export default function CustomFormSelect({
   placeholder,
   ...props
 }: ISelectField): JSX.Element {
-  // TODO type props correctly
   const [field, meta] = useField(props as any);
 
   return (

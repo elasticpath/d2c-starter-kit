@@ -20,7 +20,6 @@ export default function CustomFormControl({
   helperText,
   ...props
 }: ITextField): JSX.Element {
-  // TODO type props correctly
   const [field, meta] = useField(props as any);
 
   return (
