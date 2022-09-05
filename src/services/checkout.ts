@@ -1,6 +1,6 @@
 import type {
   Order,
-  ConfirmPaymentBody,
+  PaymentRequestBody,
   Address,
   CheckoutCustomerObject,
   Moltin as EPCCClient,
@@ -21,7 +21,7 @@ export function checkout(
 }
 
 export function makePayment(
-  payment: ConfirmPaymentBody,
+  payment: PaymentRequestBody,
   orderId: string,
   client?: EPCCClient
 ): Promise<ConfirmPaymentResponse> {

@@ -1,4 +1,4 @@
-import { ConfirmPaymentBody } from "@moltin/sdk";
+import { PaymentRequestBody } from "@moltin/sdk";
 
 /** --------------------------------- Payment Gateway Register (PGR) State --------------------------------- */
 
@@ -30,8 +30,8 @@ export interface RegisteredPGRState extends PaymentGatewayStateBase {
    * this function when called will resolve the payment specification for the registered gateway
    */
   readonly resolvePayment: () =>
-    | Promise<ConfirmPaymentBody>
-    | ConfirmPaymentBody;
+    | Promise<PaymentRequestBody>
+    | PaymentRequestBody;
 }
 
 /**

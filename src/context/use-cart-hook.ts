@@ -13,7 +13,7 @@ import { CartItemsContext } from "./cart-provider";
 import { CartAction, CartState } from "./types/cart-reducer-types";
 import { makePayment } from "../services/checkout";
 import {
-  ConfirmPaymentBody,
+  PaymentRequestBody,
   ConfirmPaymentResponse,
   OrderBillingAddress,
   OrderShippingAddress,
@@ -45,7 +45,7 @@ function _checkout(dispatch: (action: CartAction) => void) {
   return async (
     email: string,
     shippingAddress: Partial<OrderShippingAddress>,
-    payment: ConfirmPaymentBody,
+    payment: PaymentRequestBody,
     sameAsShipping?: boolean,
     billingAddress?: Partial<OrderBillingAddress>
   ): Promise<ConfirmPaymentResponse> => {

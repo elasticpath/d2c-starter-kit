@@ -3,7 +3,7 @@ import dropin, { Dropin } from "braintree-web-drop-in";
 import { Box } from "@chakra-ui/react";
 import { BRAINTREE_AUTH_KEY } from "../../../lib/resolve-braintree-env";
 import { usePaymentGateway } from "../../../context/use-payment-gateway";
-import { ConfirmPaymentBody } from "@moltin/sdk";
+import { PaymentRequestBody } from "@moltin/sdk";
 
 export const BrainTreePayment = (): JSX.Element => {
   const { registerGateway } = usePaymentGateway();
@@ -19,7 +19,7 @@ export const BrainTreePayment = (): JSX.Element => {
     });
     setBraintreeInstance(braintreeInstanceTemp);
 
-    const resolveNonce = async function (): Promise<ConfirmPaymentBody> {
+    const resolveNonce = async function (): Promise<PaymentRequestBody> {
       if (!braintreeInstanceTemp) {
         throw Error(
           "Tried to resolve nonce before braintree instance was initialized"
@@ -34,8 +34,7 @@ export const BrainTreePayment = (): JSX.Element => {
           gateway: "braintree",
           payment: nonce,
           options: {
-            // @ts-ignore
-            payment_method_nonce: true, // TODO add to js-sdk type def for ConfirmPaymentBody
+            payment_method_nonce: true,
           },
         };
       } catch (err) {
