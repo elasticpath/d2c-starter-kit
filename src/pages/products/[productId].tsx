@@ -3,27 +3,19 @@ import type { GetStaticPaths, NextPage } from "next";
 import { ParsedUrlQuery } from "querystring";
 import ChildProductDetail from "../../components/product/ChildProduct";
 import BaseProductDetail from "../../components/product/BaseProduct";
-import {
-  isChildProductResource,
-  isSimpleProductResource,
-} from "../../services/helper";
-import { getAllProducts, getProductById } from "../../services/products";
+import { getAllProducts } from "../../services/products";
 import SimpleProductDetail from "../../components/product/SimpleProduct";
-import { ProductContext } from "../../lib/product-util";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import type { IProduct } from "../../lib/product-types";
 
 import { withStoreStaticProps } from "../../lib/store-wrapper-ssg";
-import {
-  retrieveBaseProps,
-  retrieveChildProps,
-  retrieveSimpleProps,
-} from "../../lib/retrieve-product-props";
 import { useCart } from "../../context/use-cart-hook";
+import { ProductProvider } from "../../context/product-provider";
+import { ProductPresentState } from "../../context/types/product-reducer-types";
+import { resolveProduct } from "../../lib/resolve-product";
 
 export const Product: NextPage<IProduct> = (props: IProduct) => {
   const { addProductToCart } = useCart();
-  const [isChangingSku, setIsChangingSku] = useState(false);
 
   const { product } = props;
 
@@ -31,19 +23,45 @@ export const Product: NextPage<IProduct> = (props: IProduct) => {
     return addProductToCart(product.id, 1);
   }, [product, addProductToCart]);
 
+  const initialProduct = temp(props);
+
   return (
     <Container maxW="7xl" key={"page_" + product.id}>
-      <ProductContext.Provider
-        value={{
-          isChangingSku,
-          setIsChangingSku,
-        }}
-      >
-        {resolveProductDetailComponent(props, handleAddToCart)}
-      </ProductContext.Provider>
+      {initialProduct && (
+        <ProductProvider product={initialProduct}>
+          {resolveProductDetailComponent(props, handleAddToCart)}
+        </ProductProvider>
+      )}
     </Container>
   );
 };
+
+function temp(props: IProduct): ProductPresentState | undefined {
+  if (props.kind === "base-product") {
+    return {
+      ...props,
+      kind: "base-product-present-state",
+      main_image: props.main_image ?? undefined,
+    };
+  }
+
+  if (props.kind === "child-product") {
+    return {
+      ...props,
+      kind: "child-product-present-state",
+      main_image: props.main_image ?? undefined,
+    };
+  }
+
+  if (props.kind === "simple-product") {
+    return {
+      ...props,
+      kind: "simple-product-present-state",
+      main_image: props.main_image ?? undefined,
+    };
+  }
+  return;
+}
 
 function resolveProductDetailComponent(
   props: IProduct,
@@ -88,24 +106,12 @@ export const getStaticProps = withStoreStaticProps<
     };
   }
 
-  const product = await getProductById(params.productId);
-
-  if (!product) {
-    return {
-      notFound: true,
-    };
-  }
-
-  const productData = product.data;
-
-  const retrievedResults = isSimpleProductResource(productData)
-    ? retrieveSimpleProps(product)
-    : isChildProductResource(productData)
-    ? await retrieveChildProps(product)
-    : await retrieveBaseProps(product);
+  const retrievedResults = await resolveProduct(params.productId);
 
   return {
-    ...retrievedResults,
+    props: {
+      ...retrievedResults,
+    },
   };
 });
 

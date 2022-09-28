@@ -1,10 +1,9 @@
 import { Stack } from "@chakra-ui/react";
 import type { CatalogsProductVariation } from "@moltin/sdk";
 import { useRouter } from "next/router";
-import { useContext } from "react";
 import { useEffect, useState } from "react";
 import { OptionDict } from "../../lib/product-types";
-import { createEmptyOptionDict, ProductContext } from "../../lib/product-util";
+import { createEmptyOptionDict } from "../../lib/product-util";
 import {
   allVariationsHaveSelectedOption,
   getOptionsFromSkuId,
@@ -13,6 +12,7 @@ import {
   MatrixObjectEntry,
 } from "../../services/helper";
 import ProductVariation, { UpdateOptionHandler } from "./ProductVariation";
+import { useProduct } from "../../context/use-product-hook";
 
 interface IProductVariations {
   variations: CatalogsProductVariation[];
@@ -35,12 +35,13 @@ const ProductVariations = ({
   currentSkuId,
   variationsMatrix,
 }: IProductVariations): JSX.Element => {
+  const { state, routeToProduct } = useProduct();
+
   const currentSkuOptions = getOptionsFromSkuId(currentSkuId, variationsMatrix);
   const initialOptions = currentSkuOptions
     ? mapOptionsToVariation(currentSkuOptions, variations)
     : createEmptyOptionDict(variations);
 
-  const context = useContext(ProductContext);
   const [selectedOptions, setSelectedOptions] =
     useState<OptionDict>(initialOptions);
   const router = useRouter();
@@ -56,15 +57,16 @@ const ProductVariations = ({
       selectedSkuId !== currentSkuId &&
       allVariationsHaveSelectedOption(selectedOptions, variations)
     ) {
-      context?.setIsChangingSku(true);
-      router.push(`/products/${selectedSkuId}`).then(() => {
-        context?.setIsChangingSku(false);
+      routeToProduct(selectedSkuId, (id) => {
+        return router.push(`/products/${id}`).then(() => {
+          return;
+        });
       });
     }
   }, [
+    routeToProduct,
     selectedOptions,
     baseProductSlug,
-    context,
     currentSkuId,
     router,
     variations,
@@ -86,7 +88,7 @@ const ProductVariations = ({
     };
 
   return (
-    <Stack opacity={context?.setIsChangingSku ? "50" : "100"}>
+    <Stack opacity={state.kind === "changing-product-state" ? "50" : "100"}>
       {variations.map((v) => (
         <ProductVariation
           key={v.id}

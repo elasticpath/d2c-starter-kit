@@ -1,23 +1,26 @@
 import { Box, Heading, Tag, Flex } from "@chakra-ui/react";
 import type { ProductResponse } from "@moltin/sdk";
-import { useContext } from "react";
-import { changingSkuStyle, ProductContext } from "../../lib/product-util";
+import { changingSkuStyle } from "../../lib/product-util";
 import Price from "./Price";
 import StrikePrice from "./StrikePrice";
+import { useProduct } from "../../context/use-product-hook";
 
 interface IProductSummary {
   product: ProductResponse;
 }
 
 const ProductSummary = ({ product }: IProductSummary): JSX.Element => {
+  const { state } = useProduct();
   const {
     attributes,
     meta: { display_price, original_display_price },
   } = product;
-  const context = useContext(ProductContext);
 
   return (
-    <Box as="header" {...(context?.isChangingSku ? changingSkuStyle : {})}>
+    <Box
+      as="header"
+      {...(state.kind === "changing-product-state" ? changingSkuStyle : {})}
+    >
       <Heading
         lineHeight={1.1}
         fontWeight={600}

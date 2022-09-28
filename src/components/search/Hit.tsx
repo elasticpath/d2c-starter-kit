@@ -1,5 +1,6 @@
 import { SearchHit } from "./SearchHit";
 import {
+  Button,
   Center,
   Flex,
   Grid,
@@ -15,7 +16,13 @@ import Link from "next/link";
 import Price from "../product/Price";
 import StrikePrice from "../product/StrikePrice";
 
-export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
+export default function HitComponent({
+  hit,
+  openQuickView,
+}: {
+  hit: SearchHit;
+  openQuickView: (productId: string) => void;
+}): JSX.Element {
   const { ep_price, ep_name, objectID, ep_main_image_url, ep_description } =
     hit;
 
@@ -74,6 +81,7 @@ export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
             </Flex>
           )}
         </Text>
+        <Button onClick={() => openQuickView(objectID)}>Add to cart</Button>
       </Grid>
     </LinkBox>
   );
