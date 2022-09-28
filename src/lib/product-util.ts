@@ -5,12 +5,7 @@ import type {
   CatalogsProductVariation,
   ShopperCatalogResource,
 } from "@moltin/sdk";
-import { createContext } from "react";
-import type {
-  IdentifiableBaseProduct,
-  OptionDict,
-  ProductContextState,
-} from "./product-types";
+import type { IdentifiableBaseProduct, OptionDict } from "./product-types";
 import { ProductImageObject, ProductResponseWithImage } from "./product-types";
 
 export function processImageFiles(files: File[], mainImageId?: string) {
@@ -71,8 +66,6 @@ export const createEmptyOptionDict = (
   variations: CatalogsProductVariation[]
 ): OptionDict =>
   variations.reduce((acc, c) => ({ ...acc, [c.id]: undefined }), {});
-
-export const ProductContext = createContext<ProductContextState | null>(null);
 
 export const connectProductsWithMainImages = (
   products: ProductResponse[],

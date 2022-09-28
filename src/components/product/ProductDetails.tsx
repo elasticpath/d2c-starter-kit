@@ -6,16 +6,15 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import type { ProductResponse } from "@moltin/sdk";
-import { useContext } from "react";
-import { changingSkuStyle, ProductContext } from "../../lib/product-util";
+import { changingSkuStyle } from "../../lib/product-util";
+import { useProduct } from "../../context/use-product-hook";
 
 interface IProductDetails {
   product: ProductResponse;
 }
 
 const ProductDetails = ({ product }: IProductDetails): JSX.Element => {
-  const context = useContext(ProductContext);
-
+  const { state } = useProduct();
   return (
     <Stack
       spacing={{ base: 4, sm: 6 }}
@@ -23,7 +22,7 @@ const ProductDetails = ({ product }: IProductDetails): JSX.Element => {
       divider={
         <StackDivider borderColor={useColorModeValue("gray.200", "gray.800")} />
       }
-      {...(context?.isChangingSku ? changingSkuStyle : {})}
+      {...(state.kind === "changing-product-state" ? changingSkuStyle : {})}
     >
       <Box>
         <Text

@@ -1,5 +1,6 @@
 import { SearchHit } from "./SearchHit";
 import {
+  Button,
   Center,
   Grid,
   GridItem,
@@ -12,9 +13,16 @@ import {
 import { ViewOffIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 
-export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
+export default function HitComponent({
+  hit,
+  openQuickView,
+}: {
+  hit: SearchHit;
+  openQuickView: (productId: string) => void;
+}): JSX.Element {
   const { ep_price, ep_name, objectID, ep_main_image_url, ep_description } =
     hit;
+
   return (
     <LinkBox display="grid" gridTemplateRows="auto 1fr" h="full">
       <GridItem position="relative" overflow="hidden" pb="100%">
@@ -56,8 +64,9 @@ export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
           {ep_description}
         </Text>
         <Text fontSize="md" fontWeight="semibold" mt="1">
-          {ep_price}
+          {ep_price ? ep_price["USD"].formatted_price : "Unknown"}
         </Text>
+        <Button onClick={() => openQuickView(objectID)}>Add to cart</Button>
       </Grid>
     </LinkBox>
   );

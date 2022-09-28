@@ -1,5 +1,4 @@
 import { ProductResponse, Resource, ShopperCatalogResource } from "@moltin/sdk";
-import { GetStaticPropsResult } from "next";
 import { IBaseProduct, IChildProduct, ISimpleProduct } from "./product-types";
 import { getProductMainImage, getProductOtherImageUrls } from "./product-util";
 import { getProductById } from "../services/products";
@@ -7,22 +6,20 @@ import { sortAlphabetically } from "./shared-util";
 
 export function retrieveSimpleProps(
   productResource: ShopperCatalogResource<ProductResponse>
-): GetStaticPropsResult<ISimpleProduct> {
+): ISimpleProduct {
   const component_products = productResource.included?.component_products;
   return {
-    props: {
-      kind: "simple-product",
-      product: productResource.data,
-      main_image: getProductMainImage(productResource),
-      otherImages: getProductOtherImageUrls(productResource),
-      ...(component_products && { component_products }),
-    },
+    kind: "simple-product",
+    product: productResource.data,
+    main_image: getProductMainImage(productResource),
+    otherImages: getProductOtherImageUrls(productResource),
+    ...(component_products && { component_products }),
   };
 }
 
 export async function retrieveChildProps(
   childProductResource: Resource<ProductResponse>
-): Promise<GetStaticPropsResult<IChildProduct>> {
+): Promise<IChildProduct> {
   const baseProductId = childProductResource.data.attributes.base_product_id;
   const baseProduct = await getProductById(baseProductId);
   if (!baseProduct) {
@@ -43,21 +40,19 @@ export async function retrieveChildProps(
   }
 
   return {
-    props: {
-      kind: "child-product",
-      product: childProductResource.data,
-      baseProduct: baseProduct.data,
-      main_image: getProductMainImage(childProductResource),
-      otherImages: getProductOtherImageUrls(childProductResource),
-      variationsMatrix: variation_matrix,
-      variations: variations.sort(sortAlphabetically),
-    },
+    kind: "child-product",
+    product: childProductResource.data,
+    baseProduct: baseProduct.data,
+    main_image: getProductMainImage(childProductResource),
+    otherImages: getProductOtherImageUrls(childProductResource),
+    variationsMatrix: variation_matrix,
+    variations: variations.sort(sortAlphabetically),
   };
 }
 
 export async function retrieveBaseProps(
   baseProductResource: Resource<ProductResponse>
-): Promise<GetStaticPropsResult<IBaseProduct>> {
+): Promise<IBaseProduct> {
   const {
     data: {
       meta: { variations, variation_matrix },
@@ -72,13 +67,11 @@ export async function retrieveBaseProps(
   }
 
   return {
-    props: {
-      kind: "base-product",
-      product: baseProductResource.data,
-      main_image: getProductMainImage(baseProductResource),
-      otherImages: getProductOtherImageUrls(baseProductResource),
-      variationsMatrix: variation_matrix,
-      variations: variations.sort(sortAlphabetically),
-    },
+    kind: "base-product",
+    product: baseProductResource.data,
+    main_image: getProductMainImage(baseProductResource),
+    otherImages: getProductOtherImageUrls(baseProductResource),
+    variationsMatrix: variation_matrix,
+    variations: variations.sort(sortAlphabetically),
   };
 }

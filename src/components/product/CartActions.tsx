@@ -1,17 +1,20 @@
 import { useColorModeValue, Flex, Button } from "@chakra-ui/react";
-import { useContext } from "react";
-import { changingSkuStyle, ProductContext } from "../../lib/product-util";
+import { changingSkuStyle } from "../../lib/product-util";
+import { useProduct } from "../../context/use-product-hook";
 
 interface ICartActions {
   handleAddToCart: () => void;
 }
 
 const CartActions = ({ handleAddToCart }: ICartActions): JSX.Element => {
-  const context = useContext(ProductContext);
+  const { state } = useProduct();
   return (
-    <Flex gap={10} {...(context?.isChangingSku ? changingSkuStyle : {})}>
+    <Flex
+      gap={10}
+      {...(state.kind === "changing-product-state" ? changingSkuStyle : {})}
+    >
       <Button
-        disabled={context?.isChangingSku}
+        disabled={state.kind === "changing-product-state"}
         rounded="md"
         w="full"
         mt={4}
