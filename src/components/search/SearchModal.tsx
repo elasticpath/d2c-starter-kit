@@ -142,7 +142,7 @@ const HitComponent = ({ hit }: { hit: SearchHit }) => {
         </GridItem>
         <GridItem colSpan={2}>
           <Text fontSize="sm" fontWeight="semibold">
-            {ep_price}
+            {ep_price["USD"].formatted_price}
           </Text>
         </GridItem>
       </Grid>

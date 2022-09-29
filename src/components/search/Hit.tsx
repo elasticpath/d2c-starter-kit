@@ -1,6 +1,7 @@
 import { SearchHit } from "./SearchHit";
 import {
   Center,
+  Flex,
   Grid,
   GridItem,
   Heading,
@@ -11,10 +12,13 @@ import {
 } from "@chakra-ui/react";
 import { ViewOffIcon } from "@chakra-ui/icons";
 import Link from "next/link";
+import Price from "../product/Price";
+import StrikePrice from "../product/StrikePrice";
 
 export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
   const { ep_price, ep_name, objectID, ep_main_image_url, ep_description } =
     hit;
+
   return (
     <LinkBox display="grid" gridTemplateRows="auto 1fr" h="full">
       <GridItem position="relative" overflow="hidden" pb="100%">
@@ -56,7 +60,19 @@ export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
           {ep_description}
         </Text>
         <Text fontSize="md" fontWeight="semibold" mt="1">
-          {ep_price}
+          {ep_price && (
+            <Flex alignItems="center">
+              <Price price={ep_price["USD"].formatted_price} currency="USD" />
+              {ep_price["USD"].sale_prices && (
+                <StrikePrice
+                  price={
+                    ep_price["USD"].sale_prices.original_price.formatted_price
+                  }
+                  currency="USD"
+                />
+              )}
+            </Flex>
+          )}
         </Text>
       </Grid>
     </LinkBox>
