@@ -88,6 +88,7 @@ export const getStaticProps = withStoreStaticProps<
     };
   }
 
+  console.warn(params.productId, "params.productId");
   const product = await getProductById(params.productId);
 
   if (!product) {
