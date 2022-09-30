@@ -10,6 +10,6 @@ export default async function handler(req: any, res: any) {
     await res.revalidate("/products/23ff5935-25bc-4729-a770-8ff551e46188");
     return res.json({ revalidated: true, req });
   } catch (err) {
-    return res.status(500).send("Error revalidating");
+    return res.status(500).send(err, "Error revalidating");
   }
 }
