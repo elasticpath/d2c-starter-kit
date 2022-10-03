@@ -1,6 +1,7 @@
 import { getCatalogReleaseById } from "../../services/catalog";
-import JSZip from "jszip";
+import { unzipBlobToJson } from "../../lib/unzipBlobToJson";
 
+// @ts-ignore
 export default async function handler(req: any, res: any) {
   // Check for secret to confirm this is a valid request
   /*  if (req.query.secret !== process.env.MY_SECRET_TOKEN) {
@@ -14,12 +15,8 @@ export default async function handler(req: any, res: any) {
     //@ts-ignore
     const deltaFileUrl = releaseResp.data.relationships.delta.links.related;
     const resp = await fetch(deltaFileUrl);
-    const zip = await JSZip.loadAsync(resp.blob());
-    // @ts-ignore
-    const jsonData = await zip.file("result.txt").async("string");
-    const data = JSON.parse(jsonData);
-    console.warn(data, "data");
-    //await res.revalidate("/products/23ff5935-25bc-4729-a770-8ff551e46188");
+    const blob = await resp.blob();
+    const json = await unzipBlobToJson(blob);
     return res.json({ revalidated: true });
   } catch (err) {
     return res.status(500).json({ message: err });
