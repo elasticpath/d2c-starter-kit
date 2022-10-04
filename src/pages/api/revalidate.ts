@@ -10,10 +10,10 @@ export default async function handler(
     return res.status(401).json({ message: "Invalid token" });
   }
 
+  const catalogId = req.body.payload.attributes.catalog_id;
+  const releaseId = req.body.payload.id;
+  const releaseResp = await getCatalogReleaseById(catalogId, releaseId);
   try {
-    const catalogId = req.body.payload.attributes.catalog_id;
-    const releaseId = req.body.payload.id;
-    const releaseResp = await getCatalogReleaseById(catalogId, releaseId);
     const deltaFileUrl = releaseResp.data.relationships.delta.links.related;
     const deltaFileResp = await fetch(deltaFileUrl);
     const fileBlob = await deltaFileResp.blob();
@@ -27,6 +27,11 @@ export default async function handler(
     }
     return res.json({ revalidated: true });
   } catch (err) {
-    return res.status(500).json({ message: err });
+    return res.status(500).json({
+      message: err,
+      releaseId,
+      catalogId,
+      releaseResp: releaseResp.data.relationships.delta.links.related,
+    });
   }
 }
