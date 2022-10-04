@@ -1,6 +1,10 @@
 import { getCatalogReleaseById } from "../../services/catalog";
-import { unzipBlobToString } from "../../lib/unzipBlobToString";
 import { NextApiRequest, NextApiResponse } from "next";
+//const zlib = require("zlib");
+import zlib from "zlib";
+import util from "util";
+//const util = require("util");
+const gunzip = util.promisify(zlib.gunzip);
 
 export default async function handler(
   req: NextApiRequest,
@@ -15,16 +19,18 @@ export default async function handler(
     const releaseId = req.body.payload.id;
     const releaseResp = await getCatalogReleaseById(catalogId, releaseId);
     const deltaFileUrl = releaseResp.data.relationships.delta.links.related;
+
     const deltaFileResp = await fetch(deltaFileUrl);
-    const fileBlob = await deltaFileResp.blob();
-    const unzipped = await unzipBlobToString(fileBlob);
-    const productsArr = unzipped.split("\n");
+    const arrayBuffer = await deltaFileResp.arrayBuffer();
+    const unzipped = await gunzip(arrayBuffer);
+    const productsArr = unzipped.toString().split("\n");
     for (const str of productsArr) {
       if (str) {
         const product = JSON.parse(str);
         await res.revalidate(`/products/${product.id}`);
       }
     }
+
     return res.json({ revalidated: true });
   } catch (err) {
     return res.status(500).json({
