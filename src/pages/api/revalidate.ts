@@ -15,12 +15,7 @@ export default async function handler(
     const releaseId = req.body.payload.id;
     const releaseResp = await getCatalogReleaseById(catalogId, releaseId);
     const deltaFileUrl = releaseResp.data.relationships.delta.links.related;
-    let deltaFileResp;
-    try {
-      deltaFileResp = await fetch(deltaFileUrl);
-    } catch (e) {
-      return res.status(500).json({ e, deltaFileUrl });
-    }
+    const deltaFileResp = await fetch(deltaFileUrl);
     const fileBlob = await deltaFileResp.blob();
     const unzipped = await unzipBlobToString(fileBlob);
     const productsArr = unzipped.split("\n");
