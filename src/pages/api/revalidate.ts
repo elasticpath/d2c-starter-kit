@@ -1,9 +1,7 @@
 import { getCatalogReleaseById } from "../../services/catalog";
 import { NextApiRequest, NextApiResponse } from "next";
-//const zlib = require("zlib");
 import zlib from "zlib";
 import util from "util";
-//const util = require("util");
 const gunzip = util.promisify(zlib.gunzip);
 
 export default async function handler(
