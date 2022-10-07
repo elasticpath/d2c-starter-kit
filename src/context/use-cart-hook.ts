@@ -17,6 +17,7 @@ import {
   ConfirmPaymentResponse,
   OrderBillingAddress,
   OrderShippingAddress,
+  Order,
 } from "@moltin/sdk";
 import { getCartCookie } from "../lib/cart-cookie";
 
@@ -37,6 +38,7 @@ export function useCart() {
     updateCartItem: _updateCartItem(dispatch),
     checkout: _checkout(dispatch),
     addCustomItemToCart: _addCustomItemToCart(dispatch),
+    stripeCheckout: _stripeCheckout(dispatch),
     state,
   };
 }
@@ -77,6 +79,33 @@ function _checkout(dispatch: (action: CartAction) => void) {
     });
 
     return paymentResponse;
+  };
+}
+
+function _stripeCheckout(dispatch: (action: CartAction) => void) {
+  return async (
+    email: string,
+    shippingAddress: Partial<OrderShippingAddress>,
+    sameAsShipping?: boolean,
+    billingAddress?: Partial<OrderBillingAddress>
+  ): Promise<{ data: Order }> => {
+    const cartId = getCartCookie();
+
+    dispatch({
+      type: "updating-cart",
+      payload: { action: "checkout" },
+    });
+
+    const customer = `${shippingAddress.first_name} ${shippingAddress.last_name}`;
+    return await checkout(
+      cartId,
+      {
+        email,
+        name: customer,
+      },
+      billingAddress && !sameAsShipping ? billingAddress : shippingAddress,
+      shippingAddress
+    );
   };
 }
 

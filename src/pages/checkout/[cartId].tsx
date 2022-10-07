@@ -25,7 +25,7 @@ interface ICheckout {
 }
 
 export const Checkout: NextPage<ICheckout> = () => {
-  const { state, checkout } = useCart();
+  const { state, stripeCheckout } = useCart();
   const [orderCompleteState, setOrderCompleteState] = useState<
     OrderCompleteState | undefined
   >(undefined);
@@ -77,7 +77,7 @@ export const Checkout: NextPage<ICheckout> = () => {
                 colStart={{ base: 1, md: 1 }}
               >
                 <CheckoutForm
-                  checkout={checkout}
+                  checkout={stripeCheckout}
                   showCompletedOrder={showCompletedOrder(presentCart)}
                 />
               </GridItem>
