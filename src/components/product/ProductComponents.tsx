@@ -73,7 +73,7 @@ const ProductComponents = ({
                             <Tag mb="2">Quantity: {quantity}</Tag>
                             <Text>
                               {product.meta.component_products?.[id]
-                                .display_price.without_tax.formatted || null}
+                                ?.display_price.without_tax.formatted || null}
                             </Text>
                           </Radio>
                           {allOptions.length > 1 ? (
