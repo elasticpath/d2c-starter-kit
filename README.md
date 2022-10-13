@@ -19,7 +19,7 @@ The Elastic Path D2C Starter Kit is an opinionated tool box aimed at acceleratin
 
 - Netlify (currently)
 
-### Roadmap
+## Roadmap
 A list of planned enhancements for this project
 
 - `create-elasticpath-app`: we aim to provide a CLI interface for the app similar to `create-react-app` and other tools you may have used
@@ -27,7 +27,7 @@ This stands to enable a key goal which is to allow you to ‘scaffold’ out you
 
 - Additional integrations: we have plans to support additional search providers alongside CMS and site builder integrations
 
-### Current feature set reference
+## Current feature set reference
 
 | **Feature**                              | **Notes**                                                                                                                             |
 |------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|
@@ -38,41 +38,101 @@ This stands to enable a key goal which is to allow you to ‘scaffold’ out you
 | EPCC PXM hierarchy-based navigation menu | Main site nav driven directly from your store's hiearchy and node structure                                                           |
 | Prebuilt helper components               | Some basic building blocks for typical ecommerce store features                                                                       |
 
-#### Helper components:
+## Helper components:
 
-##### Navigation
+### Navigation
 
 The store navigation component is node/hierarchy driven and built statically. The ‘top level’ is created directly by the base hierarchies in your EPCC store. This is currently limited to 5 items. 5 ‘direct child’ nodes of each hierarchy, and the nodes attached to them, are supported.
 
-##### Footer
+### Footer
 
 A simple static component with links to placeholder pages provided
 
-##### Featured products
+### Featured products
 
 Helper display component that will show basic information about products in a given hierarchy or node. Can be passed either a hierarchy/node id from which products can be fetched dynamically, or statically provided as a populated object via a`getStaticProps` call.
 
-##### Featured hierarchies/nodes
+### Featured hierarchies/nodes
 
 Helper display component that will show basic information about a hierarchy or node. Can be passed either a hierarchy/node id which can be fetched dynamically, or statically provided as a populated object via a`getStaticProps` call.
 
-##### Promotion banner
+### Promotion banner
 
 Helper display component that will show a basic banner with info (title, description) about a promotion. Must be passed populated object via a`getStaticProps` call because fetching promotions required a `client_credentials` token. You can optionally add a background image to a promotion via a custom flow field named `epcc-reference-promotion-image` (add a string URL of where the image can be fetched from)
 
-##### Cart and checkout
+### Cart and checkout
 Currently supporting Braintree checkout (Elastic Path Payments coming soon)
 
 
-### Setup
+## Setup
 
-#### Getting Started
+> :warning: **Requires Algolia account and index**: the current beta release of this project requires a properly configured Algolia index.
 
-#### Setup Local Environment
+There are a couple of setup steps that need to be done to get started:
+
+- Local environment
+- Algolia index
+
+### Setup Local Environment
 
 First, make a copy of the `.env.example` and rename it to `.env.local.` Set at least the values marked `<required>`
 
-#### Dev Server
+### Setup Algolia index
+
+> :tired_face: We recognise manually configuring Algolia in this way is a pain. We are working on tools to streamline this process.
+
+#### Initial setup
+
+Make sure you have an Algolia account. Free accounts can be created [on their website](https://www.algolia.com/).
+
+Once you have your api keys from Algolia you need to configure the Algolia integration from Commerce Manager e.g. https://euwest.cm.elasticpath.com/integrations-hub
+
+Follow the [Integrating with Algolia](https://documentation.elasticpath.com/commerce-cloud/docs/dashboard/integrations/algolia-integration.html#__docusaurus) instructions as outlined in our docs.
+
+You're looking for the **"Algolia Integration - Full / Delta / Large Catalog"** integration.
+
+#### Supporting category pages
+
+Our category pages depend on Algolia at the moment and more specially make use of the Aloglia instantsearch widgets. These widgets make use of Facets which have to be configured manually currently.
+
+##### Configuring facets
+
+Use the instructions [in the Algolia docs](https://www.algolia.com/doc/guides/solutions/ecommerce/business-users/initial-configuration/faceting/#step-1-declare-attributes-for-faceting) to configure the following attribute for faceting:
+
+```
+ep_categories.lvl0
+ep_categories.lvl1
+ep_categories.lvl2
+ep_categories.lvl3
+
+ep_slug_categories.lvl0
+ep_slug_categories.lvl1
+ep_slug_categories.lvl2
+ep_slug_categories.lvl3
+```
+Use default settings.
+
+##### Create Replicas (standard)
+
+We make use of two **standard** replicas two demonstrate sort:
+```
+my_catalog_index_price_asc
+my_catalog_index_price_desc
+```
+
+Follow ["Creating a replica"](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/how-to/sort-by-attribute/#using-the-dashboard) in the Algolia docs to set both of these up based on the main index created previously by the integrations hub Aloglia integration. Make sure to create a **standard** replica.
+
+#### Finally
+
+Make sure you add the three required Algolia environment variables to your `.env.local` file for local dev and your production environment. 
+
+```
+NEXT_PUBLIC_ALGOLIA_APP_ID=<required>
+NEXT_PUBLIC_ALGOLIA_API_KEY=<required>
+NEXT_PUBLIC_ALGOLIA_INDEX_NAME=<required>
+```
+
+### Dev Server
 
 then, run the development server:
 
@@ -90,17 +150,15 @@ You can start editing the page by modifying `pages/index.tsx`. The page auto-upd
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-Search requires an Algolia index, and having your EPCC store setup with the Algolia integration from the integrations hub in Commerce Manager.  The Category pages are also dependent on Algolia, and as such the current beta release of this project requires a properly configured Algolia index.
 
+## Git Commits
 
-### Git Commits
-
-#### Depends on
+### Depends on
 
 - [lint-staged](https://github.com/okonet/lint-staged)
 - [husky](https://github.com/typicode/husky)
 
-#### Pre-commit hooks details
+### Pre-commit hooks details
 
 The project has a pre-commit hook that will run four stages independently for .ts, .tsx, .js and .jsx files
 
@@ -113,7 +171,7 @@ This is configured in the .lintstagedrc.js file in the root project directory.
 
 
 
-### Deployment
+## Deployment
 
 Deployment is typical for a Next.js site. We recommend using a provider like Netlify or Vercel to get full Next.js feature support.
 
