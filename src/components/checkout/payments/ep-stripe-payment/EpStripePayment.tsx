@@ -7,6 +7,8 @@ import {
 import { Elements } from "@stripe/react-stripe-js";
 import StripeCheckoutForm from "./StripeCheckoutForm";
 import styles from "./EpStripePayment.module.scss";
+import { ConfirmPaymentResponse } from "@moltin/sdk";
+import { CheckoutForm as CheckoutFormType } from "../../form-schema/checkout-form-schema";
 
 const stripePromise = loadStripe(
   "pk_test_1iMhjY7f5CoIcsNSBiu2xVCS57L28F5sz9JtZrl3hbpY1V70hOngn2qBq21YECVHpo1z6YAR6lBPGCHBkCitEj1wT00S8h3VRdE"

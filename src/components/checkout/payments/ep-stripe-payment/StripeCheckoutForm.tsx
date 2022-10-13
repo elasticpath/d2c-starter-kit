@@ -4,10 +4,12 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
+import { useCart } from "../../../../context/use-cart-hook";
 
 export default function StripeCheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
+  const { emptyCart } = useCart();
 
   const [message, setMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
@@ -56,17 +58,16 @@ export default function StripeCheckoutForm() {
 
     const { error } = await stripe.confirmPayment({
       elements,
-      confirmParams: {
-        return_url: "http://localhost:3000",
-      },
+      redirect: "if_required",
     });
 
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message || "");
+    if (error?.type === "card_error" || error?.type === "validation_error") {
+      setMessage(error?.message || "");
     } else {
       setMessage("An unexpected error occurred.");
     }
 
+    await emptyCart();
     setIsLoading(false);
   };
 
