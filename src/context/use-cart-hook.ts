@@ -33,12 +33,12 @@ export function useCart() {
   return {
     addProductToCart: _addProductToCart(dispatch),
     removeCartItem: _removeCartItem(dispatch),
-    emptyCart: _emptyCart(dispatch, state),
+    emptyCart: _emptyCart(dispatch),
     addPromotionToCart: _addPromotionToCart(dispatch),
     updateCartItem: _updateCartItem(dispatch),
     checkout: _checkout(dispatch),
     addCustomItemToCart: _addCustomItemToCart(dispatch),
-    stripeCheckout: _stripeCheckout(dispatch),
+    stripeIntent: _stripeIntent(dispatch),
     state,
   };
 }
@@ -82,7 +82,7 @@ function _checkout(dispatch: (action: CartAction) => void) {
   };
 }
 
-function _stripeCheckout(dispatch: (action: CartAction) => void) {
+function _stripeIntent(dispatch: (action: CartAction) => void) {
   return async (
     email: string,
     shippingAddress: Partial<OrderShippingAddress>,
@@ -201,22 +201,19 @@ function _removeCartItem(dispatch: (action: CartAction) => void) {
   };
 }
 
-function _emptyCart(dispatch: (action: CartAction) => void, state: CartState) {
+function _emptyCart(dispatch: (action: CartAction) => void) {
   return async (): Promise<void> => {
     const cartId = getCartCookie();
+    dispatch({
+      type: "updating-cart",
+      payload: { action: "empty" },
+    });
 
-    if (state.kind === "present-cart-state") {
-      dispatch({
-        type: "updating-cart",
-        payload: { action: "empty" },
-      });
+    const response = await removeAllCartItems(cartId);
 
-      const response = await removeAllCartItems(cartId);
-
-      dispatch({
-        type: "update-cart",
-        payload: { id: cartId, meta: response.meta, items: response.data },
-      });
-    }
+    dispatch({
+      type: "update-cart",
+      payload: { id: cartId, meta: response.meta, items: response.data },
+    });
   };
 }
