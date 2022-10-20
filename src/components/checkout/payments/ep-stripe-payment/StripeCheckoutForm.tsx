@@ -6,7 +6,11 @@ import {
 } from "@stripe/react-stripe-js";
 import { useCart } from "../../../../context/use-cart-hook";
 
-export default function StripeCheckoutForm() {
+export default function StripeCheckoutForm({
+  showCompletedOrder,
+}: {
+  showCompletedOrder: () => void;
+}) {
   const stripe = useStripe();
   const elements = useElements();
   const { emptyCart } = useCart();
@@ -69,10 +73,15 @@ export default function StripeCheckoutForm() {
 
     await emptyCart();
     setIsLoading(false);
+    showCompletedOrder();
   };
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
+    <form
+      id="payment-form"
+      onSubmit={handleSubmit}
+      style={{ maxWidth: "600px" }}
+    >
       <PaymentElement id="payment-element" />
       <button disabled={isLoading || !stripe || !elements} id="submit">
         <span id="button-text">

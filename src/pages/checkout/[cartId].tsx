@@ -64,7 +64,7 @@ export const Checkout: NextPage<ICheckout> = () => {
         <OrderComplete state={orderCompleteState} />
       ) : (
         <>
-          <Heading as="h1" pb={6} size={{ base: "md", sm: "lg" }}>
+          <Heading as="h1" pb={4} size={{ base: "md", sm: "lg" }}>
             Checkout
           </Heading>
           {presentCart && (
@@ -80,7 +80,10 @@ export const Checkout: NextPage<ICheckout> = () => {
                 colStart={{ base: 1, md: 1 }}
               >
                 {showEpStripePaymentGateway ? (
-                  <StripeTypeCheckoutForm checkout={stripeIntent} />
+                  <StripeTypeCheckoutForm
+                    checkout={stripeIntent}
+                    showCompletedOrder={showCompletedOrder(presentCart)}
+                  />
                 ) : (
                   <CheckoutForm
                     checkout={checkout}

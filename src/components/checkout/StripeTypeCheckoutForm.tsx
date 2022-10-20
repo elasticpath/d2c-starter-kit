@@ -6,19 +6,22 @@ import {
   Grid,
   GridItem,
   Heading,
+  Flex,
+  Box,
 } from "@chakra-ui/react";
 import {
   CheckoutForm as CheckoutFormType,
   checkoutFormSchema,
 } from "./form-schema/checkout-form-schema";
-import { ConfirmPaymentResponse, Order, PaymentRequestBody } from "@moltin/sdk";
+import { ChevronRightIcon } from "@chakra-ui/icons";
+import { ConfirmPaymentResponse, PaymentRequestBody } from "@moltin/sdk";
 import ShippingForm from "./ShippingForm";
 import CustomFormControl from "./CustomFormControl";
 import BillingForm from "./BillingForm";
 import { useCart } from "../../context/use-cart-hook";
 import EpStripePayment from "./payments/ep-stripe-payment/EpStripePayment";
 import { makePayment } from "../../services/checkout";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const initialValues: Partial<CheckoutFormType> = {
   personal: {
@@ -37,37 +40,59 @@ const initialValues: Partial<CheckoutFormType> = {
 
 interface ICheckoutForm {
   checkout: ReturnType<typeof useCart>["stripeIntent"];
+  showCompletedOrder: (
+    paymentResponse: ConfirmPaymentResponse,
+    checkoutForm: CheckoutFormType
+  ) => void;
 }
 
 export default function StripeTypeCheckoutForm({
   checkout,
+  showCompletedOrder,
 }: ICheckoutForm): JSX.Element {
-  const [orderResponse, setOrderResponse] = useState<{ data: Order }>();
-  const [clientSecret, setClientSecret] = useState("");
+  const [paymentResponse, setPaymentResponse] =
+    useState<ConfirmPaymentResponse>();
+  const [checkoutForm, setCheckoutForm] = useState<CheckoutFormType>();
+  const clientSecret = paymentResponse?.data.payment_intent.client_secret || "";
 
-  useEffect(() => {
-    const initStripe = async () => {
-      if (orderResponse?.data.id) {
-        const payment: PaymentRequestBody = {
-          gateway: "elastic_path_payments_stripe",
-          method: "purchase",
-          //@ts-ignore : in js-sdk update the "ElasticPathStripePayment" interface
-          payment_method_types: ["card"],
-        };
-        const paymentResponse = await makePayment(
-          payment,
-          orderResponse.data.id
-        );
-        setClientSecret(paymentResponse.data.payment_intent.client_secret);
-      }
-    };
-    initStripe();
-  }, [orderResponse?.data.id]);
+  const steps = [
+    {
+      name: "Cart",
+      isActive: !clientSecret,
+      handler: () => paymentResponse && setPaymentResponse(undefined),
+    },
+    { name: "Billing Information", isActive: clientSecret },
+  ];
 
   return (
     <>
+      <Box mb={3}>
+        <Flex role="list" justifyContent="center">
+          {steps.map((step, stepIdx) => (
+            <Flex key={step.name} alignItems="center">
+              <Button
+                onClick={step.handler}
+                variant="text"
+                color={step.isActive ? "brand.primary" : ""}
+              >
+                {step.name}
+              </Button>
+
+              {stepIdx !== steps.length - 1 ? (
+                <ChevronRightIcon mx={4} />
+              ) : null}
+            </Flex>
+          ))}
+        </Flex>
+      </Box>
+
       {clientSecret ? (
-        <EpStripePayment clientSecret={clientSecret} />
+        <EpStripePayment
+          clientSecret={clientSecret}
+          showCompletedOrder={() =>
+            showCompletedOrder(paymentResponse!, checkoutForm!)
+          }
+        />
       ) : (
         <Formik
           initialValues={initialValues as CheckoutFormType}
@@ -79,6 +104,7 @@ export default function StripeTypeCheckoutForm({
               billingAddress,
               sameAsShipping,
             } = validatedValues;
+            setCheckoutForm(validatedValues);
 
             const orderResponse = await checkout(
               personal.email,
@@ -86,7 +112,20 @@ export default function StripeTypeCheckoutForm({
               sameAsShipping,
               billingAddress ?? undefined
             );
-            setOrderResponse(orderResponse);
+
+            if (orderResponse?.data.id) {
+              const payment: PaymentRequestBody = {
+                gateway: "elastic_path_payments_stripe",
+                method: "purchase",
+                //@ts-ignore : in js-sdk update the "ElasticPathStripePayment" interface
+                payment_method_types: ["card"],
+              };
+              const paymentResponse = await makePayment(
+                payment,
+                orderResponse.data.id
+              );
+              setPaymentResponse(paymentResponse);
+            }
           }}
         >
           {({ handleChange, values, isSubmitting }) => (
