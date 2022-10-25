@@ -45,7 +45,7 @@ export const Product: NextPage<IProduct> = (props: IProduct) => {
   );
 };
 
-export function resolveProductDetailComponent(
+function resolveProductDetailComponent(
   props: IProduct,
   handleAddToCart: () => void
 ): JSX.Element {

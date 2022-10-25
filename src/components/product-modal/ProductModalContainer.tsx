@@ -55,11 +55,15 @@ export const ProductModalContainer = ({
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent maxW="1100px">
+      <ModalContent maxW="90%" w="900px">
         <ModalCloseButton />
         <ModalBody>
           {productProps && "props" in productProps && (
-            <Product {...productProps.props} onSkuIdChange={onSkuIdChange} />
+            <Product
+              {...productProps.props}
+              onSkuIdChange={onSkuIdChange}
+              onCloseModal={onClose}
+            />
           )}
         </ModalBody>
       </ModalContent>
