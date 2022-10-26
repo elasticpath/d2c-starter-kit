@@ -39,7 +39,7 @@ export default function ProductContainer({
               _hover={{
                 color: "brand.primary",
               }}
-              m="10px auto"
+              m="0.625rem auto"
               display="block"
               variant="text"
             >
