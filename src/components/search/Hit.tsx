@@ -87,7 +87,7 @@ export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
           bg={useColorModeValue("blue.900", "blue.50")}
           color={useColorModeValue("white", "gray.900")}
           _hover={{
-            transform: "translateY(2px)",
+            transform: "translateY(-2px)",
             boxShadow: "lg",
           }}
           onClick={onOpen}
