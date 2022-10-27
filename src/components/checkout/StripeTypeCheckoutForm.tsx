@@ -143,7 +143,6 @@ export default function StripeTypeCheckoutForm({
                     helperText="required for guest checkout"
                     label="Email"
                     isRequired={true}
-                    value="test@test.com"
                   />
                 </GridItem>
                 <Heading as="h2" fontSize="lg" fontWeight="medium">
