@@ -1,20 +1,27 @@
 import MainLayout from "../layouts/main-layout/MainLayout";
 import StoreProvider from "../context/store-provider";
-import type { AppProps } from "next/app";
+import type { AppProps as NextAppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
-
+import { StoreContext } from "../lib/types/store-context";
 import theme from "../styles/theme";
 import "focus-visible/dist/focus-visible";
-
 import "../components/checkout/CardSectionStyles.css";
 import "../styles/globals.css";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  const { nav } = pageProps.store ?? {};
+// modified version - allows for custom pageProps type, falling back to 'any'
+type AppProps<P = {}> = {
+  pageProps: P;
+} & Omit<NextAppProps<P>, "pageProps">;
+
+interface CustomAppProps {
+  store: StoreContext | undefined;
+}
+
+function MyApp({ Component, pageProps }: AppProps<CustomAppProps>) {
   return (
     <ChakraProvider theme={theme}>
       <StoreProvider storeContext={pageProps.store}>
-        <MainLayout nav={nav}>
+        <MainLayout nav={pageProps.store?.nav ?? []}>
           <Component {...pageProps} />
         </MainLayout>
       </StoreProvider>
