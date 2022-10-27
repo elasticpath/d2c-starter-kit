@@ -1,4 +1,4 @@
-import { Box, chakra, Stack, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, chakra, Stack, Text } from "@chakra-ui/react";
 import { Fragment } from "react";
 import { Extensions } from "@moltin/sdk";
 
@@ -19,13 +19,12 @@ const DescriptionDetails = chakra("dd", {
 const ProductExtensions = ({ extensions }: IProductExtensions): JSX.Element => {
   const extensionsValues = Object.values(extensions ?? {}).flat();
 
-  const colour = useColorModeValue("blue.500", "blue.300");
   return (
     <Stack spacing={{ base: 4, sm: 6 }} direction="column">
       <Box>
         <Text
           fontSize={{ base: "16px", lg: "18px" }}
-          color={colour}
+          color="gray.800"
           fontWeight="500"
           textTransform="uppercase"
           mb="4"

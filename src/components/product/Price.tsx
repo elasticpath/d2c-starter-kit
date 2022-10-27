@@ -11,7 +11,7 @@ const Price = ({ price, currency }: IPrice): JSX.Element => {
       color={useColorModeValue("gray.900", "gray.400")}
       fontWeight={300}
       marginTop="15px"
-      fontSize="xl"
+      fontSize="2xl"
     >
       {price} {currency}
     </Text>

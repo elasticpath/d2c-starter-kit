@@ -37,6 +37,7 @@ export function useCart() {
     updateCartItem: _updateCartItem(dispatch),
     checkout: _checkout(dispatch),
     addCustomItemToCart: _addCustomItemToCart(dispatch),
+    isUpdatingCart: state.kind === "updating-cart-state",
     state,
   };
 }
