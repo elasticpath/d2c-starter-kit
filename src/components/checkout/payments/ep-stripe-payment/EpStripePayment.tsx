@@ -6,8 +6,8 @@ import {
 } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import StripeCheckoutForm from "./StripeCheckoutForm";
-import styles from "./EpStripePayment.module.scss";
 import { STRIPE_PUBLISHABLE_KEY } from "../../../../lib/resolve-ep-stripe-env";
+import styles from "./EpStripePayment.module.scss";
 
 const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
 
