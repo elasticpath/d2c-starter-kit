@@ -13,7 +13,6 @@ export default function ShippingForm(): JSX.Element {
           autoComplete="shipping given-name"
           label="First Name"
           isRequired={true}
-          value="John"
         />
         <CustomFormControl
           id="last_name"
@@ -22,7 +21,6 @@ export default function ShippingForm(): JSX.Element {
           autoComplete="shipping family-name"
           label="Last Name"
           isRequired={true}
-          value="Doe"
         />
       </Grid>
       <CustomFormControl
@@ -32,7 +30,6 @@ export default function ShippingForm(): JSX.Element {
         autoComplete="shipping address-line-1"
         label="Street Address"
         isRequired={true}
-        value="Test"
       />
       <CustomFormControl
         id="line_2"
@@ -64,7 +61,6 @@ export default function ShippingForm(): JSX.Element {
         autoComplete="shipping region"
         label="Region"
         isRequired={true}
-        value="Test"
       />
       <Grid gap={4} gridTemplateColumns={{ base: "1fr", lg: "repeat(2, 1fr)" }}>
         <CustomFormControl
@@ -74,7 +70,6 @@ export default function ShippingForm(): JSX.Element {
           autoComplete="shipping postcode"
           label="Postcode"
           isRequired={true}
-          value="111111"
         />
         <CountrySelect
           id="country"
