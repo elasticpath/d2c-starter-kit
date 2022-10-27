@@ -42,6 +42,13 @@ export interface ProductContextState {
   setIsChangingSku: Dispatch<SetStateAction<boolean>>;
 }
 
+export interface ProductModalContextState {
+  isChangingSku: boolean;
+  setIsChangingSku: Dispatch<SetStateAction<boolean>>;
+  changedSkuId: string;
+  setChangedSkuId: Dispatch<SetStateAction<string>>;
+}
+
 export interface OptionDict {
   [key: string]: string;
 }

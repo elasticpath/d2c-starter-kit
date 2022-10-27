@@ -11,7 +11,11 @@ import type {
   OptionDict,
   ProductContextState,
 } from "./product-types";
-import { ProductImageObject, ProductResponseWithImage } from "./product-types";
+import {
+  ProductImageObject,
+  ProductModalContextState,
+  ProductResponseWithImage,
+} from "./product-types";
 
 export function processImageFiles(files: File[], mainImageId?: string) {
   // filters out main image and keeps server order
@@ -73,6 +77,8 @@ export const createEmptyOptionDict = (
   variations.reduce((acc, c) => ({ ...acc, [c.id]: undefined }), {});
 
 export const ProductContext = createContext<ProductContextState | null>(null);
+export const ProductModalContext =
+  createContext<ProductModalContextState | null>(null);
 
 export const connectProductsWithMainImages = (
   products: ProductResponse[],
