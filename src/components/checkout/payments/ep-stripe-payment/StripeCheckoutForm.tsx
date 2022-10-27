@@ -5,6 +5,7 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { useCart } from "../../../../context/use-cart-hook";
+import { Text } from "@chakra-ui/react";
 
 export default function StripeCheckoutForm({
   showCompletedOrder,
@@ -53,8 +54,6 @@ export default function StripeCheckoutForm({
     e.preventDefault();
 
     if (!stripe || !elements) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
 
@@ -70,9 +69,11 @@ export default function StripeCheckoutForm({
     } else {
       setMessage("An unexpected error occurred.");
     }
-
-    await emptyCart();
     setIsLoading(false);
+    if (error) {
+      return;
+    }
+    await emptyCart();
     showCompletedOrder();
   };
 
@@ -82,13 +83,17 @@ export default function StripeCheckoutForm({
       onSubmit={handleSubmit}
       style={{ maxWidth: "600px" }}
     >
+      {message && (
+        <Text color="red.600" fontSize="lg" textAlign="center" pt={3}>
+          {message}
+        </Text>
+      )}
       <PaymentElement id="payment-element" />
       <button disabled={isLoading || !stripe || !elements} id="submit">
         <span id="button-text">
           {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
         </span>
       </button>
-      {message && <div id="payment-message">{message}</div>}
     </form>
   );
 }
