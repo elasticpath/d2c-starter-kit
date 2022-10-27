@@ -7,10 +7,9 @@ import {
 import { Elements } from "@stripe/react-stripe-js";
 import StripeCheckoutForm from "./StripeCheckoutForm";
 import styles from "./EpStripePayment.module.scss";
+import { STRIPE_PUBLISHABLE_KEY } from "../../../../lib/resolve-ep-stripe-env";
 
-const stripePromise = loadStripe(
-  "pk_test_1iMhjY7f5CoIcsNSBiu2xVCS57L28F5sz9JtZrl3hbpY1V70hOngn2qBq21YECVHpo1z6YAR6lBPGCHBkCitEj1wT00S8h3VRdE"
-);
+const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY);
 
 export default function EpStripePayment({
   clientSecret,
