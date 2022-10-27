@@ -1,5 +1,6 @@
 import { SearchHit } from "./SearchHit";
 import {
+  Button,
   Center,
   Flex,
   Grid,
@@ -9,15 +10,19 @@ import {
   LinkBox,
   LinkOverlay,
   Text,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { ViewOffIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 import Price from "../product/Price";
 import StrikePrice from "../product/StrikePrice";
+import { useDisclosure } from "@chakra-ui/react";
+import { ProductModalContainer } from "../product-modal/ProductModalContainer";
 
 export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
   const { ep_price, ep_name, objectID, ep_main_image_url, ep_description } =
     hit;
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <LinkBox display="grid" gridTemplateRows="auto 1fr" h="full">
@@ -74,7 +79,27 @@ export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
             </Flex>
           )}
         </Text>
+        <Button
+          rounded="md"
+          w="full"
+          mt={4}
+          py="7"
+          bg={useColorModeValue("brand.primary", "blue.50")}
+          color={useColorModeValue("white", "gray.900")}
+          _hover={{
+            transform: "translateY(-2px)",
+            boxShadow: "lg",
+          }}
+          onClick={onOpen}
+        >
+          Quick View
+        </Button>
       </Grid>
+      <ProductModalContainer
+        isOpen={isOpen}
+        onClose={onClose}
+        productId={objectID}
+      />
     </LinkBox>
   );
 }
