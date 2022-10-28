@@ -117,7 +117,7 @@ Use default settings.
 
 ##### Create Replicas (standard)
 
-We make use of two **standard** replicas two demonstrate sort:
+We make use of two **standard** replicas to demonstrate sort:
 
 ```
 my_catalog_index_price_asc
