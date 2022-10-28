@@ -45,6 +45,8 @@ const ProductVariationColor = ({
             <Button
               border="1px solid"
               borderColor="gray.200"
+              _hover={{}}
+              _active={{}}
               bgColor={colorLookup[o.name.toLowerCase()]}
               p="4"
               rounded="full"
