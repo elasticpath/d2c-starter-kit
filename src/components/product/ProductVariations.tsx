@@ -92,25 +92,42 @@ const ProductVariations = ({
   return (
     <Stack opacity={context?.setIsChangingSku ? "50" : "100"}>
       {variations.map((v) =>
-        v.name === "Pocket T-Shirt Colors" ||
-        v.name === "Simple T-Shirt Colors" ? (
-          <ProductVariationColor
-            key={v.id}
-            variation={v}
-            updateOptionHandler={updateOptionHandler}
-            selectedOptionId={getSelectedOption(v.id, selectedOptions)}
-          />
-        ) : (
-          <ProductVariationStandard
-            key={v.id}
-            variation={v}
-            updateOptionHandler={updateOptionHandler}
-            selectedOptionId={getSelectedOption(v.id, selectedOptions)}
-          />
+        resolveVariationComponentByName(
+          v,
+          updateOptionHandler,
+          getSelectedOption(v.id, selectedOptions)
         )
       )}
     </Stack>
   );
 };
+
+function resolveVariationComponentByName(
+  v: CatalogsProductVariation,
+  updateOptionHandler: UpdateOptionHandler,
+  selectedOptionId?: string
+): JSX.Element {
+  switch (v.name) {
+    case "Pocket T-Shirt Colors":
+    case "Simple T-Shirt Colors":
+      return (
+        <ProductVariationColor
+          key={v.id}
+          variation={v}
+          updateOptionHandler={updateOptionHandler}
+          selectedOptionId={selectedOptionId}
+        />
+      );
+    default:
+      return (
+        <ProductVariationStandard
+          key={v.id}
+          variation={v}
+          updateOptionHandler={updateOptionHandler}
+          selectedOptionId={selectedOptionId}
+        />
+      );
+  }
+}
 
 export default ProductVariations;
