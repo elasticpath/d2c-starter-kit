@@ -20,7 +20,7 @@ import CustomFormControl from "./CustomFormControl";
 import BillingForm from "./BillingForm";
 import { useCart } from "../../context/use-cart-hook";
 import EpStripePayment from "./payments/ep-stripe-payment/EpStripePayment";
-import { makePayment } from "../../services/checkout";
+import { confirmOrder, makePayment } from "../../services/checkout";
 import { useState } from "react";
 
 const initialValues: Partial<CheckoutFormType> = {
@@ -89,9 +89,14 @@ export default function StripeTypeCheckoutForm({
       {clientSecret ? (
         <EpStripePayment
           clientSecret={clientSecret}
-          showCompletedOrder={() =>
-            showCompletedOrder(paymentResponse!, checkoutForm!)
-          }
+          showCompletedOrder={() => {
+            if (paymentResponse) {
+              confirmOrder(
+                paymentResponse.data.relationships.order.data.id,
+                paymentResponse.data.id
+              ).then(() => showCompletedOrder(paymentResponse, checkoutForm!));
+            }
+          }}
         />
       ) : (
         <Formik

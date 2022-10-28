@@ -27,3 +27,15 @@ export function makePayment(
 ): Promise<ConfirmPaymentResponse> {
   return (client ?? getEpccImplicitClient()).Orders.Payment(orderId, payment);
 }
+
+export function confirmOrder(
+  orderId: string,
+  transactionId: string,
+  client?: EPCCClient
+): Promise<ConfirmPaymentResponse> {
+  return (client ?? getEpccImplicitClient()).Orders.Confirm(
+    orderId,
+    transactionId,
+    { data: {} }
+  );
+}
