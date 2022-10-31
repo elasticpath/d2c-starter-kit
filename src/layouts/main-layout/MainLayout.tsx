@@ -3,6 +3,7 @@ import Footer from "../../components/footer/Footer";
 
 import type { ReactNode } from "react";
 import type { NavigationNode } from "../../lib/build-site-navigation";
+import { Toaster } from "../../components/toast/toaster";
 
 interface IMainLayout {
   nav: NavigationNode[];
@@ -12,6 +13,7 @@ interface IMainLayout {
 const MainLayout = ({ nav, children }: IMainLayout): JSX.Element => {
   return (
     <>
+      <Toaster />
       <Header nav={nav} />
       {children}
       <Footer />

@@ -151,6 +151,13 @@ export interface UpdatingCartAction {
 }
 
 /**
+ * Let the cart know an update hase failed to be performed, it should be in a present state with the previous cart data.
+ */
+export interface FailedCartUpdateAction {
+  type: "failed-cart-update";
+}
+
+/**
  * Let the cart know it's currently being initialed most likely when your
  * fetching the data client side for the first time
  */
@@ -164,4 +171,5 @@ export interface InitialiseCartAction {
 export type CartAction =
   | UpdateCartAction
   | UpdatingCartAction
+  | FailedCartUpdateAction
   | InitialiseCartAction;

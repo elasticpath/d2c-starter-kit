@@ -7,11 +7,11 @@ import "pure-react-carousel/dist/react-carousel.es.css";
 import {
   StyledButtonBack,
   StyledButtonNext,
-  StyledImage,
   StyledSlider,
 } from "../../shared/carousel-wrapped";
 import { CarouselListener } from "./CarouselListener";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { ChakraNextImage } from "../../ChakraNextImage";
 
 interface IProductHighlightCarousel {
   images: File[];
@@ -46,7 +46,6 @@ const ProductHighlightCarousel = ({
       currentSlide={selectedImageIndex}
       naturalSlideWidth={400}
       naturalSlideHeight={400}
-      hasMasterSpinner={true}
       dragEnabled={isMobile}
     >
       <CarouselListener setCurrentSlide={selectImageWithListener} />
@@ -91,12 +90,13 @@ const ProductHighlightCarousel = ({
       <StyledSlider rounded="lg">
         {images.map((imageFile, index) => (
           <Slide key={imageFile.id} index={index}>
-            <StyledImage
+            <ChakraNextImage
+              src={imageFile.link.href}
+              alt={imageFile.file_name}
+              width={800}
+              height={800}
               objectFit="cover"
               objectPosition="center"
-              hasMasterSpinner={true}
-              alt={imageFile.file_name}
-              src={imageFile.link.href}
             />
           </Slide>
         ))}

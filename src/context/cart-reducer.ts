@@ -55,6 +55,12 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
       }
       return state;
     }
+    case "failed-cart-update": {
+      if (state.kind === "updating-cart-state") {
+        return state.previousCart;
+      }
+      return state;
+    }
     case "update-cart":
       if (
         state.kind !== "updating-cart-state" &&
