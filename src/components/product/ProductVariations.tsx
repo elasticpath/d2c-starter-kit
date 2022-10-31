@@ -107,9 +107,8 @@ function resolveVariationComponentByName(
   updateOptionHandler: UpdateOptionHandler,
   selectedOptionId?: string
 ): JSX.Element {
-  switch (v.name) {
-    case "Pocket T-Shirt Colors":
-    case "Simple T-Shirt Colors":
+  switch (v.name.toLowerCase()) {
+    case "color":
       return (
         <ProductVariationColor
           key={v.id}
