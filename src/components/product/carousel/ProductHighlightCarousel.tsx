@@ -2,16 +2,16 @@ import { useCallback } from "react";
 import { isMobile } from "react-device-detect";
 import { Box } from "@chakra-ui/react";
 import type { File } from "@moltin/sdk";
-import { CarouselProvider, Slider, Slide } from "pure-react-carousel";
+import { CarouselProvider, Slide } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import {
   StyledButtonBack,
   StyledButtonNext,
-  StyledImage,
-  StyledImageWithZoom,
+  StyledSlider,
 } from "../../shared/carousel-wrapped";
 import { CarouselListener } from "./CarouselListener";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { ChakraNextImage } from "../../ChakraNextImage";
 
 interface IProductHighlightCarousel {
   images: File[];
@@ -46,7 +46,6 @@ const ProductHighlightCarousel = ({
       currentSlide={selectedImageIndex}
       naturalSlideWidth={400}
       naturalSlideHeight={400}
-      hasMasterSpinner={true}
       dragEnabled={isMobile}
     >
       <CarouselListener setCurrentSlide={selectImageWithListener} />
@@ -88,31 +87,20 @@ const ProductHighlightCarousel = ({
           <ChevronRightIcon boxSize={5} />
         </StyledButtonNext>
       </Box>
-      <Slider>
+      <StyledSlider rounded="lg">
         {images.map((imageFile, index) => (
           <Slide key={imageFile.id} index={index}>
-            <StyledImage
-              display={{ base: "block", md: "none" }}
+            <ChakraNextImage
+              src={imageFile.link.href}
+              alt={imageFile.file_name}
+              width={800}
+              height={800}
               objectFit="cover"
               objectPosition="center"
-              hasMasterSpinner={true}
-              alt={imageFile.file_name}
-              src={imageFile.link.href}
-            />
-            <StyledImageWithZoom
-              bgImageProps={{
-                style: {
-                  backgroundPosition: "center",
-                  borderRadius: "0.375rem",
-                },
-              }}
-              display={{ base: "none", md: "block" }}
-              alt={imageFile.file_name}
-              src={imageFile.link.href}
             />
           </Slide>
         ))}
-      </Slider>
+      </StyledSlider>
     </CarouselProvider>
   );
 };

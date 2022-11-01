@@ -1,10 +1,4 @@
-import {
-  Button,
-  ButtonProps,
-  Flex,
-  Grid,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Button, ButtonProps, Flex, Grid } from "@chakra-ui/react";
 
 interface ProductVariationOption {
   id: string;
@@ -26,23 +20,23 @@ interface IProductVariation {
   selectedOptionId?: string;
 }
 
-const ProductVariation = ({
+const ProductVariationStandard = ({
   variation,
   selectedOptionId,
   updateOptionHandler,
 }: IProductVariation): JSX.Element => {
   const buttonHighlightStyle: ButtonProps = {
-    bgColor: useColorModeValue("blue.900", "blue.50"),
-    color: useColorModeValue("white", "gray.900"),
+    bgColor: "brand.primary",
+    color: "white",
   };
 
   const buttonStandardStyle: ButtonProps = {
-    bgColor: useColorModeValue("white", "blue.900"),
-    color: useColorModeValue("gray.900", "white"),
+    bgColor: "white",
+    color: "gray.800",
   };
 
   return (
-    <Grid>
+    <Grid gap={2}>
       <h2>{variation.name}</h2>
       <Flex gap={2} wrap="wrap">
         {variation.options.map((o) => (
@@ -53,6 +47,7 @@ const ProductVariation = ({
               : buttonStandardStyle)}
             border="1px solid"
             borderColor="gray.200"
+            p="6"
             onClick={() => updateOptionHandler(variation.id)(o.id)}
           >
             {o.name}
@@ -63,4 +58,4 @@ const ProductVariation = ({
   );
 };
 
-export default ProductVariation;
+export default ProductVariationStandard;

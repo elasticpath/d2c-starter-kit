@@ -15,9 +15,9 @@ import {
   mapOptionsToVariation,
   MatrixObjectEntry,
 } from "../../services/helper";
-import ProductVariation, {
+import ProductVariationStandard, {
   UpdateOptionHandler,
-} from "../product/ProductVariation";
+} from "../product/variations/ProductVariationStandard";
 
 interface IProductVariations {
   variations: CatalogsProductVariation[];
@@ -90,7 +90,7 @@ const ModalProductVariations = ({
   return (
     <Stack opacity={context?.setIsChangingSku ? "50" : "100"}>
       {variations.map((v) => (
-        <ProductVariation
+        <ProductVariationStandard
           key={v.id}
           variation={v}
           updateOptionHandler={updateOptionHandler}

@@ -9,13 +9,11 @@ import Link from "next/link";
 
 interface IProductContainer {
   productBase: IBase;
-  handleAddToCart: () => void;
   children?: ReactElement;
 }
 
 export default function ProductContainer({
   productBase: { product, main_image, otherImages },
-  handleAddToCart,
   children,
 }: IProductContainer): JSX.Element {
   const { extensions } = product.attributes;
@@ -33,7 +31,7 @@ export default function ProductContainer({
         {extensions && <ProductExtensions extensions={extensions} />}
         {children}
         <Box>
-          <CartActions handleAddToCart={handleAddToCart} />
+          <CartActions productId={product.id} />
           <Link href={`/products/${product.id}`} passHref>
             <Button
               _hover={{
