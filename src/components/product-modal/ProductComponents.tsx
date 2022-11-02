@@ -26,10 +26,10 @@ const ProductComponents = ({
         const allOptions = product.attributes.components[cmpName].options;
         const bundle_configuration = product.meta.bundle_configuration;
         return (
-          <Box key={cmpName} m="2">
+          <Box key={cmpName} m="2" w="full">
             <Text mb="2">{cmpName}</Text>
             {bundle_configuration ? (
-              <Box borderWidth="1px" borderRadius="lg" p="6" minW={350}>
+              <Box borderWidth="1px" borderRadius="lg" p="6" w="full">
                 <RadioGroup
                   value={JSON.stringify(
                     bundle_configuration.selected_options[cmpName]
