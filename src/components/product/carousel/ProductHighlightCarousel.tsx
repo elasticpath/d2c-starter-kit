@@ -92,7 +92,7 @@ const ProductHighlightCarousel = ({
           <Slide key={imageFile.id} index={index}>
             <ChakraNextImage
               src={imageFile.link.href}
-              alt={imageFile.file_name}
+              alt={imageFile.file_name || imageFile.link.href}
               width={800}
               height={800}
               objectFit="cover"

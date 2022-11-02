@@ -1,5 +1,5 @@
 import { ISimpleProduct } from "../../lib/product-types";
-import ProductComponents from "../product/ProductComponents";
+import ProductComponents from "./ProductComponents";
 import ProductContainer from "./ProductContainer";
 
 interface ISimpleProductDetail {
