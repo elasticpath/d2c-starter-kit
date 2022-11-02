@@ -1,11 +1,18 @@
-import ProductCarousel from "../product/carousel/ProductCarousel";
-import { Box, Button, SimpleGrid, Stack } from "@chakra-ui/react";
-import ProductSummary from "../product/ProductSummary";
-import ProductExtensions from "../product/ProductExtensions";
+import {
+  Box,
+  Button,
+  Center,
+  Image,
+  SimpleGrid,
+  Stack,
+} from "@chakra-ui/react";
+import ProductSummary from "./ProductSummary";
 import CartActions from "../product/CartActions";
 import { IBase } from "../../lib/product-types";
 import { ReactElement } from "react";
 import Link from "next/link";
+import { ViewOffIcon } from "@chakra-ui/icons";
+import ProductDetails from "../product/ProductDetails";
 
 interface IProductContainer {
   productBase: IBase;
@@ -13,22 +20,31 @@ interface IProductContainer {
 }
 
 export default function ProductContainer({
-  productBase: { product, main_image, otherImages },
+  productBase: { product, main_image },
   children,
 }: IProductContainer): JSX.Element {
-  const { extensions } = product.attributes;
   return (
     <SimpleGrid
-      columns={{ base: 1, lg: 2 }}
+      columns={{ base: 1, md: 2 }}
       spacing={{ base: 8, md: 10 }}
       py={{ base: 8 }}
     >
-      {main_image && (
-        <ProductCarousel images={otherImages} mainImage={main_image} />
+      {main_image ? (
+        <Image
+          boxSize="100%"
+          objectFit="contain"
+          src={main_image.link.href}
+          alt={product.attributes.name}
+          roundedTop="lg"
+        />
+      ) : (
+        <Center w="100%" h="100%" bg="gray.200" color="white">
+          <ViewOffIcon w="10" h="10" />
+        </Center>
       )}
-      <Stack spacing={{ base: 6, md: 10 }}>
+      <Stack spacing="6">
         <ProductSummary product={product} />
-        {extensions && <ProductExtensions extensions={extensions} />}
+        <ProductDetails product={product} />
         {children}
         <Box>
           <CartActions productId={product.id} />

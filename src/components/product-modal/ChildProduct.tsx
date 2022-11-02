@@ -1,5 +1,5 @@
 import type { IChildProduct } from "../../lib/product-types";
-import ModalProductVariations from "./ModalProductVariations";
+import ProductVariations from "./ProductVariations";
 import ProductContainer from "./ProductContainer";
 
 interface IChildProductDetail {
@@ -13,7 +13,7 @@ const ChildProductDetail = ({
   return (
     <ProductContainer productBase={childProduct}>
       {variations && (
-        <ModalProductVariations
+        <ProductVariations
           variations={variations}
           variationsMatrix={variationsMatrix}
           baseProductSlug={baseProduct.attributes.slug}

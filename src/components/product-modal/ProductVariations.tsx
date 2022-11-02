@@ -34,7 +34,7 @@ const getSelectedOption = (
   return optionLookupObj[variationId];
 };
 
-const ModalProductVariations = ({
+const ProductVariations = ({
   variations,
   baseProductSlug,
   currentSkuId,
@@ -101,4 +101,4 @@ const ModalProductVariations = ({
   );
 };
 
-export default ModalProductVariations;
+export default ProductVariations;
