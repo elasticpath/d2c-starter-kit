@@ -23,7 +23,7 @@ export default function ProductContainer({
     <SimpleGrid
       columns={{ base: 1, lg: 2 }}
       spacing={{ base: 8, md: 10 }}
-      py={{ base: 18, md: 24 }}
+      py={{ base: 2, md: 2 }}
     >
       {main_image && (
         <ProductCarousel images={otherImages} mainImage={main_image} />

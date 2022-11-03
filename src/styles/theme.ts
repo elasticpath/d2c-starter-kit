@@ -1,12 +1,12 @@
 import { ComponentStyleConfig, extendTheme } from "@chakra-ui/react";
 
-export const globalBaseWidth = "7xl";
+export const globalBaseWidth = "100%";
 
 // Basic styles
 export const styles = {
   global: {
     html: {
-      fontSize: "16px",
+      fontSize: "15px",
     },
   },
 };
@@ -19,6 +19,10 @@ const colors = {
     highlight: "#1E40AF",
     primaryAlt: "#EA7317",
     secondaryAlt: "#ffcb47",
+  },
+  text: {
+    primary: "#999999",
+    secondary: "#FFFFFF",
   },
 };
 
@@ -43,9 +47,18 @@ const Checkbox: ComponentStyleConfig = {
   },
 };
 
+const breakpoints = {
+  sm: "30em",
+  md: "48em",
+  lg: "62em",
+  xl: "80em",
+  "2xl": "96em",
+};
+
 const theme = extendTheme({
   ...{ styles },
   ...{ colors },
+  ...{ breakpoints },
   components: {
     Checkbox,
   },

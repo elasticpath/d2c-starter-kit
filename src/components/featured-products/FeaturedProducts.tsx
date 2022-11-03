@@ -111,7 +111,7 @@ const FeaturedProducts = (props: IFeaturedProductsProps): JSX.Element => {
             p={4}
             flex={{ base: "100%", md: "50%", lg: "25%" }}
             key={product.id}
-            href="/category"
+            href={`/products/${product.id}`}
           >
             <Box width="100%" maxW={64} textAlign="center">
               {product.main_image?.link.href ? (

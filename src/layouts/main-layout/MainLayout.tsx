@@ -3,6 +3,7 @@ import Footer from "../../components/footer/Footer";
 
 import type { ReactNode } from "react";
 import type { NavigationNode } from "../../lib/build-site-navigation";
+import { Box } from "@chakra-ui/react";
 
 interface IMainLayout {
   nav: NavigationNode[];

@@ -86,7 +86,7 @@ const SearchBox = ({
         visibility={query ? "visible" : "hidden"}
       >
         <IconButton
-          aria-label="Search database"
+          aria-label="Search Products"
           icon={<CloseIcon />}
           onClick={() => {
             clear();
@@ -141,9 +141,7 @@ const HitComponent = ({ hit }: { hit: SearchHit }) => {
           </Text>
         </GridItem>
         <GridItem colSpan={2}>
-          <Text fontSize="sm" fontWeight="semibold">
-            {ep_price["USD"].formatted_price}
-          </Text>
+          <Text fontSize="sm" fontWeight="semibold"></Text>
         </GridItem>
       </Grid>
     </LinkBox>
@@ -183,7 +181,7 @@ export const SearchModal = (): JSX.Element => {
         fontWeight="normal"
         justifyContent="left"
       >
-        <SearchIcon color="gray.800" />
+        <SearchIcon color="text.secondary" />
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

@@ -32,7 +32,12 @@ export const Product: NextPage<IProduct> = (props: IProduct) => {
   }, [product, addProductToCart]);
 
   return (
-    <Container maxW="7xl" key={"page_" + product.id}>
+    <Container
+      min-width="1200px"
+      maxW="globalBaseWidth"
+      padding={{ sm: "0 1rem", lg: "0 2rem", "2xl": "0 5rem" }}
+      key={"page_" + product.id}
+    >
       <ProductContext.Provider
         value={{
           isChangingSku,

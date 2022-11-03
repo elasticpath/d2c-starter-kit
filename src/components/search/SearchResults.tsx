@@ -23,6 +23,7 @@ import { BreadcrumbLookup } from "../../lib/types/breadcrumb-lookup";
 import SearchBox from "./SearchBox";
 import MobileFilters from "./MobileFilters";
 import { hierarchicalAttributes } from "../../lib/hierarchical-attributes";
+import { globalBaseWidth } from "../../styles/theme";
 
 interface ISearchResults {
   lookup?: BreadcrumbLookup;
@@ -62,8 +63,14 @@ export default function SearchResults({
   const title = slugArray ? resolveTitle(slugArray, lookup) : "All Categories";
 
   return (
-    <Grid gap={4} maxW="7xl" mx="auto">
-      <Flex alignItems="center" gap="2" pt={8} wrap="wrap">
+    <Grid
+      gap={4}
+      min-width="1200px"
+      maxW="globalBaseWidth"
+      padding={{ sm: "0 1rem", lg: "0 2rem", "2xl": "0 5rem" }}
+      mx="auto"
+    >
+      <Flex alignItems="center" gap="2" pt={6} wrap="wrap">
         <Box py="2">
           <Heading>{title}</Heading>
           {query && <Text>Search results for &quot;{query}&quot;</Text>}
