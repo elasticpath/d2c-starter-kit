@@ -27,8 +27,8 @@ export const Product: NextPage<IProduct> = (props: IProduct) => {
 
   return (
     <Container
-      maxW={{ base: "3xl", lg: "7xl" }}
-      py={{ base: 18, md: 20 }}
+      maxW="globalBaseWidth"
+      padding={{ sm: "0 1rem", lg: "0 2rem", "2xl": "0 5rem" }}
       key={"page_" + product.id}
     >
       <ProductContext.Provider

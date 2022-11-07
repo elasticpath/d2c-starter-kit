@@ -1,9 +1,18 @@
 import { RefinedCartItem } from "../../context/types/cart-reducer-types";
-import { Box, Text, Grid, GridItem, IconButton } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Grid,
+  GridItem,
+  Button,
+  Image,
+  Center,
+} from "@chakra-ui/react";
 import QuantityHandler from "../quantity-handler/QuantityHandler";
 import { CloseIcon } from "@chakra-ui/icons";
 import { NonEmptyArray } from "../../lib/types/non-empty-array";
 import { ReadonlyNonEmptyArray } from "../../lib/types/read-only-non-empty-array";
+import NextLink from "next/link";
 import { ChakraNextImage } from "../ChakraNextImage";
 
 export function CartItemList({
@@ -18,61 +27,137 @@ export function CartItemList({
 }): JSX.Element {
   return (
     <Box>
-      {items.map((item) => (
-        <Grid
-          key={item.id}
-          gridTemplateColumns={{ base: "auto 1fr auto" }}
-          gap={6}
-          py={10}
-          borderBottom="1px solid"
-          borderColor="gray.200"
-          _last={{ border: "none" }}
-          _first={{ borderTop: "1px solid", borderColor: "gray.200" }}
-        >
-          <Box>
-            {item.image?.href && (
-              <ChakraNextImage
-                src={item.image.href}
-                alt={item.name}
-                width={192}
-                height={192}
-                w={{ base: "5rem", sm: "12rem" }}
-                h={{ base: "5rem", sm: "12rem" }}
-                overflow="hidden"
-                rounded="lg"
-              />
-            )}
-          </Box>
-
+      {items.map((item) => {
+        const {
+          display_price: { discount, without_discount, without_tax },
+        } = item.meta;
+        return (
           <Grid
-            gridTemplateRows={{ base: "auto 1fr", md: "" }}
-            gridTemplateColumns={{ base: "", md: "1fr 1fr" }}
-            gap={{ base: 4, md: 6 }}
+            key={item.id}
+            gap="10"
+            fontWeight="bold"
+            mb="5"
+            borderBottom="1px solid"
+            borderColor="gray.200"
+            borderRadius="2"
+            pb="6"
           >
-            <GridItem>
-              <Text fontWeight="medium" fontSize="sm" noOfLines={2}>
-                {item.name}
+            <Box>
+              <Text fontWeight="bold" fontSize="md" noOfLines={1}>
+                <NextLink href={`/products/${item.product_id}`} passHref>
+                  {item.name}
+                </NextLink>
               </Text>
-              <Text fontSize="md" fontWeight="medium" mt={2}>
-                {item.meta.display_price.without_tax.unit.formatted}
-              </Text>
-            </GridItem>
-            <QuantityHandler item={item} />
-          </Grid>
-          <GridItem>
-            <IconButton
-              aria-label="Remove"
-              color="gray.500"
-              icon={<CloseIcon w={{ base: 2, md: 3 }} h={{ base: 2, md: 3 }} />}
-              variant="text"
-              _hover={{ color: "gray.700" }}
-              onClick={() => {
-                handleRemoveItem(item.id);
+            </Box>
+            <Grid
+              gridTemplateRows={{ base: "repeat(auto, 1fr)" }}
+              gridTemplateColumns={{
+                base: "",
+                sm: "repeat(3, 1fr)",
+                lg: "repeat(7, 1fr)",
               }}
-            />
-          </GridItem>
-        </Grid>
-      ))}
+              gap={{ base: 4 }}
+              mt={-30}
+            >
+              <GridItem
+                colSpan={{ sm: 1, lg: 1, "2xl": 1 }}
+                rowSpan={2}
+                minWidth="100px"
+              >
+                {item.image?.href && (
+                  <ChakraNextImage
+                    src={item.image.href}
+                    alt={item.name}
+                    width={169}
+                    height={125} /*4:3 ratio*/
+                    overflow="hidden"
+                    rounded="lg"
+                  />
+                )}
+              </GridItem>
+              <GridItem colSpan={{ sm: 2, lg: 3, "2xl": 3 }}>
+                <Text
+                  fontSize="sm"
+                  fontWeight="medium"
+                  noOfLines={[1, 2, 3, 4, 5]}
+                >
+                  {item.description}
+                </Text>
+              </GridItem>
+              <GridItem colSpan={1}>
+                <Center>
+                  <Text fontSize="md" fontWeight="bold">
+                    Each
+                  </Text>
+                </Center>
+                {discount && without_discount && discount.value.amount < 0 ? (
+                  <div>
+                    <Center>
+                      <Text
+                        color="gray.500"
+                        textDecoration="line-through"
+                        fontSize="sm"
+                        fontWeight="medium"
+                      >
+                        {without_discount.unit.formatted}
+                      </Text>
+                    </Center>
+                    <Center>
+                      <Text fontSize="sm" fontWeight="medium">
+                        {without_tax.unit.formatted}
+                      </Text>
+                    </Center>
+                  </div>
+                ) : (
+                  <Center>
+                    <Text fontSize="sm" fontWeight="medium">
+                      {without_tax.unit.formatted}
+                    </Text>
+                  </Center>
+                )}
+              </GridItem>
+              <GridItem colSpan={1}>
+                <Center>
+                  <Text fontSize="md" fontWeight="bold" mb="2">
+                    Quantity
+                  </Text>
+                </Center>
+                <Center>
+                  <QuantityHandler item={item} />
+                </Center>
+                <Center>
+                  <Button
+                    size="xs"
+                    aria-label="Remove"
+                    mt={6}
+                    colorScheme="gray"
+                    variant="ghost"
+                    leftIcon={<CloseIcon />}
+                    _hover={{ color: "red" }}
+                    onClick={() => {
+                      handleRemoveItem(item.id);
+                    }}
+                  >
+                    Remove
+                  </Button>
+                </Center>
+              </GridItem>
+              <GridItem colSpan={1}>
+                <Center>
+                  <Text fontSize="md" fontWeight="bold" mt={1}>
+                    Total
+                  </Text>
+                </Center>
+                <Center>
+                  <Text fontSize="sm" fontWeight="bold">
+                    {item.meta.display_price.without_tax.value.formatted}
+                  </Text>
+                </Center>
+              </GridItem>
+            </Grid>
+          </Grid>
+        );
+      })}
     </Box>
   );
 }

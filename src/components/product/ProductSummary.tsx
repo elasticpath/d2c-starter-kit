@@ -21,7 +21,7 @@ const ProductSummary = ({ product }: IProductSummary): JSX.Element => {
       <Heading
         lineHeight={1.1}
         fontWeight={600}
-        fontSize={{ base: "xl", sm: "3xl", lg: "4xl" }}
+        fontSize={{ base: "2xl", sm: "2xl", lg: "3xl" }}
       >
         {attributes.name}
       </Heading>

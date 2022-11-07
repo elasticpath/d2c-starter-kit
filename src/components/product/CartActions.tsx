@@ -19,7 +19,7 @@ const CartActions = ({ productId }: ICartActions): JSX.Element => {
         mt={4}
         py="7"
         bg="brand.primary"
-        color="white"
+        color="brand.buttontext"
         textTransform="uppercase"
         _hover={{
           transform: "translateY(-2px)",

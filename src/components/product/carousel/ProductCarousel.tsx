@@ -4,6 +4,7 @@ import "pure-react-carousel/dist/react-carousel.es.css";
 import { useState } from "react";
 import HorizontalCarousel from "./HorizontalCarousel";
 import ProductHighlightCarousel from "./ProductHighlightCarousel";
+import VerticalCarousel from "./VerticalCarousel";
 
 interface IProductCarousel {
   images: File[];
@@ -20,8 +21,22 @@ const ProductCarousel = ({
     completeImages[0]
   );
 
+  const desiredVisibleSlides = 4;
+  const numberVisibleSlides =
+    completeImages.length >= desiredVisibleSlides
+      ? desiredVisibleSlides
+      : completeImages.length;
+
   return (
-    <Grid gap={6}>
+    <Grid templateColumns={["1fr", null, "80px 1fr"]} gap={6}>
+      <GridItem display={{ base: "none", md: "block" }}>
+        <VerticalCarousel
+          images={completeImages}
+          visibleSlides={numberVisibleSlides}
+          selectedProductImage={selectedProductImage}
+          setSelectedProductImage={setSelectedProductImage}
+        />
+      </GridItem>
       <GridItem position="relative">
         <ProductHighlightCarousel
           images={completeImages}
@@ -29,7 +44,7 @@ const ProductCarousel = ({
           setSelectedProductImage={setSelectedProductImage}
         />
       </GridItem>
-      <GridItem>
+      <GridItem display={{ base: "block", md: "none" }}>
         <HorizontalCarousel
           images={completeImages.map((item) => ({
             src: item.link.href,

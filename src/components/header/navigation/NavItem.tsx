@@ -31,8 +31,11 @@ const NavItem = ({ item, headerPadding }: INavItem): JSX.Element => {
       <MenuButton
         as={Button}
         variant="link"
+        mx={0}
+        py={[1, 2, 2]}
+        px={4}
         marginRight="2rem"
-        color="gray.800"
+        color="brand.navigation"
         _expanded={{ color: "brand.primary" }}
       >
         {item.name}

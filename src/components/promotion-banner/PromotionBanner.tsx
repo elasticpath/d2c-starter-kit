@@ -83,7 +83,7 @@ const PromotionBanner = (props: IPromotionBanner): JSX.Element => {
           {linkProps && (
             <Button
               bg="brand.primary"
-              color="white"
+              color="brand.buttontext"
               _hover={{
                 backgroundColor: "brand.highlight",
                 boxShadow: "lg",

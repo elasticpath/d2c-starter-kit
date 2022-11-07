@@ -54,8 +54,7 @@ export const Checkout: NextPage<ICheckout> = () => {
       maxW={globalBaseWidth}
       m="0 auto"
       w="full"
-      px={{ base: 8, "2xl": 0 }}
-      py={10}
+      padding={{ sm: "0 1rem", lg: "0 2rem", "2xl": "0 5rem" }}
     >
       {orderCompleteState ? (
         <OrderComplete state={orderCompleteState} />

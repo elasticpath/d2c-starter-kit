@@ -31,6 +31,7 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+yarn.lock
 
 # vercel
 .vercel
@@ -40,3 +41,4 @@ yarn-error.log*
 
 # TODO ignoring for now but unsure of what's generating it.
 /localStorage
+
