@@ -60,7 +60,7 @@ export function CartItemList({
               mt={-30}
             >
               <GridItem
-                colSpan={{ sm: 1, lg: 1, "2xl": 1 }}
+                colSpan={{ sm: 3, lg: 1, "2xl": 1 }}
                 rowSpan={2}
                 minWidth="100px"
               >
@@ -75,7 +75,7 @@ export function CartItemList({
                   />
                 )}
               </GridItem>
-              <GridItem colSpan={{ sm: 2, lg: 3, "2xl": 3 }}>
+              <GridItem colSpan={{ sm: 3, lg: 3, "2xl": 3 }}>
                 <Text
                   fontSize="sm"
                   fontWeight="medium"
