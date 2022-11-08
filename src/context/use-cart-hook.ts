@@ -19,7 +19,6 @@ import {
   OrderShippingAddress,
   CartItemsResponse,
 } from "@moltin/sdk";
-import { getCartCookie } from "../lib/cart-cookie";
 import { StoreCartAction, StoreEvent } from "./types/event-types";
 import { StoreError } from "./types/error-types";
 
@@ -30,22 +29,25 @@ export function useCart() {
     throw new Error("useCartItems must be used within a CartProvider");
   }
 
-  const { state, dispatch, emit } = context;
+  const { state, dispatch, emit, resolveCartId } = context;
 
   return {
-    addProductToCart: _addProductToCart(dispatch, emit),
-    removeCartItem: _removeCartItem(dispatch, emit),
-    emptyCart: _emptyCart(dispatch, state, emit),
-    addPromotionToCart: _addPromotionToCart(dispatch, emit),
-    updateCartItem: _updateCartItem(dispatch, emit),
-    checkout: _checkout(dispatch),
-    addCustomItemToCart: _addCustomItemToCart(dispatch, emit),
+    addProductToCart: _addProductToCart(dispatch, resolveCartId, emit),
+    removeCartItem: _removeCartItem(dispatch, resolveCartId, emit),
+    emptyCart: _emptyCart(dispatch, state, resolveCartId, emit),
+    addPromotionToCart: _addPromotionToCart(dispatch, resolveCartId, emit),
+    updateCartItem: _updateCartItem(dispatch, resolveCartId, emit),
+    checkout: _checkout(dispatch, resolveCartId),
+    addCustomItemToCart: _addCustomItemToCart(dispatch, resolveCartId, emit),
     isUpdatingCart: state.kind === "updating-cart-state",
     state,
   };
 }
 
-function _checkout(dispatch: (action: CartAction) => void) {
+function _checkout(
+  dispatch: (action: CartAction) => void,
+  resolveCartId: () => string
+) {
   return async (
     email: string,
     shippingAddress: Partial<OrderShippingAddress>,
@@ -53,7 +55,7 @@ function _checkout(dispatch: (action: CartAction) => void) {
     sameAsShipping?: boolean,
     billingAddress?: Partial<OrderBillingAddress>
   ): Promise<ConfirmPaymentResponse> => {
-    const cartId = getCartCookie();
+    const cartId = resolveCartId();
 
     dispatch({
       type: "updating-cart",
@@ -86,10 +88,11 @@ function _checkout(dispatch: (action: CartAction) => void) {
 
 function _updateCartItem(
   dispatch: (action: CartAction) => void,
+  resolveCartId: () => string,
   eventEmitter?: (event: StoreEvent) => void
 ) {
   return async (itemId: string, quantity: number): Promise<void> => {
-    const cartId = getCartCookie();
+    const cartId = resolveCartId();
 
     dispatch({
       type: "updating-cart",
@@ -121,10 +124,11 @@ function _updateCartItem(
 
 function _addProductToCart(
   dispatch: (action: CartAction) => void,
+  resolveCartId: () => string,
   eventEmitter?: (event: StoreEvent) => void
 ) {
   return async (productId: string, quantity: number): Promise<void> => {
-    const cartId = getCartCookie();
+    const cartId = resolveCartId();
 
     dispatch({
       type: "updating-cart",
@@ -171,10 +175,11 @@ function resolveProductName(
 
 function _addCustomItemToCart(
   dispatch: (action: CartAction) => void,
+  resolveCartId: () => string,
   eventEmitter?: (event: StoreEvent) => void
 ) {
   return async (customItem: CustomItemRequest): Promise<void> => {
-    const cartId = getCartCookie();
+    const cartId = resolveCartId();
 
     dispatch({
       type: "updating-cart",
@@ -209,10 +214,11 @@ function _addCustomItemToCart(
 
 function _addPromotionToCart(
   dispatch: (action: CartAction) => void,
+  resolveCartId: () => string,
   eventEmitter?: (event: StoreEvent) => void
 ) {
   return async (promoCode: string): Promise<void> => {
-    const cartId = getCartCookie();
+    const cartId = resolveCartId();
 
     dispatch({
       type: "updating-cart",
@@ -247,10 +253,11 @@ function _addPromotionToCart(
 
 function _removeCartItem(
   dispatch: (action: CartAction) => void,
+  resolveCartId: () => string,
   eventEmitter?: (event: StoreEvent) => void
 ) {
   return async (itemId: string): Promise<void> => {
-    const cartId = getCartCookie();
+    const cartId = resolveCartId();
 
     dispatch({
       type: "updating-cart",
@@ -287,10 +294,11 @@ function _removeCartItem(
 function _emptyCart(
   dispatch: (action: CartAction) => void,
   state: CartState,
+  resolveCartId: () => string,
   eventEmitter?: (event: StoreEvent) => void
 ) {
   return async (): Promise<void> => {
-    const cartId = getCartCookie();
+    const cartId = resolveCartId();
 
     if (state.kind === "present-cart-state") {
       dispatch({
