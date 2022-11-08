@@ -1,10 +1,7 @@
 import { Grid } from "@chakra-ui/react";
 import { CarouselProvider, Slider, Slide, Image } from "pure-react-carousel";
 import "pure-react-carousel/dist/react-carousel.es.css";
-import {
-  StyledButtonBack,
-  StyledButtonNext,
-} from "../../shared/carousel-wrapped";
+import { StyledButtonBack, StyledButtonNext } from "./carousel-wrapped";
 import styles from "./ProductCarousel.module.css";
 import { isMobile } from "react-device-detect";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";

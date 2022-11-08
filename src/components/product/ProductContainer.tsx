@@ -4,7 +4,7 @@ import ProductSummary from "./ProductSummary";
 import ProductDetails from "./ProductDetails";
 import ProductExtensions from "./ProductExtensions";
 import CartActions from "./CartActions";
-import { IBase } from "../../lib/product-types";
+import { IBase } from "../../lib/types/product-types";
 import { ReactElement } from "react";
 
 interface IProductContainer {

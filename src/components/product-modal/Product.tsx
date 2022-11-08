@@ -2,7 +2,7 @@ import { Container } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { ProductModalContext } from "../../lib/product-util";
 import { useEffect, useState } from "react";
-import type { IProduct } from "../../lib/product-types";
+import type { IProduct } from "../../lib/types/product-types";
 import BaseProductDetail from "./BaseProduct";
 import ChildProductDetail from "./ChildProduct";
 import SimpleProductDetail from "./SimpleProduct";
