@@ -1,12 +1,13 @@
 import { Grid, GridItem } from "@chakra-ui/react";
-import { useHits } from "react-instantsearch-hooks-web";
-import { SearchHit } from "./SearchHit";
 import NoResults from "./NoResults";
 import HitComponent from "./Hit";
+import { SearchHit } from "./SearchHit";
 
-export default function Hits(): JSX.Element {
-  const { hits } = useHits<SearchHit>();
+interface IHitsProps {
+  hits: SearchHit[];
+}
 
+export default function Hits({ hits }: IHitsProps): JSX.Element {
   if (hits.length) {
     return (
       <Grid

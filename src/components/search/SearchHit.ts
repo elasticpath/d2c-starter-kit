@@ -32,8 +32,7 @@ type HitPrice = {
 };
 
 export interface SearchHit extends BaseHit {
-  ep_amount: number;
-  ep_categories: string[];
+  ep_categories: string[] | {};
   ep_description: string;
   ep_name: string;
   ep_price: HitPrice;

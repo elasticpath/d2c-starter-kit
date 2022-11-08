@@ -38,6 +38,24 @@ export async function getHierarchyNodes(
   return result.data;
 }
 
+export async function getHierarchyProducts(
+  hierarchyId: string,
+  q?: string,
+  client?: EPCCClient
+): Promise<ShopperCatalogResourcePage<ProductResponse>> {
+  const request = await (
+    client ?? getEpccImplicitClient()
+  ).ShopperCatalog.Products.With(["main_image", "files"]);
+  if (q) {
+    return request.Filter({ eq: { name: q } }).GetProductsByHierarchy({
+      hierarchyId,
+    });
+  }
+  return request.GetProductsByHierarchy({
+    hierarchyId,
+  });
+}
+
 export async function getNodeChildren(
   nodeId: string,
   client?: EPCCClient

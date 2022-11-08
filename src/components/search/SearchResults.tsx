@@ -14,7 +14,11 @@ import {
   Text,
   Heading,
 } from "@chakra-ui/react";
-import { useSortBy, useInstantSearch } from "react-instantsearch-hooks-web";
+import {
+  useSortBy,
+  useInstantSearch,
+  useHits,
+} from "react-instantsearch-hooks-web";
 import { algoliaEnvData } from "../../lib/resolve-algolia-env";
 import CustomHierarchicalMenu from "./CustomHierarchicalMenu";
 import Hits from "./Hits";
@@ -23,6 +27,8 @@ import { BreadcrumbLookup } from "../../lib/types/breadcrumb-lookup";
 import SearchBox from "./SearchBox";
 import MobileFilters from "./MobileFilters";
 import { hierarchicalAttributes } from "../../lib/hierarchical-attributes";
+import HitsProvider from "./HitsProvider";
+import { SearchHit } from "./SearchHit";
 
 interface ISearchResults {
   lookup?: BreadcrumbLookup;
@@ -41,6 +47,7 @@ export default function SearchResults({
   NextRouterHandler,
 }: ISearchResults): JSX.Element {
   const { uiState } = useInstantSearch();
+  const { hits } = useHits<SearchHit>();
 
   const { options, refine } = useSortBy({
     items: [
@@ -117,7 +124,7 @@ export default function SearchResults({
         </GridItem>
 
         <GridItem>
-          <Hits />
+          <HitsProvider hits={hits} />
           <Box py={10}>
             <Pagination />
           </Box>

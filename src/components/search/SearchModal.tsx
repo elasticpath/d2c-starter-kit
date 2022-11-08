@@ -35,6 +35,7 @@ import { SearchHit } from "./SearchHit";
 import { searchClient } from "../../lib/search-client";
 import { algoliaEnvData } from "../../lib/resolve-algolia-env";
 import { useDebouncedEffect } from "../../lib/use-debounced";
+import HitsProvider from "./HitsProvider";
 
 const SearchBox = ({
   onChange,
@@ -205,7 +206,7 @@ export const SearchModal = (): JSX.Element => {
             <Box overflowX="scroll" px="4" pb="4">
               <Divider />
               <Box mt="4">
-                <Hits />
+                <HitsProvider />
               </Box>
             </Box>
           ) : null}
