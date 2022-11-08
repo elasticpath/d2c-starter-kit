@@ -1,5 +1,3 @@
-import { BaseHit } from "instantsearch.js";
-
 type HitSalePrice = {
   amount: number;
   includes_tax: boolean;
@@ -31,7 +29,7 @@ type HitPrice = {
   };
 };
 
-export interface SearchHit extends BaseHit {
+export interface SearchHit {
   ep_categories: string[] | {};
   ep_description: string;
   ep_name: string;

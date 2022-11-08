@@ -1,4 +1,3 @@
-import { useSearchBox } from "react-instantsearch-hooks-web";
 import {
   IconButton,
   Input,
@@ -6,23 +5,36 @@ import {
   InputLeftElement,
   InputRightElement,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
 import { useDebouncedEffect } from "../../lib/use-debounced";
+import { useRouter } from "next/router";
 
-export default function SearchBox(): JSX.Element {
-  const { query, refine, clear } = useSearchBox();
-  const [search, setSearch] = useState<string>(query);
+interface SearchBoxProps {
+  onSearch: (q: string) => void;
+}
 
-  useDebouncedEffect(
+export default function SearchBox({ onSearch }: SearchBoxProps): JSX.Element {
+  const [search, setSearch] = useState<string>("");
+  const { query } = useRouter();
+
+  /*  useDebouncedEffect(
     () => {
-      if (search !== query) {
-        refine(search);
+      //if (search !== query) {
+      //refine(search);
+      //}
+      //console.warn(search, "search");
+      if (search) {
+
       }
     },
     400,
     [search]
-  );
+  );*/
+
+  useEffect(() => {
+    search && onSearch(search);
+  }, [search]);
 
   return (
     <InputGroup bgColor="gray.50" rounded="lg">
@@ -42,17 +54,12 @@ export default function SearchBox(): JSX.Element {
         }}
         placeholder="Search"
       />
-      <InputRightElement
-        width="4.5rem"
-        h="12"
-        visibility={query ? "visible" : "hidden"}
-      >
+      <InputRightElement width="4.5rem" h="12">
         <IconButton
           aria-label="Search database"
           icon={<CloseIcon />}
           variant="ghost"
           onClick={() => {
-            clear();
             setSearch("");
           }}
         />

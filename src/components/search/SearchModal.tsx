@@ -1,10 +1,5 @@
 import { useState } from "react";
 import {
-  InstantSearch,
-  useHits,
-  useSearchBox,
-} from "react-instantsearch-hooks-web";
-import {
   Box,
   Button,
   Divider,
@@ -29,12 +24,8 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
-import NoResults from "./NoResults";
 import NoImage from "./NoImage";
 import { SearchHit } from "./SearchHit";
-import { searchClient } from "../../lib/search-client";
-import { algoliaEnvData } from "../../lib/resolve-algolia-env";
-import { useDebouncedEffect } from "../../lib/use-debounced";
 import HitsProvider from "./HitsProvider";
 
 const SearchBox = ({
@@ -44,18 +35,7 @@ const SearchBox = ({
   onChange: (value: string) => void;
   onSearchEnd: (query: string) => void;
 }) => {
-  const { query, refine, clear } = useSearchBox();
-  const [search, setSearch] = useState<string>(query);
-
-  useDebouncedEffect(
-    () => {
-      if (search !== query) {
-        refine(search);
-      }
-    },
-    400,
-    [search]
-  );
+  const [search, setSearch] = useState<string>("");
 
   return (
     <InputGroup>
@@ -81,16 +61,11 @@ const SearchBox = ({
         }}
         placeholder="Search"
       />
-      <InputRightElement
-        width="4.5rem"
-        h="16"
-        visibility={query ? "visible" : "hidden"}
-      >
+      <InputRightElement width="4.5rem" h="16" visibility="visible">
         <IconButton
           aria-label="Search database"
           icon={<CloseIcon />}
           onClick={() => {
-            clear();
             onChange("");
             setSearch("");
           }}
@@ -151,33 +126,13 @@ const HitComponent = ({ hit }: { hit: SearchHit }) => {
   );
 };
 
-const Hits = () => {
-  const { hits } = useHits<SearchHit>();
-
-  if (hits.length) {
-    return (
-      <UnorderedList listStyleType="none" marginInlineStart="0">
-        {hits.map((hit) => (
-          <ListItem mb="4" key={hit.objectID}>
-            <HitComponent hit={hit} />
-          </ListItem>
-        ))}
-      </UnorderedList>
-    );
-  }
-  return <NoResults />;
-};
-
 export const SearchModal = (): JSX.Element => {
   const [searchValue, setSearchValue] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
 
   return (
-    <InstantSearch
-      searchClient={searchClient}
-      indexName={algoliaEnvData.indexName}
-    >
+    <Box>
       <Button
         variant="ghost"
         onClick={onOpen}
@@ -212,7 +167,7 @@ export const SearchModal = (): JSX.Element => {
           ) : null}
         </ModalContent>
       </Modal>
-    </InstantSearch>
+    </Box>
   );
 };
 
