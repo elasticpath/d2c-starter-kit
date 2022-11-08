@@ -11,14 +11,14 @@ import { getProductById } from "../../services/products";
 import {
   isChildProductResource,
   isSimpleProductResource,
-} from "../../services/helper";
+} from "../../lib/product-helper";
 import {
   retrieveBaseProps,
   retrieveChildProps,
   retrieveSimpleProps,
 } from "../../lib/retrieve-product-props";
 import { useEffect, useState } from "react";
-import { IProduct } from "../../lib/product-types";
+import { IProduct } from "../../lib/types/product-types";
 import { GetStaticPropsResult } from "next/types";
 
 interface ProductModalProps {

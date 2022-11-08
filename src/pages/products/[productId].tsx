@@ -6,12 +6,12 @@ import BaseProductDetail from "../../components/product/BaseProduct";
 import {
   isChildProductResource,
   isSimpleProductResource,
-} from "../../services/helper";
+} from "../../lib/product-helper";
 import { getAllProducts, getProductById } from "../../services/products";
 import SimpleProductDetail from "../../components/product/SimpleProduct";
 import { ProductContext } from "../../lib/product-util";
 import { useState } from "react";
-import type { IProduct } from "../../lib/product-types";
+import type { IProduct } from "../../lib/types/product-types";
 
 import { withStoreStaticProps } from "../../lib/store-wrapper-ssg";
 import {

@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { chakra, Grid, GridItem } from "@chakra-ui/react";
 
 import type { Node, Promotion } from "@moltin/sdk";
-import { ProductResponseWithImage } from "../lib/product-types";
+import { ProductResponseWithImage } from "../lib/types/product-types";
 
 import PromotionBanner from "../components/promotion-banner/PromotionBanner";
 import { fetchFeaturedPromotion } from "../components/promotion-banner/fetchFeaturedPromotion";

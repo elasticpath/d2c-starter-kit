@@ -1,6 +1,10 @@
 import { ProductResponse, Resource, ShopperCatalogResource } from "@moltin/sdk";
 import { GetStaticPropsResult } from "next";
-import { IBaseProduct, IChildProduct, ISimpleProduct } from "./product-types";
+import {
+  IBaseProduct,
+  IChildProduct,
+  ISimpleProduct,
+} from "./types/product-types";
 import { getProductMainImage, getProductOtherImageUrls } from "./product-util";
 import { getProductById } from "../services/products";
 import { sortAlphabetically } from "./shared-util";

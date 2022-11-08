@@ -1,27 +1,6 @@
-import {
-  CatalogsProductVariation,
-  CustomerBase,
-  ProductResponse,
-  Moltin as EPCCClient,
-} from "@moltin/sdk";
-import { OptionDict } from "../lib/product-types";
-import { getEpccImplicitClient } from "../lib/epcc-implicit-client";
-
-export async function register(
-  name: string,
-  email: string,
-  password: string,
-  client?: EPCCClient
-): Promise<CustomerBase> {
-  const { data } = await (client ?? getEpccImplicitClient()).Customers.Create({
-    type: "customer",
-    name,
-    email,
-    password,
-  });
-
-  return data;
-}
+import { CatalogsProductVariation, ProductResponse } from "@moltin/sdk";
+import { OptionDict } from "./types/product-types";
+import { MatrixObjectEntry, MatrixValue } from "./types/matrix-object-entry";
 
 export const getSkuIdFromOptions = (
   options: string[],
@@ -83,12 +62,6 @@ export function allVariationsHaveSelectedOption(
   variations: CatalogsProductVariation[]
 ): boolean {
   return !variations.some((variation) => !optionsDict[variation.id]);
-}
-
-type MatrixValue = string;
-
-export interface MatrixObjectEntry {
-  [key: string]: MatrixObjectEntry | MatrixValue;
 }
 
 export const isChildProductResource = (product: ProductResponse): boolean =>

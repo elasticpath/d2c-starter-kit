@@ -5,7 +5,7 @@ import {
   StyledButtonBack,
   StyledButtonNext,
   StyledImage,
-} from "../../shared/carousel-wrapped";
+} from "./carousel-wrapped";
 import styles from "./ProductCarousel.module.css";
 import { isMobile } from "react-device-detect";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";

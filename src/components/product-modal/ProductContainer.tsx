@@ -1,7 +1,7 @@
 import { Box, Button, Center, SimpleGrid, Stack } from "@chakra-ui/react";
 import ProductSummary from "./ProductSummary";
 import CartActions from "../product/CartActions";
-import { IBase } from "../../lib/product-types";
+import { IBase } from "../../lib/types/product-types";
 import { ReactElement } from "react";
 import Link from "next/link";
 import { ViewOffIcon } from "@chakra-ui/icons";

@@ -1,4 +1,4 @@
-import { ISimpleProduct } from "../../lib/product-types";
+import { ISimpleProduct } from "../../lib/types/product-types";
 import ProductComponents from "./ProductComponents";
 import ProductContainer from "./ProductContainer";
 
