@@ -1,9 +1,6 @@
-import {
-  CartState,
-  PresentCartState,
-} from "../context/types/cart-reducer-types";
+import { CartState, PresentCartState } from "@field123/epcc-react";
 import { ICart } from "../components/cart/Cart";
-import { getPresentCartState } from "./get-present-cart-state";
+import { getPresentCartState } from "@field123/epcc-react";
 
 export function resolveShoppingCartProps(
   state: CartState,

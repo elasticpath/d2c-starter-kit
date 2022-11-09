@@ -1,4 +1,4 @@
-import { PresentCartState } from "../../context/types/cart-reducer-types";
+import { PresentCartState } from "@field123/epcc-react";
 import { Tag, TagLabel } from "@chakra-ui/react";
 
 export default function CartItemNumTag({

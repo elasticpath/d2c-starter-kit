@@ -1,6 +1,6 @@
 import { Box, Button, NumberInput, NumberInputField } from "@chakra-ui/react";
 import type { CartItem } from "@moltin/sdk";
-import { useCart } from "../../context/use-cart-hook";
+import { useCart } from "@field123/epcc-react";
 
 interface IQuantityHandler {
   item: CartItem;

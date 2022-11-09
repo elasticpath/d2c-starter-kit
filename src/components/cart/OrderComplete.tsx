@@ -17,7 +17,7 @@ import {
 import { OrderCompleteState } from "../checkout/types/order-pending-state";
 import { ChakraNextImage } from "../ChakraNextImage";
 import NextLink from "next/link";
-import { PresentCartState } from "../../context/types/cart-reducer-types";
+import { PresentCartState } from "@field123/epcc-react";
 
 interface IOrderComplete {
   state: OrderCompleteState;

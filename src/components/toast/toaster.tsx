@@ -1,6 +1,6 @@
-import { useEvent } from "../../context/use-event";
 import { useToast } from "@chakra-ui/react";
 import { useEffect } from "react";
+import { useEvent } from "@field123/epcc-react";
 
 export function Toaster(): null {
   const { events } = useEvent();
@@ -9,6 +9,7 @@ export function Toaster(): null {
   useEffect(() => {
     const sub = events.subscribe({
       next: (event) => {
+        console.log("event emitted inside toast: ", event);
         if (event.type !== "init" && event.action !== "init") {
           toast({
             description: "message" in event ? event.message : undefined,

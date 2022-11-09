@@ -2,7 +2,7 @@ import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import { ParsedUrlQuery } from "querystring";
 import { buildSiteNavigation, NavigationNode } from "./build-site-navigation";
 import { getCart } from "../services/cart";
-import { StoreContextSSR } from "./types/store-context";
+import { StoreContextSSR } from "@field123/epcc-react";
 import { getCartCookie } from "./cart-cookie";
 import { getEpccImplicitClient } from "./epcc-implicit-client";
 

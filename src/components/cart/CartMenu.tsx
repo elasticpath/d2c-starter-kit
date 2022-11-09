@@ -12,10 +12,9 @@ import {
 import Link from "next/link";
 import ModalCartItems from "./ModalCartItem";
 import { Icon } from "@chakra-ui/icons";
-import { useCart } from "../../context/use-cart-hook";
+import { CartState, useCart } from "@field123/epcc-react";
 import CartUpdatingSpinner from "./CartUpdatingSpinner";
 import CartItemNumTag from "./CartItemNumTag";
-import { CartState } from "../../context/types/cart-reducer-types";
 
 export default function CartMenu(): JSX.Element {
   const { onOpen, onClose, isOpen } = useDisclosure();

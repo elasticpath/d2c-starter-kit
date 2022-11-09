@@ -20,6 +20,7 @@
     "@chakra-ui/react": "^2.2.8",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
+    "@field123/epcc-react": "^0.0.1",
     "@moltin/sdk": "^18.1.0",
     "@stripe/react-stripe-js": "^1.10.0",
     "@stripe/stripe-js": "^1.35.0",
