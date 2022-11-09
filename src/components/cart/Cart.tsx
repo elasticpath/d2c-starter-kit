@@ -1,7 +1,4 @@
-import {
-  GroupedCartItems,
-  RefinedCartItem,
-} from "../../context/types/cart-reducer-types";
+import { GroupedCartItems, RefinedCartItem } from "@field123/epcc-react";
 import { Grid } from "@chakra-ui/react";
 import { CartItemList } from "./CartItemList";
 import { CartOrderSummary } from "./CartOrderSummary";

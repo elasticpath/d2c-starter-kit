@@ -11,15 +11,14 @@ import {
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import { useCart } from "../../context/use-cart-hook";
+import { getPresentCartState, useCart } from "@field123/epcc-react";
 import {
   CartState,
   CustomCartItem,
   RefinedCartItem,
   RegularCartItem,
-} from "../../context/types/cart-reducer-types";
+} from "@field123/epcc-react";
 import NextLink from "next/link";
-import { getPresentCartState } from "../../lib/get-present-cart-state";
 import { ReadonlyNonEmptyArray } from "../../lib/types/read-only-non-empty-array";
 import { ChakraNextImage } from "../ChakraNextImage";
 

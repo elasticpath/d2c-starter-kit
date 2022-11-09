@@ -1,7 +1,7 @@
 import { Box, Heading, Image } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { withStoreServerSideProps } from "../lib/store-wrapper-ssr";
-import { useCart } from "../context/use-cart-hook";
+import { useCart } from "@field123/epcc-react";
 import Cart from "../components/cart/Cart";
 import { resolveShoppingCartProps } from "../lib/resolve-shopping-cart-props";
 import { globalBaseWidth } from "../styles/theme";

@@ -1,4 +1,4 @@
-import { PromotionCartItem } from "../../context/types/cart-reducer-types";
+import { PromotionCartItem } from "@field123/epcc-react";
 import {
   Box,
   Button,
