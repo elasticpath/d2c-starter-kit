@@ -4,6 +4,12 @@ import { Moltin as EPCCClient } from "@moltin/sdk";
 import { ShopperCatalogResourcePage } from "@moltin/sdk";
 import { getEpccImplicitClient } from "../lib/epcc-implicit-client";
 
+export interface IApiOptions {
+  limit?: number;
+  offset?: number;
+  q?: string;
+}
+
 export async function getHierarchies(
   client?: EPCCClient
 ): Promise<Hierarchy[]> {
@@ -40,20 +46,19 @@ export async function getHierarchyNodes(
 
 export async function getHierarchyProducts(
   hierarchyId: string,
-  q?: string,
+  { offset = 0, limit = 4, q }: IApiOptions,
   client?: EPCCClient
 ): Promise<ShopperCatalogResourcePage<ProductResponse>> {
-  const request = await (
-    client ?? getEpccImplicitClient()
-  ).ShopperCatalog.Products.With(["main_image", "files"]);
-  if (q) {
-    return request.Filter({ eq: { name: q } }).GetProductsByHierarchy({
+  return (client ?? getEpccImplicitClient()).ShopperCatalog.Products.With([
+    "main_image",
+    "files",
+  ])
+    .Offset(offset)
+    .Limit(limit)
+    .Filter(q ? { eq: { name: q } } : {})
+    .GetProductsByHierarchy({
       hierarchyId,
     });
-  }
-  return request.GetProductsByHierarchy({
-    hierarchyId,
-  });
 }
 
 export async function getNodeChildren(
@@ -70,9 +75,17 @@ export async function getNodeChildren(
 
 export async function getProductsByNode(
   nodeId: string,
+  { offset = 0, limit = 4, q }: IApiOptions = {},
   client?: EPCCClient
 ): Promise<ShopperCatalogResourcePage<ProductResponse>> {
-  return await (client ?? getEpccImplicitClient()).ShopperCatalog.Products.With(
-    ["main_image", "files"]
-  ).GetProductsByNode({ nodeId });
+  return (client ?? getEpccImplicitClient()).ShopperCatalog.Products.With([
+    "main_image",
+    "files",
+  ])
+    .Offset(offset)
+    .Limit(limit)
+    .Filter(q ? { eq: { name: q } } : {})
+    .GetProductsByNode({
+      nodeId,
+    });
 }

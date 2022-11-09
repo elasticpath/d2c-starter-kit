@@ -1,19 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Button, HStack } from "@chakra-ui/react";
 
-export const Pagination = (): JSX.Element => {
-  const [pages, setPages] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
+interface PaginationProps {
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  totalPages: number;
+}
+
+export const Pagination = (props: PaginationProps): JSX.Element => {
+  const pagesArr = Array.from({ length: props.totalPages }, (_, i) => i + 1);
+
   return (
-    <Box display={true ? "block" : "none"}>
+    <Box display={pagesArr.length > 1 ? "block" : "none"}>
       <HStack justify="center">
-        {pages.map((page) => (
+        {pagesArr.map((page) => (
           <Button
             key={page}
-            bg={currentPage === page ? "brand.primary" : "gray.100"}
-            onClick={() => setCurrentPage(page)}
+            bg={props.currentPage === page ? "brand.primary" : "gray.100"}
+            onClick={() => props.onPageChange(page)}
             disabled={false}
-            color={currentPage === page ? "white" : "black"}
+            color={props.currentPage === page ? "white" : "black"}
             _hover={{
               backgroundColor: "brand.hover.blue",
               boxShadow: "m",
@@ -21,7 +27,7 @@ export const Pagination = (): JSX.Element => {
             }}
             variant="solid"
           >
-            {page + 1}
+            {page}
           </Button>
         ))}
       </HStack>

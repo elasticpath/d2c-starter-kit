@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Grid, GridItem, Heading } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import type { ProductResponse } from "@moltin/sdk";
@@ -8,16 +8,19 @@ import { ProductResponseWithImage } from "../../lib/product-types";
 import SearchBox from "../../components/search/SearchBox";
 import {
   getAllProductsFromHierarchy,
+  getAllProductsFromNode,
   getNavItemBySlug,
   getNodeBySlugQuery,
 } from "../../lib/pure-search-props";
-import { fetchFeaturedProducts } from "../../components/featured-products/fetchFeaturedProducts";
 import { useRouter } from "next/router";
 import { buildSiteNavigation } from "../../lib/build-site-navigation";
 import HitsProvider from "../../components/search/HitsProvider";
+import Pagination from "../../components/search/Pagination";
+import { ShopperCatalogResourcePage } from "@moltin/sdk";
+import { usePagination } from "../../lib/use-pagination";
 
 interface IProductsList {
-  products: ProductResponseWithImage[];
+  products: ShopperCatalogResourcePage<ProductResponse>;
 }
 
 const mapProductsToHits = (products: ProductResponseWithImage[]) =>
@@ -45,26 +48,51 @@ const mapProductsToHits = (products: ProductResponseWithImage[]) =>
     objectID: product.id,
   }));
 
-export const PureSearch: NextPage<IProductsList> = (props) => {
-  const { query } = useRouter();
+export const Search: NextPage<IProductsList> = ({ products }) => {
+  const { currentPage, totalPages, onPageChange, offset, onTotalPagesChange } =
+    usePagination({
+      itemsTotal: products.meta.results.total,
+    });
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const [hitsState, setHitsState] = useState(mapProductsToHits(props.products));
+  const { query: routeQuery } = useRouter();
 
-  const onSearch = async (q: string) => {
+  const [hitsState, setHitsState] = useState(mapProductsToHits(products.data));
+
+  const onSearch = async () => {
     const nav = await buildSiteNavigation();
-    const nodeSlug = query.node?.[0];
+    const nodeQuery = routeQuery.node || [];
+    if (!Array.isArray(nodeQuery)) return;
 
-    if (!nodeSlug) return;
-    const hierarchyId = getNavItemBySlug(nav, nodeSlug)!.id;
-    const products = await getAllProductsFromHierarchy(hierarchyId, q);
-    setHitsState(mapProductsToHits(products));
+    let products: ShopperCatalogResourcePage<ProductResponse>;
+
+    if (nodeQuery.length === 1) {
+      const hierarchyId = getNavItemBySlug(nav, nodeQuery[0])!.id;
+      products = await getAllProductsFromHierarchy(hierarchyId, {
+        offset,
+        ...(searchQuery && { q: searchQuery }),
+      });
+    } else {
+      const node = getNodeBySlugQuery(nodeQuery, nav);
+      products = await getAllProductsFromNode(node!.id);
+    }
+    onTotalPagesChange(products.meta.results.total);
+    setHitsState(mapProductsToHits(products.data));
   };
+
+  useEffect(() => {
+    onSearch();
+  }, [currentPage]);
+
+  useEffect(() => {
+    onSearch();
+  }, [searchQuery]);
 
   return (
     <Box px={4} py={8}>
       <Heading p="6">Category</Heading>
       <Grid gap={6} p="6">
-        <SearchBox onSearch={onSearch} />
+        <SearchBox onSearch={(q) => setSearchQuery(q)} />
         <Grid templateColumns={{ base: "1fr", md: "auto 1fr" }} gap={8}>
           <GridItem
             minWidth={{ base: "3xs", lg: "2xs" }}
@@ -79,7 +107,13 @@ export const PureSearch: NextPage<IProductsList> = (props) => {
           <GridItem>
             {/*//@ts-ignore*/}
             <HitsProvider hits={hitsState} />
-            <Box py={10}>{/*<Pagination />*/}</Box>
+            <Box py={10}>
+              <Pagination
+                currentPage={currentPage}
+                onPageChange={onPageChange}
+                totalPages={totalPages}
+              />
+            </Box>
           </GridItem>
         </Grid>
       </Grid>
@@ -99,7 +133,7 @@ export const getServerSideProps = withStoreServerSideProps<
   const nodeQuery = query.node || [];
   if (!Array.isArray(nodeQuery)) return;
 
-  let products: ProductResponse[];
+  let products: ShopperCatalogResourcePage<ProductResponse>;
 
   if (nodeQuery.length === 1) {
     const hierarchyId = getNavItemBySlug(nav, nodeQuery[0])!.id;
@@ -111,7 +145,7 @@ export const getServerSideProps = withStoreServerSideProps<
         notFound: true,
       };
     }
-    products = await fetchFeaturedProducts(node.id);
+    products = await getAllProductsFromNode(node.id);
   }
 
   return {
@@ -121,4 +155,4 @@ export const getServerSideProps = withStoreServerSideProps<
   };
 });
 
-export default PureSearch;
+export default Search;

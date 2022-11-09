@@ -8,7 +8,6 @@ import {
 import React, { useEffect, useState } from "react";
 import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
 import { useDebouncedEffect } from "../../lib/use-debounced";
-import { useRouter } from "next/router";
 
 interface SearchBoxProps {
   onSearch: (q: string) => void;
@@ -16,25 +15,21 @@ interface SearchBoxProps {
 
 export default function SearchBox({ onSearch }: SearchBoxProps): JSX.Element {
   const [search, setSearch] = useState<string>("");
-  const { query } = useRouter();
+  const [cleared, setCleared] = useState<boolean>(false);
 
-  /*  useDebouncedEffect(
+  useDebouncedEffect(
     () => {
-      //if (search !== query) {
-      //refine(search);
-      //}
-      //console.warn(search, "search");
       if (search) {
-
+        onSearch(search);
+      }
+      if (cleared) {
+        onSearch(search);
+        setCleared(false);
       }
     },
     400,
     [search]
-  );*/
-
-  useEffect(() => {
-    search && onSearch(search);
-  }, [search]);
+  );
 
   return (
     <InputGroup bgColor="gray.50" rounded="lg">
@@ -60,6 +55,7 @@ export default function SearchBox({ onSearch }: SearchBoxProps): JSX.Element {
           icon={<CloseIcon />}
           variant="ghost"
           onClick={() => {
+            setCleared(true);
             setSearch("");
           }}
         />
