@@ -67,14 +67,16 @@ export const Search: NextPage<IProductsList> = ({ products }) => {
     let products: ShopperCatalogResourcePage<ProductResponse>;
 
     if (nodeQuery.length === 1) {
-      const hierarchyId = getNavItemBySlug(nav, nodeQuery[0])!.id;
-      products = await getAllProductsFromHierarchy(hierarchyId, {
+      const hierarchy = getNavItemBySlug(nav, nodeQuery[0]);
+      if (!hierarchy) return;
+      products = await getAllProductsFromHierarchy(hierarchy.id, {
         offset,
         ...(searchQuery && { q: searchQuery }),
       });
     } else {
       const node = getNodeBySlugQuery(nodeQuery, nav);
-      products = await getAllProductsFromNode(node!.id);
+      if (!node) return;
+      products = await getAllProductsFromNode(node.id);
     }
     onTotalPagesChange(products.meta.results.total);
     setHitsState(mapProductsToHits(products.data));
