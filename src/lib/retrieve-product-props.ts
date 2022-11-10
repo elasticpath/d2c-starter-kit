@@ -7,7 +7,7 @@ import {
 } from "./types/product-types";
 import { getProductMainImage, getProductOtherImageUrls } from "./product-util";
 import { getProductById } from "../services/products";
-import { sortAlphabetically } from "./shared-util";
+import { sortAlphabetically } from "./sort-alphabetically";
 
 export function retrieveSimpleProps(
   productResource: ShopperCatalogResource<ProductResponse>
