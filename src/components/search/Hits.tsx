@@ -1,10 +1,10 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import NoResults from "./NoResults";
 import HitComponent from "./Hit";
-import { SearchHit } from "./SearchHit";
+import { ProductSearchResultItems } from "./search-hit-types";
 
 interface IHitsProps {
-  hits: SearchHit[];
+  hits: ProductSearchResultItems[];
 }
 
 export default function Hits({ hits }: IHitsProps): JSX.Element {

@@ -11,7 +11,7 @@ import {
   getAllProductsFromNode,
   getNavItemBySlug,
   getNodeBySlugQuery,
-} from "../../lib/pure-search-props";
+} from "../../lib/search-props";
 import { useRouter } from "next/router";
 import HitsProvider from "../../components/search/HitsProvider";
 import Pagination from "../../components/search/Pagination";
@@ -25,7 +25,6 @@ interface IProductsList {
 
 const mapProductsToHits = (products: ProductResponseWithImage[]) =>
   products.map((product) => ({
-    ep_categories: {},
     ep_description: product.attributes.description,
     ep_name: product.attributes.name,
     ep_price: {
@@ -44,7 +43,6 @@ const mapProductsToHits = (products: ProductResponseWithImage[]) =>
     ep_sku: product.attributes.sku,
     ep_slug: product.attributes.slug,
     ep_main_image_url: product.main_image?.link.href,
-    ep_image_url: product.main_image?.link.href,
     objectID: product.id,
   }));
 
@@ -66,17 +64,18 @@ export const Search: NextPage<IProductsList> = ({ products }) => {
 
     let products: ShopperCatalogResourcePage<ProductResponse>;
 
+    const queryOptions = {
+      offset,
+      ...(searchQuery && { q: searchQuery }),
+    };
     if (nodeQuery.length === 1) {
       const hierarchy = getNavItemBySlug(nav, nodeQuery[0]);
       if (!hierarchy) return;
-      products = await getAllProductsFromHierarchy(hierarchy.id, {
-        offset,
-        ...(searchQuery && { q: searchQuery }),
-      });
+      products = await getAllProductsFromHierarchy(hierarchy.id, queryOptions);
     } else {
       const node = getNodeBySlugQuery(nodeQuery, nav);
       if (!node) return;
-      products = await getAllProductsFromNode(node.id);
+      products = await getAllProductsFromNode(node.id, queryOptions);
     }
     onTotalPagesChange(products.meta.results.total);
     setHitsState(mapProductsToHits(products.data));
@@ -107,7 +106,6 @@ export const Search: NextPage<IProductsList> = ({ products }) => {
           </GridItem>
 
           <GridItem>
-            {/*//@ts-ignore*/}
             <HitsProvider hits={hitsState} />
             <Box py={10}>
               <Pagination

@@ -1,8 +1,8 @@
 import Hits from "./Hits";
-import { SearchHit } from "./SearchHit";
+import { ProductSearchResultItems } from "./search-hit-types";
 
 export interface IHitsProps {
-  hits?: SearchHit[];
+  hits?: ProductSearchResultItems[];
 }
 
 export default function HitsProvider({ hits = [] }: IHitsProps) {

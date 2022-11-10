@@ -3,29 +3,18 @@ import {
   Box,
   Button,
   Divider,
-  Grid,
-  GridItem,
-  Heading,
   IconButton,
-  Image,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  LinkBox,
-  LinkOverlay,
-  ListItem,
   Modal,
   ModalContent,
   ModalOverlay,
-  Text,
-  UnorderedList,
   useDisclosure,
 } from "@chakra-ui/react";
 import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
-import NoImage from "./NoImage";
-import { SearchHit } from "./SearchHit";
 import HitsProvider from "./HitsProvider";
 
 const SearchBox = ({
@@ -72,57 +61,6 @@ const SearchBox = ({
         />
       </InputRightElement>
     </InputGroup>
-  );
-};
-
-const HitComponent = ({ hit }: { hit: SearchHit }) => {
-  const { ep_price, ep_main_image_url, ep_name, ep_sku, ep_slug, objectID } =
-    hit;
-  return (
-    <LinkBox>
-      <Grid
-        h="100px"
-        templateRows="repeat(3, 1fr)"
-        templateColumns="repeat(6, 1fr)"
-        gap={2}
-      >
-        <GridItem rowSpan={3} colSpan={2}>
-          {ep_main_image_url ? (
-            <Image
-              boxSize="100px"
-              objectFit="cover"
-              src={ep_main_image_url}
-              alt={ep_name}
-            />
-          ) : (
-            <NoImage />
-          )}
-        </GridItem>
-        <GridItem colSpan={4}>
-          <Heading size="sm">
-            <LinkOverlay href={`/products/${ep_slug}/${objectID}`}>
-              {ep_name}
-            </LinkOverlay>
-          </Heading>
-        </GridItem>
-        <GridItem colSpan={4}>
-          <Text
-            color="gray.500"
-            fontWeight="semibold"
-            letterSpacing="wide"
-            fontSize="xs"
-            textTransform="uppercase"
-          >
-            {ep_sku}
-          </Text>
-        </GridItem>
-        <GridItem colSpan={2}>
-          <Text fontSize="sm" fontWeight="semibold">
-            {ep_price["USD"].formatted_price}
-          </Text>
-        </GridItem>
-      </Grid>
-    </LinkBox>
   );
 };
 

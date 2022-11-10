@@ -20,8 +20,11 @@ export const getAllProductsFromHierarchy = async (
   return { ...response, data: productsWithImages };
 };
 
-export const getAllProductsFromNode = async (id: string, q?: string) => {
-  const response = await getProductsByNode(id, { q });
+export const getAllProductsFromNode = async (
+  id: string,
+  options: IApiOptions = {}
+) => {
+  const response = await getProductsByNode(id, options);
 
   const { data: productsResponse, included } = response;
 
