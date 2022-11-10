@@ -13,11 +13,11 @@ import {
   getNodeBySlugQuery,
 } from "../../lib/pure-search-props";
 import { useRouter } from "next/router";
-import { buildSiteNavigation } from "../../lib/build-site-navigation";
 import HitsProvider from "../../components/search/HitsProvider";
 import Pagination from "../../components/search/Pagination";
 import { ShopperCatalogResourcePage } from "@moltin/sdk";
 import { usePagination } from "../../lib/use-pagination";
+import { useNav } from "../../context/use-nav";
 
 interface IProductsList {
   products: ShopperCatalogResourcePage<ProductResponse>;
@@ -53,6 +53,7 @@ export const Search: NextPage<IProductsList> = ({ products }) => {
     usePagination({
       itemsTotal: products.meta.results.total,
     });
+  const { nav } = useNav();
   const [searchQuery, setSearchQuery] = useState("");
 
   const { query: routeQuery } = useRouter();
@@ -60,7 +61,6 @@ export const Search: NextPage<IProductsList> = ({ products }) => {
   const [hitsState, setHitsState] = useState(mapProductsToHits(products.data));
 
   const onSearch = async () => {
-    const nav = await buildSiteNavigation();
     const nodeQuery = routeQuery.node || [];
     if (!Array.isArray(nodeQuery)) return;
 
