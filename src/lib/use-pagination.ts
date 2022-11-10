@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 interface UsePaginationProps {
   itemsTotal: number;
@@ -15,9 +15,9 @@ export function usePagination({ itemsTotal }: UsePaginationProps) {
     setOffset((page - 1) * PAGE_SIZE);
   };
 
-  const onTotalPagesChange = (totalItems: number) => {
+  const onTotalPagesChange = useCallback((totalItems: number) => {
     setTotalPages(totalItems / PAGE_SIZE);
-  };
+  }, []);
 
   return { currentPage, onPageChange, totalPages, offset, onTotalPagesChange };
 }

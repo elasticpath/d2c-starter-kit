@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Box, Grid, GridItem, Heading } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import type { ProductResponse } from "@moltin/sdk";
@@ -58,7 +58,7 @@ export const Search: NextPage<IProductsList> = ({ products }) => {
 
   const [hitsState, setHitsState] = useState(mapProductsToHits(products.data));
 
-  const onSearch = async () => {
+  const onSearch = useCallback(async () => {
     const nodeQuery = routeQuery.node || [];
     if (!Array.isArray(nodeQuery)) return;
 
@@ -79,15 +79,11 @@ export const Search: NextPage<IProductsList> = ({ products }) => {
     }
     onTotalPagesChange(products.meta.results.total);
     setHitsState(mapProductsToHits(products.data));
-  };
+  }, [offset, searchQuery, nav, routeQuery.node, onTotalPagesChange]);
 
   useEffect(() => {
     onSearch();
-  }, [currentPage]);
-
-  useEffect(() => {
-    onSearch();
-  }, [searchQuery]);
+  }, [currentPage, onSearch, searchQuery]);
 
   return (
     <Box px={4} py={8}>
