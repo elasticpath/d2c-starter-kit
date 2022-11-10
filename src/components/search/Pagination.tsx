@@ -1,20 +1,25 @@
 import React from "react";
 import { Box, Button, HStack } from "@chakra-ui/react";
-import { usePagination } from "react-instantsearch-hooks-web";
 
-export const Pagination = (): JSX.Element => {
-  const { pages, currentRefinement, canRefine, refine } = usePagination();
+interface PaginationProps {
+  currentPage: number;
+  onPageChange: (page: number) => void;
+  totalPages: number;
+}
+
+export const Pagination = (props: PaginationProps): JSX.Element => {
+  const pagesArr = Array.from({ length: props.totalPages }, (_, i) => i + 1);
 
   return (
-    <Box display={canRefine ? "block" : "none"}>
+    <Box display={pagesArr.length > 1 ? "block" : "none"}>
       <HStack justify="center">
-        {pages.map((page) => (
+        {pagesArr.map((page) => (
           <Button
             key={page}
-            bg={currentRefinement === page ? "brand.primary" : "gray.100"}
-            onClick={() => refine(page)}
-            disabled={!canRefine}
-            color={currentRefinement === page ? "white" : "black"}
+            bg={props.currentPage === page ? "brand.primary" : "gray.100"}
+            onClick={() => props.onPageChange(page)}
+            disabled={false}
+            color={props.currentPage === page ? "white" : "black"}
             _hover={{
               backgroundColor: "brand.hover.blue",
               boxShadow: "m",
@@ -22,7 +27,7 @@ export const Pagination = (): JSX.Element => {
             }}
             variant="solid"
           >
-            {page + 1}
+            {page}
           </Button>
         ))}
       </HStack>

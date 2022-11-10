@@ -1,40 +1,21 @@
 import { useState } from "react";
 import {
-  InstantSearch,
-  useHits,
-  useSearchBox,
-} from "react-instantsearch-hooks-web";
-import {
   Box,
   Button,
   Divider,
-  Grid,
-  GridItem,
-  Heading,
   IconButton,
-  Image,
   Input,
   InputGroup,
   InputLeftElement,
   InputRightElement,
-  LinkBox,
-  LinkOverlay,
-  ListItem,
   Modal,
   ModalContent,
   ModalOverlay,
-  Text,
-  UnorderedList,
   useDisclosure,
 } from "@chakra-ui/react";
 import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
 import { useRouter } from "next/router";
-import NoResults from "./NoResults";
-import NoImage from "./NoImage";
-import { SearchHit } from "./SearchHit";
-import { searchClient } from "../../lib/search-client";
-import { algoliaEnvData } from "../../lib/resolve-algolia-env";
-import { useDebouncedEffect } from "../../lib/use-debounced";
+import HitsProvider from "./HitsProvider";
 
 const SearchBox = ({
   onChange,
@@ -43,18 +24,7 @@ const SearchBox = ({
   onChange: (value: string) => void;
   onSearchEnd: (query: string) => void;
 }) => {
-  const { query, refine, clear } = useSearchBox();
-  const [search, setSearch] = useState<string>(query);
-
-  useDebouncedEffect(
-    () => {
-      if (search !== query) {
-        refine(search);
-      }
-    },
-    400,
-    [search]
-  );
+  const [search, setSearch] = useState<string>("");
 
   return (
     <InputGroup>
@@ -80,16 +50,11 @@ const SearchBox = ({
         }}
         placeholder="Search"
       />
-      <InputRightElement
-        width="4.5rem"
-        h="16"
-        visibility={query ? "visible" : "hidden"}
-      >
+      <InputRightElement width="4.5rem" h="16" visibility="visible">
         <IconButton
           aria-label="Search database"
           icon={<CloseIcon />}
           onClick={() => {
-            clear();
             onChange("");
             setSearch("");
           }}
@@ -99,84 +64,13 @@ const SearchBox = ({
   );
 };
 
-const HitComponent = ({ hit }: { hit: SearchHit }) => {
-  const { ep_price, ep_main_image_url, ep_name, ep_sku, ep_slug, objectID } =
-    hit;
-  return (
-    <LinkBox>
-      <Grid
-        h="100px"
-        templateRows="repeat(3, 1fr)"
-        templateColumns="repeat(6, 1fr)"
-        gap={2}
-      >
-        <GridItem rowSpan={3} colSpan={2}>
-          {ep_main_image_url ? (
-            <Image
-              boxSize="100px"
-              objectFit="cover"
-              src={ep_main_image_url}
-              alt={ep_name}
-            />
-          ) : (
-            <NoImage />
-          )}
-        </GridItem>
-        <GridItem colSpan={4}>
-          <Heading size="sm">
-            <LinkOverlay href={`/products/${ep_slug}/${objectID}`}>
-              {ep_name}
-            </LinkOverlay>
-          </Heading>
-        </GridItem>
-        <GridItem colSpan={4}>
-          <Text
-            color="gray.500"
-            fontWeight="semibold"
-            letterSpacing="wide"
-            fontSize="xs"
-            textTransform="uppercase"
-          >
-            {ep_sku}
-          </Text>
-        </GridItem>
-        <GridItem colSpan={2}>
-          <Text fontSize="sm" fontWeight="semibold">
-            {ep_price["USD"].formatted_price}
-          </Text>
-        </GridItem>
-      </Grid>
-    </LinkBox>
-  );
-};
-
-const Hits = () => {
-  const { hits } = useHits<SearchHit>();
-
-  if (hits.length) {
-    return (
-      <UnorderedList listStyleType="none" marginInlineStart="0">
-        {hits.map((hit) => (
-          <ListItem mb="4" key={hit.objectID}>
-            <HitComponent hit={hit} />
-          </ListItem>
-        ))}
-      </UnorderedList>
-    );
-  }
-  return <NoResults />;
-};
-
 export const SearchModal = (): JSX.Element => {
   const [searchValue, setSearchValue] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
 
   return (
-    <InstantSearch
-      searchClient={searchClient}
-      indexName={algoliaEnvData.indexName}
-    >
+    <Box>
       <Button
         variant="ghost"
         onClick={onOpen}
@@ -205,13 +99,13 @@ export const SearchModal = (): JSX.Element => {
             <Box overflowX="scroll" px="4" pb="4">
               <Divider />
               <Box mt="4">
-                <Hits />
+                <HitsProvider />
               </Box>
             </Box>
           ) : null}
         </ModalContent>
       </Modal>
-    </InstantSearch>
+    </Box>
   );
 };
 

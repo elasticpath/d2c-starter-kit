@@ -1,4 +1,3 @@
-import { useSearchBox } from "react-instantsearch-hooks-web";
 import {
   IconButton,
   Input,
@@ -10,14 +9,22 @@ import React, { useState } from "react";
 import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
 import { useDebouncedEffect } from "../../lib/use-debounced";
 
-export default function SearchBox(): JSX.Element {
-  const { query, refine, clear } = useSearchBox();
-  const [search, setSearch] = useState<string>(query);
+interface SearchBoxProps {
+  onSearch: (q: string) => void;
+}
+
+export default function SearchBox({ onSearch }: SearchBoxProps): JSX.Element {
+  const [search, setSearch] = useState<string>("");
+  const [cleared, setCleared] = useState<boolean>(false);
 
   useDebouncedEffect(
     () => {
-      if (search !== query) {
-        refine(search);
+      if (search) {
+        onSearch(search);
+      }
+      if (cleared) {
+        onSearch(search);
+        setCleared(false);
       }
     },
     400,
@@ -42,17 +49,13 @@ export default function SearchBox(): JSX.Element {
         }}
         placeholder="Search"
       />
-      <InputRightElement
-        width="4.5rem"
-        h="12"
-        visibility={query ? "visible" : "hidden"}
-      >
+      <InputRightElement width="4.5rem" h="12">
         <IconButton
           aria-label="Search database"
           icon={<CloseIcon />}
           variant="ghost"
           onClick={() => {
-            clear();
+            setCleared(true);
             setSearch("");
           }}
         />
