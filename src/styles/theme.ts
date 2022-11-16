@@ -19,12 +19,12 @@ const colors = {
     highlight: "#1E40AF",
     primaryAlt: "#EA7317",
     secondaryAlt: "#ffcb47",
-    navigation: "#FFFFFF",
+    navigation: "#091740",
     buttontext: "#FFFFFF",
   },
   header: {
-    background: "#091740",
-    border: "#0033CC",
+    background: "#FFFFFF",
+    border: "#EFEFEF",
   },
 };
 
