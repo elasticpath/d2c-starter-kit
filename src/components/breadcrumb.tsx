@@ -19,7 +19,7 @@ export default function Breadcrumb({ entries }: IBreadcrumb): JSX.Element {
     >
       {entries.length > 1 &&
         entries.map((entry, index, array) => (
-          <ListItem key={entry.label}>
+          <ListItem key={entry.breadcrumb}>
             {array.length === index + 1 ? (
               <Box as="span" fontWeight="bold">
                 {entry.label}
