@@ -37,8 +37,8 @@
     "react": "^18.2.0",
     "react-device-detect": "^2.2.2",
     "react-dom": "^18.2.0",
-    "react-instantsearch-hooks-server": "^6.32.0",
-    "react-instantsearch-hooks-web": "^6.32.0",
+    "react-instantsearch-hooks-server": "6.38.1",
+    "react-instantsearch-hooks-web": "6.38.1",
     "rxjs": "^7.5.7",
     "yup": "^1.0.0-beta.7",
     "zlib": "^1.0.5"
