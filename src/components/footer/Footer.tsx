@@ -30,7 +30,7 @@ const Footer = (): JSX.Element => (
     borderColor="gray.200"
     bg={useColorModeValue("gray.50", "gray.900")}
     color={useColorModeValue("gray.700", "gray.200")}
-    padding={{ sm: "0 1rem", lg: "0 2rem", "2xl": "0 5rem" }}
+    padding={{ sm: "0 1rem", lg: "0 2rem", "2xl": "0 4rem" }}
   >
     <Container
       as={Stack}

@@ -14,11 +14,11 @@ interface IHeader {
 }
 
 const Header = ({ nav }: IHeader): JSX.Element => {
-  const headerPadding = 2;
+  const headerPadding = 1;
 
   return (
     <Box
-      p={headerPadding}
+      padding={{ sm: "0 1rem", lg: "0 2rem", "2xl": "0 4rem" }}
       as="header"
       pos="sticky"
       top={0}
@@ -54,7 +54,7 @@ const Header = ({ nav }: IHeader): JSX.Element => {
           </Link>
         </Box>
 
-        <Box maxW={globalBaseWidth} w="100%">
+        <Box maxW={globalBaseWidth} w="90%">
           <NavBar nav={nav} headerPadding={headerPadding} />
         </Box>
 
