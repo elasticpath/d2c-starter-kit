@@ -9,6 +9,7 @@ interface IPriceProps {
 const Price = ({ price, currency, size = "2xl" }: IPriceProps): JSX.Element => {
   return (
     <Text
+      as="span"
       color={useColorModeValue("gray.900", "gray.400")}
       fontWeight={300}
       marginTop="15px"

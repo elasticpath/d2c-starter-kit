@@ -29,12 +29,12 @@ const mapProductsToHits = (products: ProductResponseWithImage[]) =>
     ep_name: product.attributes.name,
     ep_price: {
       USD: {
-        formatted_price: product.meta.display_price?.without_tax.formatted,
-        ...(product.meta.original_display_price?.without_tax.formatted && {
+        formatted_price: product.meta.display_price?.without_tax?.formatted,
+        ...(product.meta.original_display_price?.without_tax?.formatted && {
           sale_prices: {
             original_price: {
               formatted_price:
-                product.meta.original_display_price?.without_tax.formatted,
+                product.meta.original_display_price?.without_tax?.formatted,
             },
           },
         }),
