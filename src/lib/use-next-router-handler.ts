@@ -82,10 +82,6 @@ function NextRouterHandler<
 
   // State to route
   useEffect(() => {
-    if (isLeaving) {
-      return;
-    }
-
     return use(() => ({
       onStateChange({ uiState }) {
         if (routerPushTimerRef.current) {
@@ -99,15 +95,20 @@ function NextRouterHandler<
           // If nodes defined then dynamic path name otherwise standard
           const pathname = query.node ? "/search/[...node]" : "/search";
 
-          router.push({
-            pathname,
-            query,
-          });
+          router.push(
+            {
+              pathname,
+              query,
+            },
+            undefined,
+            // Shallow set to true prevents us from calling getServerSideProps
+            { shallow: true }
+          );
         }, writeDelay);
       },
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [use, isLeaving]);
+  }, [use]);
 
   return null;
 }
