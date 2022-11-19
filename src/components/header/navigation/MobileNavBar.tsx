@@ -39,7 +39,12 @@ const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
   return (
     <Grid templateColumns="1fr auto 1fr" w="full">
       <GridItem>
-        <Button variant="ghost" color="gray.800" onClick={onOpen}>
+        <Button
+          variant="ghost"
+          color="gray.800"
+          onClick={onOpen}
+          aria-label="Menu"
+        >
           <HamburgerIcon />
         </Button>
       </GridItem>
