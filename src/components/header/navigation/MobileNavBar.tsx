@@ -50,7 +50,7 @@ const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
       </GridItem>
       <GridItem>
         <Link href="/">
-          <a>
+          <a aria-label="Go to home page">
             <Box position="relative" minW={10} w={10} h={10}>
               <EpIcon />
             </Box>
