@@ -1,6 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
 import { NavigationNode } from "../../lib/build-site-navigation";
-import { globalBaseWidth } from "../../styles/theme";
 import SearchModal from "../search/SearchModal";
 import MobileNavBar from "./navigation/MobileNavBar";
 import EpIcon from "../../../public/icons/ep-icon.svg";
@@ -8,59 +6,43 @@ import EpIcon from "../../../public/icons/ep-icon.svg";
 import NavBar from "./navigation/NavBar";
 import Link from "next/link";
 import CartMenu from "../cart/CartMenu";
+import { clsx } from "clsx";
 
 interface IHeader {
   nav: NavigationNode[];
 }
 
 const Header = ({ nav }: IHeader): JSX.Element => {
-  const headerPadding = 4;
-
   return (
-    <Box
-      p={headerPadding}
-      as="header"
-      pos="sticky"
-      top={0}
-      bg="white"
-      zIndex="sticky"
-      borderBottom="1px"
-      borderColor="gray.200"
+    <header
+      className={clsx(
+        `p-4 sticky top-0 bg-white z-sticky border-b border-gray-200`
+      )}
     >
-      <Flex
-        alignItems="center"
-        w="100%"
-        justifyContent="space-between"
-        display={{ base: "flex", sm: "flex", md: "none" }}
-      >
+      <div className="items-center w-full justify-between flex md:hidden">
         <MobileNavBar nav={nav} />
-      </Flex>
-      <Flex
-        alignItems="center"
-        w="100%"
-        justifyContent="space-between"
-        display={{ base: "none", sm: "none", md: "flex" }}
-      >
-        <Box flex={1} minW={16}>
+      </div>
+      <div className="items-center w-full justify-between hidden md:flex">
+        <div className="flex-1 min-w-[4rem]">
           <Link href="/">
             <a aria-label="Go to home page">
-              <Box position="relative" minW={10} w={10} h={10}>
+              <div className="relative min-w-[2.5rem] w-10 h-10">
                 <EpIcon />
-              </Box>
+              </div>
             </a>
           </Link>
-        </Box>
+        </div>
 
-        <Box maxW={globalBaseWidth} w="100%">
-          <NavBar nav={nav} headerPadding={headerPadding} />
-        </Box>
+        <div className="max-w-global w-full">
+          <NavBar nav={nav} headerPadding={4} />
+        </div>
 
-        <Flex gap={4} flex={1} display="flex" justifyContent="flex-end">
+        <div className="flex gap flex-1 justify-end">
           <SearchModal />
           <CartMenu />
-        </Flex>
-      </Flex>
-    </Box>
+        </div>
+      </div>
+    </header>
   );
 };
 
