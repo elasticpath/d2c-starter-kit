@@ -34,7 +34,7 @@ const Header = ({ nav }: IHeader): JSX.Element => {
         </div>
 
         <div className="max-w-global w-full">
-          <NavBar nav={nav} headerPadding={4} />
+          <NavBar nav={nav} />
         </div>
 
         <div className="flex gap flex-1 justify-end">
