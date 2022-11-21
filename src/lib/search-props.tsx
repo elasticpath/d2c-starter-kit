@@ -30,7 +30,6 @@ export const getSearchSSRProps =
     const protocol = req.headers.referer?.split("://")[0] || "https";
     const url = `${protocol}://${req.headers.host}${req.url}`;
     const node = (params?.node as string[]) ?? [];
-
     const breadcrumbEntries = createBreadcrumb(node, lookup);
 
     const algoliaServerState = await getServerState(
