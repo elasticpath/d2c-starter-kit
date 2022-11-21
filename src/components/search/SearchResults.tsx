@@ -14,7 +14,11 @@ import {
   Text,
   Heading,
 } from "@chakra-ui/react";
-import { useSortBy, useInstantSearch } from "react-instantsearch-hooks-web";
+import {
+  useSortBy,
+  useInstantSearch,
+  RefinementList,
+} from "react-instantsearch-hooks-web";
 import { algoliaEnvData } from "../../lib/resolve-algolia-env";
 import CustomHierarchicalMenu from "./CustomHierarchicalMenu";
 import Hits from "./Hits";
@@ -23,6 +27,7 @@ import { BreadcrumbLookup } from "../../lib/types/breadcrumb-lookup";
 import SearchBox from "./SearchBox";
 import MobileFilters from "./MobileFilters";
 import { hierarchicalAttributes } from "../../lib/hierarchical-attributes";
+import PriceRangeSlider from "./PriceRangeSlider";
 
 interface ISearchResults {
   lookup?: BreadcrumbLookup;
@@ -114,6 +119,10 @@ export default function SearchResults({
             lookup={lookup}
             attributes={hierarchicalAttributes}
           />
+          <Heading as="h3" size="sm" mt={5} pb={1}>
+            Price
+          </Heading>
+          <PriceRangeSlider attribute="ep_price.USD.float_price" />
         </GridItem>
 
         <GridItem>
