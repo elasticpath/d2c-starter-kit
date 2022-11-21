@@ -182,6 +182,7 @@ export const SearchModal = (): JSX.Element => {
         onClick={onOpen}
         fontWeight="normal"
         justifyContent="left"
+        aria-label="Search"
       >
         <SearchIcon color="gray.800" />
       </Button>

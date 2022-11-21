@@ -12,6 +12,7 @@
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
     "type:check": "tsc --noEmit",
+    "analyze": "ANALYZE=true next build",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -45,6 +46,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
+    "@next/bundle-analyzer": "^13.0.4",
     "@svgr/webpack": "^6.3.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
