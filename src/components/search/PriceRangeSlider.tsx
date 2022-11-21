@@ -1,6 +1,5 @@
 import { MinusIcon } from "@chakra-ui/icons";
 import {
-  Box,
   HStack,
   Input,
   RangeSlider,
@@ -29,11 +28,12 @@ export default function PriceRangeSlider(
     );
   };
 
-  const { start, range, refine, canRefine } = useRangeSlider(props);
+  const { range, refine, canRefine } = useRangeSlider(props);
 
-  const [min, max] = start;
-
-  const [inputValues, setInputValues] = useState<number[]>([]);
+  const [inputValues, setInputValues] = useState<number[]>([
+    range.min as number,
+    range.max as number,
+  ]);
 
   return (
     <Stack spacing={4} my={4}>
@@ -43,7 +43,6 @@ export default function PriceRangeSlider(
           placeholder="Min"
           w="80px"
           value={inputValues[0]}
-          defaultValue={min && isFinite(min) ? min : range.min}
           readOnly
         />
         <MinusIcon />
@@ -52,7 +51,6 @@ export default function PriceRangeSlider(
           placeholder="Max"
           w="80px"
           value={inputValues[1]}
-          defaultValue={max && isFinite(max) ? max : range.max}
           readOnly
         />
       </HStack>
