@@ -1,97 +1,80 @@
-import {
-  Flex,
-  Link,
-  MenuGroup,
-  MenuItem,
-  SimpleGrid,
-  Text,
-} from "@chakra-ui/react";
+import { Flex, MenuGroup, MenuItem, SimpleGrid, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import { NavigationNode } from "../../../lib/build-site-navigation";
-import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { Menu } from "@headlessui/react";
+import { forwardRef, ReactNode } from "react";
+import { clsx } from "clsx";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
 
 interface INavItemContent {
   item: NavigationNode;
   triggered?: () => void;
 }
 
-const menuItemInteractionStyle = {
-  bg: "none",
-  color: "brand.primary",
-};
+const menuItemInteractionStyle = "hover:bg-none text-brand-primary";
 
-const menuItemStyleProps = {
-  _hover: menuItemInteractionStyle,
-  _active: menuItemInteractionStyle,
-  _focus: menuItemInteractionStyle,
-  color: "gray.500",
-  margin: "1",
-};
+const MyLink = forwardRef<
+  HTMLAnchorElement,
+  { children: ReactNode } & React.AnchorHTMLAttributes<HTMLAnchorElement>
+>((props, ref) => {
+  let { href, children, ...rest }: any = props;
+  return (
+    <NextLink href={href}>
+      <a ref={ref} {...rest}>
+        {children}
+      </a>
+    </NextLink>
+  );
+});
 
 const NavItemContent = ({ item, triggered }: INavItemContent): JSX.Element => {
   const buildStack = (item: NavigationNode) => {
     return (
-      <MenuGroup key={item.id} title={item.name}>
+      <div key={item.id}>
+        <p>{item.name}</p>
         {item.children.map((child: NavigationNode) => (
-          <NextLink key={child.id} href={`/search${child.href}`} passHref>
-            <MenuItem
-              as={Link}
-              {...menuItemStyleProps}
-              fontSize="sm"
-              onClick={triggered}
-            >
-              {child.name}
-            </MenuItem>
-          </NextLink>
-        ))}
-        <NextLink href={`/search${item.href}`} passHref>
-          <MenuItem
-            as={Link}
-            fontSize="sm"
-            fontWeight="semibold"
-            {...menuItemStyleProps}
+          <div
+            key={child.id}
+            className={clsx(
+              "text-sm text-gray-500 m-1",
+              menuItemInteractionStyle
+            )}
             onClick={triggered}
           >
-            Browse All
-          </MenuItem>
-        </NextLink>
-      </MenuGroup>
+            <MyLink href={`/search${child.href}`}>{child.name}</MyLink>
+          </div>
+        ))}
+        <div
+          className={clsx(
+            "text-sm font-semibold text-gray-500 m-1",
+            menuItemInteractionStyle
+          )}
+          onClick={triggered}
+        >
+          <NextLink href={`/search${item.href}`} passHref>
+            <a>Browse All</a>
+          </NextLink>
+        </div>
+      </div>
     );
   };
 
   return (
-    <Flex flexDirection="column">
-      <SimpleGrid
-        columns={{ base: 1, sm: 2, md: 4 }}
-        spacing={10}
-        borderBottom="1px solid"
-        borderColor="gray.100"
-        paddingBottom={2}
-      >
+    <div className="flex flex-col">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 border-b border-solid border-gray-100 pb-2">
         {item.children.map((parent: NavigationNode, index: number) => {
           return <div key={index}>{buildStack(parent)}</div>;
         })}
-      </SimpleGrid>
-      <NextLink href={`/search${item.href}`} passHref>
-        <Link
-          m={4}
-          marginBottom={0}
-          fontSize="sm"
-          fontWeight="semibold"
-          onClick={triggered}
-        >
-          <Text
-            display="flex"
-            flexDirection="row"
-            alignItems="center"
-            _hover={{ color: "brand.primary" }}
-          >
+      </div>
+      <NextLink href={`/search${item.href}`} passHref onClick={triggered}>
+        <a className="m-4 mb-0 text-sm font-semibold">
+          <span className="flex flex-row items-center hover:text-brand-primary items-center">
             Browse All {item.name}
-            <ArrowForwardIcon marginLeft={1} />
-          </Text>
-        </Link>
+            <ArrowRightIcon className="ml-1 w-3 h-3" />
+          </span>
+        </a>
       </NextLink>
-    </Flex>
+    </div>
   );
 };
 

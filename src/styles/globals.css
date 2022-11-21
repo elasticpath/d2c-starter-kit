@@ -1,3 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .max-w-global {
+    @apply max-w-7xl;
+  }
+}
+
 html,
 body {
   padding: 0;
