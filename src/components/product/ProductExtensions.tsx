@@ -42,7 +42,9 @@ const ProductExtensions = ({ extensions }: IProductExtensions): JSX.Element => {
               return (
                 <Fragment key={`${key}-${value}`}>
                   <DescriptionTerm>{key}</DescriptionTerm>
-                  <DescriptionDetails>{value}</DescriptionDetails>
+                  <DescriptionDetails>
+                    {Array.isArray(value) ? "Not Yet Implemented" : value}
+                  </DescriptionDetails>
                 </Fragment>
               );
             });

@@ -27,7 +27,11 @@ export function CartOrderSummary({
   handleRemoveItem: (itemId: string) => Promise<void>;
 }): JSX.Element {
   return (
-    <Box backgroundColor="gray.50" p={8} borderRadius={6}>
+    <Box
+      backgroundColor="gray.50"
+      padding={{ sm: "1rem 1rem" }}
+      borderRadius={6}
+    >
       <Text fontSize="lg" fontWeight={500}>
         Order Summary
       </Text>
@@ -44,7 +48,7 @@ export function CartOrderSummary({
               <Tr key={item.id} fontSize={14}>
                 <Td color="gray.600" pl={0}>
                   <VStack alignItems="start">
-                    <Text>Discount</Text>
+                    <Text>Coupons</Text>
                     <Text color="red.600">{item.sku}</Text>
                   </VStack>
                 </Td>
@@ -86,41 +90,22 @@ export function CartOrderSummary({
       <Box mt={5}>
         <Promotion />
       </Box>
-      <Grid
-        gridTemplateColumns={{
-          sm: "repeat(2, 1fr)",
-          lg: "auto",
-          xl: "repeat(2, 1fr)",
-        }}
-        gap={2}
-        mt={5}
-      >
-        <Link href="/" passHref>
-          <Button
-            _hover={{
-              color: "brand.highlight",
-              boxShadow: "lg",
-            }}
-            colorScheme="brand.primary"
-            variant="outline"
-          >
-            Continue Shopping
-          </Button>
-        </Link>
+      <Box mt={5}>
         <Link href={`/checkout/${cartId}`} passHref>
           <Button
             bg="brand.primary"
-            color="white"
+            color="brand.buttontext"
             _hover={{
-              backgroundColor: "blue.700",
+              backgroundColor: "brand.secondary",
               boxShadow: "m",
             }}
             variant="solid"
+            w="100%"
           >
             Checkout
           </Button>
         </Link>
-      </Grid>
+      </Box>
     </Box>
   );
 }

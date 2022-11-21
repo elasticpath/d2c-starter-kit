@@ -113,7 +113,7 @@ export default function OrderComplete({
         <NextLink href="/" passHref>
           <Button
             bg="brand.primary"
-            color="white"
+            color="brand.buttontext"
             _hover={{
               backgroundColor: "brand.highlight",
               boxShadow: "m",

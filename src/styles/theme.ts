@@ -1,12 +1,12 @@
 import { ComponentStyleConfig, extendTheme } from "@chakra-ui/react";
 
-export const globalBaseWidth = "7xl";
+export const globalBaseWidth = "100%";
 
 // Basic styles
 export const styles = {
   global: {
     html: {
-      fontSize: "16px",
+      fontSize: "15px",
     },
   },
 };
@@ -19,6 +19,12 @@ const colors = {
     highlight: "#1E40AF",
     primaryAlt: "#EA7317",
     secondaryAlt: "#ffcb47",
+    navigation: "#091740",
+    buttontext: "#FFFFFF",
+  },
+  header: {
+    background: "#FFFFFF",
+    border: "#EFEFEF",
   },
 };
 

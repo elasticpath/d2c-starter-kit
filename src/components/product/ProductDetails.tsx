@@ -27,7 +27,7 @@ const ProductDetails = ({ product }: IProductDetails): JSX.Element => {
     >
       <Box>
         <Text
-          fontSize={{ base: "16px", lg: "18px" }}
+          fontSize={{ base: "md", lg: "lg" }}
           color="gray.800"
           fontWeight="500"
           textTransform="uppercase"

@@ -39,7 +39,11 @@ export const Search = ({
           <NextRouterHandler />
           {/* Breadcrumb */}
           {breadcrumbEntries && (
-            <Box maxW="7xl" mx="auto">
+            <Box
+              maxW="globalBaseWidth"
+              padding={{ sm: "0 1rem", lg: "0 2rem", "2xl": "0 5rem" }}
+              mx="auto"
+            >
               <Breadcrumb entries={breadcrumbEntries} />
             </Box>
           )}

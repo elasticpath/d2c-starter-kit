@@ -182,8 +182,11 @@ export const SearchModal = (): JSX.Element => {
         onClick={onOpen}
         fontWeight="normal"
         justifyContent="left"
+        color="brand.navigation"
+        _hover={{ bg: "gray.500" }}
+        _focus={{ bg: "gray.500" }}
       >
-        <SearchIcon color="gray.800" />
+        <SearchIcon color="brand.navigation" />
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

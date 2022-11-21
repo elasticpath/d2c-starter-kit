@@ -29,10 +29,14 @@ export default function CartMenu(): JSX.Element {
       onOpen={onOpen}
     >
       <PopoverTrigger>
-        <Button variant="ghost" _focus={{ border: "none" }}>
+        <Button
+          variant="ghost"
+          _hover={{ bg: "gray.500" }}
+          _focus={{ bg: "gray.500" }}
+        >
           <Icon
             viewBox="0 0 24 24"
-            stroke="currentColor"
+            stroke="brand.navigation"
             strokeWidth="2"
             fill="none"
             h={6}
@@ -85,7 +89,7 @@ function CartPopoverFooter({
           disabled={!hasCartItems}
           onClick={onClose}
           bg="brand.primary"
-          color="white"
+          color="brand.buttontext"
           w="100%"
           display="block"
           _hover={{

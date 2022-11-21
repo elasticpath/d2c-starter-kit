@@ -120,7 +120,7 @@ export default function CheckoutForm({
             <Button
               justifySelf="right"
               bg="brand.primary"
-              color="white"
+              color="brand.buttontext"
               _hover={{
                 backgroundColor: "brand.highlight",
                 boxShadow: "md",

@@ -107,7 +107,7 @@ const ProductShowcaseCarousel = ({
                     </Text>
                     <Button
                       bg="blue.900"
-                      color="white"
+                      color="brand.buttontext"
                       _hover={{
                         backgroundColor: "blue.700",
                         boxShadow: "m",

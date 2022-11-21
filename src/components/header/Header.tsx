@@ -14,23 +14,25 @@ interface IHeader {
 }
 
 const Header = ({ nav }: IHeader): JSX.Element => {
-  const headerPadding = 4;
+  const headerPadding = 1;
 
   return (
     <Box
-      p={headerPadding}
+      padding={{ sm: "0 1rem", lg: "0 2rem", "2xl": "0 4rem" }}
       as="header"
       pos="sticky"
       top={0}
-      bg="white"
+      bgColor="header.background"
       zIndex="sticky"
       borderBottom="1px"
-      borderColor="gray.200"
+      borderColor="header.border"
+      display={{ md: "flex", lg: "flex" }}
     >
       <Flex
         alignItems="center"
         w="100%"
         justifyContent="space-between"
+        padding="1rem 0rem"
         display={{ base: "flex", sm: "flex", md: "none" }}
       >
         <MobileNavBar nav={nav} />
@@ -40,6 +42,33 @@ const Header = ({ nav }: IHeader): JSX.Element => {
         w="100%"
         justifyContent="space-between"
         display={{ base: "none", sm: "none", md: "flex" }}
+        padding="1rem 1rem"
+      >
+        <Box flex={1} minW={16}>
+          <Link href="/">
+            <a>
+              <Box position="relative" minW={10} w={10} h={10}>
+                <EpIcon />
+              </Box>
+            </a>
+          </Link>
+        </Box>
+
+        <Box maxW={globalBaseWidth} w="90%">
+          <NavBar nav={nav} headerPadding={headerPadding} />
+        </Box>
+
+        <Flex gap={4} flex={1} display="flex" justifyContent="flex-end">
+          <SearchModal />
+          <CartMenu />
+        </Flex>
+      </Flex>
+      <Flex
+        alignItems="center"
+        w="100%"
+        justifyContent="space-between"
+        display={{ base: "none", sm: "none", md: "none" }}
+        padding="1rem 4rem"
       >
         <Box flex={1} minW={16}>
           <Link href="/">

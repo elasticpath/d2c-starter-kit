@@ -17,14 +17,14 @@ interface INavItemContent {
 
 const menuItemInteractionStyle = {
   bg: "none",
-  color: "brand.primary",
+  color: "brand.secondary",
 };
 
 const menuItemStyleProps = {
   _hover: menuItemInteractionStyle,
   _active: menuItemInteractionStyle,
   _focus: menuItemInteractionStyle,
-  color: "gray.500",
+  color: "gray.600",
   margin: "1",
 };
 
@@ -51,6 +51,7 @@ const NavItemContent = ({ item, triggered }: INavItemContent): JSX.Element => {
             fontWeight="semibold"
             {...menuItemStyleProps}
             onClick={triggered}
+            _hover={{ color: "brand.primary" }}
           >
             Browse All
           </MenuItem>
@@ -65,7 +66,7 @@ const NavItemContent = ({ item, triggered }: INavItemContent): JSX.Element => {
         columns={{ base: 1, sm: 2, md: 4 }}
         spacing={10}
         borderBottom="1px solid"
-        borderColor="gray.100"
+        borderColor="gray.300"
         paddingBottom={2}
       >
         {item.children.map((parent: NavigationNode, index: number) => {

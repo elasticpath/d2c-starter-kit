@@ -39,7 +39,13 @@ const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
   return (
     <Grid templateColumns="1fr auto 1fr" w="full">
       <GridItem>
-        <Button variant="ghost" color="gray.800" onClick={onOpen}>
+        <Button
+          variant="ghost"
+          color="brand.navigation"
+          onClick={onOpen}
+          _hover={{ bg: "brand.highlight" }}
+          _focus={{ bg: "brand.highlight" }}
+        >
           <HamburgerIcon />
         </Button>
       </GridItem>
@@ -78,8 +84,8 @@ const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
                     <AccordionItem border={0} key={index}>
                       <h2>
                         <AccordionButton
-                          color="gray.800"
-                          _expanded={{ color: "brand.primary" }}
+                          color="brand.navigation"
+                          _expanded={{ color: "brand.secondary" }}
                           fontWeight="bold"
                           marginBottom={1}
                         >

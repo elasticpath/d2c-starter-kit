@@ -18,7 +18,11 @@ export default function ProductContainer({
 }: IProductContainer): JSX.Element {
   const { extensions } = product.attributes;
   return (
-    <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={{ base: 8, md: 10 }}>
+    <SimpleGrid
+      columns={{ base: 1, lg: 2 }}
+      spacing={{ base: 8, md: 10 }}
+      py={{ base: 2, md: 2 }}
+    >
       {main_image && (
         <ProductCarousel images={otherImages} mainImage={main_image} />
       )}
