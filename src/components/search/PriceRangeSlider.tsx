@@ -56,7 +56,6 @@ export default function PriceRangeSlider(
         />
       </HStack>
       <RangeSlider
-        isDisabled={!canRefine}
         aria-label={["min", "max"]}
         min={Number(range.min)}
         max={Number(range.max)}
