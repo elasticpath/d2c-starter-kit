@@ -30,54 +30,59 @@ export default function PriceRangeSlider(
 
   const data = useRangeSlider(props);
   const { range, refine, canRefine, start } = data;
+
   const [inputValues, setInputValues] = useState<number[]>([
     range.min as number,
     range.max as number,
   ]);
   console.warn(data, "data");
-  console.warn(inputValues, "inputValues");
+  console.warn(data, "inputValues");
 
   return (
     <Stack spacing={4} my={4}>
-      <HStack justify="space-evenly">
-        <Input
-          type="number"
-          placeholder="Min"
-          w="80px"
-          value={inputValues[0] || range.min}
-          readOnly
-        />
-        <MinusIcon />
-        <Input
-          type="number"
-          placeholder="Max"
-          w="80px"
-          value={inputValues[1] || range.max}
-          readOnly
-        />
-      </HStack>
-      <RangeSlider
-        isDisabled={!canRefine}
-        aria-label={["min", "max"]}
-        min={Number(range.min)}
-        max={Number(range.max)}
-        defaultValue={[Number(range.min), Number(range.max)]}
-        onChange={(val) => {
-          setInputValues(val);
-        }}
-        onChangeEnd={(val) => {
-          const [minVal, maxVal] = val;
-          if (minVal && maxVal) {
-            refine([minVal, maxVal]);
-          }
-        }}
-      >
-        <RangeSliderTrack>
-          <RangeSliderFilledTrack />
-        </RangeSliderTrack>
-        <RangeSliderThumb index={0} backgroundColor="gray.200" />
-        <RangeSliderThumb index={1} backgroundColor="gray.200" />
-      </RangeSlider>
+      {!!range.max && (
+        <>
+          <HStack justify="space-evenly">
+            <Input
+              type="number"
+              placeholder="Min"
+              w="80px"
+              value={inputValues[0] || range.min}
+              readOnly
+            />
+            <MinusIcon />
+            <Input
+              type="number"
+              placeholder="Max"
+              w="80px"
+              value={inputValues[1] || range.max}
+              readOnly
+            />
+          </HStack>
+          <RangeSlider
+            isDisabled={!canRefine}
+            aria-label={["min", "max"]}
+            min={Number(range.min)}
+            max={Number(range.max)}
+            defaultValue={[Number(range.min), Number(range.max)]}
+            onChange={(val) => {
+              setInputValues(val);
+            }}
+            onChangeEnd={(val) => {
+              const [minVal, maxVal] = val;
+              if (minVal && maxVal) {
+                refine([minVal, maxVal]);
+              }
+            }}
+          >
+            <RangeSliderTrack>
+              <RangeSliderFilledTrack />
+            </RangeSliderTrack>
+            <RangeSliderThumb index={0} backgroundColor="gray.200" />
+            <RangeSliderThumb index={1} backgroundColor="gray.200" />
+          </RangeSlider>
+        </>
+      )}
     </Stack>
   );
 }
