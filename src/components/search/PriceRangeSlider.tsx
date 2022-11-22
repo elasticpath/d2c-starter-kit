@@ -28,13 +28,13 @@ export default function PriceRangeSlider(
     );
   };
 
-  const { range, refine, canRefine, start } = useRangeSlider(props);
+  const data = useRangeSlider(props);
+  const { range, refine, canRefine, start } = data;
   const [inputValues, setInputValues] = useState<number[]>([
     range.min as number,
     range.max as number,
   ]);
-  console.warn(range, "range");
-  console.warn(start, "start");
+  console.warn(data, "data");
   console.warn(inputValues, "inputValues");
 
   return (
@@ -44,7 +44,7 @@ export default function PriceRangeSlider(
           type="number"
           placeholder="Min"
           w="80px"
-          value={inputValues[0] || start[0]}
+          value={inputValues[0] || range.min}
           readOnly
         />
         <MinusIcon />
@@ -52,7 +52,7 @@ export default function PriceRangeSlider(
           type="number"
           placeholder="Max"
           w="80px"
-          value={inputValues[1] || start[1]}
+          value={inputValues[1] || range.max}
           readOnly
         />
       </HStack>
