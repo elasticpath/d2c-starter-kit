@@ -29,11 +29,12 @@ export default function PriceRangeSlider(
   };
 
   const { range, refine, canRefine } = useRangeSlider(props);
-
   const [inputValues, setInputValues] = useState<number[]>([
     range.min as number,
     range.max as number,
   ]);
+  console.warn(range, "range");
+  console.warn(inputValues, "inputValues");
 
   return (
     <Stack spacing={4} my={4}>
