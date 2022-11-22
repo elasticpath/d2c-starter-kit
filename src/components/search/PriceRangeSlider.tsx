@@ -34,6 +34,7 @@ export default function PriceRangeSlider(
     range.max as number,
   ]);
   console.warn(range, "range");
+  console.warn(start, "start");
   console.warn(inputValues, "inputValues");
 
   return (
