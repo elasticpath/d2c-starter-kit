@@ -10,7 +10,7 @@ import {
   Tr,
   VStack,
 } from "@chakra-ui/react";
-import { Promotion } from "../promotion/Promotion";
+import { Promotion } from "./Promotion";
 import Link from "next/link";
 
 export function CartOrderSummary({
