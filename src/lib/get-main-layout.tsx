@@ -1,4 +1,4 @@
-import MainLayout from "../layouts/MainLayout";
+import MainLayout from "../components/layouts/MainLayout";
 import { GetLayoutFn } from "../pages/_app";
 
 export const getMainLayout: GetLayoutFn = (page, ctx) => {
