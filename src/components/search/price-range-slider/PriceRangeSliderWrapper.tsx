@@ -22,5 +22,7 @@ export default function PriceRangeSliderWrapper(
 
   console.warn(data, "data");
 
+  if (!data.range.max) return <></>;
+
   return <PriceRangeSlider {...data} />;
 }
