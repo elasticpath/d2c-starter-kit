@@ -7,7 +7,7 @@ import EpIcon from "../../../public/icons/ep-icon.svg";
 
 import NavBar from "./navigation/NavBar";
 import Link from "next/link";
-import CartMenu from "../cart/CartMenu";
+import CartMenu from "./cart/CartMenu";
 
 interface IHeader {
   nav: NavigationNode[];

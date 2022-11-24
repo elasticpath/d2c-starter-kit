@@ -1,7 +1,7 @@
 import { StoreProviderProps } from "@field123/epcc-react";
 import { StoreProvider } from "@field123/epcc-react";
-import { getEpccImplicitClient } from "../lib/epcc-implicit-client";
-import { getCartCookie } from "../lib/cart-cookie";
+import { getEpccImplicitClient } from "../epcc-implicit-client";
+import { getCartCookie } from "../cart-cookie";
 
 const StoreNextJSProvider = (
   props: Omit<StoreProviderProps, "resolveCartId" | "client">
