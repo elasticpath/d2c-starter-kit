@@ -96,7 +96,7 @@ function CartPopoverFooter({
           Checkout
         </Button>
       </Link>
-      <Link href="/cart" passHref>
+      <Link href="/src/pages/cart" passHref>
         <Button
           onClick={onClose}
           _hover={{

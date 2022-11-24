@@ -19,8 +19,8 @@ import {
   RegularCartItem,
 } from "@field123/epcc-react";
 import NextLink from "next/link";
-import { ReadonlyNonEmptyArray } from "../../lib/types/read-only-non-empty-array";
-import { ChakraNextImage } from "../ChakraNextImage";
+import { ReadonlyNonEmptyArray } from "../../../lib/types/read-only-non-empty-array";
+import { ChakraNextImage } from "../../ChakraNextImage";
 
 function resolveStateCartItems(
   state: CartState
