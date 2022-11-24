@@ -20,8 +20,6 @@ export default function PriceRangeSliderWrapper(
 
   const data = useRangeSlider(props);
 
-  console.warn(data, "data");
-
   if (!data.range.max) return <></>;
 
   return <PriceRangeSlider {...data} />;

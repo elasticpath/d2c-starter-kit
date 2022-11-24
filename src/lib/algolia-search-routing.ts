@@ -11,9 +11,10 @@ export function resolveRouting(
   return {
     dynamicRouteQuery: {},
     url,
+    // @ts-ignore
     routeToState(routeState) {
       //  stateNode set to default to node for initial direct navigation render
-      const { query, page, node: stateNode = node, sortBy } = routeState;
+      const { query, page, node: stateNode = node, sortBy, range } = routeState;
 
       return {
         [algoliaEnvData.indexName]: {
@@ -25,18 +26,21 @@ export function resolveRouting(
               : [stateNode],
           },
           sortBy: sortBy,
+          range: { "ep_price.USD.float_price": range },
         },
       };
     },
+    //@ts-ignore
     stateToRoute(uiState) {
       const indexUiState = uiState[algoliaEnvData.indexName] || {};
-      const { query, page, hierarchicalMenu, sortBy } = indexUiState;
+      const { query, page, hierarchicalMenu, sortBy, range } = indexUiState;
 
       return {
         query,
         page,
         sortBy,
         node: hierarchicalMenu?.[EP_ROUTE_CATEGORY],
+        range: range ? range["ep_price.USD.float_price"] : undefined,
       };
     },
   };
