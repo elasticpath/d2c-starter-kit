@@ -10,12 +10,15 @@ import { ParsedUrlQuery } from "querystring";
 import { withStoreServerSideProps } from "../../lib/store-wrapper-ssr";
 import { getCart } from "../../services/cart";
 import { OrderSummary } from "../../components/checkout/OrderSummary";
-import { getPresentCartStateCheckout, useCart } from "@field123/epcc-react";
+import {
+  getPresentCartStateCheckout,
+  useCart,
+} from "@elasticpath/react-shopper-hooks";
 import CheckoutForm from "../../components/checkout/CheckoutForm";
 import { globalBaseWidth } from "../../styles/theme";
 import { useCallback, useState } from "react";
 import { OrderCompleteState } from "../../components/checkout/types/order-pending-state";
-import { PresentCartState } from "@field123/epcc-react";
+import { PresentCartState } from "@elasticpath/react-shopper-hooks";
 import { CheckoutForm as CheckoutFormType } from "../../components/checkout/form-schema/checkout-form-schema";
 import OrderComplete from "../../components/cart/OrderComplete";
 

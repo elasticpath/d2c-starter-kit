@@ -16,8 +16,8 @@ import ShippingForm from "./ShippingForm";
 import CustomFormControl from "./CustomFormControl";
 import BillingForm from "./BillingForm";
 import BrainTreePayment from "./payments/BraintreePayment";
-import { useCart } from "@field123/epcc-react";
-import { usePaymentGateway } from "@field123/epcc-react";
+import { useCart } from "@elasticpath/react-shopper-hooks";
+import { usePaymentGateway } from "@elasticpath/react-shopper-hooks";
 
 const initialValues: Partial<CheckoutFormType> = {
   personal: {

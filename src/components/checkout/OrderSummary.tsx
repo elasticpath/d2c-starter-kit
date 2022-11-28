@@ -12,7 +12,10 @@ import {
   Tr,
   VStack,
 } from "@chakra-ui/react";
-import { PromotionCartItem, RefinedCartItem } from "@field123/epcc-react";
+import {
+  PromotionCartItem,
+  RefinedCartItem,
+} from "@elasticpath/react-shopper-hooks";
 import { NonEmptyArray } from "../../lib/types/non-empty-array";
 import { ReadonlyNonEmptyArray } from "../../lib/types/read-only-non-empty-array";
 import NextLink from "next/link";
