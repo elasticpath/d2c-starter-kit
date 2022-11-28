@@ -14,12 +14,7 @@ import {
   Text,
   Heading,
 } from "@chakra-ui/react";
-import {
-  useSortBy,
-  useInstantSearch,
-  RefinementList,
-  ToggleRefinement,
-} from "react-instantsearch-hooks-web";
+import { useSortBy, useInstantSearch } from "react-instantsearch-hooks-web";
 import { algoliaEnvData } from "../../lib/resolve-algolia-env";
 import CustomHierarchicalMenu from "./CustomHierarchicalMenu";
 import Hits from "./Hits";
@@ -28,11 +23,8 @@ import { BreadcrumbLookup } from "../../lib/types/breadcrumb-lookup";
 import SearchBox from "./SearchBox";
 import MobileFilters from "./MobileFilters";
 import { hierarchicalAttributes } from "../../lib/hierarchical-attributes";
-import PriceRangeSliderWrapper from "./price-range-slider/PriceRangeSliderWrapper";
+import PriceRangeSlider from "./price-range-slider/PriceRangeSliderWrapper";
 import ProductSpecification from "./product-specification/ProductSpecification";
-import s from "./product-specification/ProductSpecification.module.css";
-import ProductVariationColor from "../product/variations/ProductVariationColor";
-import ColorRefinement from "./color-refinement/ColorRefinement";
 
 interface ISearchResults {
   lookup?: BreadcrumbLookup;
@@ -124,31 +116,8 @@ export default function SearchResults({
             lookup={lookup}
             attributes={hierarchicalAttributes}
           />
-          <Heading as="h3" size="sm" mt={5} pb={1}>
-            Price
-          </Heading>
-          <PriceRangeSliderWrapper attribute="ep_price.USD.float_price" />
-          <ProductSpecification attribute="ep_extensions_products_specifications.brand" />
-
-          <Heading as="h3" size="sm" mt={5} pb={1}>
-            On sale
-          </Heading>
-          <ToggleRefinement
-            attribute="ep_extensions_products_specifications.on-sale"
-            label="On sale products"
-            on={true}
-            classNames={{
-              root: s.root,
-              labelText: s.labelText,
-              checkbox: s.checkbox,
-              label: s.label,
-            }}
-          />
-
-          <Heading as="h3" size="sm" mt={5} pb={1}>
-            Color
-          </Heading>
-          <ColorRefinement attribute="ep_extensions_products_specifications.color" />
+          <PriceRangeSlider attribute="ep_price.USD.float_price" />
+          <ProductSpecification />
         </GridItem>
 
         <GridItem>

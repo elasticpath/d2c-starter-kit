@@ -1,29 +1,13 @@
-import { RefinementList } from "react-instantsearch-hooks-web";
-import s from "./ProductSpecification.module.css";
-import { Heading } from "@chakra-ui/react";
+import ColorRefinement from "./ColorRefinement";
+import BrandRefinement from "./BrandRefirement";
+import OnSaleRefinement from "./OnSaleRefirement";
 
-interface ProductSpecificationProps {
-  attribute: string;
-}
-
-const ProductSpecification = ({ attribute }: ProductSpecificationProps) => {
+const ProductSpecification = () => {
   return (
     <>
-      <Heading as="h3" size="sm" mt={5} pb={1}>
-        Brand
-      </Heading>
-      <RefinementList
-        attribute={attribute}
-        classNames={{
-          root: s.root,
-          list: s.list,
-          item: s.item,
-          labelText: s.labelText,
-          checkbox: s.checkbox,
-          label: s.label,
-          count: s.count,
-        }}
-      />
+      <BrandRefinement attribute="ep_extensions_products_specifications.brand" />
+      <OnSaleRefinement attribute="ep_extensions_products_specifications.on-sale" />
+      <ColorRefinement attribute="ep_extensions_products_specifications.color" />
     </>
   );
 };

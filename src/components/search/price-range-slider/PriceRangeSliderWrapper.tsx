@@ -4,7 +4,8 @@ import type {
 } from "instantsearch.js/es/connectors/range/connectRange";
 import connectRange from "instantsearch.js/es/connectors/range/connectRange";
 import { useConnector } from "react-instantsearch-hooks-web";
-import PriceRangeSlider from "./PriceRangeSlider";
+import PriceRangeSliderComponent from "./PriceRangeSlider";
+import { Heading } from "@chakra-ui/react";
 
 export type UseRangeSliderProps = RangeConnectorParams;
 
@@ -22,5 +23,12 @@ export default function PriceRangeSliderWrapper(
 
   if (!data.range.max) return <></>;
 
-  return <PriceRangeSlider {...data} />;
+  return (
+    <>
+      <Heading as="h3" size="sm" mt={5} pb={1}>
+        Price
+      </Heading>
+      <PriceRangeSliderComponent {...data} />
+    </>
+  );
 }
