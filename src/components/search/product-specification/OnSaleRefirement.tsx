@@ -1,23 +1,23 @@
-import { Heading } from "@chakra-ui/react";
-import { ToggleRefinement } from "react-instantsearch-hooks-web";
-import s from "./ProductSpecification.module.css";
+import { Heading, FormControl, FormLabel, Switch } from "@chakra-ui/react";
+import { useToggleRefinement } from "react-instantsearch-hooks-web";
 
 const OnSaleRefinement = ({ attribute }: { attribute: string }) => {
+  const { value, refine } = useToggleRefinement({ attribute });
+
   return (
     <>
       <Heading as="h3" size="sm" mt={5} pb={1}>
-        On sale
+        Sale
       </Heading>
-      <ToggleRefinement
-        attribute={attribute}
-        label="On sale products"
-        on={true}
-        classNames={{
-          labelText: s.labelText,
-          checkbox: s.checkbox,
-          label: s.label,
-        }}
-      />
+      <FormControl display="flex" alignItems="center">
+        <FormLabel htmlFor="email-alerts" mb="0">
+          On sale products
+        </FormLabel>
+        <Switch
+          isChecked={value.isRefined}
+          onChange={(e) => refine({ isRefined: !e.target.checked })}
+        />
+      </FormControl>
     </>
   );
 };
