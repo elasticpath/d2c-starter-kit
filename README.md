@@ -111,13 +111,14 @@ ep_slug_categories.lvl0
 ep_slug_categories.lvl1
 ep_slug_categories.lvl2
 ep_slug_categories.lvl3
+
+ep_price.USD.float_price
+ep_extensions_products_specifications.brand
+ep_extensions_products_specifications.on-sale
+ep_extensions_products_specifications.color
 ```
-
+In order to use faceting add the attribute name to the list of attributes in Facets and Facet display sections of Algolia dashboard in Configuration menu.
 Use default settings.
-
-##### Configuring price facet
-
-In order to use price range slider add the `ep_price.USD.float_price` field to the list of attributes in Facets and Facet display sections of Algolia dashboard in Configuration menu.
 
 ##### Create Replicas (standard)
 
