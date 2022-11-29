@@ -6,7 +6,7 @@ import HitComponent from "./Hit";
 
 export default function Hits(): JSX.Element {
   const { hits } = useHits<SearchHit>();
-  console.warn(hits, "hits");
+
   if (hits.length) {
     return (
       <Grid

@@ -9,49 +9,19 @@ import {
 } from "@chakra-ui/react";
 import { MinusIcon } from "@chakra-ui/icons";
 import { useEffect, useState } from "react";
-import {
-  Range,
-  RangeBoundaries,
-  RangeRenderState,
-} from "instantsearch.js/es/connectors/range/connectRange";
+import { RangeRenderState } from "instantsearch.js/es/connectors/range/connectRange";
 
 interface ISlider extends RangeRenderState {}
 
-function convertToTicks(start: RangeBoundaries, range: Range): number[] {
-  const domain =
-    range.min === 0 && range.max === 0
-      ? { min: undefined, max: undefined }
-      : range;
-
-  return [
-    start[0] === -Infinity ? domain.min! : start[0]!,
-    start[1] === Infinity ? domain.max! : start[1]!,
-  ];
-}
-
-const PriceRangeSlider = ({ refine, canRefine, range, start }: ISlider) => {
-  const [inputValues, setInputValues] = useState<number[]>(
-    convertToTicks(start, range)
-  );
-  const [prevStart, setPrevStart] = useState(start);
+const PriceRangeSlider = ({ refine, canRefine, range }: ISlider) => {
+  const [inputValues, setInputValues] = useState<number[]>([
+    range.min as number,
+    range.max as number,
+  ]);
 
   useEffect(() => {
     setInputValues([range.min as number, range.max as number]);
   }, [range.min, range.max]);
-
-  if (start !== prevStart) {
-    setInputValues(convertToTicks(start, range));
-    setPrevStart(start);
-  }
-
-  if (
-    !canRefine ||
-    inputValues[0] === undefined ||
-    inputValues[1] === undefined
-  ) {
-    return null;
-  }
-  console.warn(inputValues, "inputValues");
 
   return (
     <Stack spacing={4} my={4}>
@@ -84,7 +54,6 @@ const PriceRangeSlider = ({ refine, canRefine, range, start }: ISlider) => {
         onChangeEnd={(val) => {
           const [minVal, maxVal] = val;
           if (minVal && maxVal) {
-            console.warn(minVal, maxVal, "refine");
             refine([minVal, maxVal]);
           }
         }}
