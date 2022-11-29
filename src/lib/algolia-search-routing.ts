@@ -9,7 +9,6 @@ const EP_ROUTE_PRICE = "ep_price.USD.float_price";
 const EP_ROUTE_COLOR = "ep_extensions_products_specifications.color";
 
 export function resolveRouting(
-  node: string[],
   url: string
 ): NextRouterHandlerProps<RouterParams> & { url: string } {
   return {
@@ -20,7 +19,7 @@ export function resolveRouting(
       const {
         query,
         page,
-        node: stateNode = node,
+        node: stateNode,
         sortBy,
         range = "",
         brand,
