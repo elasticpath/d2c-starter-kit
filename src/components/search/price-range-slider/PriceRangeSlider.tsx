@@ -51,6 +51,7 @@ const PriceRangeSlider = ({ refine, canRefine, range, start }: ISlider) => {
   ) {
     return null;
   }
+  console.warn(inputValues, "inputValues");
 
   return (
     <Stack spacing={4} my={4}>
