@@ -10,12 +10,10 @@ import type {
   IdentifiableBaseProduct,
   OptionDict,
   ProductContextState,
-} from "./product-types";
-import {
   ProductImageObject,
   ProductModalContextState,
   ProductResponseWithImage,
-} from "./product-types";
+} from "./types/product-types";
 
 export function processImageFiles(files: File[], mainImageId?: string) {
   // filters out main image and keeps server order

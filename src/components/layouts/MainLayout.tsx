@@ -1,9 +1,9 @@
-import Header from "../../components/header/Header";
-import Footer from "../../components/footer/Footer";
+import Header from "../header/Header";
+import Footer from "../footer/Footer";
 
 import type { ReactNode } from "react";
 import type { NavigationNode } from "../../lib/build-site-navigation";
-import { Toaster } from "../../components/toast/toaster";
+import { Toaster } from "../toast/toaster";
 import Head from "next/head";
 
 interface IMainLayout {

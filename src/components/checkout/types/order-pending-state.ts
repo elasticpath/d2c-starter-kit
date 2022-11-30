@@ -1,4 +1,4 @@
-import { PresentCartState } from "../../../context/types/cart-reducer-types";
+import { PresentCartState } from "@elasticpath/react-shopper-hooks";
 import { CheckoutForm as CheckoutFormType } from "../form-schema/checkout-form-schema";
 import { ConfirmPaymentResponse } from "@moltin/sdk";
 

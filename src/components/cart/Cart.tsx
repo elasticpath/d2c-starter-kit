@@ -1,7 +1,7 @@
 import {
   GroupedCartItems,
   RefinedCartItem,
-} from "../../context/types/cart-reducer-types";
+} from "@elasticpath/react-shopper-hooks";
 import { Grid } from "@chakra-ui/react";
 import { CartItemList } from "./CartItemList";
 import { CartOrderSummary } from "./CartOrderSummary";

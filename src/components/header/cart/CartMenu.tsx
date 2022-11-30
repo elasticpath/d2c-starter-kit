@@ -12,10 +12,9 @@ import {
 import Link from "next/link";
 import ModalCartItems from "./ModalCartItem";
 import { Icon } from "@chakra-ui/icons";
-import { useCart } from "../../context/use-cart-hook";
+import { CartState, useCart } from "@elasticpath/react-shopper-hooks";
 import CartUpdatingSpinner from "./CartUpdatingSpinner";
 import CartItemNumTag from "./CartItemNumTag";
-import { CartState } from "../../context/types/cart-reducer-types";
 
 export default function CartMenu(): JSX.Element {
   const { onOpen, onClose, isOpen } = useDisclosure();
@@ -97,7 +96,7 @@ function CartPopoverFooter({
           Checkout
         </Button>
       </Link>
-      <Link href="/cart" passHref>
+      <Link href="/src/pages/cart" passHref>
         <Button
           onClick={onClose}
           _hover={{

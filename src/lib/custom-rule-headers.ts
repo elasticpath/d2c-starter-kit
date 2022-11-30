@@ -1,4 +1,4 @@
-import { isEmptyObj } from "./shared-util";
+import { isEmptyObj } from "./is-empty-object";
 
 export function resolveEpccCustomRuleHeaders():
   | { "EP-Context-Tag"?: string; "EP-Channel"?: string }
