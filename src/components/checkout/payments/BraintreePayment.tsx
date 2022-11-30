@@ -16,6 +16,7 @@ export const BrainTreePayment = (): JSX.Element => {
     const braintreeInstanceTemp = await dropin.create({
       authorization: BRAINTREE_AUTH_KEY,
       container: "#braintree-drop-in",
+      paypal: { flow: "checkout" },
     });
     setBraintreeInstance(braintreeInstanceTemp);
 
