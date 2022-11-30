@@ -8,7 +8,6 @@ export function Toaster(): null {
 
   useEffect(() => {
     const sub = events.subscribe((event) => {
-      console.log("event emitted inside toast: ", event);
       if (event.type !== "init" && event.action !== "init") {
         toast({
           description: "message" in event ? event.message : undefined,
