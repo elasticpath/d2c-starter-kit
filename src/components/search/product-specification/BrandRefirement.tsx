@@ -1,19 +1,18 @@
-import { Badge, Checkbox, Heading } from "@chakra-ui/react";
+import { Badge, Box, Checkbox, Heading, Flex } from "@chakra-ui/react";
 import { useRefinementList } from "react-instantsearch-hooks-web";
 
 const BrandRefinement = ({ attribute }: { attribute: string }) => {
   const { items, refine } = useRefinementList({ attribute });
 
   return (
-    <>
+    <Flex gap={2} flexDirection="column">
       <Heading as="h3" size="sm" mt={5} pb={1}>
         Brand
       </Heading>
       {items.map((item) => (
-        <>
+        <Box key={item.value}>
           <Checkbox
             isChecked={item.isRefined}
-            key={item.value}
             onChange={() => refine(item.value)}
           >
             {item.label}
@@ -28,9 +27,9 @@ const BrandRefinement = ({ attribute }: { attribute: string }) => {
           >
             {item.count}
           </Badge>
-        </>
+        </Box>
       ))}
-    </>
+    </Flex>
   );
 };
 
