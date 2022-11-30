@@ -3,19 +3,19 @@ import type { CatalogsProductVariation } from "@moltin/sdk";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { useEffect, useState } from "react";
-import { OptionDict } from "../../lib/product-types";
+import { OptionDict } from "../../lib/types/product-types";
 import { createEmptyOptionDict, ProductContext } from "../../lib/product-util";
 import {
   allVariationsHaveSelectedOption,
   getOptionsFromSkuId,
   getSkuIdFromOptions,
   mapOptionsToVariation,
-  MatrixObjectEntry,
-} from "../../services/helper";
+} from "../../lib/product-helper";
 import ProductVariationStandard, {
   UpdateOptionHandler,
 } from "./variations/ProductVariationStandard";
 import ProductVariationColor from "./variations/ProductVariationColor";
+import { MatrixObjectEntry } from "../../lib/types/matrix-object-entry";
 
 interface IProductVariations {
   variations: CatalogsProductVariation[];

@@ -1,4 +1,4 @@
-import { IBaseProduct } from "../../lib/product-types";
+import { IBaseProduct } from "../../lib/types/product-types";
 import ProductVariations from "./ProductVariations";
 import ProductContainer from "./ProductContainer";
 

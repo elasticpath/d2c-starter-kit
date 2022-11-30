@@ -9,7 +9,7 @@ import {
   StyledDotGroup,
   StyledImage,
   StyledSlide,
-} from "../../shared/carousel-wrapped";
+} from "./carousel-wrapped";
 import styles from "./ProductCarousel.module.css";
 import "pure-react-carousel/dist/react-carousel.es.css";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";

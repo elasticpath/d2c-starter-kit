@@ -1,4 +1,4 @@
-import { RefinedCartItem } from "../../context/types/cart-reducer-types";
+import { RefinedCartItem } from "@elasticpath/react-shopper-hooks";
 import { Box, Text, Grid, GridItem, IconButton } from "@chakra-ui/react";
 import QuantityHandler from "../quantity-handler/QuantityHandler";
 import { CloseIcon } from "@chakra-ui/icons";

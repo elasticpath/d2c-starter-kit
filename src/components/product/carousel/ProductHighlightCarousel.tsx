@@ -8,7 +8,7 @@ import {
   StyledButtonBack,
   StyledButtonNext,
   StyledSlider,
-} from "../../shared/carousel-wrapped";
+} from "./carousel-wrapped";
 import { CarouselListener } from "./CarouselListener";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { ChakraNextImage } from "../../ChakraNextImage";

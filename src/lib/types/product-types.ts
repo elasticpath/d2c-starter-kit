@@ -4,7 +4,7 @@ import type {
   File,
 } from "@moltin/sdk";
 import type { Dispatch, SetStateAction } from "react";
-import type { MatrixObjectEntry } from "../services/helper";
+import { MatrixObjectEntry } from "./matrix-object-entry";
 
 export type IdentifiableBaseProduct = ProductResponse & {
   id: string;

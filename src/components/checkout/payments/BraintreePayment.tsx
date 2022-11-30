@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import dropin, { Dropin } from "braintree-web-drop-in";
 import { Box } from "@chakra-ui/react";
 import { BRAINTREE_AUTH_KEY } from "../../../lib/resolve-braintree-env";
-import { usePaymentGateway } from "../../../context/use-payment-gateway";
+import { usePaymentGateway } from "@elasticpath/react-shopper-hooks";
 import { PaymentRequestBody } from "@moltin/sdk";
 
 export const BrainTreePayment = (): JSX.Element => {

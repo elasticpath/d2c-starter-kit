@@ -1,4 +1,4 @@
-import type { IChildProduct } from "../../lib/product-types";
+import type { IChildProduct } from "../../lib/types/product-types";
 import ProductVariations from "./ProductVariations";
 import ProductContainer from "./ProductContainer";
 
