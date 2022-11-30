@@ -20,7 +20,7 @@ export const Search = ({
   lookup,
 }: ISearch) => {
   const { initialUiState, NextRouterHandler } = useNextRouterHandler(
-    resolveRouting(node, url)
+    resolveRouting(url)
   );
 
   return (

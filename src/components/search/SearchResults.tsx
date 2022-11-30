@@ -23,6 +23,8 @@ import { BreadcrumbLookup } from "../../lib/types/breadcrumb-lookup";
 import SearchBox from "./SearchBox";
 import MobileFilters from "./MobileFilters";
 import { hierarchicalAttributes } from "../../lib/hierarchical-attributes";
+import PriceRangeSlider from "./price-range-slider/PriceRangeSliderWrapper";
+import ProductSpecification from "./product-specification/ProductSpecification";
 
 interface ISearchResults {
   lookup?: BreadcrumbLookup;
@@ -114,6 +116,8 @@ export default function SearchResults({
             lookup={lookup}
             attributes={hierarchicalAttributes}
           />
+          <PriceRangeSlider attribute="ep_price.USD.float_price" />
+          <ProductSpecification />
         </GridItem>
 
         <GridItem>

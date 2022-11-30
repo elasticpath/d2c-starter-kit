@@ -112,8 +112,14 @@ export function useNextRouterHandler<
     setStableDynamicRouteQuery(dynamicRouteQuery);
   }
 
+  const params = urlToParams(url);
+  const nodePath = new URL(url).pathname.replace("/search/", "").split("/");
+
   return {
-    initialUiState: routeToState(urlToParams(url) as TRouteParams),
+    initialUiState: routeToState({
+      ...params,
+      node: nodePath,
+    } as unknown as TRouteParams),
     NextRouterHandler: useCallback(
       () =>
         NextRouterHandler({
