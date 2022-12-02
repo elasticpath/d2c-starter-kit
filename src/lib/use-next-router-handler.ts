@@ -113,12 +113,15 @@ export function useNextRouterHandler<
   }
 
   const params = urlToParams(url);
-  const nodePath = new URL(url).pathname.replace("/search/", "").split("/");
-
+  const pathName = new URL(url).pathname;
+  let nodePath;
+  if (pathName !== "/search") {
+    nodePath = pathName.replace("/search/", "")?.split("/");
+  }
   return {
     initialUiState: routeToState({
       ...params,
-      node: nodePath,
+      ...(nodePath ? { node: nodePath } : {}),
     } as unknown as TRouteParams),
     NextRouterHandler: useCallback(
       () =>
