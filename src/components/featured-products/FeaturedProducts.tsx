@@ -124,6 +124,7 @@ const FeaturedProducts = (props: IFeaturedProductsProps): JSX.Element => {
                   borderRadius={5}
                   objectFit="cover"
                   boxShadow="sm"
+                  quality={100}
                 />
               ) : (
                 <Center
