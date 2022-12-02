@@ -9,14 +9,16 @@ import Search from "../../components/search/SearchPage";
 import { buildBreadcrumbLookup } from "../../lib/build-breadcrumb-lookup";
 import React, { ReactElement } from "react";
 import Head from "next/head";
-import MainLayout from "../../components/layouts/MainLayout";
+import MainLayout, {
+  MAIN_LAYOUT_TITLE,
+} from "../../components/layouts/MainLayout";
 
 Search.getLayout = function getLayout(page: ReactElement, _, ctx) {
   return (
     <>
       <MainLayout nav={ctx?.nav ?? []}>{page}</MainLayout>
       <Head>
-        <title>Search</title>
+        <title>{MAIN_LAYOUT_TITLE} - Search</title>
         <meta name="description" content="Search for products" />
       </Head>
     </>

@@ -10,7 +10,9 @@ import { buildBreadcrumbLookup } from "../../lib/build-breadcrumb-lookup";
 import React, { ReactElement } from "react";
 import Head from "next/head";
 import { StoreContext } from "@elasticpath/react-shopper-hooks";
-import MainLayout from "../../components/layouts/MainLayout";
+import MainLayout, {
+  MAIN_LAYOUT_TITLE,
+} from "../../components/layouts/MainLayout";
 
 interface INodeSearch extends ISearch {
   nodeName?: string | string[];
@@ -29,7 +31,12 @@ NodeSearch.getLayout = function getLayout(
     <>
       <MainLayout nav={ctx?.nav ?? []}>{page}</MainLayout>
       <Head>
-        <title>{pageProps.node.join("/")}</title>
+        <meta
+          property="og:title"
+          content={`${MAIN_LAYOUT_TITLE} - ${
+            pageProps.node[pageProps.node.length - 1]
+          }`}
+        />
         <meta name="description" content={pageProps.node.join("/")} />
       </Head>
     </>

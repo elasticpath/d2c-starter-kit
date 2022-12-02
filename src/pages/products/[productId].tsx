@@ -21,7 +21,9 @@ import {
 } from "../../lib/retrieve-product-props";
 import Head from "next/head";
 import { NextPageWithLayout } from "../_app";
-import MainLayout from "../../components/layouts/MainLayout";
+import MainLayout, {
+  MAIN_LAYOUT_TITLE,
+} from "../../components/layouts/MainLayout";
 
 export const Product: NextPageWithLayout<IProduct> = (props: IProduct) => {
   const [isChangingSku, setIsChangingSku] = useState(false);
@@ -51,7 +53,9 @@ Product.getLayout = function getLayout(page: ReactElement, pageProps, ctx?) {
     <>
       <MainLayout nav={ctx?.nav ?? []}>{page}</MainLayout>
       <Head>
-        <title>{pageProps.product.attributes.name}</title>
+        <title>
+          {MAIN_LAYOUT_TITLE} - {pageProps.product.attributes.name}
+        </title>
         <meta
           name="description"
           content={pageProps.product.attributes.description}
