@@ -11,13 +11,13 @@ import React, { ReactElement } from "react";
 import Head from "next/head";
 import MainLayout from "../../components/layouts/MainLayout";
 
-Search.getLayout = function getLayout(page: ReactElement, pageProps, ctx) {
+Search.getLayout = function getLayout(page: ReactElement, _, ctx) {
   return (
     <>
       <MainLayout nav={ctx?.nav ?? []}>{page}</MainLayout>
       <Head>
-        <title>{pageProps.node.join("/")}</title>
-        <meta name="description" content={pageProps.node.join("/")} />
+        <title>Search</title>
+        <meta name="description" content="Search for products" />
       </Head>
     </>
   );
