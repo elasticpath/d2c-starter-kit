@@ -80,7 +80,7 @@ const PromotionBanner = (props: IPromotionBanner): JSX.Element => {
             </Heading>
           )}
           {description && (
-            <Heading as="h6" zIndex={1}>
+            <Heading size="sm" zIndex={1}>
               {description}
             </Heading>
           )}
