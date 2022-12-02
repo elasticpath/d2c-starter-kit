@@ -20,6 +20,8 @@ Search.getLayout = function getLayout(page: ReactElement, _, ctx) {
       <Head>
         <title>{MAIN_LAYOUT_TITLE} - Search</title>
         <meta name="description" content="Search for products" />
+        <meta property="og:title" content={`${MAIN_LAYOUT_TITLE} - Search`} />
+        <meta property="og:description" content="Search for products" />
       </Head>
     </>
   );

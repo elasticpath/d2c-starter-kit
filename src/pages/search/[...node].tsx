@@ -31,13 +31,17 @@ NodeSearch.getLayout = function getLayout(
     <>
       <MainLayout nav={ctx?.nav ?? []}>{page}</MainLayout>
       <Head>
+        <title>
+          {MAIN_LAYOUT_TITLE} - {pageProps.node[pageProps.node.length - 1]}
+        </title>
+        <meta name="description" content={pageProps.node.join("/")} />
         <meta
           property="og:title"
           content={`${MAIN_LAYOUT_TITLE} - ${
             pageProps.node[pageProps.node.length - 1]
           }`}
         />
-        <meta name="description" content={pageProps.node.join("/")} />
+        <meta property="og:description" content={pageProps.node.join("/")} />
       </Head>
     </>
   );

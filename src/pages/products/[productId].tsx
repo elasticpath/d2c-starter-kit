@@ -60,6 +60,14 @@ Product.getLayout = function getLayout(page: ReactElement, pageProps, ctx?) {
           name="description"
           content={pageProps.product.attributes.description}
         />
+        <meta
+          property="og:title"
+          content={`${MAIN_LAYOUT_TITLE} - ${pageProps.product.attributes.name}`}
+        />
+        <meta
+          property="og:description"
+          content={pageProps.product.attributes.description}
+        />
       </Head>
     </>
   );
