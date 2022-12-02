@@ -8,6 +8,7 @@ import React from "react";
 import { BreadcrumbEntry, createBreadcrumb } from "./create-breadcrumb";
 import { BreadcrumbLookup } from "./types/breadcrumb-lookup";
 import { renderToString } from "react-dom/server";
+import { NextPageWithLayout } from "../pages/_app";
 
 export interface SearchQuery extends ParsedUrlQuery {
   nodeId: string;
@@ -23,7 +24,7 @@ export interface ISearch {
 
 export const getSearchSSRProps =
   (
-    SearchComponent: FunctionComponent<ISearch>,
+    SearchComponent: NextPageWithLayout<ISearch>,
     lookup: BreadcrumbLookup
   ): GetServerSideProps<ISearch, SearchQuery> =>
   async ({ req, params }) => {

@@ -10,7 +10,7 @@ import {
 import { getAllProducts, getProductById } from "../../services/products";
 import SimpleProductDetail from "../../components/product/SimpleProduct";
 import { ProductContext } from "../../lib/product-util";
-import { useState } from "react";
+import React, { ReactElement, useState } from "react";
 import type { IProduct } from "../../lib/types/product-types";
 
 import { withStoreStaticProps } from "../../lib/store-wrapper-ssg";
@@ -19,8 +19,11 @@ import {
   retrieveChildProps,
   retrieveSimpleProps,
 } from "../../lib/retrieve-product-props";
+import Head from "next/head";
+import { NextPageWithLayout } from "../_app";
+import { getMainLayout } from "../../lib/get-main-layout";
 
-export const Product: NextPage<IProduct> = (props: IProduct) => {
+export const Product: NextPageWithLayout<IProduct> = (props: IProduct) => {
   const [isChangingSku, setIsChangingSku] = useState(false);
 
   const { product } = props;
@@ -40,6 +43,22 @@ export const Product: NextPage<IProduct> = (props: IProduct) => {
         {resolveProductDetailComponent(props)}
       </ProductContext.Provider>
     </Container>
+  );
+};
+
+Product.getLayout = function getLayout(page: ReactElement, pageProps, ctx?) {
+  return (
+    <>
+      {getMainLayout(page, pageProps, ctx)}
+      <Head>
+        <title>{pageProps.product.attributes.name}</title>
+        <meta
+          name="description"
+          content={pageProps.product.attributes.description}
+        />
+      </Head>
+      {page}
+    </>
   );
 };
 
