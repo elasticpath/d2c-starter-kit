@@ -14,6 +14,7 @@ import type { ProductResponseWithImage } from "../../lib/types/product-types";
 import { connectProductsWithMainImages } from "../../lib/product-util";
 import { ArrowForwardIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { globalBaseWidth } from "../../styles/theme";
+import { ChakraNextImage } from "../ChakraNextImage";
 
 interface IFeaturedProductsBaseProps {
   title: string;
@@ -115,7 +116,7 @@ const FeaturedProducts = (props: IFeaturedProductsProps): JSX.Element => {
           >
             <Box width="100%" maxW={64} textAlign="center">
               {product.main_image?.link.href ? (
-                <Image
+                <ChakraNextImage
                   width={64}
                   height={64}
                   alt={product.main_image?.file_name || "Empty"}
@@ -138,9 +139,9 @@ const FeaturedProducts = (props: IFeaturedProductsProps): JSX.Element => {
                 </Center>
               )}
 
-              <Text p="2" fontWeight="semibold">
+              <Heading as="h6" p="2" fontWeight="semibold">
                 {product.attributes.name}
-              </Text>
+              </Heading>
               <Text>{product.meta.display_price?.without_tax.formatted}</Text>
             </Box>
           </Link>
