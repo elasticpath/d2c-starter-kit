@@ -1,4 +1,3 @@
-import Image from "next/image";
 import {
   Box,
   Container,
@@ -43,6 +42,7 @@ const Footer = (): JSX.Element => (
               _hover={{
                 color: "brand.primary",
               }}
+              aria-label="Go to repository on github"
             >
               <GithubIcon width={25} height={25} />
             </Link>
@@ -54,6 +54,7 @@ const Footer = (): JSX.Element => (
               _hover={{
                 color: "brand.primary",
               }}
+              aria-label="Go to Elasticpath home page"
             >
               <InfoIcon width={25} height={25} />
             </Link>
@@ -65,6 +66,7 @@ const Footer = (): JSX.Element => (
               _hover={{
                 color: "brand.primary",
               }}
+              aria-label="Go to Elasticpath contact us page"
             >
               <PhoneIcon width={25} height={25} />
             </Link>

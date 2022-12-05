@@ -7,7 +7,7 @@ import EpIcon from "../../../public/icons/ep-icon.svg";
 
 import NavBar from "./navigation/NavBar";
 import Link from "next/link";
-import CartMenu from "../cart/CartMenu";
+import CartMenu from "./cart/CartMenu";
 
 interface IHeader {
   nav: NavigationNode[];
@@ -43,7 +43,7 @@ const Header = ({ nav }: IHeader): JSX.Element => {
       >
         <Box flex={1} minW={16}>
           <Link href="/">
-            <a>
+            <a aria-label="Go to home page">
               <Box position="relative" minW={10} w={10} h={10}>
                 <EpIcon />
               </Box>

@@ -1,39 +1,60 @@
-import ProductCarousel from "../product/carousel/ProductCarousel";
-import { Box, Button, SimpleGrid, Stack } from "@chakra-ui/react";
-import ProductSummary from "../product/ProductSummary";
-import ProductExtensions from "../product/ProductExtensions";
+import { Box, Button, Center, SimpleGrid, Stack } from "@chakra-ui/react";
+import ProductSummary from "./ProductSummary";
 import CartActions from "../product/CartActions";
-import { IBase } from "../../lib/product-types";
+import { IBase } from "../../lib/types/product-types";
 import { ReactElement } from "react";
 import Link from "next/link";
+import { ViewOffIcon } from "@chakra-ui/icons";
+import ProductDetails from "../product/ProductDetails";
+import { ChakraNextImage } from "../ChakraNextImage";
 
 interface IProductContainer {
   productBase: IBase;
-  handleAddToCart: () => void;
   children?: ReactElement;
 }
 
 export default function ProductContainer({
-  productBase: { product, main_image, otherImages },
-  handleAddToCart,
+  productBase: { product, main_image },
   children,
 }: IProductContainer): JSX.Element {
-  const { extensions } = product.attributes;
   return (
     <SimpleGrid
-      columns={{ base: 1, lg: 2 }}
+      columns={{ base: 1, md: 2 }}
       spacing={{ base: 8, md: 10 }}
       py={{ base: 8 }}
     >
-      {main_image && (
-        <ProductCarousel images={otherImages} mainImage={main_image} />
+      {main_image ? (
+        <ChakraNextImage
+          src={main_image.link.href}
+          alt={product.attributes.name}
+          width={800}
+          height={800}
+          objectFit="cover"
+          objectPosition="center"
+          rounded="lg"
+          overflow="hidden"
+          maxH={{ base: "md", md: "xl" }}
+        />
+      ) : (
+        <Center
+          w="100%"
+          h="100%"
+          bg="gray.200"
+          color="white"
+          rounded="lg"
+          overflow="hidden"
+          maxH={{ base: "md", md: "xl" }}
+          minH={{ base: "md" }}
+        >
+          <ViewOffIcon w="10" h="10" />
+        </Center>
       )}
-      <Stack spacing={{ base: 6, md: 10 }}>
+      <Stack spacing="6">
         <ProductSummary product={product} />
-        {extensions && <ProductExtensions extensions={extensions} />}
+        <ProductDetails product={product} />
         {children}
         <Box>
-          <CartActions handleAddToCart={handleAddToCart} />
+          <CartActions productId={product.id} />
           <Link href={`/products/${product.id}`} passHref>
             <Button
               _hover={{

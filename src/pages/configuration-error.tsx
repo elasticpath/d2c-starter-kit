@@ -15,15 +15,15 @@ import {
 import NextLink from "next/link";
 import { menuItemStyleProps } from "../lib/menu-style";
 import { withStoreServerSideProps } from "../lib/store-wrapper-ssr";
-import { NextPage } from "next";
 import { globalBaseWidth } from "../styles/theme";
+import { NextPageWithLayout } from "./_app";
 
 interface IConfigurationError {
   from?: string;
   issues?: Record<string, string | string[]>;
 }
 
-export const ConfigurationError: NextPage = ({
+export const ConfigurationError: NextPageWithLayout = ({
   issues,
   from,
 }: IConfigurationError) => {
@@ -80,6 +80,8 @@ export const ConfigurationError: NextPage = ({
     </Flex>
   );
 };
+
+ConfigurationError.getLayout = (page) => page;
 
 export default ConfigurationError;
 

@@ -3,7 +3,7 @@ import type {
   ResourcePage,
   ShopperCatalogResource,
 } from "@moltin/sdk";
-import { wait300 } from "./helper";
+import { wait300 } from "../lib/product-helper";
 import { getEpccImplicitClient } from "../lib/epcc-implicit-client";
 import { Moltin as EPCCClient } from "@moltin/sdk";
 

@@ -10,7 +10,7 @@ import {
 import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { getProductsByNode } from "../../services/hierarchy";
-import type { ProductResponseWithImage } from "../../lib/product-types";
+import type { ProductResponseWithImage } from "../../lib/types/product-types";
 import { connectProductsWithMainImages } from "../../lib/product-util";
 import { ArrowForwardIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { globalBaseWidth } from "../../styles/theme";

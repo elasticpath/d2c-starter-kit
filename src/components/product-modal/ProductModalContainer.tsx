@@ -4,20 +4,21 @@ import {
   ModalCloseButton,
   ModalContent,
   ModalOverlay,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import Product from "./Product";
 import { getProductById } from "../../services/products";
 import {
   isChildProductResource,
   isSimpleProductResource,
-} from "../../services/helper";
+} from "../../lib/product-helper";
 import {
   retrieveBaseProps,
   retrieveChildProps,
   retrieveSimpleProps,
 } from "../../lib/retrieve-product-props";
 import { useEffect, useState } from "react";
-import { IProduct } from "../../lib/product-types";
+import { IProduct } from "../../lib/types/product-types";
 import { GetStaticPropsResult } from "next/types";
 
 interface ProductModalProps {
@@ -31,6 +32,15 @@ export const ProductModalContainer = ({
   isOpen,
   onClose,
 }: ProductModalProps) => {
+  const modalSize = useBreakpointValue(
+    {
+      base: "full",
+      md: "2xl",
+    },
+    {
+      fallback: "2xl",
+    }
+  );
   const [productProps, setProductProps] =
     useState<GetStaticPropsResult<IProduct>>();
 
@@ -52,10 +62,11 @@ export const ProductModalContainer = ({
   useEffect(() => {
     isOpen && fetchProduct(productId);
   }, [productId, isOpen]);
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onClose} size={modalSize}>
       <ModalOverlay />
-      <ModalContent maxW="90%" w="900px">
+      <ModalContent maxW={{ base: "unset", md: "42rem", lg: "56rem" }} w="100%">
         <ModalCloseButton />
         <ModalBody>
           {productProps && "props" in productProps && (

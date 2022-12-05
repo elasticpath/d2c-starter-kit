@@ -1,9 +1,6 @@
-import {
-  CartState,
-  PresentCartState,
-} from "../context/types/cart-reducer-types";
+import { CartState, PresentCartState } from "@elasticpath/react-shopper-hooks";
 import { ICart } from "../components/cart/Cart";
-import { getPresentCartState } from "./get-present-cart-state";
+import { getPresentCartState } from "@elasticpath/react-shopper-hooks";
 
 export function resolveShoppingCartProps(
   state: CartState,

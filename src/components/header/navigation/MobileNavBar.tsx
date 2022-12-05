@@ -25,7 +25,7 @@ import { NavigationNode } from "../../../lib/build-site-navigation";
 
 import SearchModal from "../../search/SearchModal";
 import NavItemContent from "./NavItemContent";
-import CartMenu from "../../cart/CartMenu";
+import CartMenu from "../cart/CartMenu";
 
 import EpIcon from "../../../../public/icons/ep-icon.svg";
 
@@ -39,13 +39,18 @@ const MobileNavBar = ({ nav }: IMobileNavBar): JSX.Element => {
   return (
     <Grid templateColumns="1fr auto 1fr" w="full">
       <GridItem>
-        <Button variant="ghost" color="gray.800" onClick={onOpen}>
+        <Button
+          variant="ghost"
+          color="gray.800"
+          onClick={onOpen}
+          aria-label="Menu"
+        >
           <HamburgerIcon />
         </Button>
       </GridItem>
       <GridItem>
         <Link href="/">
-          <a>
+          <a aria-label="Go to home page">
             <Box position="relative" minW={10} w={10} h={10}>
               <EpIcon />
             </Box>

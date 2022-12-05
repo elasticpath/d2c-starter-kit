@@ -3,16 +3,19 @@ import type { CatalogsProductVariation } from "@moltin/sdk";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 import { useEffect, useState } from "react";
-import { OptionDict } from "../../lib/product-types";
+import { OptionDict } from "../../lib/types/product-types";
 import { createEmptyOptionDict, ProductContext } from "../../lib/product-util";
 import {
   allVariationsHaveSelectedOption,
   getOptionsFromSkuId,
   getSkuIdFromOptions,
   mapOptionsToVariation,
-  MatrixObjectEntry,
-} from "../../services/helper";
-import ProductVariation, { UpdateOptionHandler } from "./ProductVariation";
+} from "../../lib/product-helper";
+import ProductVariationStandard, {
+  UpdateOptionHandler,
+} from "./variations/ProductVariationStandard";
+import ProductVariationColor from "./variations/ProductVariationColor";
+import { MatrixObjectEntry } from "../../lib/types/matrix-object-entry";
 
 interface IProductVariations {
   variations: CatalogsProductVariation[];
@@ -52,6 +55,7 @@ const ProductVariations = ({
     );
 
     if (
+      !context?.isChangingSku &&
       selectedSkuId &&
       selectedSkuId !== currentSkuId &&
       allVariationsHaveSelectedOption(selectedOptions, variations)
@@ -87,16 +91,42 @@ const ProductVariations = ({
 
   return (
     <Stack opacity={context?.setIsChangingSku ? "50" : "100"}>
-      {variations.map((v) => (
-        <ProductVariation
-          key={v.id}
-          variation={v}
-          updateOptionHandler={updateOptionHandler}
-          selectedOptionId={getSelectedOption(v.id, selectedOptions)}
-        />
-      ))}
+      {variations.map((v) =>
+        resolveVariationComponentByName(
+          v,
+          updateOptionHandler,
+          getSelectedOption(v.id, selectedOptions)
+        )
+      )}
     </Stack>
   );
 };
+
+function resolveVariationComponentByName(
+  v: CatalogsProductVariation,
+  updateOptionHandler: UpdateOptionHandler,
+  selectedOptionId?: string
+): JSX.Element {
+  switch (v.name.toLowerCase()) {
+    case "color":
+      return (
+        <ProductVariationColor
+          key={v.id}
+          variation={v}
+          updateOptionHandler={updateOptionHandler}
+          selectedOptionId={selectedOptionId}
+        />
+      );
+    default:
+      return (
+        <ProductVariationStandard
+          key={v.id}
+          variation={v}
+          updateOptionHandler={updateOptionHandler}
+          selectedOptionId={selectedOptionId}
+        />
+      );
+  }
+}
 
 export default ProductVariations;

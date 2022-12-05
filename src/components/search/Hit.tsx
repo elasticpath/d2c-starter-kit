@@ -64,21 +64,20 @@ export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
         >
           {ep_description}
         </Text>
-        <Text fontSize="md" fontWeight="semibold" mt="1">
-          {ep_price && (
-            <Flex alignItems="center">
-              <Price price={ep_price["USD"].formatted_price} currency="USD" />
-              {ep_price["USD"].sale_prices && (
-                <StrikePrice
-                  price={
-                    ep_price["USD"].sale_prices.original_price.formatted_price
-                  }
-                  currency="USD"
-                />
-              )}
-            </Flex>
-          )}
-        </Text>
+        {ep_price && (
+          <Flex alignItems="center" mt="1">
+            <Price price={ep_price["USD"].formatted_price} currency="USD" />
+            {ep_price["USD"].sale_prices && (
+              <StrikePrice
+                price={
+                  ep_price["USD"].sale_prices.original_price.formatted_price
+                }
+                currency="USD"
+                fontSize="lg"
+              />
+            )}
+          </Flex>
+        )}
         <Button
           rounded="md"
           w="full"

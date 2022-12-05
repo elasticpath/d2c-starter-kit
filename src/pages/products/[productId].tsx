@@ -6,12 +6,12 @@ import BaseProductDetail from "../../components/product/BaseProduct";
 import {
   isChildProductResource,
   isSimpleProductResource,
-} from "../../services/helper";
+} from "../../lib/product-helper";
 import { getAllProducts, getProductById } from "../../services/products";
 import SimpleProductDetail from "../../components/product/SimpleProduct";
 import { ProductContext } from "../../lib/product-util";
-import { useCallback, useState } from "react";
-import type { IProduct } from "../../lib/product-types";
+import { useState } from "react";
+import type { IProduct } from "../../lib/types/product-types";
 
 import { withStoreStaticProps } from "../../lib/store-wrapper-ssg";
 import {
@@ -19,58 +19,38 @@ import {
   retrieveChildProps,
   retrieveSimpleProps,
 } from "../../lib/retrieve-product-props";
-import { useCart } from "../../context/use-cart-hook";
 
 export const Product: NextPage<IProduct> = (props: IProduct) => {
-  const { addProductToCart } = useCart();
   const [isChangingSku, setIsChangingSku] = useState(false);
 
   const { product } = props;
 
-  const handleAddToCart = useCallback(async () => {
-    return addProductToCart(product.id, 1);
-  }, [product, addProductToCart]);
-
   return (
-    <Container maxW="7xl" key={"page_" + product.id}>
+    <Container
+      maxW={{ base: "3xl", lg: "7xl" }}
+      py={{ base: 18, md: 20 }}
+      key={"page_" + product.id}
+    >
       <ProductContext.Provider
         value={{
           isChangingSku,
           setIsChangingSku,
         }}
       >
-        {resolveProductDetailComponent(props, handleAddToCart)}
+        {resolveProductDetailComponent(props)}
       </ProductContext.Provider>
     </Container>
   );
 };
 
-function resolveProductDetailComponent(
-  props: IProduct,
-  handleAddToCart: () => void
-): JSX.Element {
+function resolveProductDetailComponent(props: IProduct): JSX.Element {
   switch (props.kind) {
     case "base-product":
-      return (
-        <BaseProductDetail
-          baseProduct={props}
-          handleAddToCart={handleAddToCart}
-        />
-      );
+      return <BaseProductDetail baseProduct={props} />;
     case "child-product":
-      return (
-        <ChildProductDetail
-          childProduct={props}
-          handleAddToCart={handleAddToCart}
-        />
-      );
+      return <ChildProductDetail childProduct={props} />;
     case "simple-product":
-      return (
-        <SimpleProductDetail
-          simpleProduct={props}
-          handleAddToCart={handleAddToCart}
-        />
-      );
+      return <SimpleProductDetail simpleProduct={props} />;
   }
 }
 

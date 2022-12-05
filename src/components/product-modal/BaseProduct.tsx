@@ -1,15 +1,13 @@
-import { IBaseProduct } from "../../lib/product-types";
-import ModalProductVariations from "./ModalProductVariations";
+import { IBaseProduct } from "../../lib/types/product-types";
+import ProductVariations from "./ProductVariations";
 import ProductContainer from "./ProductContainer";
 
 interface IBaseProductDetail {
   baseProduct: IBaseProduct;
-  handleAddToCart: () => void;
 }
 
 const BaseProductDetail = ({
   baseProduct,
-  handleAddToCart,
 }: IBaseProductDetail): JSX.Element => {
   const {
     product: { attributes, id },
@@ -17,12 +15,9 @@ const BaseProductDetail = ({
     variationsMatrix,
   } = baseProduct;
   return (
-    <ProductContainer
-      handleAddToCart={handleAddToCart}
-      productBase={baseProduct}
-    >
+    <ProductContainer productBase={baseProduct}>
       {variations && (
-        <ModalProductVariations
+        <ProductVariations
           variations={variations}
           variationsMatrix={variationsMatrix}
           baseProductSlug={attributes.slug}

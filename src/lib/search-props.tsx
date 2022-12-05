@@ -7,6 +7,7 @@ import type { FunctionComponent } from "react";
 import React from "react";
 import { BreadcrumbEntry, createBreadcrumb } from "./create-breadcrumb";
 import { BreadcrumbLookup } from "./types/breadcrumb-lookup";
+import { renderToString } from "react-dom/server";
 
 export interface SearchQuery extends ParsedUrlQuery {
   nodeId: string;
@@ -29,7 +30,6 @@ export const getSearchSSRProps =
     const protocol = req.headers.referer?.split("://")[0] || "https";
     const url = `${protocol}://${req.headers.host}${req.url}`;
     const node = (params?.node as string[]) ?? [];
-
     const breadcrumbEntries = createBreadcrumb(node, lookup);
 
     const algoliaServerState = await getServerState(
@@ -38,7 +38,8 @@ export const getSearchSSRProps =
         node={node}
         breadcrumbEntries={breadcrumbEntries}
         lookup={lookup}
-      />
+      />,
+      { renderToString }
     );
 
     return {

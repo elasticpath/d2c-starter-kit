@@ -12,10 +12,6 @@ export type NextRouterHandlerProps<TRouteParams> = {
   writeDelay?: number;
 };
 
-function removeSearchParams(url: string) {
-  return url.replace(/(\?.+)/, "");
-}
-
 function removeUndefinedParams<TRouteParams>(
   params: TRouteParams
 ): Record<string, string | string[]> {
@@ -53,25 +49,12 @@ function NextRouterHandler<
 }: NextRouterHandlerProps<TRouteParams>) {
   const router = useRouter();
   const { use, setUiState } = useInstantSearch();
-  const [isLeaving, setIsLeaving] = useState(false);
   const [stableQuery, setStableQuery] = useState(router?.query || {});
   const routerPushTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   if (!dequal(stableQuery, router?.query || {})) {
     setStableQuery(router?.query || {});
   }
-
-  // Track router path
-  useEffect(() => {
-    function onRouteChangeStart(url: string) {
-      if (removeSearchParams(url) !== removeSearchParams(router.asPath)) {
-        setIsLeaving(true);
-      }
-    }
-
-    router.events.on("routeChangeStart", onRouteChangeStart);
-    return () => router.events.off("routeChangeStart", onRouteChangeStart);
-  }, [router]);
 
   // Route to state
   useEffect(() => {
@@ -82,10 +65,6 @@ function NextRouterHandler<
 
   // State to route
   useEffect(() => {
-    if (isLeaving) {
-      return;
-    }
-
     return use(() => ({
       onStateChange({ uiState }) {
         if (routerPushTimerRef.current) {
@@ -99,15 +78,20 @@ function NextRouterHandler<
           // If nodes defined then dynamic path name otherwise standard
           const pathname = query.node ? "/search/[...node]" : "/search";
 
-          router.push({
-            pathname,
-            query,
-          });
+          router.push(
+            {
+              pathname,
+              query,
+            },
+            undefined,
+            // Shallow set to true prevents us from calling getServerSideProps
+            { shallow: true }
+          );
         }, writeDelay);
       },
     }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [use, isLeaving]);
+  }, [use]);
 
   return null;
 }
@@ -128,8 +112,14 @@ export function useNextRouterHandler<
     setStableDynamicRouteQuery(dynamicRouteQuery);
   }
 
+  const params = urlToParams(url);
+  const nodePath = new URL(url).pathname.replace("/search/", "").split("/");
+
   return {
-    initialUiState: routeToState(urlToParams(url) as TRouteParams),
+    initialUiState: routeToState({
+      ...params,
+      node: nodePath,
+    } as unknown as TRouteParams),
     NextRouterHandler: useCallback(
       () =>
         NextRouterHandler({

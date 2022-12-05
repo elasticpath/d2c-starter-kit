@@ -1,7 +1,7 @@
 import { getCookie } from "cookies-next";
 import { COOKIE_PREFIX_KEY } from "./resolve-cart-env";
 import { ParsedUrlQuery } from "querystring";
-import { GetServerSidePropsContext } from "next";
+import type { GetServerSidePropsContext } from "next";
 import { parseCookies } from "./parse-cookie";
 
 /**
