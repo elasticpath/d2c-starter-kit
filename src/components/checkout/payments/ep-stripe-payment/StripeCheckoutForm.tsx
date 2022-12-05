@@ -4,7 +4,7 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { useCart } from "../../../../context/use-cart-hook";
+import { useCart } from "@elasticpath/react-shopper-hooks";
 import { Text } from "@chakra-ui/react";
 
 export default function StripeCheckoutForm({

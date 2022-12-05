@@ -18,7 +18,7 @@ import { ConfirmPaymentResponse, PaymentRequestBody } from "@moltin/sdk";
 import ShippingForm from "./ShippingForm";
 import CustomFormControl from "./CustomFormControl";
 import BillingForm from "./BillingForm";
-import { useCart } from "../../context/use-cart-hook";
+import { useCart } from "@elasticpath/react-shopper-hooks";
 import EpStripePayment from "./payments/ep-stripe-payment/EpStripePayment";
 import { confirmOrder, makePayment } from "../../services/checkout";
 import { useState } from "react";
