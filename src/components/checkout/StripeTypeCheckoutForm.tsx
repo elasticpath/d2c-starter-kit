@@ -122,7 +122,6 @@ export default function StripeTypeCheckoutForm({
               const payment: PaymentRequestBody = {
                 gateway: "elastic_path_payments_stripe",
                 method: "purchase",
-                //@ts-ignore : in js-sdk update the "ElasticPathStripePayment" interface
                 payment_method_types: ["card"],
               };
               const paymentResponse = await makePayment(
