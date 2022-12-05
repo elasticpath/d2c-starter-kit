@@ -135,7 +135,9 @@ const FeaturedProducts = (props: IFeaturedProductsProps): JSX.Element => {
               <Heading size="sm" p="2" fontWeight="semibold">
                 {product.attributes.name}
               </Heading>
-              <Text>{product.meta.display_price?.without_tax.formatted}</Text>
+              <Heading size="sm">
+                {product.meta.display_price?.without_tax.formatted}
+              </Heading>
             </Box>
           </Link>
         ))}
