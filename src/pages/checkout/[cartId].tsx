@@ -21,16 +21,19 @@ import { OrderCompleteState } from "../../components/checkout/types/order-pendin
 import { PresentCartState } from "@elasticpath/react-shopper-hooks";
 import { CheckoutForm as CheckoutFormType } from "../../components/checkout/form-schema/checkout-form-schema";
 import OrderComplete from "../../components/cart/OrderComplete";
+import StripeTypeCheckoutForm from "../../components/checkout/StripeTypeCheckoutForm";
 
 interface ICheckout {
   cart: ResourceIncluded<Cart, CartIncluded>;
 }
 
 export const Checkout: NextPage<ICheckout> = () => {
-  const { state, checkout } = useCart();
+  const { state, checkout, stripeIntent } = useCart();
   const [orderCompleteState, setOrderCompleteState] = useState<
     OrderCompleteState | undefined
   >(undefined);
+
+  const showEpStripePaymentGateway = true;
 
   const showCompletedOrder = useCallback(
     function (cart: PresentCartState) {
@@ -63,7 +66,7 @@ export const Checkout: NextPage<ICheckout> = () => {
         <OrderComplete state={orderCompleteState} />
       ) : (
         <>
-          <Heading as="h1" pb={6} size={{ base: "md", sm: "lg" }}>
+          <Heading as="h1" pb={4} size={{ base: "md", sm: "lg" }}>
             Checkout
           </Heading>
           {presentCart && (
@@ -78,10 +81,17 @@ export const Checkout: NextPage<ICheckout> = () => {
                 rowStart={{ base: 2, md: 1 }}
                 colStart={{ base: 1, md: 1 }}
               >
-                <CheckoutForm
-                  checkout={checkout}
-                  showCompletedOrder={showCompletedOrder(presentCart)}
-                />
+                {showEpStripePaymentGateway ? (
+                  <StripeTypeCheckoutForm
+                    checkout={stripeIntent}
+                    showCompletedOrder={showCompletedOrder(presentCart)}
+                  />
+                ) : (
+                  <CheckoutForm
+                    checkout={checkout}
+                    showCompletedOrder={showCompletedOrder(presentCart)}
+                  />
+                )}
               </GridItem>
               <GridItem rowStart={{ base: 1 }} colStart={{ base: 1, md: 2 }}>
                 <OrderSummary
