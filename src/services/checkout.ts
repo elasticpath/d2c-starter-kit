@@ -5,6 +5,7 @@ import type {
   CheckoutCustomerObject,
   Moltin as EPCCClient,
   ConfirmPaymentResponse,
+  TransactionsResponse,
 } from "@moltin/sdk";
 import { getEpccImplicitClient } from "../lib/epcc-implicit-client";
 
@@ -38,4 +39,15 @@ export function confirmOrder(
     transactionId,
     { data: {} }
   );
+}
+
+export function captureOrder(
+  order: string,
+  transaction: string,
+  client?: EPCCClient
+): Promise<TransactionsResponse> {
+  return (client ?? getEpccImplicitClient()).Transactions.Capture({
+    order,
+    transaction,
+  });
 }
