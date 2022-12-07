@@ -22,7 +22,7 @@
     "@elasticpath/react-shopper-hooks": "0.1.1",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
-    "@moltin/sdk": "^18.1.0",
+    "@moltin/sdk": "^20.0.0",
     "@stripe/react-stripe-js": "^1.11.0",
     "@stripe/stripe-js": "^1.38.1",
     "@types/react-stripe-elements": "^6.0.6",
