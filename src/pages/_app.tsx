@@ -21,8 +21,9 @@ interface CustomAppProps {
   store: StoreContext | undefined;
 }
 
-export type GetLayoutFn = (
+export type GetLayoutFn<P> = (
   page: ReactElement,
+  pageProps: P,
   storeContext?: StoreContext
 ) => ReactNode;
 
@@ -30,7 +31,7 @@ export type GetLayoutFn = (
  * Adds getLayout function as possible prop on Components
  */
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-  getLayout?: GetLayoutFn;
+  getLayout?: GetLayoutFn<P>;
 };
 
 function MyApp({ Component, pageProps }: AppProps<CustomAppProps>) {
@@ -38,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps<CustomAppProps>) {
   return (
     <ChakraProvider theme={theme}>
       <StoreNextJSProvider storeContext={pageProps.store}>
-        {getLayout(<Component {...pageProps} />, pageProps.store)}
+        {getLayout(<Component {...pageProps} />, pageProps, pageProps.store)}
       </StoreNextJSProvider>
     </ChakraProvider>
   );

@@ -38,7 +38,7 @@ const Home: NextPage<IHome> = ({ promotion, featuredProducts }) => {
             <FeaturedProducts
               title="Trending Products"
               linkProps={{
-                link: `/category/${nodeId}`,
+                link: `/search`,
                 text: "See all products",
               }}
               type="provided"

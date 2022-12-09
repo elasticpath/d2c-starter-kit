@@ -11,8 +11,9 @@ import { ISearch } from "../../lib/search-props";
 import { useNextRouterHandler } from "../../lib/use-next-router-handler";
 import { resolveRouting } from "../../lib/algolia-search-routing";
 import Breadcrumb from "../breadcrumb";
+import { NextPageWithLayout } from "../../pages/_app";
 
-export const Search = ({
+export const Search: NextPageWithLayout<ISearch> = ({
   algoliaServerState,
   url,
   node,

@@ -1,9 +1,9 @@
 import type { GetServerSideProps } from "next";
+import type { NextPage } from "next";
 import type { ParsedUrlQuery } from "querystring";
 import type { InstantSearchServerState } from "react-instantsearch-hooks-web";
 
 import { getServerState } from "react-instantsearch-hooks-server";
-import type { FunctionComponent } from "react";
 import React from "react";
 import { BreadcrumbEntry, createBreadcrumb } from "./create-breadcrumb";
 import { BreadcrumbLookup } from "./types/breadcrumb-lookup";
@@ -23,7 +23,7 @@ export interface ISearch {
 
 export const getSearchSSRProps =
   (
-    SearchComponent: FunctionComponent<ISearch>,
+    SearchComponent: NextPage<ISearch>,
     lookup: BreadcrumbLookup
   ): GetServerSideProps<ISearch, SearchQuery> =>
   async ({ req, params }) => {

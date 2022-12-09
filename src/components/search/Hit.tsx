@@ -11,12 +11,12 @@ import {
   LinkOverlay,
   Text,
   useColorModeValue,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { ViewOffIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 import Price from "../product/Price";
 import StrikePrice from "../product/StrikePrice";
-import { useDisclosure } from "@chakra-ui/react";
 import { ProductModalContainer } from "../product-modal/ProductModalContainer";
 
 export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
