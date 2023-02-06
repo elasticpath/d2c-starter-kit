@@ -18,6 +18,7 @@ import Link from "next/link";
 import Price from "../product/Price";
 import StrikePrice from "../product/StrikePrice";
 import { ProductModalContainer } from "../product-modal/ProductModalContainer";
+import { EP_CURRENCY_CODE } from "../../lib/resolve-ep-currency-code";
 
 export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
   const { ep_price, ep_name, objectID, ep_main_image_url, ep_description } =
@@ -66,13 +67,17 @@ export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
         </Text>
         {ep_price && (
           <Flex alignItems="center" mt="1">
-            <Price price={ep_price["USD"].formatted_price} currency="USD" />
-            {ep_price["USD"].sale_prices && (
+            <Price
+              price={ep_price[EP_CURRENCY_CODE].formatted_price}
+              currency={EP_CURRENCY_CODE}
+            />
+            {ep_price[`${EP_CURRENCY_CODE}`].sale_prices && (
               <StrikePrice
                 price={
-                  ep_price["USD"].sale_prices.original_price.formatted_price
+                  ep_price[`${EP_CURRENCY_CODE}`].sale_prices?.original_price
+                    .formatted_price || "USD"
                 }
-                currency="USD"
+                currency={EP_CURRENCY_CODE}
                 fontSize="lg"
               />
             )}
