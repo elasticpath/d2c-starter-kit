@@ -25,6 +25,9 @@ import MobileFilters from "./MobileFilters";
 import { hierarchicalAttributes } from "../../lib/hierarchical-attributes";
 import PriceRangeSlider from "./price-range-slider/PriceRangeSliderWrapper";
 import ProductSpecification from "./product-specification/ProductSpecification";
+import { EP_CURRENCY_CODE } from "../../lib/resolve-ep-currency-code";
+
+const EP_ROUTE_PRICE = `ep_price.${EP_CURRENCY_CODE}.float_price`;
 
 interface ISearchResults {
   lookup?: BreadcrumbLookup;
@@ -116,7 +119,7 @@ export default function SearchResults({
             lookup={lookup}
             attributes={hierarchicalAttributes}
           />
-          <PriceRangeSlider attribute="ep_price.USD.float_price" />
+          <PriceRangeSlider attribute={EP_ROUTE_PRICE} />
           <ProductSpecification />
         </GridItem>
 
