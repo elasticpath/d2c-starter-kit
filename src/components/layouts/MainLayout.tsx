@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import type { NavigationNode } from "../../lib/build-site-navigation";
 import { Toaster } from "../toast/toaster";
 import Head from "next/head";
-export const MAIN_LAYOUT_TITLE = "D2C Starter Kit";
+export const MAIN_LAYOUT_TITLE = "Elastic Path Swag";
 
 interface IMainLayout {
   nav: NavigationNode[];
