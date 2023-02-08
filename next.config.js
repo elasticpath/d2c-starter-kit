@@ -5,7 +5,7 @@
  **/
 const nextConfig = {
   images: {
-    domains: ["files-eu.epusercontent.com"],
+    domains: ["files.cdn.printful.com", "files-eu.epusercontent.com"],
   },
   experimental: { images: { allowFutureImage: true } },
   i18n: {
