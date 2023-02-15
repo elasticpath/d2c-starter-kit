@@ -1,11 +1,12 @@
 import { algoliaEnvData } from "./resolve-algolia-env";
 import { RouterParams } from "./types/search-query-params";
 import { NextRouterHandlerProps } from "./use-next-router-handler";
+import { EP_CURRENCY_CODE } from "../lib/resolve-ep-currency-code";
 
 const EP_ROUTE_CATEGORY = "ep_slug_categories.lvl0";
 const EP_ROUTE_BRAND = "ep_extensions_products_specifications.brand";
 const EP_ROUTE_ON_SALE = "ep_extensions_products_specifications.on-sale";
-const EP_ROUTE_PRICE = "ep_price.USD.float_price";
+const EP_ROUTE_PRICE = `ep_price.${EP_CURRENCY_CODE}.float_price`;
 const EP_ROUTE_COLOR = "ep_extensions_products_specifications.color";
 
 export function resolveRouting(

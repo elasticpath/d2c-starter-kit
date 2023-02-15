@@ -35,6 +35,7 @@ import { SearchHit } from "./SearchHit";
 import { searchClient } from "../../lib/search-client";
 import { algoliaEnvData } from "../../lib/resolve-algolia-env";
 import { useDebouncedEffect } from "../../lib/use-debounced";
+import { EP_CURRENCY_CODE } from "../../lib/resolve-ep-currency-code";
 
 const SearchBox = ({
   onChange,
@@ -142,7 +143,7 @@ const HitComponent = ({ hit }: { hit: SearchHit }) => {
         </GridItem>
         <GridItem colSpan={2}>
           <Text fontSize="sm" fontWeight="semibold">
-            {ep_price["USD"].formatted_price}
+            {ep_price[EP_CURRENCY_CODE].formatted_price}
           </Text>
         </GridItem>
       </Grid>
