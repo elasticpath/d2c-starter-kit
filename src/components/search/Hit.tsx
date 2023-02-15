@@ -66,13 +66,13 @@ export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
         </Text>
         {ep_price && (
           <Flex alignItems="center" mt="1">
-            <Price price={ep_price["USD"].formatted_price} currency="USD" />
-            {ep_price["USD"].sale_prices && (
+            <Price price={ep_price["GBP"].formatted_price} currency="GBP" />
+            {ep_price["GBP"].sale_prices && (
               <StrikePrice
                 price={
-                  ep_price["USD"].sale_prices.original_price.formatted_price
+                  ep_price["GBP"].sale_prices.original_price.formatted_price
                 }
-                currency="USD"
+                currency="GBP"
                 fontSize="lg"
               />
             )}

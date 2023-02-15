@@ -17,6 +17,7 @@ const MainLayout = ({ nav, children }: IMainLayout): JSX.Element => {
     <>
       <Head>
         <title>{MAIN_LAYOUT_TITLE}</title>
+		<meta name="google-site-verification" content="ZHKwFozWmHiRJM2jQbmay4aCi-OS5i6-HIAtE6DJl0E" />
         <meta
           name="description"
           content="D2C Starter Kit - a store front starter for Elastic Path Commerce Cloud"
