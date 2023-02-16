@@ -31,7 +31,7 @@ const Footer = (): JSX.Element => (
           <Link href="/faq">FAQ</Link>
         </Stack>
         <Stack align="flex-start">
-          <Link href="/about">About</Link>
+          <Link href="/content/about">About</Link>
           <Link href="/terms">Terms</Link>
         </Stack>
         <Stack align="flex-start"></Stack>

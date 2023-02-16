@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@algolia/react-instantsearch-widget-color-refinement-list": "^1.4.7",
+    "@builder.io/react": "^2.0.13",
     "@chakra-ui/icons": "^2.0.8",
     "@chakra-ui/react": "^2.2.8",
     "@elasticpath/react-shopper-hooks": "0.1.1",
