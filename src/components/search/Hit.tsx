@@ -23,7 +23,8 @@ import { EP_CURRENCY_CODE } from "../../lib/resolve-ep-currency-code";
 export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
   const { ep_price, ep_name, objectID, ep_main_image_url, ep_description } =
     hit;
-  const currency_price = ep_price[EP_CURRENCY_CODE];
+
+  const currencyPrice = ep_price?.[EP_CURRENCY_CODE];
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -66,17 +67,15 @@ export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
         >
           {ep_description}
         </Text>
-        {ep_price && (
+        {currencyPrice && (
           <Flex alignItems="center" mt="1">
             <Price
-              price={currency_price.formatted_price}
+              price={currencyPrice.formatted_price}
               currency={EP_CURRENCY_CODE}
             />
-            {currency_price.sale_prices && (
+            {currencyPrice.sale_prices && (
               <StrikePrice
-                price={
-                  currency_price.sale_prices.original_price.formatted_price
-                }
+                price={currencyPrice.sale_prices.original_price.formatted_price}
                 currency={EP_CURRENCY_CODE}
                 fontSize="lg"
               />

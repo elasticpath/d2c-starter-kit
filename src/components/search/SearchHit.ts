@@ -36,7 +36,7 @@ export interface SearchHit extends BaseHit {
   ep_categories: string[];
   ep_description: string;
   ep_name: string;
-  ep_price: HitPrice;
+  ep_price?: HitPrice;
   ep_sku: string;
   ep_slug: string;
   ep_main_image_url: string;

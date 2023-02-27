@@ -103,6 +103,9 @@ const SearchBox = ({
 const HitComponent = ({ hit }: { hit: SearchHit }) => {
   const { ep_price, ep_main_image_url, ep_name, ep_sku, ep_slug, objectID } =
     hit;
+
+  const currencyPrice = ep_price?.[EP_CURRENCY_CODE];
+
   return (
     <LinkBox>
       <Grid
@@ -142,9 +145,11 @@ const HitComponent = ({ hit }: { hit: SearchHit }) => {
           </Text>
         </GridItem>
         <GridItem colSpan={2}>
-          <Text fontSize="sm" fontWeight="semibold">
-            {ep_price[EP_CURRENCY_CODE].formatted_price}
-          </Text>
+          {currencyPrice && (
+            <Text fontSize="sm" fontWeight="semibold">
+              {currencyPrice.formatted_price}
+            </Text>
+          )}
         </GridItem>
       </Grid>
     </LinkBox>
