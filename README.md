@@ -83,6 +83,15 @@ First, make a copy of the `.env.example` and rename it to `.env.local.` Set at l
 
 Add `NEXT_PUBLIC_DEFAULT_CURRENCY_CODE` value in your environment file. Make sure you use ISO currency code in uppercase e.g. USD, GBP, EUR, CAD etc.
 
+### Setup EP Payment
+
+Add `NEXT_PUBLIC_STRIPE_ACCOUNT_ID` and `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` value in your environment file. Make sure you use Stripe connect account to use EP Payment.
+
+- NEXT_PUBLIC_STRIPE_ACCOUNT_ID
+  - You will able to see account id in your Stripe profile. Go to https://dashboard.stripe.com/settings/user and under the Account section you will able to see your account id.
+- NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  - Please contact Elastic Path Customer Service team to get the publishable key.
+
 ### Setup Algolia index
 
 > :tired_face: We recognise manually configuring Algolia in this way is a pain. We are working on tools to streamline this process.
