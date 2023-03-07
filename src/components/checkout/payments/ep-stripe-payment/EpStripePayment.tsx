@@ -6,12 +6,11 @@ import {
 } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import StripeCheckoutForm from "./StripeCheckoutForm";
-import { STRIPE_PUBLISHABLE_KEY } from "../../../../lib/resolve-ep-stripe-env";
-import { STRIPE_ACCOUNT_ID } from "../../../../lib/resolve-ep-stripe-env";
+import { epPaymentsEnvData } from "../../../../lib/resolve-ep-stripe-env";
 import styles from "./EpStripePayment.module.scss";
 
-const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY, {
-  stripeAccount: STRIPE_ACCOUNT_ID,
+const stripePromise = loadStripe(epPaymentsEnvData.publishableKey, {
+  stripeAccount: epPaymentsEnvData.accountId,
 });
 
 export default function EpStripePayment({

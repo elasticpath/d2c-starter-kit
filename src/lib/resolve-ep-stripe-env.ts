@@ -1,7 +1,13 @@
-export const STRIPE_PUBLISHABLE_KEY = stripeEnv();
-export const STRIPE_ACCOUNT_ID = retrieveStripeAccountId();
+export const epPaymentsEnvData = epPaymentsEnv();
 
-function stripeEnv(): string {
+function epPaymentsEnv() {
+  return {
+    publishableKey: retrieveStripePublishableKey(),
+    accountId: retrieveStripeAccountId(),
+  };
+}
+
+function retrieveStripePublishableKey(): string {
   const stripePublishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
   if (!stripePublishableKey) {
     throw new Error(
