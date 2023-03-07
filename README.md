@@ -88,7 +88,7 @@ Add `NEXT_PUBLIC_DEFAULT_CURRENCY_CODE` value in your environment file. Make sur
 Add `NEXT_PUBLIC_STRIPE_ACCOUNT_ID` and `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` value in your environment file. Make sure you use Stripe connect account to use EP Payment.
 
 - NEXT_PUBLIC_STRIPE_ACCOUNT_ID
-  - You will able to see account id in your Stripe profile. Go to https://dashboard.stripe.com/settings/user and under the Account section you will able to see your account id.
+  - You will able to see account id in your Stripe profile. Go to https://dashboard.stripe.com/settings/account and you will able to see your account id.
 - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
   - Please contact Elastic Path Customer Service team to get the publishable key.
 
