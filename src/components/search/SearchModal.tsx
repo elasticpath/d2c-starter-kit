@@ -128,9 +128,7 @@ const HitComponent = ({ hit }: { hit: SearchHit }) => {
         </GridItem>
         <GridItem colSpan={4}>
           <Heading size="sm">
-            <LinkOverlay href={`/products/${ep_slug}/${objectID}`}>
-              {ep_name}
-            </LinkOverlay>
+            <LinkOverlay href={`/products/${objectID}`}>{ep_name}</LinkOverlay>
           </Heading>
         </GridItem>
         <GridItem colSpan={4}>

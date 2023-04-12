@@ -24,6 +24,7 @@ import { NextPageWithLayout } from "../_app";
 import MainLayout, {
   MAIN_LAYOUT_TITLE,
 } from "../../components/layouts/MainLayout";
+import Reviews from "../../components/reviews/yotpo/Reviews";
 
 export const Product: NextPageWithLayout<IProduct> = (props: IProduct) => {
   const [isChangingSku, setIsChangingSku] = useState(false);
@@ -44,6 +45,7 @@ export const Product: NextPageWithLayout<IProduct> = (props: IProduct) => {
       >
         {resolveProductDetailComponent(props)}
       </ProductContext.Provider>
+      <Reviews product={product} />
     </Container>
   );
 };

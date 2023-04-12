@@ -7,6 +7,7 @@ import { connectProductsWithMainImages } from "../../lib/product-util";
 import { ArrowForwardIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { globalBaseWidth } from "../../styles/theme";
 import { ChakraNextImage } from "../ChakraNextImage";
+import { Ratings } from "../reviews/yotpo/Reviews";
 
 interface IFeaturedProductsBaseProps {
   title: string;
@@ -104,7 +105,7 @@ const FeaturedProducts = (props: IFeaturedProductsProps): JSX.Element => {
             p={4}
             flex={{ base: "100%", md: "50%", lg: "25%" }}
             key={product.id}
-            href="/category"
+            href={`/products/${product.id}`}
           >
             <Box width="100%" maxW={64} textAlign="center">
               {product.main_image?.link.href ? (
@@ -135,6 +136,7 @@ const FeaturedProducts = (props: IFeaturedProductsProps): JSX.Element => {
               <Heading size="sm" p="2" fontWeight="semibold">
                 {product.attributes.name}
               </Heading>
+              <Ratings product={product} displayFromProduct={true} />
               <Heading size="sm">
                 {product.meta.display_price?.without_tax.formatted}
               </Heading>

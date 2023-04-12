@@ -2,6 +2,7 @@ import { Box, Heading, Flex } from "@chakra-ui/react";
 import type { ProductResponse } from "@moltin/sdk";
 import { useContext } from "react";
 import { changingSkuStyle, ProductContext } from "../../lib/product-util";
+import { Ratings } from "../reviews/yotpo/Reviews";
 import Price from "./Price";
 import StrikePrice from "./StrikePrice";
 
@@ -25,6 +26,7 @@ const ProductSummary = ({ product }: IProductSummary): JSX.Element => {
       >
         {attributes.name}
       </Heading>
+      <Ratings product={product} />
       {display_price && (
         <Flex alignItems="center">
           <Price

@@ -1,4 +1,5 @@
 import { BaseHit } from "instantsearch.js";
+import { reviewsEnv } from "../../lib/resolve-reviews-field-env";
 
 type HitSalePrice = {
   amount: number;
@@ -31,6 +32,9 @@ type HitPrice = {
   };
 };
 
+const avgRatingField: unique symbol = Symbol(reviewsEnv.avgRatingField);
+const reviewCountField: unique symbol = Symbol(reviewsEnv.reviewCountField);
+
 export interface SearchHit extends BaseHit {
   ep_amount: number;
   ep_categories: string[];
@@ -42,4 +46,6 @@ export interface SearchHit extends BaseHit {
   ep_main_image_url: string;
   ep_image_url: string;
   objectID: string;
+  [avgRatingField]?: string;
+  [reviewCountField]?: string;
 }
