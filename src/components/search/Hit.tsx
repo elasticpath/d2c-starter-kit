@@ -87,7 +87,7 @@ export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
                     starDimension="18px"
                     starSpacing="0px"
                     starRatedColor="orange"
-                  />{" "}
+                  />
                   ({hit[reviewsEnv.reviewCountField || ""] || 0})
                 </>
               </Grid>
