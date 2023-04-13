@@ -70,28 +70,26 @@ export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
           {ep_description}
         </Text>
         <>
-          {reviewsEnv.enable &&
-            hit[reviewsEnv.avgRatingField] &&
-            hit[reviewsEnv.reviewCountField] && (
-              <Grid
-                color="gray.500"
-                fontWeight="semibold"
-                letterSpacing="wide"
-                fontSize="xs"
-                mt="1"
-                noOfLines={6}
-              >
-                <>
-                  <StarRatings
-                    rating={Number(hit[reviewsEnv.avgRatingField || ""])}
-                    starDimension="18px"
-                    starSpacing="0px"
-                    starRatedColor="orange"
-                  />
-                  ({hit[reviewsEnv.reviewCountField || ""] || 0})
-                </>
-              </Grid>
-            )}
+          {reviewsEnv.enable && (
+            <Grid
+              color="gray.500"
+              fontWeight="semibold"
+              letterSpacing="wide"
+              fontSize="xs"
+              mt="1"
+              noOfLines={6}
+            >
+              <>
+                <StarRatings
+                  rating={Number(hit[reviewsEnv.avgRatingField || ""] || 0)}
+                  starDimension="18px"
+                  starSpacing="0px"
+                  starRatedColor="orange"
+                />
+                ({hit[reviewsEnv.reviewCountField || ""] || 0})
+              </>
+            </Grid>
+          )}
         </>
         {currencyPrice && (
           <Flex alignItems="center" mt="1">
