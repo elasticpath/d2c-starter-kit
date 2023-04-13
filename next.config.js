@@ -6,8 +6,8 @@
 const nextConfig = {
   images: {
     domains: ["files-eu.epusercontent.com"],
+    unoptimized: process.env.NEXT_PUBLIC_DISABLE_IMAGE_OPTIMIZATION == "true",
   },
-  experimental: { images: { allowFutureImage: true } },
   i18n: {
     locales: ["en"],
     defaultLocale: "en",

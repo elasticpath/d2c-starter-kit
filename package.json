@@ -25,6 +25,7 @@
     "@moltin/sdk": "^18.1.0",
     "@stripe/react-stripe-js": "^1.11.0",
     "@stripe/stripe-js": "^1.38.1",
+    "@types/react-star-ratings": "^2.3.0",
     "@types/react-stripe-elements": "^6.0.6",
     "algoliasearch": "^4.14.2",
     "braintree-web": "^3.87.0",
@@ -40,10 +41,11 @@
     "react": "^18.2.0",
     "react-device-detect": "^2.2.2",
     "react-dom": "^18.2.0",
-    "sass": "^1.55.0",
     "react-instantsearch-hooks-server": "6.38.1",
     "react-instantsearch-hooks-web": "6.38.1",
+    "react-star-ratings": "^2.3.0",
     "rxjs": "^7.5.7",
+    "sass": "^1.55.0",
     "yup": "^1.0.0-beta.7",
     "zlib": "^1.0.5"
   },
@@ -71,7 +73,7 @@
     "typescript": "4.7.4"
   },
   "resolutions": {
-    "@types/react": "17.0.2",
-    "@types/react-dom": "17.0.2"
+    "@types/react": "18.0.33",
+    "@types/react-dom": "18.0.11"
   }
 }

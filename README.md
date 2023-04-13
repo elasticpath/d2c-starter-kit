@@ -92,6 +92,19 @@ Add `NEXT_PUBLIC_STRIPE_ACCOUNT_ID` and `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` val
 - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
   - Please contact Elastic Path Customer Service team to get the publishable key.
 
+### Setup Yotpo (Ratings and Reviews)
+
+Add `NEXT_PUBLIC_ENABLE_YOTPO` and `NEXT_PUBLIC_YOTPO_APP_KEY` value in your environment file.
+
+- NEXT_PUBLIC_ENABLE_YOTPO
+  - Default value is false (even if you don't provide any value). To enable this integration you need to provide value as `true`
+- NEXT_PUBLIC_YOTPO_APP_KEY
+  - You need to register with Yotpo, there are free trials available. Once you register, go to Settings and then you will able to see App Key. Copy app key from Yotpo and provide value here. Screenshot given below.
+
+### Disable Image Optimization
+
+By default image optimization is enabled. If you want to disable that then add value as `true` for this property in the environment variable `NEXT_PUBLIC_DISABLE_IMAGE_OPTIMIZATION`.
+
 ### Setup Algolia index
 
 > :tired_face: We recognise manually configuring Algolia in this way is a pain. We are working on tools to streamline this process.
@@ -131,6 +144,8 @@ ep_extensions_products_specifications.on-sale
 ep_extensions_products_specifications.color
 ```
 
+For ratings filter, you need to add rating field as filter. If you are using default field value of `NEXT_PUBLIC_ALGOLIA_AVG_RATING_FIELD` as `ep_average_rating` then you need to select that.
+
 In order to use faceting add the attribute name to the list of attributes in Facets and Facet display sections of Algolia dashboard in Configuration menu.
 Use default settings.
 
@@ -144,6 +159,16 @@ my_catalog_index_price_desc
 ```
 
 Follow ["Creating a replica"](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/how-to/sort-by-attribute/#using-the-dashboard) in the Algolia docs to set both of these up based on the main index created previously by the integrations hub Aloglia integration. Make sure to create a **standard** replica.
+
+##### Configuring rating and review
+
+Add `NEXT_PUBLIC_ENABLE_RATING`, `NEXT_PUBLIC_ALGOLIA_AVG_RATING_FIELD` and `NEXT_PUBLIC_ALGOLIA_REVIEW_COUNT_FIELD` value in your environment file.
+
+- NEXT_PUBLIC_ENABLE_RATING
+  - Default value is false (even if you don't provide any value). To enable this integration you need to provide value as `true`. Once you enable this then you will be able to see ratings and review on search pages and also as filter.
+- NEXT_PUBLIC_ALGOLIA_AVG_RATING_FIELD
+  - Default value is `ep_average_rating`, if you want to use any other field then change this value. This field is responsible for showing filter and also stars as part of ratings on search pages.
+  - Default value is `ep_number_of_reviews`, if you want to use any other field then change this value. This field is responsible for showing number of reviews in search pages.
 
 #### Finally
 

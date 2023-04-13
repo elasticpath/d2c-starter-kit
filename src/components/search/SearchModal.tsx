@@ -36,6 +36,8 @@ import { searchClient } from "../../lib/search-client";
 import { algoliaEnvData } from "../../lib/resolve-algolia-env";
 import { useDebouncedEffect } from "../../lib/use-debounced";
 import { EP_CURRENCY_CODE } from "../../lib/resolve-ep-currency-code";
+import { reviewsEnv } from "../../lib/resolve-reviews-field-env";
+import StarRatings from "react-star-ratings";
 
 const SearchBox = ({
   onChange,
@@ -101,8 +103,7 @@ const SearchBox = ({
 };
 
 const HitComponent = ({ hit }: { hit: SearchHit }) => {
-  const { ep_price, ep_main_image_url, ep_name, ep_sku, ep_slug, objectID } =
-    hit;
+  const { ep_price, ep_main_image_url, ep_name, ep_sku, objectID } = hit;
 
   const currencyPrice = ep_price?.[EP_CURRENCY_CODE];
 
@@ -128,9 +129,7 @@ const HitComponent = ({ hit }: { hit: SearchHit }) => {
         </GridItem>
         <GridItem colSpan={4}>
           <Heading size="sm">
-            <LinkOverlay href={`/products/${ep_slug}/${objectID}`}>
-              {ep_name}
-            </LinkOverlay>
+            <LinkOverlay href={`/products/${objectID}`}>{ep_name}</LinkOverlay>
           </Heading>
         </GridItem>
         <GridItem colSpan={4}>
@@ -143,6 +142,28 @@ const HitComponent = ({ hit }: { hit: SearchHit }) => {
           >
             {ep_sku}
           </Text>
+          <>
+            {reviewsEnv.enable && (
+              <Grid
+                color="gray.500"
+                fontWeight="semibold"
+                letterSpacing="wide"
+                fontSize="xs"
+                mt="1"
+                noOfLines={6}
+              >
+                <>
+                  <StarRatings
+                    rating={Number(hit[reviewsEnv.avgRatingField || ""] || 0)}
+                    starDimension="18px"
+                    starSpacing="0px"
+                    starRatedColor="orange"
+                  />
+                  ({hit[reviewsEnv.reviewCountField || ""] || 0})
+                </>
+              </Grid>
+            )}
+          </>
         </GridItem>
         <GridItem colSpan={2}>
           {currencyPrice && (

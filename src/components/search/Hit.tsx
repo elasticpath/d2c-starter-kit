@@ -19,6 +19,8 @@ import Price from "../product/Price";
 import StrikePrice from "../product/StrikePrice";
 import { ProductModalContainer } from "../product-modal/ProductModalContainer";
 import { EP_CURRENCY_CODE } from "../../lib/resolve-ep-currency-code";
+import { reviewsEnv } from "../../lib/resolve-reviews-field-env";
+import StarRatings from "react-star-ratings";
 
 export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
   const { ep_price, ep_name, objectID, ep_main_image_url, ep_description } =
@@ -67,6 +69,28 @@ export default function HitComponent({ hit }: { hit: SearchHit }): JSX.Element {
         >
           {ep_description}
         </Text>
+        <>
+          {reviewsEnv.enable && (
+            <Grid
+              color="gray.500"
+              fontWeight="semibold"
+              letterSpacing="wide"
+              fontSize="xs"
+              mt="1"
+              noOfLines={6}
+            >
+              <>
+                <StarRatings
+                  rating={Number(hit[reviewsEnv.avgRatingField || ""] || 0)}
+                  starDimension="18px"
+                  starSpacing="0px"
+                  starRatedColor="orange"
+                />
+                ({hit[reviewsEnv.reviewCountField || ""] || 0})
+              </>
+            </Grid>
+          )}
+        </>
         {currencyPrice && (
           <Flex alignItems="center" mt="1">
             <Price
